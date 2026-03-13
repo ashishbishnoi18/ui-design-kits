@@ -77,6 +77,122 @@
     .nb-section + .nb-section {
       border-top: var(--nb-border);
     }
+
+    /* Showcase sidebar layout */
+    .showcase-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    .showcase-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 240px;
+      background: var(--nb-white);
+      border-right: var(--nb-border);
+      overflow-y: auto;
+      z-index: 100;
+      padding: var(--nb-space-4) 0;
+      scrollbar-width: thin;
+    }
+    .showcase-sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .showcase-sidebar::-webkit-scrollbar-thumb {
+      background: var(--nb-gray-300);
+      border-radius: 4px;
+    }
+    .showcase-sidebar__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--nb-space-2);
+      padding: var(--nb-space-2) var(--nb-space-5);
+      margin-bottom: var(--nb-space-4);
+      text-decoration: none;
+      color: var(--nb-black);
+    }
+    .showcase-sidebar__brand-logo {
+      background: var(--nb-green-500);
+      border: var(--nb-border);
+      border-radius: var(--nb-radius);
+      padding: 2px 6px;
+      font-weight: 800;
+      font-size: var(--nb-text-xs);
+      line-height: 1;
+    }
+    .showcase-sidebar__brand-name {
+      font-family: var(--nb-font-heading);
+      font-weight: var(--nb-font-bold);
+      font-size: var(--nb-text-sm);
+    }
+    .showcase-sidebar__group {
+      padding: var(--nb-space-3) var(--nb-space-5) var(--nb-space-1);
+      font-size: 10px;
+      font-weight: var(--nb-font-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--nb-gray-400);
+    }
+    .showcase-sidebar__link {
+      display: block;
+      padding: 5px var(--nb-space-5);
+      font-size: var(--nb-text-xs);
+      color: var(--nb-gray-600);
+      text-decoration: none;
+      transition: color var(--nb-transition-fast), background var(--nb-transition-fast);
+    }
+    .showcase-sidebar__link:hover {
+      color: var(--nb-black);
+      background: var(--nb-gray-50);
+    }
+    .showcase-sidebar__link.is-active {
+      color: var(--nb-black);
+      font-weight: var(--nb-font-semibold);
+      background: var(--nb-gray-100);
+    }
+    .showcase-sidebar__footer {
+      padding: var(--nb-space-4) var(--nb-space-5);
+      border-top: 1px solid var(--nb-gray-200);
+      margin-top: var(--nb-space-4);
+    }
+    .showcase-main {
+      flex: 1;
+      margin-left: 240px;
+    }
+
+    /* Mobile: hide sidebar, show toggle */
+    .showcase-mobile-toggle {
+      display: none;
+      position: fixed;
+      top: var(--nb-space-3);
+      left: var(--nb-space-3);
+      z-index: 101;
+      width: 40px;
+      height: 40px;
+      border: var(--nb-border);
+      border-radius: var(--nb-radius);
+      background: var(--nb-white);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--nb-shadow-sm);
+    }
+    @media (max-width: 768px) {
+      .showcase-sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--nb-transition-base);
+      }
+      .showcase-sidebar.is-open {
+        transform: translateX(0);
+      }
+      .showcase-main {
+        margin-left: 0;
+      }
+      .showcase-mobile-toggle {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
@@ -183,43 +299,86 @@
 </svg>
 
 <!-- ============================================================
-     NAVBAR
+     SIDEBAR INDEX
      ============================================================ -->
-<nav class="nb-navbar" data-nb-navbar>
-  <a href="#hero" class="nb-navbar__brand">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
-    NB UI Kit
+<div class="showcase-layout">
+
+<button class="showcase-mobile-toggle" id="showcase-toggle" aria-label="Toggle sidebar">
+  <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
+</button>
+
+<aside class="showcase-sidebar" id="showcase-sidebar">
+  <a href="#hero" class="showcase-sidebar__brand">
+    <span class="showcase-sidebar__brand-logo">NB</span>
+    <span class="showcase-sidebar__brand-name">NB UI Kit</span>
   </a>
 
-  <div class="nb-navbar__nav">
-    <a href="#hero" class="nb-navbar__link is-active">Home</a>
-    <a href="#colors" class="nb-navbar__link">Colors</a>
-    <a href="#typography" class="nb-navbar__link">Typography</a>
-    <a href="#buttons" class="nb-navbar__link">Buttons</a>
-    <a href="#cards" class="nb-navbar__link">Cards</a>
-    <a href="#forms" class="nb-navbar__link">Forms</a>
-    <a href="#tables" class="nb-navbar__link">Tables</a>
-    <a href="#modals" class="nb-navbar__link">Modals</a>
-    <a href="#tabs" class="nb-navbar__link">Tabs</a>
-  </div>
+  <div class="showcase-sidebar__group">Foundation</div>
+  <a href="#colors" class="showcase-sidebar__link">Colors</a>
+  <a href="#typography" class="showcase-sidebar__link">Typography</a>
 
-  <div class="nb-navbar__actions">
-    <a href="https://github.com" class="nb-btn nb-btn--dark nb-btn--sm" target="_blank" rel="noopener">
-      <svg width="16" height="16" aria-hidden="true"><use href="#nb-icon-github"/></svg>
+  <div class="showcase-sidebar__group">Forms</div>
+  <a href="#buttons" class="showcase-sidebar__link">Buttons</a>
+  <a href="#forms" class="showcase-sidebar__link">Inputs</a>
+  <a href="#select" class="showcase-sidebar__link">Select</a>
+  <a href="#checkbox-radio" class="showcase-sidebar__link">Checkbox &amp; Radio</a>
+  <a href="#toggle" class="showcase-sidebar__link">Toggle</a>
+  <a href="#file-upload" class="showcase-sidebar__link">File Upload</a>
+  <a href="#tag-input" class="showcase-sidebar__link">Tag Input</a>
+  <a href="#range" class="showcase-sidebar__link">Range Slider</a>
+  <a href="#search" class="showcase-sidebar__link">Search</a>
+
+  <div class="showcase-sidebar__group">Data Display</div>
+  <a href="#cards" class="showcase-sidebar__link">Cards</a>
+  <a href="#badges" class="showcase-sidebar__link">Badges</a>
+  <a href="#avatars" class="showcase-sidebar__link">Avatars</a>
+  <a href="#tables" class="showcase-sidebar__link">Tables</a>
+  <a href="#stat-cards" class="showcase-sidebar__link">Stat Cards</a>
+  <a href="#timeline" class="showcase-sidebar__link">Timeline</a>
+  <a href="#calendar" class="showcase-sidebar__link">Calendar</a>
+  <a href="#date-display" class="showcase-sidebar__link">Date Display</a>
+  <a href="#progress" class="showcase-sidebar__link">Progress</a>
+
+  <div class="showcase-sidebar__group">Content</div>
+  <a href="#media" class="showcase-sidebar__link">Media</a>
+  <a href="#links" class="showcase-sidebar__link">Links</a>
+  <a href="#link-preview" class="showcase-sidebar__link">Link Preview</a>
+  <a href="#dividers" class="showcase-sidebar__link">Dividers</a>
+  <a href="#accordions" class="showcase-sidebar__link">Accordions</a>
+
+  <div class="showcase-sidebar__group">Navigation</div>
+  <a href="#breadcrumbs" class="showcase-sidebar__link">Breadcrumbs</a>
+  <a href="#pagination" class="showcase-sidebar__link">Pagination</a>
+  <a href="#tabs" class="showcase-sidebar__link">Tabs</a>
+  <a href="#stepper" class="showcase-sidebar__link">Stepper</a>
+  <a href="#dropdowns" class="showcase-sidebar__link">Dropdowns</a>
+
+  <div class="showcase-sidebar__group">Feedback</div>
+  <a href="#alerts" class="showcase-sidebar__link">Alerts</a>
+  <a href="#toasts" class="showcase-sidebar__link">Toasts</a>
+  <a href="#tooltips" class="showcase-sidebar__link">Tooltips</a>
+  <a href="#skeleton" class="showcase-sidebar__link">Skeleton</a>
+  <a href="#spinners" class="showcase-sidebar__link">Spinners</a>
+  <a href="#empty-states" class="showcase-sidebar__link">Empty States</a>
+
+  <div class="showcase-sidebar__group">Overlays</div>
+  <a href="#modals" class="showcase-sidebar__link">Modals</a>
+  <a href="#drawer" class="showcase-sidebar__link">Drawer</a>
+
+  <div class="showcase-sidebar__footer">
+    <a href="https://github.com/ashishbishnoi18/nb-ui-kit" class="nb-btn nb-btn--dark nb-btn--sm nb-btn--full" target="_blank" rel="noopener">
+      <svg width="14" height="14" aria-hidden="true"><use href="#nb-icon-github"/></svg>
       GitHub
     </a>
   </div>
+</aside>
 
-  <button class="nb-navbar__toggle" data-nb-navbar-toggle aria-label="Toggle navigation">
-    <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
-  </button>
-</nav>
-
+<main class="showcase-main">
 
 <!-- ============================================================
      1. HERO
      ============================================================ -->
-<section id="hero" class="nb-section--lg nb-bg-yellow-500">
+<section id="hero" class="nb-section--lg" style="background: var(--nb-white);">
   <div class="nb-container nb-text-center">
     <p class="nb-text-sm nb-font-bold nb-uppercase nb-tracking-widest nb-mb-3">Open Source Design System</p>
     <h1 class="nb-text-5xl nb-font-extrabold nb-mb-4" style="line-height:1.1">NB UI Kit</h1>
@@ -2412,6 +2571,52 @@ NB.toast.success('Your changes have been saved.');</code></pre>
 </footer>
 
 
+</main>
+</div><!-- /showcase-layout -->
+
 <script src="js/nb-all.js"></script>
+
+<!-- Sidebar toggle + active link tracking -->
+<script>
+(function() {
+  var toggle = document.getElementById('showcase-toggle');
+  var sidebar = document.getElementById('showcase-sidebar');
+  if (toggle && sidebar) {
+    toggle.addEventListener('click', function() {
+      sidebar.classList.toggle('is-open');
+    });
+    sidebar.addEventListener('click', function(e) {
+      if (e.target.closest('.showcase-sidebar__link') && window.innerWidth <= 768) {
+        sidebar.classList.remove('is-open');
+      }
+    });
+  }
+
+  // Highlight active section on scroll
+  var links = document.querySelectorAll('.showcase-sidebar__link');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href').replace('#', '');
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: link });
+  });
+
+  function updateActive() {
+    var scrollY = window.scrollY + 120;
+    var active = null;
+    for (var i = sections.length - 1; i >= 0; i--) {
+      if (sections[i].el.offsetTop <= scrollY) {
+        active = sections[i];
+        break;
+      }
+    }
+    links.forEach(function(l) { l.classList.remove('is-active'); });
+    if (active) active.link.classList.add('is-active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
 </body>
 </html>
