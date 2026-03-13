@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../css/nb-all.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     .pricing-card--featured {
       border-color: var(--nb-yellow-500);
@@ -84,6 +84,9 @@
     </symbol>
     <symbol id="nb-icon-twitter" viewBox="0 0 24 24" fill="currentColor">
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </symbol>
+    <symbol id="nb-icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
     </symbol>
   </defs>
 </svg>
@@ -555,14 +558,109 @@
 
 
 <!-- ============================================================
-     6. CTA
+     6. SOCIAL PROOF
+     ============================================================ -->
+<section class="nb-section">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-10">
+      <h2 class="nb-text-3xl nb-font-extrabold nb-mb-3">Trusted by developers worldwide</h2>
+      <p class="nb-text-base nb-text-gray-600">Join thousands of teams building with NB UI Kit.</p>
+    </div>
+
+    <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-3 nb-gap-6" style="max-width:900px;margin:0 auto;">
+      <!-- Testimonial 1 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"Saved us weeks of frontend work. The components are polished and the design tokens make customization a breeze."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-yellow-500 nb-border"><span class="nb-avatar__initials" style="color:var(--nb-black);">JC</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">James Chen</p>
+              <p class="nb-text-xs nb-text-gray-500">Frontend Lead, TechFlow</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"The neo-brutalist style sets our product apart. Clients love the bold, unique aesthetic. Worth every penny."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-green-500 nb-border"><span class="nb-avatar__initials" style="color:var(--nb-black);">EM</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">Elena Martinez</p>
+              <p class="nb-text-xs nb-text-gray-500">Designer, PixelAgency</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"Enterprise support is fantastic. They helped us build custom components and the turnaround was incredibly fast."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-blue-500 nb-border" style="border-color:var(--nb-blue-500);"><span class="nb-avatar__initials" style="color:var(--nb-white);">RK</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">Raj Kumar</p>
+              <p class="nb-text-xs nb-text-gray-500">VP Engineering, ScaleUp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Money-back guarantee -->
+    <div class="nb-text-center nb-mt-10">
+      <div class="nb-inline-flex nb-items-center nb-gap-3 nb-px-6 nb-py-3 nb-border nb-rounded" style="background: var(--nb-gray-50);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--nb-green-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="nb-text-left">
+          <p class="nb-text-sm nb-font-bold">30-day money-back guarantee</p>
+          <p class="nb-text-xs nb-text-gray-500">Not satisfied? Get a full refund, no questions asked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. CTA
      ============================================================ -->
 <section class="nb-section nb-bg-black nb-text-white nb-border-t">
   <div class="nb-container-xl nb-text-center">
     <h2 class="nb-text-3xl md:nb-text-4xl nb-font-extrabold nb-mb-4" style="line-height:var(--nb-leading-tight);">Ready to get started?</h2>
-    <p class="nb-text-base nb-mx-auto nb-mb-8" style="max-width:460px;color:var(--nb-gray-400);">
+    <p class="nb-text-base nb-mx-auto nb-mb-6" style="max-width:460px;color:var(--nb-gray-400);">
       Start building for free today. Upgrade when you need more templates, support, and features.
     </p>
+
+    <!-- CTA Testimonial -->
+    <p class="nb-text-sm nb-mx-auto nb-mb-8" style="max-width:400px; color:var(--nb-gray-300); font-style:italic;">
+      "Switching to NB UI Kit was the best decision we made this year." — <strong style="color:var(--nb-white);">Sarah Kim, Acme Corp</strong>
+    </p>
+
     <div class="nb-flex nb-justify-center nb-gap-3 nb-flex-wrap">
       <a href="signup.html" class="nb-btn nb-btn--secondary nb-btn--lg">
         Start Free Trial

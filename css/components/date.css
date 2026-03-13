@@ -1,0 +1,25 @@
+@layer components {
+  /* ===== Date ===== */
+  .nb-date {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+  }
+
+  /* Badge variant */
+  .nb-date--badge {
+    display: inline-flex;
+    padding: 2px 10px;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-full);
+    background: var(--nb-gray-50);
+    font-weight: var(--nb-font-semibold);
+    font-size: var(--nb-text-xs);
+  }
+
+  /* Relative variant */
+  .nb-date--relative {
+    color: var(--nb-gray-500);
+    font-style: italic;
+  }
+}

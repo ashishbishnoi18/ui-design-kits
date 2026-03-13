@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/nb-all.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     .section-heading {
       font-size: var(--nb-text-3xl);
@@ -1621,7 +1621,255 @@ NB.toast.success('Your changes have been saved.');</code></pre>
 
 
 <!-- ============================================================
-     24. FOOTER
+     24. MEDIA DISPLAY
+     ============================================================ -->
+<section id="media" class="nb-section nb-bg-white">
+  <div class="nb-container">
+    <h2 class="section-heading">Media Display</h2>
+    <p class="section-description">Image galleries, video embeds, and GIF displays with neo-brutalist borders and hover effects.</p>
+
+    <h3 class="subsection-title">Image Gallery</h3>
+    <div class="nb-media-gallery nb-mb-8">
+      <div class="nb-media-gallery__item">
+        <div class="nb-media-gallery__img" style="height:180px; background:var(--nb-yellow-500); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-text-2xl nb-font-extrabold">01</span>
+        </div>
+      </div>
+      <div class="nb-media-gallery__item">
+        <div class="nb-media-gallery__img" style="height:180px; background:var(--nb-green-500); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-text-2xl nb-font-extrabold">02</span>
+        </div>
+      </div>
+      <div class="nb-media-gallery__item">
+        <div class="nb-media-gallery__img" style="height:180px; background:var(--nb-blue-500); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-text-2xl nb-font-extrabold" style="color:var(--nb-white);">03</span>
+        </div>
+      </div>
+      <div class="nb-media-gallery__item">
+        <div class="nb-media-gallery__img" style="height:180px; background:var(--nb-gray-800); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-text-2xl nb-font-extrabold" style="color:var(--nb-white);">04</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Video Embed</h3>
+    <div class="nb-video-embed nb-mb-8" style="max-width:560px;">
+      <div style="width:100%; height:100%; background:var(--nb-gray-100); display:flex; align-items:center; justify-content:center;">
+        <div class="nb-text-center">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--nb-gray-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <p class="nb-text-sm nb-text-gray-500 nb-mt-2">Video placeholder (16:9)</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">GIF Display</h3>
+    <div class="nb-gif-display" style="max-width:300px;">
+      <div style="height:200px; background:var(--nb-gray-100); display:flex; align-items:center; justify-content:center;">
+        <span class="nb-text-sm nb-text-gray-500">GIF placeholder</span>
+      </div>
+      <div class="nb-gif-display__overlay">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     25. STYLED LINKS
+     ============================================================ -->
+<section id="links" class="nb-section nb-bg-gray-50">
+  <div class="nb-container">
+    <h2 class="section-heading">Links</h2>
+    <p class="section-description">Styled link variants for different contexts — underline, hover, external, arrow, and button styles.</p>
+
+    <h3 class="subsection-title">Link Variants</h3>
+    <div class="nb-flex nb-flex-wrap nb-gap-6 nb-items-center nb-mb-8">
+      <a href="#" class="nb-link nb-link--underline">Underline Link</a>
+      <a href="#" class="nb-link nb-link--hover-underline">Hover Underline</a>
+      <a href="#" class="nb-link nb-link--bold">Bold Link</a>
+      <a href="#" class="nb-link nb-link--external">External Link</a>
+      <a href="#" class="nb-link nb-link--arrow">Arrow Link</a>
+      <a href="#" class="nb-link nb-link--button">Button Link</a>
+    </div>
+
+    <h3 class="subsection-title">Link Colors</h3>
+    <div class="nb-flex nb-flex-wrap nb-gap-6 nb-items-center">
+      <a href="#" class="nb-link nb-link--underline nb-link--primary">Primary Link</a>
+      <a href="#" class="nb-link nb-link--underline nb-link--secondary">Secondary Link</a>
+      <a href="#" class="nb-link nb-link--underline nb-link--muted">Muted Link</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     26. LINK PREVIEW
+     ============================================================ -->
+<section id="link-preview" class="nb-section nb-bg-white">
+  <div class="nb-container">
+    <h2 class="section-heading">Link Preview</h2>
+    <p class="section-description">URL preview cards that display thumbnails, titles, descriptions, and URLs — horizontal, compact, and vertical variants.</p>
+
+    <h3 class="subsection-title">Default (Horizontal)</h3>
+    <div class="nb-mb-8" style="max-width:480px;">
+      <a href="#" class="nb-link-preview">
+        <div class="nb-link-preview__thumbnail" style="background: var(--nb-yellow-500); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-font-extrabold nb-text-2xl">NB</span>
+        </div>
+        <div class="nb-link-preview__content">
+          <div class="nb-link-preview__title">NB UI Kit — Neo Brutalism Components</div>
+          <div class="nb-link-preview__description">A clean, accessible design system built on neo-brutalism principles with 50+ production-ready components.</div>
+          <div class="nb-link-preview__url">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            nb-uikit.dev
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <h3 class="subsection-title">Compact</h3>
+    <div class="nb-mb-8" style="max-width:400px;">
+      <a href="#" class="nb-link-preview nb-link-preview--compact">
+        <div class="nb-link-preview__thumbnail" style="background: var(--nb-green-500); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-font-bold nb-text-sm">GH</span>
+        </div>
+        <div class="nb-link-preview__content">
+          <div class="nb-link-preview__title">GitHub — Where software is built</div>
+          <div class="nb-link-preview__url">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            github.com
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <h3 class="subsection-title">Vertical</h3>
+    <div style="max-width:280px;">
+      <a href="#" class="nb-link-preview nb-link-preview--vertical">
+        <div class="nb-link-preview__thumbnail" style="background: var(--nb-gray-800); display:flex; align-items:center; justify-content:center;">
+          <span class="nb-font-extrabold nb-text-xl" style="color:var(--nb-white);">DEV</span>
+        </div>
+        <div class="nb-link-preview__content">
+          <div class="nb-link-preview__title">Building a Design System with NB</div>
+          <div class="nb-link-preview__description">A step-by-step guide to creating a neo-brutalist design system from scratch.</div>
+          <div class="nb-link-preview__url">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            dev.to/nb-uikit
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     27. DATE DISPLAY
+     ============================================================ -->
+<section id="date-display" class="nb-section nb-bg-gray-50">
+  <div class="nb-container">
+    <h2 class="section-heading">Date Display</h2>
+    <p class="section-description">Formatted date display with relative time, short format, long format, and live-updating options.</p>
+
+    <h3 class="subsection-title">Date Formats</h3>
+    <div class="nb-flex nb-flex-wrap nb-gap-6 nb-items-center nb-mb-8">
+      <div>
+        <p class="nb-text-xs nb-text-gray-500 nb-mb-1">Short format</p>
+        <span class="nb-date" data-nb-date="2026-03-14T10:30:00Z" data-nb-date-format="short">Mar 14, 2026</span>
+      </div>
+      <div>
+        <p class="nb-text-xs nb-text-gray-500 nb-mb-1">Long format</p>
+        <span class="nb-date" data-nb-date="2026-03-14T10:30:00Z" data-nb-date-format="long">March 14, 2026</span>
+      </div>
+      <div>
+        <p class="nb-text-xs nb-text-gray-500 nb-mb-1">Relative (live)</p>
+        <span class="nb-date nb-date--relative" data-nb-date="2026-03-14T08:00:00Z" data-nb-date-format="relative" data-nb-date-live="true">2 hours ago</span>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Badge Variant</h3>
+    <div class="nb-flex nb-flex-wrap nb-gap-3 nb-items-center">
+      <span class="nb-date nb-date--badge" data-nb-date="2026-03-14T10:30:00Z" data-nb-date-format="short">Mar 14, 2026</span>
+      <span class="nb-date nb-date--badge" data-nb-date="2026-03-10T10:30:00Z" data-nb-date-format="short">Mar 10, 2026</span>
+      <span class="nb-date nb-date--badge" data-nb-date="2026-02-28T10:30:00Z" data-nb-date-format="short">Feb 28, 2026</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     28. CALENDAR
+     ============================================================ -->
+<section id="calendar" class="nb-section nb-bg-white">
+  <div class="nb-container">
+    <h2 class="section-heading">Calendar</h2>
+    <p class="section-description">Interactive calendar component with month navigation, date selection, keyboard navigation, and min/max date bounds.</p>
+
+    <div class="nb-flex nb-flex-wrap nb-gap-8 nb-items-start">
+      <!-- Default Calendar -->
+      <div>
+        <h3 class="subsection-title">Default</h3>
+        <div data-nb-calendar data-nb-calendar-value="2026-03-14"></div>
+      </div>
+
+      <!-- Calendar with bounds -->
+      <div>
+        <h3 class="subsection-title">With Min/Max Bounds</h3>
+        <div data-nb-calendar data-nb-calendar-value="2026-03-14" data-nb-calendar-min="2026-03-01" data-nb-calendar-max="2026-03-31"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     29. SEARCH
+     ============================================================ -->
+<section id="search" class="nb-section nb-bg-gray-50">
+  <div class="nb-container">
+    <h2 class="section-heading">Search</h2>
+    <p class="section-description">Search input with dropdown results, keyboard navigation, and configurable Cmd+K shortcut.</p>
+
+    <div style="max-width:480px;">
+      <h3 class="subsection-title">Default Search</h3>
+      <div class="nb-search nb-mb-8" data-nb-search>
+        <div class="nb-search__input-wrapper">
+          <span class="nb-search__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" class="nb-search__input" placeholder="Search components...">
+          <button class="nb-search__clear" type="button" aria-label="Clear search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="nb-search__results">
+          <div class="nb-search__result">Buttons</div>
+          <div class="nb-search__result">Cards</div>
+          <div class="nb-search__result">Calendar</div>
+          <div class="nb-search__result">Modals</div>
+          <div class="nb-search__result">Tables</div>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">With Keyboard Shortcut</h3>
+      <div class="nb-search" data-nb-search data-nb-search-shortcut="true">
+        <div class="nb-search__input-wrapper">
+          <span class="nb-search__icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" class="nb-search__input" placeholder="Search...">
+          <span class="nb-search__shortcut">&#8984;K</span>
+        </div>
+        <div class="nb-search__results"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     30. FOOTER
      ============================================================ -->
 <footer class="nb-footer nb-footer--dark">
   <div class="nb-container">

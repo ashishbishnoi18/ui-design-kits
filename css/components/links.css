@@ -1,0 +1,79 @@
+@layer components {
+  /* ===== Base Link ===== */
+  .nb-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: color var(--nb-transition-fast), text-decoration-color var(--nb-transition-fast);
+  }
+
+  /* ===== Underline Variants ===== */
+  .nb-link--underline {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .nb-link--hover-underline {
+    text-decoration: none;
+  }
+
+  .nb-link--hover-underline:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  /* ===== Bold ===== */
+  .nb-link--bold {
+    font-weight: var(--nb-font-bold);
+  }
+
+  /* ===== External Link ===== */
+  .nb-link--external::after {
+    content: "\2197";
+    margin-left: 2px;
+  }
+
+  /* ===== Arrow Link ===== */
+  .nb-link--arrow::after {
+    content: "\2192";
+    display: inline-block;
+    margin-left: 4px;
+    transition: transform var(--nb-transition-fast);
+  }
+
+  .nb-link--arrow:hover::after {
+    transform: translateX(4px);
+  }
+
+  /* ===== Button-style Link ===== */
+  .nb-link--button {
+    display: inline-block;
+    padding: var(--nb-space-2) var(--nb-space-4);
+    border: var(--nb-border);
+    background: transparent;
+    text-decoration: none;
+    transition: background var(--nb-transition-fast), transform var(--nb-transition-fast), box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-link--button:hover {
+    background: var(--nb-yellow-500);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* ===== Color Variants ===== */
+  .nb-link--primary {
+    color: var(--nb-blue-500);
+  }
+
+  .nb-link--secondary {
+    color: var(--nb-gray-700);
+  }
+
+  .nb-link--muted {
+    color: var(--nb-gray-500);
+  }
+}

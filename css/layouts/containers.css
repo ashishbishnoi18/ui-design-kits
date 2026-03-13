@@ -157,6 +157,7 @@
 
   /* Prose headings */
   .nb-prose h1 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-4xl);
     font-weight: var(--nb-font-extrabold);
     line-height: var(--nb-leading-tight);
@@ -165,6 +166,7 @@
   }
 
   .nb-prose h2 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-3xl);
     font-weight: var(--nb-font-extrabold);
     line-height: var(--nb-leading-tight);
@@ -173,6 +175,7 @@
   }
 
   .nb-prose h3 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-2xl);
     font-weight: var(--nb-font-bold);
     line-height: var(--nb-leading-snug);
@@ -180,6 +183,7 @@
   }
 
   .nb-prose h4 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-xl);
     font-weight: var(--nb-font-bold);
     line-height: var(--nb-leading-snug);
@@ -187,6 +191,7 @@
   }
 
   .nb-prose h5 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-lg);
     font-weight: var(--nb-font-semibold);
     line-height: var(--nb-leading-snug);
@@ -194,6 +199,7 @@
   }
 
   .nb-prose h6 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-base);
     font-weight: var(--nb-font-semibold);
     line-height: var(--nb-leading-snug);

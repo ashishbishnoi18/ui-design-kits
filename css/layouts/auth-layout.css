@@ -1,0 +1,402 @@
+/* ==========================================================================
+   Auth Layout — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Split-screen authentication layout with form side and decorative brand
+   side. Collapses to single-column on mobile (<1024px).
+   ========================================================================== */
+
+@layer layout {
+  /* ==================================================================
+     Root Layout
+     ------------------------------------------------------------------
+     Full-viewport flex container that splits into form + brand halves.
+     ================================================================== */
+  .nb-auth-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ==================================================================
+     Form Side
+     ------------------------------------------------------------------
+     Flexible half that vertically and horizontally centers a
+     max-width inner wrapper for the auth form.
+     ================================================================== */
+  .nb-auth-layout__form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--nb-space-8);
+    background-color: var(--nb-white);
+  }
+
+  .nb-auth-layout__form-inner {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  /* Form heading */
+  .nb-auth-layout__form-inner h1,
+  .nb-auth-layout__form-inner h2 {
+    font-family: var(--nb-font-heading);
+    font-size: var(--nb-text-3xl);
+    font-weight: var(--nb-font-extrabold);
+    line-height: var(--nb-leading-tight);
+    letter-spacing: var(--nb-tracking-tight);
+    color: var(--nb-black);
+    margin-bottom: var(--nb-space-2);
+  }
+
+  /* Form subtitle */
+  .nb-auth-layout__form-inner p {
+    font-size: var(--nb-text-base);
+    color: var(--nb-gray-600);
+    margin-bottom: var(--nb-space-8);
+  }
+
+  /* Spacing between form fields */
+  .nb-auth-layout__form-inner form > * + * {
+    margin-top: var(--nb-space-5);
+  }
+
+  /* Footer links (e.g. "Already have an account?") */
+  .nb-auth-layout__form-footer {
+    margin-top: var(--nb-space-6);
+    text-align: center;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-500);
+  }
+
+  .nb-auth-layout__form-footer a {
+    color: var(--nb-black);
+    font-weight: var(--nb-font-semibold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    transition: color var(--nb-transition-fast);
+  }
+
+  .nb-auth-layout__form-footer a:hover {
+    color: var(--nb-gray-700);
+  }
+
+  /* ==================================================================
+     Brand Side
+     ------------------------------------------------------------------
+     Decorative half with dark background, white text, and a thick
+     left border. Hidden on mobile to let the form fill the viewport.
+     ================================================================== */
+  .nb-auth-layout__brand {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--nb-black);
+    color: var(--nb-white);
+    border-left: 3px solid var(--nb-black);
+  }
+
+  /* Inner wrapper for centering brand content with padding */
+  .nb-auth-layout__brand-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: var(--nb-space-12);
+  }
+
+  /* Brand heading */
+  .nb-auth-layout__brand-inner h2 {
+    font-family: var(--nb-font-heading);
+    font-size: var(--nb-text-4xl);
+    font-weight: var(--nb-font-extrabold);
+    line-height: var(--nb-leading-tight);
+    letter-spacing: var(--nb-tracking-tight);
+    color: var(--nb-white);
+    margin-bottom: var(--nb-space-4);
+  }
+
+  .nb-auth-layout__brand-inner p {
+    font-size: var(--nb-text-lg);
+    color: var(--nb-gray-400);
+    line-height: var(--nb-leading-relaxed);
+  }
+
+  /* ==================================================================
+     Decorative Geometric Shapes
+     ------------------------------------------------------------------
+     Positioned pseudo-elements and utility classes for abstract
+     neo-brutalist decorations on the brand side.
+     ================================================================== */
+  .nb-auth-layout__brand::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background-color: var(--nb-yellow-500);
+    border: 3px solid var(--nb-black);
+    border-radius: 0;
+    transform: rotate(15deg);
+    opacity: 0.15;
+  }
+
+  .nb-auth-layout__brand::after {
+    content: "";
+    position: absolute;
+    bottom: -60px;
+    left: -30px;
+    width: 160px;
+    height: 160px;
+    background-color: var(--nb-green-500);
+    border: 3px solid var(--nb-black);
+    border-radius: 50%;
+    opacity: 0.12;
+  }
+
+  /* Additional decorative shape — place an empty div with this class */
+  .nb-auth-layout__shape {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .nb-auth-layout__shape--triangle {
+    width: 0;
+    height: 0;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    border-bottom: 100px solid var(--nb-yellow-500);
+    opacity: 0.1;
+    top: 30%;
+    right: 10%;
+  }
+
+  .nb-auth-layout__shape--square {
+    width: 80px;
+    height: 80px;
+    background-color: var(--nb-green-500);
+    border: 3px solid var(--nb-white);
+    opacity: 0.08;
+    bottom: 20%;
+    right: 25%;
+    transform: rotate(-12deg);
+  }
+
+  .nb-auth-layout__shape--circle {
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--nb-yellow-500);
+    border-radius: 50%;
+    opacity: 0.1;
+    top: 10%;
+    left: 15%;
+  }
+
+  /* ==================================================================
+     Testimonial Card
+     ------------------------------------------------------------------
+     Quote card displayed on the brand side. Thick border, offset
+     shadow, white-on-dark color scheme.
+     ================================================================== */
+  .nb-auth-layout__testimonial {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: var(--nb-border);
+    border-color: var(--nb-gray-700);
+    border-radius: var(--nb-radius);
+    padding: var(--nb-space-6);
+    margin-top: var(--nb-space-8);
+    box-shadow: var(--nb-shadow-sm);
+    transition: transform var(--nb-transition-base),
+                box-shadow var(--nb-transition-base);
+  }
+
+  .nb-auth-layout__testimonial:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-auth-layout__testimonial-quote {
+    font-size: var(--nb-text-base);
+    font-style: italic;
+    color: var(--nb-gray-300);
+    line-height: var(--nb-leading-relaxed);
+    margin-bottom: var(--nb-space-4);
+  }
+
+  .nb-auth-layout__testimonial-quote::before {
+    content: "\201C";
+    font-size: var(--nb-text-2xl);
+    font-weight: var(--nb-font-extrabold);
+    color: var(--nb-yellow-500);
+    margin-right: var(--nb-space-1);
+    line-height: 0;
+    vertical-align: -0.2em;
+  }
+
+  .nb-auth-layout__testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-3);
+  }
+
+  .nb-auth-layout__testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--nb-gray-600);
+    object-fit: cover;
+  }
+
+  .nb-auth-layout__testimonial-name {
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-bold);
+    color: var(--nb-white);
+  }
+
+  .nb-auth-layout__testimonial-role {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+  }
+
+  /* ==================================================================
+     Stat Items
+     ------------------------------------------------------------------
+     Compact metric displays on the brand side (e.g. "10k+ users").
+     ================================================================== */
+  .nb-auth-layout__stats {
+    display: flex;
+    gap: var(--nb-space-8);
+    margin-top: var(--nb-space-10);
+    flex-wrap: wrap;
+  }
+
+  .nb-auth-layout__stat {
+    text-align: left;
+  }
+
+  .nb-auth-layout__stat-number {
+    font-family: var(--nb-font-heading);
+    font-size: var(--nb-text-3xl);
+    font-weight: var(--nb-font-extrabold);
+    line-height: var(--nb-leading-tight);
+    color: var(--nb-white);
+  }
+
+  .nb-auth-layout__stat-label {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-400);
+    margin-top: var(--nb-space-1);
+  }
+
+  /* Accent bar above stat value */
+  .nb-auth-layout__stat--accent .nb-auth-layout__stat-number::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: var(--nb-yellow-500);
+    margin-bottom: var(--nb-space-2);
+    border-radius: var(--nb-radius);
+  }
+
+  .nb-auth-layout__stat--accent-green .nb-auth-layout__stat-number::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 3px;
+    background-color: var(--nb-green-500);
+    margin-bottom: var(--nb-space-2);
+    border-radius: var(--nb-radius);
+  }
+
+  /* ==================================================================
+     Feature Highlights
+     ------------------------------------------------------------------
+     Checkmark list of features on the brand side.
+     ================================================================== */
+  .nb-auth-layout__features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nb-space-3);
+    margin-top: var(--nb-space-10);
+  }
+
+  .nb-auth-layout__feature {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-3);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-300);
+  }
+
+  .nb-auth-layout__feature svg {
+    flex-shrink: 0;
+  }
+
+  /* ==================================================================
+     Decorative Shape Positions
+     ------------------------------------------------------------------
+     Named positions for the empty shape divs used in auth pages.
+     ================================================================== */
+  .nb-auth-layout__shape--top {
+    top: var(--nb-space-8);
+    right: var(--nb-space-8);
+    width: 60px;
+    height: 60px;
+    background-color: var(--nb-yellow-500);
+    opacity: 0.15;
+    border-radius: var(--nb-radius);
+    transform: rotate(12deg);
+  }
+
+  .nb-auth-layout__shape--bottom {
+    bottom: var(--nb-space-8);
+    left: var(--nb-space-8);
+    width: 40px;
+    height: 40px;
+    background-color: var(--nb-green-500);
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+
+  /* ==================================================================
+     Responsive — Mobile (<1024px)
+     ------------------------------------------------------------------
+     Hide the brand side entirely so the form fills the viewport.
+     ================================================================== */
+  @media (max-width: 1023px) {
+    .nb-auth-layout {
+      flex-direction: column;
+    }
+
+    .nb-auth-layout__brand {
+      display: none;
+    }
+
+    .nb-auth-layout__form {
+      min-height: 100vh;
+      padding: var(--nb-space-6);
+    }
+  }
+
+  /* ==================================================================
+     Responsive — Large screens (>=1280px)
+     ------------------------------------------------------------------
+     Increase brand-side padding for extra breathing room.
+     ================================================================== */
+  @media (min-width: 1280px) {
+    .nb-auth-layout__brand-inner {
+      max-width: 540px;
+      padding: var(--nb-space-16);
+    }
+
+    .nb-auth-layout__form {
+      padding: var(--nb-space-12);
+    }
+  }
+}

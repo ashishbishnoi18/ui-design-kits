@@ -17,6 +17,7 @@
 /* Layout */
 @import "layouts/grid.css";
 @import "layouts/containers.css";
+@import "layouts/auth-layout.css";
 
 /* Components */
 @import "components/buttons.css";
@@ -42,6 +43,12 @@
 @import "components/navbar.css";
 @import "components/sidebar.css";
 @import "components/footer.css";
+@import "components/media.css";
+@import "components/links.css";
+@import "components/link-preview.css";
+@import "components/date.css";
+@import "components/calendar.css";
+@import "components/search.css";
 
 /* Utilities (last — highest specificity via layers) */
 @import "utilities.css";

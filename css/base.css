@@ -9,6 +9,7 @@
      Headings
      ------------------------------------------------------------------ */
   h1 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-5xl);
     font-weight: var(--nb-font-extrabold);
     line-height: var(--nb-leading-tight);
@@ -16,6 +17,7 @@
   }
 
   h2 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-4xl);
     font-weight: var(--nb-font-extrabold);
     line-height: var(--nb-leading-tight);
@@ -23,6 +25,7 @@
   }
 
   h3 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-3xl);
     font-weight: var(--nb-font-bold);
     line-height: var(--nb-leading-tight);
@@ -30,6 +33,7 @@
   }
 
   h4 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-2xl);
     font-weight: var(--nb-font-bold);
     line-height: var(--nb-leading-snug);
@@ -37,6 +41,7 @@
   }
 
   h5 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-xl);
     font-weight: var(--nb-font-semibold);
     line-height: var(--nb-leading-snug);
@@ -44,6 +49,7 @@
   }
 
   h6 {
+    font-family: var(--nb-font-heading);
     font-size: var(--nb-text-lg);
     font-weight: var(--nb-font-semibold);
     line-height: var(--nb-leading-snug);

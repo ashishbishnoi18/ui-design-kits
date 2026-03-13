@@ -33,7 +33,10 @@
     'components/password-toggle.js',
     'components/alert-dismiss.js',
     'components/navbar-mobile.js',
-    'components/sidebar-toggle.js'
+    'components/sidebar-toggle.js',
+    'components/date-display.js',
+    'components/calendar.js',
+    'components/search.js'
   ];
 
   scripts.forEach(function (src) {
