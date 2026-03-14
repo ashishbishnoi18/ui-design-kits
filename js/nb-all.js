@@ -40,7 +40,10 @@
     'components/drawer.js',
     'components/stepper.js',
     'components/tag-input.js',
-    'components/code-block.js'
+    'components/code-block.js',
+    'components/json-viewer.js',
+    'components/kv-editor.js',
+    'components/api-console.js'
   ];
 
   scripts.forEach(function (src) {

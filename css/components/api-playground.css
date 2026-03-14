@@ -1,0 +1,471 @@
+/* ==========================================================================
+   API Playground — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Full suite of API playground UI components: method badges, URL bar,
+   key-value editor, request/response panes, status badges, response timer,
+   console/log output, auth selector, and body editor.
+   ========================================================================== */
+
+@layer components {
+  /* ==========================================================================
+     Method Badge — colored pill for HTTP methods
+     ========================================================================== */
+  .nb-method-badge {
+    display: inline-flex;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: var(--nb-radius);
+    border: var(--nb-border);
+    letter-spacing: 0.02em;
+  }
+
+  .nb-method-badge--get {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .nb-method-badge--post {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .nb-method-badge--put {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .nb-method-badge--patch {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .nb-method-badge--delete {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  /* ==========================================================================
+     URL Bar — method + URL input + send button
+     ========================================================================== */
+  .nb-url-bar {
+    display: flex;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+    background: var(--nb-white);
+  }
+
+  .nb-url-bar__method {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--nb-space-3);
+    border-right: var(--nb-border);
+    background: var(--nb-gray-50);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: 700;
+    cursor: pointer;
+    gap: var(--nb-space-1);
+    min-width: 80px;
+  }
+
+  .nb-url-bar__input {
+    flex: 1;
+    border: none;
+    padding: 10px var(--nb-space-3);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    outline: none;
+    min-width: 0;
+  }
+
+  .nb-url-bar__send {
+    flex-shrink: 0;
+    padding: 10px var(--nb-space-5);
+    background: var(--nb-black);
+    color: var(--nb-white);
+    border: none;
+    border-left: var(--nb-border);
+    font-weight: 700;
+    font-size: var(--nb-text-sm);
+    cursor: pointer;
+    transition: background 150ms;
+  }
+
+  .nb-url-bar__send:hover {
+    background: var(--nb-gray-800);
+  }
+
+  /* ==========================================================================
+     Key-Value Editor — editable rows for headers/params
+     ========================================================================== */
+  .nb-kv-editor {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    background: var(--nb-white);
+  }
+
+  .nb-kv-editor__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 44px;
+    background: var(--nb-gray-900);
+    border-bottom: var(--nb-border);
+    font-family: var(--nb-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--nb-gray-400);
+    letter-spacing: 0.08em;
+  }
+
+  .nb-kv-editor__header span {
+    padding: 10px var(--nb-space-4);
+  }
+
+  .nb-kv-editor__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 44px;
+    border-bottom: 1px solid var(--nb-gray-100);
+    transition: background 150ms;
+  }
+
+  .nb-kv-editor__row:last-child {
+    border-bottom: none;
+  }
+
+  .nb-kv-editor__row:hover {
+    background: var(--nb-gray-50);
+  }
+
+  .nb-kv-editor__input {
+    border: none;
+    padding: 12px var(--nb-space-4);
+    font-family: var(--nb-font-mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    outline: none;
+    background: transparent;
+    color: var(--nb-black);
+    letter-spacing: -0.01em;
+  }
+
+  .nb-kv-editor__input:first-child {
+    border-right: 1px solid var(--nb-gray-100);
+    color: var(--nb-blue-600);
+    font-weight: 600;
+  }
+
+  .nb-kv-editor__input::placeholder {
+    color: var(--nb-gray-300);
+    font-weight: 400;
+  }
+
+  .nb-kv-editor__remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-left: 1px solid var(--nb-gray-100);
+    background: none;
+    color: var(--nb-gray-300);
+    cursor: pointer;
+    transition: color 150ms, background 150ms;
+  }
+
+  .nb-kv-editor__remove:hover {
+    color: var(--nb-red-500);
+    background: var(--nb-gray-50);
+  }
+
+  .nb-kv-editor__add {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-2);
+    padding: 10px var(--nb-space-4);
+    border: none;
+    background: none;
+    color: var(--nb-gray-500);
+    font-family: var(--nb-font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    border-top: 1px solid var(--nb-gray-200);
+  }
+
+  .nb-kv-editor__add:hover {
+    color: var(--nb-black);
+    background: var(--nb-gray-50);
+  }
+
+  /* ==========================================================================
+     Request/Response Pane — tabbed split view
+     ========================================================================== */
+  .nb-api-pane {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nb-api-pane__tabs {
+    display: flex;
+    background: var(--nb-gray-50);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-api-pane__tab {
+    padding: 8px var(--nb-space-4);
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-gray-500);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 150ms;
+  }
+
+  .nb-api-pane__tab:hover {
+    color: var(--nb-black);
+  }
+
+  .nb-api-pane__tab.is-active {
+    color: var(--nb-black);
+    font-weight: 700;
+    border-bottom-color: var(--nb-black);
+  }
+
+  .nb-api-pane__body {
+    flex: 1;
+    overflow: auto;
+    padding: var(--nb-space-4);
+  }
+
+  .nb-api-pane__body--code {
+    padding: 0;
+  }
+
+  /* ==========================================================================
+     Status Badge — colored by HTTP status code range
+     ========================================================================== */
+  .nb-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: var(--nb-radius-full);
+    border: var(--nb-border);
+  }
+
+  .nb-status-badge--2xx {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .nb-status-badge--3xx {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .nb-status-badge--4xx {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .nb-status-badge--5xx {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  /* ==========================================================================
+     Response Timer
+     ========================================================================== */
+  .nb-response-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+  }
+
+  .nb-response-timer__value {
+    font-weight: 700;
+    color: var(--nb-black);
+  }
+
+  .nb-response-timer--fast .nb-response-timer__value {
+    color: var(--nb-green-600);
+  }
+
+  .nb-response-timer--slow .nb-response-timer__value {
+    color: var(--nb-red-500);
+  }
+
+  /* ==========================================================================
+     Console / Log Output
+     ========================================================================== */
+  .nb-console {
+    font-family: var(--nb-font-mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: -0.01em;
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-300);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    padding: var(--nb-space-4) var(--nb-space-5);
+    max-height: 360px;
+    overflow-y: auto;
+  }
+
+  .nb-console__line {
+    display: flex;
+    gap: var(--nb-space-3);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .nb-console__line:last-child {
+    border-bottom: none;
+  }
+
+  .nb-console__time {
+    color: var(--nb-gray-500);
+    flex-shrink: 0;
+    min-width: 75px;
+    font-weight: 400;
+  }
+
+  .nb-console__level--info {
+    color: #79c0ff;
+  }
+
+  .nb-console__level--warn {
+    color: #fbbf24;
+  }
+
+  .nb-console__level--error {
+    color: #ef4444;
+  }
+
+  .nb-console__level--success {
+    color: #4ade80;
+  }
+
+  .nb-console__msg {
+    flex: 1;
+    word-break: break-all;
+  }
+
+  /* ==========================================================================
+     Auth Selector
+     ========================================================================== */
+  .nb-auth-selector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nb-space-4);
+  }
+
+  .nb-auth-selector__type {
+    display: flex;
+    gap: var(--nb-space-2);
+  }
+
+  .nb-auth-selector__type-btn {
+    padding: 6px 12px;
+    font-size: var(--nb-text-xs);
+    font-weight: 600;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    cursor: pointer;
+    transition: all 150ms;
+  }
+
+  .nb-auth-selector__type-btn.is-active {
+    background: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  .nb-auth-selector__type-btn:hover:not(.is-active) {
+    background: var(--nb-gray-100);
+  }
+
+  .nb-auth-selector__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nb-space-3);
+  }
+
+  /* ==========================================================================
+     Body Editor
+     ========================================================================== */
+  .nb-body-editor {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+  }
+
+  .nb-body-editor__tabs {
+    display: flex;
+    background: var(--nb-gray-50);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-body-editor__tab {
+    padding: 8px var(--nb-space-4);
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-gray-500);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 150ms;
+  }
+
+  .nb-body-editor__tab.is-active {
+    color: var(--nb-black);
+    font-weight: 700;
+    border-bottom-color: var(--nb-black);
+  }
+
+  .nb-body-editor__content {
+    padding: 0;
+  }
+
+  .nb-body-editor__textarea {
+    width: 100%;
+    min-height: 220px;
+    border: none;
+    padding: var(--nb-space-5);
+    font-family: var(--nb-font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    resize: vertical;
+    outline: none;
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-300);
+    box-sizing: border-box;
+  }
+
+  .nb-body-editor__textarea--light {
+    background: var(--nb-white);
+    color: var(--nb-black);
+  }
+}

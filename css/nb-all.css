@@ -60,6 +60,8 @@
 @import "components/tag-input.css";
 @import "components/range.css";
 @import "components/code-block.css";
+@import "components/json-viewer.css";
+@import "components/api-playground.css";
 
 /* Utilities (last — highest specificity via layers) */
 @import "utilities.css";

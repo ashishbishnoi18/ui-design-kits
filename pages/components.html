@@ -366,6 +366,11 @@
   <a href="#modals" class="showcase-sidebar__link">Modals</a>
   <a href="#drawer" class="showcase-sidebar__link">Drawer</a>
 
+  <div class="showcase-sidebar__group">Developer</div>
+  <a href="#code-blocks" class="showcase-sidebar__link">Code Blocks</a>
+  <a href="#json-viewer" class="showcase-sidebar__link">JSON Viewer</a>
+  <a href="#api-playground" class="showcase-sidebar__link">API Playground</a>
+
   <div class="showcase-sidebar__footer">
     <a href="https://github.com/ashishbishnoi18/nb-ui-kit" class="nb-btn nb-btn--dark nb-btn--sm nb-btn--full" target="_blank" rel="noopener">
       <svg width="14" height="14" aria-hidden="true"><use href="#nb-icon-github"/></svg>
@@ -2610,7 +2615,141 @@ NB.toast.success('Your changes have been saved.');</code></pre>
 
 
 <!-- ============================================================
-     41. FOOTER
+     41. JSON VIEWER
+     ============================================================ -->
+<section id="json-viewer" class="nb-section nb-bg-white">
+  <div class="nb-container">
+    <h2 class="section-heading">JSON Viewer</h2>
+    <p class="section-description">Collapsible JSON tree with syntax coloring, expand/collapse toggles, and item counts. Dark and light themes.</p>
+
+    <h3 class="subsection-title">Dark Theme (Default)</h3>
+    <div class="nb-json-viewer nb-mb-8" data-nb-json-viewer='{"name":"NB UI Kit","version":"1.0.0","components":42,"features":["neo-brutalism","zero dependencies","accessible"],"config":{"theme":"dark","borders":true,"shadows":"hard"},"stats":{"downloads":18400,"stars":1250,"contributors":12}}'></div>
+
+    <h3 class="subsection-title">Light Theme</h3>
+    <div class="nb-json-viewer nb-json-viewer--light" data-nb-json-viewer='{"status":200,"data":{"user":{"id":1,"name":"Jane Doe","email":"jane@example.com","roles":["admin","editor"],"settings":{"notifications":true,"theme":"light"}}}}'></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     42. API PLAYGROUND COMPONENTS
+     ============================================================ -->
+<section id="api-playground" class="nb-section nb-bg-gray-50">
+  <div class="nb-container">
+    <h2 class="section-heading">API Playground</h2>
+    <p class="section-description">Components for building API explorers — URL bar, method badges, key-value editors, status badges, auth selectors, console output, and body editors.</p>
+
+    <h3 class="subsection-title">Method Badges</h3>
+    <div class="component-row nb-mb-8">
+      <span class="nb-method-badge nb-method-badge--get">GET</span>
+      <span class="nb-method-badge nb-method-badge--post">POST</span>
+      <span class="nb-method-badge nb-method-badge--put">PUT</span>
+      <span class="nb-method-badge nb-method-badge--patch">PATCH</span>
+      <span class="nb-method-badge nb-method-badge--delete">DELETE</span>
+    </div>
+
+    <h3 class="subsection-title">URL Bar</h3>
+    <div class="nb-url-bar nb-mb-8" style="max-width:640px;">
+      <div class="nb-url-bar__method">
+        <span class="nb-method-badge nb-method-badge--get">GET</span>
+      </div>
+      <input type="text" class="nb-url-bar__input" value="https://api.example.com/v1/users" placeholder="Enter request URL">
+      <button class="nb-url-bar__send">Send</button>
+    </div>
+
+    <h3 class="subsection-title">Status Badges</h3>
+    <div class="component-row nb-mb-8">
+      <span class="nb-status-badge nb-status-badge--2xx">200 OK</span>
+      <span class="nb-status-badge nb-status-badge--3xx">301 Moved</span>
+      <span class="nb-status-badge nb-status-badge--4xx">404 Not Found</span>
+      <span class="nb-status-badge nb-status-badge--5xx">500 Server Error</span>
+    </div>
+
+    <h3 class="subsection-title">Response Timer</h3>
+    <div class="component-row nb-mb-8">
+      <span class="nb-response-timer nb-response-timer--fast">
+        <span class="nb-response-timer__value">142ms</span>
+      </span>
+      <span class="nb-response-timer">
+        <span class="nb-response-timer__value">487ms</span>
+      </span>
+      <span class="nb-response-timer nb-response-timer--slow">
+        <span class="nb-response-timer__value">2,341ms</span>
+      </span>
+    </div>
+
+    <h3 class="subsection-title">Key-Value Editor</h3>
+    <div style="max-width:560px;" class="nb-mb-8">
+      <div class="nb-kv-editor" data-nb-kv-editor data-nb-kv-editor-data='[{"key":"Authorization","value":"Bearer sk-..."},{"key":"Content-Type","value":"application/json"},{"key":"Accept","value":"application/json"}]'></div>
+    </div>
+
+    <h3 class="subsection-title">Auth Selector</h3>
+    <div style="max-width:400px;" class="nb-mb-8">
+      <div class="nb-auth-selector">
+        <div class="nb-auth-selector__type">
+          <button class="nb-auth-selector__type-btn is-active">Bearer</button>
+          <button class="nb-auth-selector__type-btn">API Key</button>
+          <button class="nb-auth-selector__type-btn">Basic</button>
+          <button class="nb-auth-selector__type-btn">None</button>
+        </div>
+        <div class="nb-auth-selector__fields">
+          <div class="nb-field">
+            <label class="nb-label">Token</label>
+            <input type="text" class="nb-input" placeholder="Enter bearer token" style="font-family:var(--nb-font-mono);font-size:13px;" value="sk-proj-abc123...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Body Editor</h3>
+    <div style="max-width:560px;" class="nb-mb-8">
+      <div class="nb-body-editor">
+        <div class="nb-body-editor__tabs">
+          <button class="nb-body-editor__tab is-active">JSON</button>
+          <button class="nb-body-editor__tab">Raw</button>
+          <button class="nb-body-editor__tab">Form Data</button>
+        </div>
+        <div class="nb-body-editor__content">
+          <textarea class="nb-body-editor__textarea">{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "role": "admin"
+}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Console Output</h3>
+    <div style="max-width:600px;">
+      <div class="nb-console" data-nb-api-console>
+        <div class="nb-console__line">
+          <span class="nb-console__time">14:23:01</span>
+          <span class="nb-console__level--info">[INFO]</span>
+          <span class="nb-console__msg">GET /api/v1/users — 200 OK (142ms)</span>
+        </div>
+        <div class="nb-console__line">
+          <span class="nb-console__time">14:23:05</span>
+          <span class="nb-console__level--success">[OK]</span>
+          <span class="nb-console__msg">Response: 3 users returned</span>
+        </div>
+        <div class="nb-console__line">
+          <span class="nb-console__time">14:23:12</span>
+          <span class="nb-console__level--warn">[WARN]</span>
+          <span class="nb-console__msg">POST /api/v1/users — 429 Rate Limited</span>
+        </div>
+        <div class="nb-console__line">
+          <span class="nb-console__time">14:23:18</span>
+          <span class="nb-console__level--error">[ERR]</span>
+          <span class="nb-console__msg">DELETE /api/v1/users/5 — 403 Forbidden: insufficient permissions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     43. FOOTER
      ============================================================ -->
 <footer class="nb-footer nb-footer--dark">
   <div class="nb-container">

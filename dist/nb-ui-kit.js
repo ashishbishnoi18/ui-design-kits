@@ -3932,3 +3932,607 @@
   });
 
 })(window.NB);
+
+
+/* --- components/json-viewer.js --- */
+
+/**
+ * NB JSON Viewer Component
+ * Collapsible JSON tree viewer with syntax-colored primitives.
+ * @requires nb-core.js
+ */
+;(function (NB) {
+  'use strict';
+
+  NB.register('json-viewer', function (el) {
+
+    /* ---------------------------------------------------------------- */
+    /*  Read JSON source                                                 */
+    /* ---------------------------------------------------------------- */
+
+    var raw = el.getAttribute('data-nb-json-viewer');
+
+    if (!raw || raw === '' || raw === 'true') {
+      var scriptEl = NB.$('script[type="application/json"]', el);
+      if (scriptEl) {
+        raw = scriptEl.textContent;
+      } else {
+        var dataEl = NB.$('.nb-json-viewer__data', el);
+        if (dataEl) {
+          raw = dataEl.textContent;
+        }
+      }
+    }
+
+    if (!raw) return;
+
+    var data;
+    try {
+      data = JSON.parse(raw);
+    } catch (err) {
+      console.warn('NB json-viewer: invalid JSON', err);
+      return;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Clear source elements and build tree                             */
+    /* ---------------------------------------------------------------- */
+
+    el.innerHTML = '';
+    el.classList.add('nb-json-viewer');
+
+    var tree = buildNode(null, data, 0, false);
+    el.appendChild(tree);
+
+    /* ---------------------------------------------------------------- */
+    /*  Build a single node                                              */
+    /* ---------------------------------------------------------------- */
+
+    function buildNode(key, value, depth, isLast) {
+      var node = document.createElement('div');
+      node.className = 'nb-json-node';
+
+      var type = getType(value);
+
+      if (type === 'object' || type === 'array') {
+        buildCompoundNode(node, key, value, type, depth, isLast);
+      } else {
+        buildPrimitiveNode(node, key, value, type, isLast);
+      }
+
+      return node;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Compound node (object / array)                                   */
+    /* ---------------------------------------------------------------- */
+
+    function buildCompoundNode(node, key, value, type, depth, isLast) {
+      var openBracket = type === 'array' ? '[' : '{';
+      var closeBracket = type === 'array' ? ']' : '}';
+      var keys = Object.keys(value);
+      var count = keys.length;
+      var countLabel = type === 'array'
+        ? count + ' item' + (count !== 1 ? 's' : '')
+        : count + ' key' + (count !== 1 ? 's' : '');
+
+      var collapsed = depth >= 2;
+
+      /* --- Line with toggle, key, opening bracket --- */
+      var line = document.createElement('div');
+      line.className = 'nb-json-node__line';
+
+      var toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'nb-json-node__toggle';
+      toggle.textContent = '\u25B6';
+      if (collapsed) toggle.classList.add('is-collapsed');
+      line.appendChild(toggle);
+
+      if (key !== null) {
+        var keySpan = document.createElement('span');
+        keySpan.className = 'nb-json-node__key';
+        keySpan.textContent = '"' + key + '"';
+        line.appendChild(keySpan);
+
+        var colon = document.createElement('span');
+        colon.className = 'nb-json-node__colon';
+        colon.textContent = ': ';
+        line.appendChild(colon);
+      }
+
+      var bracket = document.createElement('span');
+      bracket.className = 'nb-json-node__bracket';
+      bracket.textContent = openBracket;
+      line.appendChild(bracket);
+
+      /* Collapsed count preview */
+      var countSpan = document.createElement('span');
+      countSpan.className = 'nb-json-node__count';
+      countSpan.textContent = countLabel;
+      if (!collapsed) countSpan.style.display = 'none';
+      line.appendChild(countSpan);
+
+      /* Collapsed closing bracket (inline) */
+      var closeBracketCollapsed = document.createElement('span');
+      closeBracketCollapsed.className = 'nb-json-node__bracket';
+      closeBracketCollapsed.textContent = closeBracket;
+      if (!collapsed) closeBracketCollapsed.style.display = 'none';
+      line.appendChild(closeBracketCollapsed);
+
+      /* Comma after collapsed inline bracket */
+      if (!isLast) {
+        var commaCollapsed = document.createElement('span');
+        commaCollapsed.className = 'nb-json-node__comma';
+        commaCollapsed.textContent = ',';
+        if (!collapsed) commaCollapsed.style.display = 'none';
+        line.appendChild(commaCollapsed);
+      }
+
+      node.appendChild(line);
+
+      /* --- Children container --- */
+      var children = document.createElement('div');
+      children.className = 'nb-json-node__children';
+      if (collapsed) children.classList.add('is-collapsed');
+
+      for (var i = 0; i < keys.length; i++) {
+        var childKey = type === 'array' ? null : keys[i];
+        var childValue = value[keys[i]];
+        var childIsLast = i === keys.length - 1;
+        children.appendChild(buildNode(childKey, childValue, depth + 1, childIsLast));
+      }
+
+      node.appendChild(children);
+
+      /* --- Closing bracket (expanded) --- */
+      var closingLine = document.createElement('div');
+      closingLine.className = 'nb-json-node__line nb-json-node__closing';
+
+      var closingBracket = document.createElement('span');
+      closingBracket.className = 'nb-json-node__bracket';
+      closingBracket.textContent = closeBracket;
+      closingLine.appendChild(closingBracket);
+
+      if (!isLast) {
+        var comma = document.createElement('span');
+        comma.className = 'nb-json-node__comma';
+        comma.textContent = ',';
+        closingLine.appendChild(comma);
+      }
+
+      if (collapsed) closingLine.style.display = 'none';
+      node.appendChild(closingLine);
+
+      /* --- Toggle handler --- */
+      NB.on(toggle, 'click', function () {
+        var isNowCollapsed = !toggle.classList.contains('is-collapsed');
+
+        toggle.classList.toggle('is-collapsed', isNowCollapsed);
+        children.classList.toggle('is-collapsed', isNowCollapsed);
+
+        countSpan.style.display = isNowCollapsed ? '' : 'none';
+        closeBracketCollapsed.style.display = isNowCollapsed ? '' : 'none';
+        closingLine.style.display = isNowCollapsed ? 'none' : '';
+
+        if (commaCollapsed) {
+          commaCollapsed.style.display = isNowCollapsed ? '' : 'none';
+        }
+      });
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Primitive node (string, number, boolean, null)                    */
+    /* ---------------------------------------------------------------- */
+
+    function buildPrimitiveNode(node, key, value, type, isLast) {
+      var line = document.createElement('div');
+      line.className = 'nb-json-node__line';
+
+      if (key !== null) {
+        var keySpan = document.createElement('span');
+        keySpan.className = 'nb-json-node__key';
+        keySpan.textContent = '"' + key + '"';
+        line.appendChild(keySpan);
+
+        var colon = document.createElement('span');
+        colon.className = 'nb-json-node__colon';
+        colon.textContent = ': ';
+        line.appendChild(colon);
+      }
+
+      var valSpan = document.createElement('span');
+      valSpan.className = 'nb-json-node__value nb-json-node__value--' + type;
+
+      if (type === 'string') {
+        valSpan.textContent = '"' + value + '"';
+      } else if (type === 'null') {
+        valSpan.textContent = 'null';
+      } else {
+        valSpan.textContent = String(value);
+      }
+
+      line.appendChild(valSpan);
+
+      if (!isLast) {
+        var comma = document.createElement('span');
+        comma.className = 'nb-json-node__comma';
+        comma.textContent = ',';
+        line.appendChild(comma);
+      }
+
+      node.appendChild(line);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Type helper                                                      */
+    /* ---------------------------------------------------------------- */
+
+    function getType(value) {
+      if (value === null) return 'null';
+      if (Array.isArray(value)) return 'array';
+      return typeof value; // 'string', 'number', 'boolean', 'object'
+    }
+  });
+
+})(window.NB);
+
+
+/* --- components/kv-editor.js --- */
+
+/**
+ * NB Key-Value Editor Component
+ * Editable key-value pair rows for headers, query params, etc.
+ * @requires nb-core.js
+ */
+;(function (NB) {
+  'use strict';
+
+  /** Small X icon SVG used for the remove button */
+  var REMOVE_SVG =
+    '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">' +
+    '<line x1="2" y1="2" x2="8" y2="8"/>' +
+    '<line x1="8" y1="2" x2="2" y2="8"/>' +
+    '</svg>';
+
+  /* ------------------------------------------------------------------ */
+  /*  Static API                                                         */
+  /* ------------------------------------------------------------------ */
+
+  NB.kvEditor = {};
+
+  /**
+   * Get current entries from a kv-editor element.
+   * @param {HTMLElement|string} el — the element or its ID
+   * @returns {Array<{key: string, value: string}>}
+   */
+  NB.kvEditor.getData = function (el) {
+    if (typeof el === 'string') {
+      el = document.getElementById(el);
+    }
+    if (!el) return [];
+
+    return getEntries(el);
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Shared helpers                                                      */
+  /* ------------------------------------------------------------------ */
+
+  function getEntries(root) {
+    var rows = NB.$$('.nb-kv-editor__row', root);
+    var entries = [];
+
+    rows.forEach(function (row) {
+      var keyInput = NB.$('.nb-kv-editor__key', row);
+      var valInput = NB.$('.nb-kv-editor__value', row);
+      if (!keyInput || !valInput) return;
+
+      var k = keyInput.value.trim();
+      var v = valInput.value.trim();
+      if (k || v) {
+        entries.push({ key: k, value: v });
+      }
+    });
+
+    return entries;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  NB.register('kv-editor', function (el) {
+
+    /* ---------------------------------------------------------------- */
+    /*  Build initial DOM                                                */
+    /* ---------------------------------------------------------------- */
+
+    var body = NB.$('.nb-kv-editor__body', el);
+    if (!body) {
+      body = document.createElement('div');
+      body.className = 'nb-kv-editor__body';
+    }
+
+    /* Parse initial data from attribute */
+    var initialData = [];
+    var dataAttr = el.getAttribute('data-nb-kv-editor-data');
+    if (dataAttr) {
+      try {
+        initialData = JSON.parse(dataAttr);
+      } catch (err) {
+        console.warn('NB kv-editor: invalid JSON in data-nb-kv-editor-data', err);
+      }
+    }
+
+    /* Check for existing rows already in the DOM */
+    var existingRows = NB.$$('.nb-kv-editor__row', el);
+    var hasExistingRows = existingRows.length > 0;
+
+    /* Build wrapper */
+    el.innerHTML = '';
+    el.classList.add('nb-kv-editor');
+
+    /* Header row */
+    var header = document.createElement('div');
+    header.className = 'nb-kv-editor__header';
+
+    var headerKey = document.createElement('span');
+    headerKey.className = 'nb-kv-editor__header-cell';
+    headerKey.textContent = 'Key';
+    header.appendChild(headerKey);
+
+    var headerVal = document.createElement('span');
+    headerVal.className = 'nb-kv-editor__header-cell';
+    headerVal.textContent = 'Value';
+    header.appendChild(headerVal);
+
+    var headerDel = document.createElement('span');
+    headerDel.className = 'nb-kv-editor__header-cell nb-kv-editor__header-cell--action';
+    header.appendChild(headerDel);
+
+    el.appendChild(header);
+    el.appendChild(body);
+
+    /* Populate from attribute data */
+    if (initialData.length) {
+      initialData.forEach(function (pair) {
+        body.appendChild(createRow(pair.key || '', pair.value || ''));
+      });
+    } else if (hasExistingRows) {
+      /* Re-attach existing rows, wiring up events */
+      existingRows.forEach(function (row) {
+        wireRow(row);
+        body.appendChild(row);
+      });
+    }
+
+    /* Add button */
+    var addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'nb-kv-editor__add';
+    addBtn.textContent = '+ Add';
+    el.appendChild(addBtn);
+
+    NB.on(addBtn, 'click', function () {
+      var row = createRow('', '');
+      body.appendChild(row);
+      var keyInput = NB.$('.nb-kv-editor__key', row);
+      if (keyInput) keyInput.focus();
+    });
+
+    /* ---------------------------------------------------------------- */
+    /*  Create a row                                                     */
+    /* ---------------------------------------------------------------- */
+
+    function createRow(key, value) {
+      var row = document.createElement('div');
+      row.className = 'nb-kv-editor__row';
+
+      var keyInput = document.createElement('input');
+      keyInput.type = 'text';
+      keyInput.className = 'nb-kv-editor__key';
+      keyInput.placeholder = 'Key';
+      keyInput.value = key;
+
+      var valInput = document.createElement('input');
+      valInput.type = 'text';
+      valInput.className = 'nb-kv-editor__value';
+      valInput.placeholder = 'Value';
+      valInput.value = value;
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'nb-kv-editor__remove';
+      removeBtn.setAttribute('aria-label', 'Remove row');
+      removeBtn.innerHTML = REMOVE_SVG;
+
+      row.appendChild(keyInput);
+      row.appendChild(valInput);
+      row.appendChild(removeBtn);
+
+      wireRow(row);
+
+      return row;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Wire events on a row                                             */
+    /* ---------------------------------------------------------------- */
+
+    function wireRow(row) {
+      var keyInput = NB.$('.nb-kv-editor__key', row);
+      var valInput = NB.$('.nb-kv-editor__value', row);
+      var removeBtn = NB.$('.nb-kv-editor__remove', row);
+
+      if (keyInput) {
+        NB.on(keyInput, 'input', function () {
+          emitChange();
+        });
+
+        NB.on(keyInput, 'keydown', function (e) {
+          if (e.key === 'Backspace' && keyInput.value === '' && valInput && valInput.value === '') {
+            e.preventDefault();
+            removeRow(row);
+          }
+        });
+      }
+
+      if (valInput) {
+        NB.on(valInput, 'input', function () {
+          emitChange();
+        });
+      }
+
+      if (removeBtn) {
+        NB.on(removeBtn, 'click', function () {
+          removeRow(row);
+        });
+      }
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Remove a row                                                     */
+    /* ---------------------------------------------------------------- */
+
+    function removeRow(row) {
+      if (row.parentNode) {
+        row.parentNode.removeChild(row);
+      }
+      emitChange();
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Emit change event                                                */
+    /* ---------------------------------------------------------------- */
+
+    function emitChange() {
+      NB.emit(el, 'nb:kv-change', { entries: getEntries(el) });
+    }
+  });
+
+})(window.NB);
+
+
+/* --- components/api-console.js --- */
+
+/**
+ * NB API Console Component
+ * Console/log output panel with timestamped, level-colored entries.
+ * @requires nb-core.js
+ */
+;(function (NB) {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /*  Static API                                                         */
+  /* ------------------------------------------------------------------ */
+
+  NB.console = {};
+
+  /**
+   * Append a log entry to a console element.
+   * @param {HTMLElement|string} el      — the console element or its ID
+   * @param {string}             message — log text
+   * @param {string}            [level]  — 'info' | 'warn' | 'error' | 'success' (default 'info')
+   */
+  NB.console.log = function (el, message, level) {
+    if (typeof el === 'string') {
+      el = document.getElementById(el);
+    }
+    if (!el) return;
+
+    level = level || 'info';
+
+    /* Remove empty-state message if present */
+    var empty = NB.$('.nb-console__empty', el);
+    if (empty) {
+      empty.parentNode.removeChild(empty);
+    }
+
+    /* Build log line */
+    var line = document.createElement('div');
+    line.className = 'nb-console__line';
+
+    var time = document.createElement('span');
+    time.className = 'nb-console__time';
+    time.textContent = formatTime();
+    line.appendChild(time);
+
+    var levelSpan = document.createElement('span');
+    levelSpan.className = 'nb-console__level nb-console__level--' + level;
+    levelSpan.textContent = level;
+    line.appendChild(levelSpan);
+
+    var msg = document.createElement('span');
+    msg.className = 'nb-console__msg';
+    msg.textContent = message;
+    line.appendChild(msg);
+
+    el.appendChild(line);
+
+    /* Enforce max lines */
+    var max = parseInt(el.getAttribute('data-nb-api-console-max'), 10);
+    if (max > 0) {
+      var lines = NB.$$('.nb-console__line', el);
+      while (lines.length > max) {
+        lines[0].parentNode.removeChild(lines[0]);
+        lines.shift();
+      }
+    }
+
+    /* Auto-scroll to bottom */
+    el.scrollTop = el.scrollHeight;
+  };
+
+  /**
+   * Clear all log entries from a console element.
+   * @param {HTMLElement|string} el — the console element or its ID
+   */
+  NB.console.clear = function (el) {
+    if (typeof el === 'string') {
+      el = document.getElementById(el);
+    }
+    if (!el) return;
+
+    var lines = NB.$$('.nb-console__line', el);
+    lines.forEach(function (line) {
+      line.parentNode.removeChild(line);
+    });
+
+    addEmptyState(el);
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Helpers                                                            */
+  /* ------------------------------------------------------------------ */
+
+  function formatTime() {
+    var now = new Date();
+    var h = String(now.getHours()).padStart(2, '0');
+    var m = String(now.getMinutes()).padStart(2, '0');
+    var s = String(now.getSeconds()).padStart(2, '0');
+    return h + ':' + m + ':' + s;
+  }
+
+  function addEmptyState(el) {
+    var empty = document.createElement('div');
+    empty.className = 'nb-console__empty';
+    empty.textContent = 'No log entries.';
+    el.appendChild(empty);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  NB.register('api-console', function (el) {
+    el.classList.add('nb-console');
+
+    /* Add empty state if no children */
+    if (!el.children.length) {
+      addEmptyState(el);
+    }
+  });
+
+})(window.NB);

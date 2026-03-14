@@ -28,11 +28,13 @@
      Sidebar Header
      -------------------------------------------------------------------------- */
   .nb-sidebar__header {
-    padding: var(--nb-space-5);
+    padding: var(--nb-space-4) var(--nb-space-5);
+    min-height: 64px;
     border-bottom: var(--nb-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
   }
 
   /* --------------------------------------------------------------------------

@@ -1,0 +1,163 @@
+/* ==========================================================================
+   JSON Viewer — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Collapsible JSON tree viewer with syntax coloring for dark and light
+   themes. Renders nested objects/arrays with toggle controls, type-based
+   value colors, and item counts on collapsed nodes.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Container
+     -------------------------------------------------------------------------- */
+  .nb-json-viewer {
+    font-family: var(--nb-font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-300);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    padding: var(--nb-space-5);
+    overflow: auto;
+    max-height: 500px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Light Theme
+     -------------------------------------------------------------------------- */
+  .nb-json-viewer--light {
+    background: var(--nb-gray-50);
+    color: var(--nb-gray-800);
+  }
+
+  /* --------------------------------------------------------------------------
+     Node
+     -------------------------------------------------------------------------- */
+  .nb-json-node {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Toggle (collapse/expand arrow)
+     -------------------------------------------------------------------------- */
+  .nb-json-node__toggle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--nb-gray-500);
+    border: none;
+    background: none;
+    font-size: 10px;
+    user-select: none;
+    transition: transform 150ms;
+  }
+
+  .nb-json-node__toggle.is-collapsed {
+    transform: rotate(-90deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Line — single key-value row
+     -------------------------------------------------------------------------- */
+  .nb-json-node__line {
+    display: flex;
+    align-items: baseline;
+    min-height: 20px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Key
+     -------------------------------------------------------------------------- */
+  .nb-json-node__key {
+    color: #79c0ff;
+    font-weight: 600;
+  }
+
+  /* --------------------------------------------------------------------------
+     Colon separator
+     -------------------------------------------------------------------------- */
+  .nb-json-node__colon {
+    color: var(--nb-gray-500);
+    margin: 0 4px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Value — type-based colors (dark theme)
+     -------------------------------------------------------------------------- */
+  .nb-json-node__value--string {
+    color: #a5d6ff;
+  }
+
+  .nb-json-node__value--number {
+    color: #79c0ff;
+  }
+
+  .nb-json-node__value--boolean {
+    color: #ff7b72;
+  }
+
+  .nb-json-node__value--null {
+    color: var(--nb-gray-500);
+    font-style: italic;
+  }
+
+  /* --------------------------------------------------------------------------
+     Brackets & punctuation
+     -------------------------------------------------------------------------- */
+  .nb-json-node__bracket {
+    color: var(--nb-gray-500);
+  }
+
+  .nb-json-node__comma {
+    color: var(--nb-gray-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Children (collapsible container)
+     -------------------------------------------------------------------------- */
+  .nb-json-node__children {
+    display: block;
+  }
+
+  .nb-json-node__children.is-collapsed {
+    display: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Collapsed item count ("3 items")
+     -------------------------------------------------------------------------- */
+  .nb-json-node__count {
+    color: var(--nb-gray-500);
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Light Theme — value overrides
+     -------------------------------------------------------------------------- */
+  .nb-json-viewer--light .nb-json-node__key {
+    color: #0550ae;
+  }
+
+  .nb-json-viewer--light .nb-json-node__value--string {
+    color: #0a3069;
+  }
+
+  .nb-json-viewer--light .nb-json-node__value--number {
+    color: #0550ae;
+  }
+
+  .nb-json-viewer--light .nb-json-node__value--boolean {
+    color: #cf222e;
+  }
+}
