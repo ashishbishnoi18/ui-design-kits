@@ -1,0 +1,66 @@
+@layer layout {
+
+  /* ---- Vertical stack (default) ---- */
+  .dk-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dk-space-4);
+  }
+
+  /* ---- Horizontal stack ---- */
+  .dk-stack-horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: var(--dk-space-4);
+  }
+
+  /* ---- Gap modifiers ---- */
+  .dk-stack--xs,
+  .dk-stack-horizontal--xs {
+    gap: var(--dk-space-1);
+  }
+
+  .dk-stack--sm,
+  .dk-stack-horizontal--sm {
+    gap: var(--dk-space-2);
+  }
+
+  .dk-stack--md,
+  .dk-stack-horizontal--md {
+    gap: var(--dk-space-4);
+  }
+
+  .dk-stack--lg,
+  .dk-stack-horizontal--lg {
+    gap: var(--dk-space-6);
+  }
+
+  .dk-stack--xl,
+  .dk-stack-horizontal--xl {
+    gap: var(--dk-space-10);
+  }
+
+  /* ---- Alignment helpers ---- */
+  .dk-stack-center {
+    align-items: center;
+  }
+
+  .dk-stack-stretch {
+    align-items: stretch;
+  }
+
+  .dk-stack-horizontal-center {
+    align-items: center;
+  }
+
+  .dk-stack-horizontal-between {
+    justify-content: space-between;
+  }
+
+  /* ---- Responsive: stack collapses to vertical on small screens ---- */
+  @media (max-width: 767px) {
+    .dk-stack-horizontal-responsive {
+      flex-direction: column;
+    }
+  }
+}

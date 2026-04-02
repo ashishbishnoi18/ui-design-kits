@@ -1,0 +1,75 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  QR Code                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-qr {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 16px;
+  }
+
+  .dk-qr svg {
+    display: block;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-qr-sm {
+    padding: 8px;
+  }
+
+  .dk-qr-sm svg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .dk-qr-md svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  .dk-qr-lg {
+    padding: 20px;
+  }
+
+  .dk-qr-lg svg {
+    width: 240px;
+    height: 240px;
+  }
+
+  /* Default (no variant) */
+
+  .dk-qr:not(.dk-qr-sm):not(.dk-qr-md):not(.dk-qr-lg) svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  With label                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-qr_label {
+    display: block;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dk-qr--with-label {
+    flex-direction: column;
+  }
+}

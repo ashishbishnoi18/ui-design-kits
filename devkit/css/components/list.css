@@ -1,0 +1,46 @@
+@layer components {
+
+  .dk-list {
+    padding-left: 1.5em;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .dk-list_item {
+    margin-bottom: 4px;
+  }
+
+  /* Ordered */
+  .dk-list-ordered {
+    list-style: decimal;
+  }
+
+  /* Unordered */
+  .dk-list-unordered {
+    list-style: disc;
+  }
+
+  .dk-list-unordered .dk-list_item::marker,
+  .dk-list-unordered::marker {
+    color: var(--accent-text);
+  }
+
+  /* No markers */
+  .dk-list-none {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  /* Inline */
+  .dk-list-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dk-space-4);
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .dk-list-inline .dk-list_item {
+    margin-bottom: 0;
+  }
+}

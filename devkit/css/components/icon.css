@@ -1,0 +1,73 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Icon                                                               */
+  /* ------------------------------------------------------------------ */
+
+  .dk-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: currentColor;
+    vertical-align: middle;
+  }
+
+  .dk-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-icon-xs {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dk-icon-sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dk-icon-md {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dk-icon-lg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dk-icon-xl {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Default size when no variant specified */
+
+  .dk-icon:not(.dk-icon-xs):not(.dk-icon-sm):not(.dk-icon-md):not(.dk-icon-lg):not(.dk-icon-xl) {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Muted variant                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-icon--muted {
+    color: var(--text-muted);
+  }
+
+  .dk-icon--secondary {
+    color: var(--text-secondary);
+  }
+
+  .dk-icon--accent {
+    color: var(--accent-text);
+  }
+}

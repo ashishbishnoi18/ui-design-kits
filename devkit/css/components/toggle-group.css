@@ -1,0 +1,85 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Toggle Group                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toggle-group {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-surface);
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* Individual toggle buttons */
+  .dk-toggle-group_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* Separator between buttons */
+  .dk-toggle-group_btn + .dk-toggle-group_btn {
+    border-left: 1px solid var(--border-default);
+  }
+
+  .dk-toggle-group_btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-raised);
+  }
+
+  /* Active state */
+  .dk-toggle-group_btn.is-active {
+    color: var(--accent-text);
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  /* Focus */
+  .dk-toggle-group_btn:focus-visible {
+    z-index: 1;
+    box-shadow:
+      inset 0 0 0 2px var(--accent);
+  }
+
+  /* Icon inside button */
+  .dk-toggle-group_btn-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Disabled state */
+  .dk-toggle-group.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .dk-toggle-group_btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Compact variant */
+  .dk-toggle-group-compact .dk-toggle-group_btn {
+    padding: 5px 10px;
+    font-size: var(--text-xs);
+  }
+}

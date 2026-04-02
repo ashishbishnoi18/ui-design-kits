@@ -1,0 +1,130 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Menubar                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-menubar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-default);
+    padding: 0 4px;
+  }
+
+  .dk-menubar[role="menubar"] {
+    /* ARIA handled by JS */
+  }
+
+  /* Top-level items -------------------------------------------------- */
+
+  .dk-menubar_item {
+    position: relative;
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    white-space: nowrap;
+    border-radius: var(--dk-radius-sm);
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-menubar_item:hover,
+  .dk-menubar_item.is-open {
+    color: var(--text-primary);
+    background: var(--bg-active);
+  }
+
+  .dk-menubar_item:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: -1px;
+  }
+
+  /* Submenu ---------------------------------------------------------- */
+
+  .dk-menubar_submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: var(--dk-z-dropdown);
+    padding: 4px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2px);
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-menubar_item.is-open > .dk-menubar_submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(4px);
+  }
+
+  /* Submenu item ----------------------------------------------------- */
+
+  .dk-menubar_submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-menubar_submenu-item:hover,
+  .dk-menubar_submenu-item.is-focused {
+    color: var(--text-primary);
+    background: var(--bg-active);
+  }
+
+  .dk-menubar_submenu-item:focus-visible {
+    outline: none;
+    background: var(--bg-active);
+    color: var(--text-primary);
+  }
+
+  /* Shortcut label --------------------------------------------------- */
+
+  .dk-menubar_shortcut {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono, monospace);
+  }
+
+  /* Divider ---------------------------------------------------------- */
+
+  .dk-menubar_divider {
+    height: 1px;
+    background: var(--border-default);
+    margin: 4px 0;
+  }
+
+}

@@ -1,0 +1,64 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Skeleton                                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-skeleton {
+    background: var(--bg-raised);
+    border-radius: var(--dk-radius-md);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Shimmer animation */
+
+  .dk-skeleton--animated::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.04) 40%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.04) 60%,
+      transparent 100%
+    );
+    animation: dk-skeleton-shimmer 1.5s infinite;
+  }
+
+  @keyframes dk-skeleton-shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Shape variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  /* Text line */
+  .dk-skeleton--text {
+    height: 14px;
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  /* Circle (avatar placeholder) */
+  .dk-skeleton--circle {
+    border-radius: 50%;
+  }
+
+  /* Rect — default, no extra styles needed */
+
+  /* Card shaped */
+  .dk-skeleton--card {
+    border-radius: var(--dk-radius-lg);
+    height: auto;
+  }
+}

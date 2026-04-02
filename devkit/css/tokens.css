@@ -1,0 +1,137 @@
+@layer tokens {
+
+  :root {
+
+    /* --------------------------------------------------------
+       PRIMITIVES  (prefixed --dk-)
+       -------------------------------------------------------- */
+
+    /* Gray scale — matches zinc */
+    --dk-gray-50:  #fafafa;
+    --dk-gray-100: #f4f4f5;
+    --dk-gray-200: #e4e4e7;
+    --dk-gray-300: #d4d4d8;
+    --dk-gray-400: #a1a1aa;
+    --dk-gray-500: #71717a;
+    --dk-gray-600: #52525b;
+    --dk-gray-700: #3f3f46;
+    --dk-gray-800: #27272a;
+    --dk-gray-900: #18181b;
+    --dk-gray-950: #09090b;
+
+    /* Emerald accent */
+    --dk-emerald-400: #34d399;
+    --dk-emerald-500: #10b981;
+    --dk-emerald-600: #059669;
+    --dk-emerald-700: #047857;
+
+    /* Status — red */
+    --dk-red-400: #f87171;
+    --dk-red-500: #ef4444;
+    --dk-red-600: #dc2626;
+
+    /* Status — yellow */
+    --dk-yellow-400: #facc15;
+    --dk-yellow-500: #eab308;
+    --dk-yellow-600: #ca8a04;
+
+    /* Status — blue */
+    --dk-blue-400: #60a5fa;
+    --dk-blue-500: #3b82f6;
+    --dk-blue-600: #2563eb;
+
+    /* Status — purple */
+    --dk-purple-400: #c084fc;
+    --dk-purple-500: #a855f7;
+    --dk-purple-600: #9333ea;
+
+    /* Spacing — 4px base unit (0–24) */
+    --dk-space-0:  0;
+    --dk-space-1:  0.25rem;   /*  4px */
+    --dk-space-2:  0.5rem;    /*  8px */
+    --dk-space-3:  0.75rem;   /* 12px */
+    --dk-space-4:  1rem;      /* 16px */
+    --dk-space-5:  1.25rem;   /* 20px */
+    --dk-space-6:  1.5rem;    /* 24px */
+    --dk-space-7:  1.75rem;   /* 28px */
+    --dk-space-8:  2rem;      /* 32px */
+    --dk-space-9:  2.25rem;   /* 36px */
+    --dk-space-10: 2.5rem;    /* 40px */
+    --dk-space-11: 2.75rem;   /* 44px */
+    --dk-space-12: 3rem;      /* 48px */
+    --dk-space-14: 3.5rem;    /* 56px */
+    --dk-space-16: 4rem;      /* 64px */
+    --dk-space-18: 4.5rem;    /* 72px */
+    --dk-space-20: 5rem;      /* 80px */
+    --dk-space-22: 5.5rem;    /* 88px */
+    --dk-space-24: 6rem;      /* 96px */
+
+    /* Border radius */
+    --dk-radius-sm:   0.25rem;   /* 4px */
+    --dk-radius-md:   0.375rem;  /* 6px */
+    --dk-radius-lg:   0.5rem;    /* 8px */
+    --dk-radius-full: 9999px;
+
+    /* Transitions */
+    --dk-transition-fast: 120ms ease;
+    --dk-transition-base: 200ms ease;
+    --dk-transition-slow: 350ms ease;
+
+    /* Z-index scale */
+    --dk-z-dropdown: 100;
+    --dk-z-sticky:   200;
+    --dk-z-overlay:  300;
+    --dk-z-modal:    400;
+    --dk-z-popover:  500;
+    --dk-z-toast:    600;
+
+
+    /* --------------------------------------------------------
+       SEMANTIC TOKENS  (unprefixed, theme-switchable)
+       -------------------------------------------------------- */
+
+    /* Backgrounds */
+    --bg-root:       #050505;
+    --bg-surface:    #0a0a0a;
+    --bg-raised:     #111111;
+    --bg-overlay:    #161616;
+    --bg-card:       #0c0c0c;
+    --bg-card-hover: #121212;
+    --bg-code:       #0a0a0a;
+    --bg-input:      #0e0e0e;
+    --bg-active:     rgba(255, 255, 255, 0.04);
+    --bg-hover:      rgba(255, 255, 255, 0.03);
+
+    /* Text */
+    --text-primary:   #e5e5e5;
+    --text-secondary: #999999;
+    --text-tertiary:  #666666;
+    --text-muted:     #444444;
+    --text-heading:   #f5f5f5;
+
+    /* Borders */
+    --border-default: #1a1a1a;
+    --border-subtle:  #141414;
+    --border-hover:   #2a2a2a;
+    --border-active:  #333333;
+
+    /* Accent */
+    --accent:       #10b981;
+    --accent-hover: #059669;
+    --accent-muted: rgba(16, 185, 129, 0.12);
+    --accent-text:  #34d399;
+
+    /* Font families */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', 'Cascadia Code', monospace;
+
+    /* Font size scale */
+    --text-xs:  0.6875rem;  /* 11px */
+    --text-sm:  0.8125rem;  /* 13px */
+    --text-base: 0.9375rem; /* 15px */
+    --text-lg:  1.125rem;   /* 18px */
+    --text-xl:  1.25rem;    /* 20px */
+    --text-2xl: 1.5rem;     /* 24px */
+    --text-3xl: 1.875rem;   /* 30px */
+  }
+}

@@ -1,0 +1,89 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Toggle / Switch                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* Visually hidden native input */
+  .dk-toggle_input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Track */
+  .dk-toggle_track {
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    background: var(--border-hover);
+    position: relative;
+    flex-shrink: 0;
+    transition: background var(--dk-transition-fast);
+  }
+
+  /* Thumb */
+  .dk-toggle_thumb {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 2px;
+    transition: transform var(--dk-transition-fast);
+  }
+
+  /* Checked state */
+  .dk-toggle_input:checked + .dk-toggle_track {
+    background: var(--accent);
+  }
+
+  .dk-toggle_input:checked + .dk-toggle_track .dk-toggle_thumb {
+    transform: translateX(16px);
+  }
+
+  /* Label */
+  .dk-toggle_label {
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    user-select: none;
+    line-height: 1.4;
+  }
+
+  /* Focus ring on track */
+  .dk-toggle_input:focus-visible + .dk-toggle_track {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Disabled state */
+  .dk-toggle_input:disabled + .dk-toggle_track {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .dk-toggle_input:disabled ~ .dk-toggle_label {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .dk-toggle:has(.dk-toggle_input:disabled) {
+    cursor: not-allowed;
+  }
+}

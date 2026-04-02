@@ -1,0 +1,114 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  RTL (Right-to-Left) overrides                                      */
+  /* ------------------------------------------------------------------ */
+
+  /* General directional flips ---------------------------------------- */
+
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Margins ---------------------------------------------------------- */
+
+  [dir="rtl"] .dk-ml-auto { margin-left: 0;    margin-right: auto; }
+  [dir="rtl"] .dk-mr-auto { margin-right: 0;   margin-left: auto; }
+
+  /* Padding ---------------------------------------------------------- */
+
+  [dir="rtl"] .dk-pl-0 { padding-left: unset;  padding-right: 0; }
+  [dir="rtl"] .dk-pr-0 { padding-right: unset; padding-left: 0; }
+
+  /* Borders ---------------------------------------------------------- */
+
+  [dir="rtl"] .dk-border-l {
+    border-left: none;
+    border-right: 1px solid var(--border-default);
+  }
+
+  [dir="rtl"] .dk-border-r {
+    border-right: none;
+    border-left: 1px solid var(--border-default);
+  }
+
+  /* Vertical Tabs — flip indicator to right side --------------------- */
+
+  [dir="rtl"] .dk-vtabs_list {
+    border-right: none;
+    border-left: 1px solid var(--border-default);
+  }
+
+  [dir="rtl"] .dk-vtabs_tab::before {
+    left: auto;
+    right: 0;
+  }
+
+  /* Menubar — submenu alignment -------------------------------------- */
+
+  [dir="rtl"] .dk-menubar_submenu {
+    left: auto;
+    right: 0;
+  }
+
+  [dir="rtl"] .dk-menubar_shortcut {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Context Menu — shortcut alignment -------------------------------- */
+
+  [dir="rtl"] .dk-context-menu_shortcut {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Dropdown — position flip ----------------------------------------- */
+
+  [dir="rtl"] .dk-dropdown_menu {
+    left: auto;
+    right: 0;
+  }
+
+  /* Navigation Menu — chevron flip ----------------------------------- */
+
+  [dir="rtl"] .dk-nav-menu_content {
+    left: auto;
+    right: 0;
+  }
+
+  /* Command palette — shortcut alignment ----------------------------- */
+
+  [dir="rtl"] .dk-command_item-shortcut {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Splitter — flip default alignment -------------------------------- */
+
+  [dir="rtl"] .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_handle {
+    border-left: none;
+    border-right: 1px solid var(--border-default);
+  }
+
+  /* Sidebar ---------------------------------------------------------- */
+
+  [dir="rtl"] .dk-sidebar {
+    left: auto;
+    right: 0;
+  }
+
+  /* Breadcrumb separator --------------------------------------------- */
+
+  [dir="rtl"] .dk-breadcrumb_sep {
+    transform: scaleX(-1);
+  }
+
+  /* General flex row reversal for directional layouts ----------------- */
+
+  [dir="rtl"] .dk-rtl-flip {
+    flex-direction: row-reverse;
+  }
+
+}

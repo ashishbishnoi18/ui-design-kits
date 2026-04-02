@@ -1,0 +1,153 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Radio Card Group                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-radio-card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dk-radio-card-group-horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .dk-radio-card-group-horizontal .dk-radio-card {
+    flex: 1 1 0;
+    min-width: 140px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Radio Card                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-radio-card {
+    position: relative;
+    display: block;
+    padding: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    cursor: pointer;
+    transition:
+      border-color var(--dk-transition-fast),
+      background var(--dk-transition-fast),
+      box-shadow var(--dk-transition-fast);
+    user-select: none;
+  }
+
+  .dk-radio-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-raised);
+  }
+
+  /* Hidden native radio */
+  .dk-radio-card_input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Checked state */
+  .dk-radio-card.is-active,
+  .dk-radio-card:has(.dk-radio-card_input:checked) {
+    border-color: var(--accent);
+    background: rgba(16, 185, 129, 0.04);
+  }
+
+  .dk-radio-card.is-active:hover,
+  .dk-radio-card:has(.dk-radio-card_input:checked):hover {
+    border-color: var(--accent-hover);
+  }
+
+  /* Visual indicator (radio dot) */
+  .dk-radio-card_indicator {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border-hover);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-radio-card.is-active .dk-radio-card_indicator,
+  .dk-radio-card:has(.dk-radio-card_input:checked) .dk-radio-card_indicator {
+    border-color: var(--accent);
+  }
+
+  .dk-radio-card_indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-radio-card.is-active .dk-radio-card_indicator-dot,
+  .dk-radio-card:has(.dk-radio-card_input:checked) .dk-radio-card_indicator-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Content */
+  .dk-radio-card_title {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    padding-right: 28px;
+  }
+
+  .dk-radio-card_description,
+  .dk-radio-card_desc {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .dk-radio-card_price {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--accent-text);
+    margin-top: 8px;
+  }
+
+  /* Focus ring */
+  .dk-radio-card:has(.dk-radio-card_input:focus-visible) {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Disabled */
+  .dk-radio-card.is-disabled,
+  .dk-radio-card:has(.dk-radio-card_input:disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

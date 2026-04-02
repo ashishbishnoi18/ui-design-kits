@@ -1,0 +1,113 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Tag Input                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    cursor: text;
+    min-height: 36px;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-tag-input:focus-within {
+    border-color: var(--accent);
+  }
+
+  .dk-tag-input.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Tags container alias */
+  .dk-tag-input_tags {
+    display: contents;
+  }
+
+  /* The actual text input */
+  .dk-tag-input_field,
+  .dk-tag-input_input {
+    flex: 1 1 60px;
+    min-width: 60px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    padding: 2px 0;
+    line-height: 1.5;
+  }
+
+  .dk-tag-input_field::placeholder,
+  .dk-tag-input_input::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Tag chips */
+  .dk-tag-input_tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px 2px 8px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+    line-height: 1.5;
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+  }
+
+  .dk-tag-input_tag-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Remove button on tag */
+  .dk-tag-input_tag-remove,
+  .dk-tag-input_remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 1;
+    flex-shrink: 0;
+    padding: 0;
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-tag-input_tag-remove:hover,
+  .dk-tag-input_remove:hover {
+    color: var(--text-primary);
+    background: var(--border-default);
+  }
+
+  /* Focus ring */
+  .dk-tag-input:focus-within {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+}

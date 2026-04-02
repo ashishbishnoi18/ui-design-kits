@@ -1,0 +1,110 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Progress                                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress {
+    width: 100%;
+  }
+
+  .dk-progress_label {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .dk-progress_track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-raised);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .dk-progress_bar {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    min-width: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress--sm .dk-progress_track {
+    height: 4px;
+  }
+
+  .dk-progress--sm .dk-progress_bar {
+    border-radius: 2px;
+  }
+
+  .dk-progress--lg .dk-progress_track {
+    height: 12px;
+  }
+
+  .dk-progress--lg .dk-progress_bar {
+    border-radius: 6px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Color variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress--success .dk-progress_bar {
+    background: var(--accent);
+  }
+
+  .dk-progress--danger .dk-progress_bar {
+    background: #ef4444;
+  }
+
+  .dk-progress--warning .dk-progress_bar {
+    background: #eab308;
+  }
+
+  .dk-progress--info .dk-progress_bar {
+    background: #3b82f6;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Striped variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress--striped .dk-progress_bar {
+    background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.1) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.1) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-size: 16px 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Animated variant                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress--animated .dk-progress_bar {
+    animation: dk-progress-stripe 1s linear infinite;
+  }
+
+  @keyframes dk-progress-stripe {
+    from {
+      background-position: 16px 0;
+    }
+    to {
+      background-position: 0 0;
+    }
+  }
+}

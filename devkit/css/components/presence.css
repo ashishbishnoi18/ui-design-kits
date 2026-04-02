@@ -1,0 +1,127 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Presence — enter / exit animations                                 */
+  /* ------------------------------------------------------------------ */
+
+  .dk-presence {
+    /* Container for animated elements */
+  }
+
+  /* Fade -------------------------------------------------------------- */
+
+  @keyframes dk-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes dk-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  .dk-fade-in {
+    animation: dk-fade-in var(--dk-transition-base) ease-out both;
+  }
+
+  .dk-fade-out {
+    animation: dk-fade-out var(--dk-transition-base) ease-in both;
+  }
+
+  /* Slide up --------------------------------------------------------- */
+
+  @keyframes dk-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes dk-slide-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  .dk-slide-in {
+    animation: dk-slide-in var(--dk-transition-base) ease-out both;
+  }
+
+  .dk-slide-out {
+    animation: dk-slide-out var(--dk-transition-base) ease-in both;
+  }
+
+  /* Scale ------------------------------------------------------------- */
+
+  @keyframes dk-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes dk-scale-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  .dk-scale-in {
+    animation: dk-scale-in var(--dk-transition-base) ease-out both;
+  }
+
+  .dk-scale-out {
+    animation: dk-scale-out var(--dk-transition-base) ease-in both;
+  }
+
+  /* Slide from left -------------------------------------------------- */
+
+  @keyframes dk-slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes dk-slide-out-left {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+  }
+
+  .dk-slide-in-left {
+    animation: dk-slide-in-left var(--dk-transition-base) ease-out both;
+  }
+
+  .dk-slide-out-left {
+    animation: dk-slide-out-left var(--dk-transition-base) ease-in both;
+  }
+
+}

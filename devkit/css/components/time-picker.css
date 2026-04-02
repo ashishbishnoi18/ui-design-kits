@@ -1,0 +1,220 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Time Picker                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-time-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Input wrapper ---------------------------------------------------- */
+
+  .dk-time-picker_input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .dk-time-picker_input {
+    display: block;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 7px 36px 7px 12px;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+    line-height: 1.5;
+    cursor: pointer;
+    min-width: 120px;
+  }
+
+  .dk-time-picker_input:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-time-picker_input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-time-picker_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  /* Dropdown --------------------------------------------------------- */
+
+  .dk-time-picker_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: var(--dk-z-dropdown);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    padding: 8px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-time-picker.is-open .dk-time-picker_dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Columns ---------------------------------------------------------- */
+
+  .dk-time-picker_col {
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-hover) transparent;
+  }
+
+  .dk-time-picker_col::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .dk-time-picker_col::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dk-time-picker_col::-webkit-scrollbar-thumb {
+    background: var(--border-hover);
+    border-radius: var(--dk-radius-full);
+  }
+
+  .dk-time-picker_col-label {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 0 4px;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    background: var(--bg-surface);
+  }
+
+  /* Divider between columns */
+  .dk-time-picker_divider {
+    width: 1px;
+    background: var(--border-default);
+    margin: 4px 0;
+    flex-shrink: 0;
+  }
+
+  /* Items ------------------------------------------------------------ */
+
+  .dk-time-picker_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 30px;
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    border: none;
+    background: transparent;
+    border-radius: var(--dk-radius-sm);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    padding: 0 8px;
+  }
+
+  .dk-time-picker_item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-time-picker_item.is-selected {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .dk-time-picker_item.is-selected:hover {
+    background: var(--accent-hover);
+  }
+
+  .dk-time-picker_item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  /* AM/PM toggle ----------------------------------------------------- */
+
+  .dk-time-picker_period {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 2px;
+  }
+
+  .dk-time-picker_period-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 30px;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    border: 1px solid var(--border-default);
+    background: transparent;
+    border-radius: var(--dk-radius-sm);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+  }
+
+  .dk-time-picker_period-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+  }
+
+  .dk-time-picker_period-btn.is-active {
+    background: var(--accent-muted);
+    border-color: var(--accent);
+    color: var(--accent-text);
+  }
+
+  /* Focus ring for input */
+  .dk-time-picker_input:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+}

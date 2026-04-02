@@ -1,0 +1,128 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Testimonial                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  /* Quote mark */
+
+  .dk-testimonial_mark {
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent-muted);
+    font-family: Georgia, serif;
+    margin-bottom: 8px;
+    display: block;
+    color: var(--accent);
+    opacity: 0.3;
+  }
+
+  /* Quote text */
+
+  .dk-testimonial_quote {
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+
+  /* Author block */
+
+  .dk-testimonial_author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .dk-testimonial_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--dk-radius-full);
+    object-fit: cover;
+    border: 1px solid var(--border-default);
+    flex-shrink: 0;
+  }
+
+  .dk-testimonial_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dk-testimonial_name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-heading);
+    line-height: 1.3;
+  }
+
+  .dk-testimonial_role {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    line-height: 1.3;
+  }
+
+  /* Stars */
+
+  .dk-testimonial_stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 16px;
+    color: #f59e0b;
+  }
+
+  .dk-testimonial_stars svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Large variant                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial-lg {
+    padding: 40px 36px;
+    text-align: center;
+  }
+
+  .dk-testimonial-lg .dk-testimonial_quote {
+    font-size: var(--text-lg);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .dk-testimonial-lg .dk-testimonial_author {
+    justify-content: center;
+  }
+
+  .dk-testimonial-lg .dk-testimonial_mark {
+    text-align: center;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Grid layout for multiple testimonials                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .dk-testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

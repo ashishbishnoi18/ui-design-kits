@@ -1,0 +1,31 @@
+@layer components {
+
+  .dk-aspect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dk-aspect > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dk-aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .dk-aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .dk-aspect-portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .dk-aspect-wide {
+    aspect-ratio: 21 / 9;
+  }
+}

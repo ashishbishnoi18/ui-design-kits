@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — DevKit</title>
+  <link rel="stylesheet" href="../css/dk-all.css">
+  <style>
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 20px;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--dk-radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--dk-transition-fast);
+      text-decoration: none;
+      line-height: 1.5;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #000;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border-default);
+    }
+    .btn-outline:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+      color: var(--text-heading);
+    }
+    .btn-sm {
+      padding: 5px 14px;
+      font-size: var(--text-xs);
+      width: auto;
+    }
+    .btn-lg {
+      padding: 10px 28px;
+      font-size: var(--text-base);
+      width: auto;
+    }
+
+    /* Billing toggle */
+    .billing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .billing-toggle_label {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      cursor: pointer;
+      transition: color var(--dk-transition-fast);
+    }
+    .billing-toggle_label.is-active {
+      color: var(--text-primary);
+    }
+    .billing-toggle_save {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--accent-text);
+      background: var(--accent-muted);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    /* Pricing grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+      }
+    }
+
+    /* Comparison table */
+    .comparison-section {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 0 24px;
+    }
+    .check-icon {
+      color: var(--accent-text);
+    }
+    .dash-icon {
+      color: var(--text-muted);
+    }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 700px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+
+    /* CTA section */
+    .cta-section {
+      text-align: center;
+      padding: 80px 24px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-default);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="dk-navbar" data-dk-navbar>
+    <div class="dk-navbar_brand">
+      <div class="dk-navbar_brand-icon">dk</div>
+      <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
+    </div>
+    <div class="dk-navbar_nav">
+      <a href="landing.html" class="dk-navbar_link">Home</a>
+      <a href="docs.html" class="dk-navbar_link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link">Blog</a>
+    </div>
+    <div class="dk-navbar_actions">
+      <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
+    </div>
+    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+      <span class="dk-navbar_mobile-toggle-icon"></span>
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="dk-hero dk-hero-centered">
+    <div class="dk-hero_inner">
+      <h1 class="dk-hero_title">Simple, transparent pricing</h1>
+      <p class="dk-hero_subtitle">
+        Start free. Upgrade when you need more. No hidden fees, no surprises.
+      </p>
+    </div>
+  </section>
+
+  <!-- Billing toggle -->
+  <div class="billing-toggle">
+    <span class="billing-toggle_label is-active">Monthly</span>
+    <label class="dk-toggle">
+      <input type="checkbox" class="dk-toggle_input" id="billing-toggle">
+      <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+    </label>
+    <span class="billing-toggle_label">Annual <span class="billing-toggle_save">SAVE 20%</span></span>
+  </div>
+
+  <!-- Pricing cards -->
+  <div class="pricing-grid">
+    <!-- Free -->
+    <div class="dk-pricing-card">
+      <div class="dk-pricing-card_header">
+        <div class="dk-pricing-card_name">Free</div>
+        <p class="dk-pricing-card_desc">Perfect for side projects and learning.</p>
+      </div>
+      <div class="dk-pricing-card_price">
+        <span class="dk-pricing-card_currency">$</span>
+        <span class="dk-pricing-card_amount">0</span>
+        <span class="dk-pricing-card_period">/ month</span>
+      </div>
+      <ul class="dk-pricing-card_features">
+        <li class="dk-pricing-card_feature">All 156 components</li>
+        <li class="dk-pricing-card_feature">Dark theme</li>
+        <li class="dk-pricing-card_feature">Community support</li>
+        <li class="dk-pricing-card_feature">MIT license</li>
+        <li class="dk-pricing-card_feature is-disabled">Premium templates</li>
+        <li class="dk-pricing-card_feature is-disabled">Priority support</li>
+      </ul>
+      <div class="dk-pricing-card_cta">
+        <button class="btn btn-outline">Get Started</button>
+      </div>
+    </div>
+
+    <!-- Pro (featured) -->
+    <div class="dk-pricing-card dk-pricing-card-featured">
+      <span class="dk-pricing-card_badge">Popular</span>
+      <div class="dk-pricing-card_header">
+        <div class="dk-pricing-card_name">Pro</div>
+        <p class="dk-pricing-card_desc">For teams building production applications.</p>
+      </div>
+      <div class="dk-pricing-card_price">
+        <span class="dk-pricing-card_currency">$</span>
+        <span class="dk-pricing-card_amount">29</span>
+        <span class="dk-pricing-card_period">/ month</span>
+      </div>
+      <ul class="dk-pricing-card_features">
+        <li class="dk-pricing-card_feature">Everything in Free</li>
+        <li class="dk-pricing-card_feature">12 premium page templates</li>
+        <li class="dk-pricing-card_feature">Light & dark themes</li>
+        <li class="dk-pricing-card_feature">Figma design kit</li>
+        <li class="dk-pricing-card_feature">Email support (24h response)</li>
+        <li class="dk-pricing-card_feature is-disabled">Custom branding</li>
+      </ul>
+      <div class="dk-pricing-card_cta">
+        <button class="btn btn-primary">Start Free Trial</button>
+      </div>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="dk-pricing-card">
+      <div class="dk-pricing-card_header">
+        <div class="dk-pricing-card_name">Enterprise</div>
+        <p class="dk-pricing-card_desc">For organizations with custom requirements.</p>
+      </div>
+      <div class="dk-pricing-card_price">
+        <span class="dk-pricing-card_currency">$</span>
+        <span class="dk-pricing-card_amount">99</span>
+        <span class="dk-pricing-card_period">/ month</span>
+      </div>
+      <ul class="dk-pricing-card_features">
+        <li class="dk-pricing-card_feature">Everything in Pro</li>
+        <li class="dk-pricing-card_feature">Custom branding & themes</li>
+        <li class="dk-pricing-card_feature">Dedicated Slack channel</li>
+        <li class="dk-pricing-card_feature">SLA guarantee (99.9%)</li>
+        <li class="dk-pricing-card_feature">On-boarding workshop</li>
+        <li class="dk-pricing-card_feature">Invoice billing</li>
+      </ul>
+      <div class="dk-pricing-card_cta">
+        <button class="btn btn-outline">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature comparison table -->
+  <section class="comparison-section">
+    <h2 style="text-align:center; margin-bottom:32px;">Compare plans</h2>
+    <div class="dk-table-wrap">
+      <table class="dk-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="text-align:center;">Free</th>
+            <th style="text-align:center;">Pro</th>
+            <th style="text-align:center;">Enterprise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Components</td>
+            <td style="text-align:center;">156</td>
+            <td style="text-align:center;">156</td>
+            <td style="text-align:center;">156</td>
+          </tr>
+          <tr>
+            <td>Page templates</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;">12 + custom</td>
+          </tr>
+          <tr>
+            <td>Dark theme</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Light theme</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Figma kit</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Custom branding</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;" class="check-icon">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Support</td>
+            <td style="text-align:center;">Community</td>
+            <td style="text-align:center;">Email (24h)</td>
+            <td style="text-align:center;">Dedicated Slack</td>
+          </tr>
+          <tr>
+            <td>SLA</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;" class="dash-icon">--</td>
+            <td style="text-align:center;">99.9%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2 style="text-align:center; margin-bottom:32px;">Frequently asked questions</h2>
+    <div class="dk-accordion" data-dk-accordion>
+      <div class="dk-accordion_item">
+        <button class="dk-accordion_trigger">
+          Can I use DevKit in commercial projects?
+          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dk-accordion_content">
+          <div class="dk-accordion_body">
+            Yes. The Free tier is MIT licensed, meaning you can use it in any project -- personal, commercial, or open source. Pro and Enterprise licenses add premium assets and support.
+          </div>
+        </div>
+      </div>
+      <div class="dk-accordion_item">
+        <button class="dk-accordion_trigger">
+          Do I need a build tool or framework?
+          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dk-accordion_content">
+          <div class="dk-accordion_body">
+            No. DevKit is a plain CSS + vanilla JS library. Include the stylesheet and script tags, then use the component classes. No bundler, compiler, or framework required.
+          </div>
+        </div>
+      </div>
+      <div class="dk-accordion_item">
+        <button class="dk-accordion_trigger">
+          Can I switch between monthly and annual billing?
+          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dk-accordion_content">
+          <div class="dk-accordion_body">
+            Yes. You can switch billing cycles at any time from your account settings. When switching from monthly to annual, you receive a prorated credit for the current period.
+          </div>
+        </div>
+      </div>
+      <div class="dk-accordion_item">
+        <button class="dk-accordion_trigger">
+          What happens when my trial ends?
+          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dk-accordion_content">
+          <div class="dk-accordion_body">
+            Your Pro trial lasts 14 days. When it ends you can continue on the Free tier with no loss of work, or upgrade to keep access to premium templates and priority support.
+          </div>
+        </div>
+      </div>
+      <div class="dk-accordion_item">
+        <button class="dk-accordion_trigger">
+          Do you offer refunds?
+          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dk-accordion_content">
+          <div class="dk-accordion_body">
+            Yes, we offer a full refund within 30 days of purchase if you are not satisfied. Contact support and we will process it immediately -- no questions asked.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to build?</h2>
+    <p style="margin-top:8px; max-width:480px; margin-left:auto; margin-right:auto;">Join thousands of developers who ship beautiful interfaces faster with DevKit.</p>
+    <div style="margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="signup.html" class="btn btn-primary btn-lg">Start Free Trial</a>
+      <a href="docs.html" class="btn btn-outline btn-lg">Read the Docs</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="dk-footer">
+    <div class="dk-container">
+      <div class="dk-footer_bottom">
+        <span>&copy; 2026 DevKit. All rights reserved.</span>
+        <div style="display:flex; gap:16px;">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/dk-core.js"></script>
+  <script src="../js/dk-all.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

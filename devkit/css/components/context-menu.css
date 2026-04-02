@@ -1,0 +1,116 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Context Menu                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-context-menu {
+    position: fixed;
+    min-width: 180px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: var(--dk-z-popover);
+    padding: 4px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    transform-origin: top left;
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-context-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  /* Item -------------------------------------------------------------- */
+
+  .dk-context-menu_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-context-menu_item:hover,
+  .dk-context-menu_item.is-focused {
+    color: var(--text-primary);
+    background: var(--bg-active);
+  }
+
+  .dk-context-menu_item:focus-visible {
+    outline: none;
+    background: var(--bg-active);
+    color: var(--text-primary);
+  }
+
+  .dk-context-menu_item[disabled],
+  .dk-context-menu_item.is-disabled {
+    color: var(--text-muted);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Icon slot -------------------------------------------------------- */
+
+  .dk-context-menu_icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+  }
+
+  .dk-context-menu_item:hover .dk-context-menu_icon,
+  .dk-context-menu_item.is-focused .dk-context-menu_icon {
+    color: var(--text-secondary);
+  }
+
+  /* Shortcut label --------------------------------------------------- */
+
+  .dk-context-menu_shortcut {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono, monospace);
+  }
+
+  /* Divider ---------------------------------------------------------- */
+
+  .dk-context-menu_divider {
+    height: 1px;
+    background: var(--border-default);
+    margin: 4px 0;
+  }
+
+  /* Label / group header --------------------------------------------- */
+
+  .dk-context-menu_label {
+    padding: 6px 12px 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+
+}

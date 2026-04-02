@@ -1,0 +1,98 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Number Input                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-number-input {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-input);
+    overflow: hidden;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-number-input:focus-within {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  .dk-number-input.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* +/- buttons */
+  .dk-number-input_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    border: none;
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    user-select: none;
+  }
+
+  .dk-number-input_btn:hover {
+    background: var(--bg-raised);
+    color: var(--text-primary);
+  }
+
+  .dk-number-input_btn:active {
+    background: var(--border-default);
+  }
+
+  .dk-number-input_btn:first-child {
+    border-right: 1px solid var(--border-default);
+  }
+
+  .dk-number-input_btn:last-child {
+    border-left: 1px solid var(--border-default);
+  }
+
+  /* The number input field */
+  .dk-number-input_field,
+  .dk-number-input_input {
+    flex: 1;
+    min-width: 48px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    text-align: center;
+    padding: 7px 8px;
+    line-height: 1.5;
+    /* Hide native spinners */
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .dk-number-input_field::-webkit-inner-spin-button,
+  .dk-number-input_field::-webkit-outer-spin-button,
+  .dk-number-input_input::-webkit-inner-spin-button,
+  .dk-number-input_input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .dk-number-input_field::placeholder,
+  .dk-number-input_input::placeholder {
+    color: var(--text-muted);
+  }
+}

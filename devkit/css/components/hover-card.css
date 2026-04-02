@@ -1,0 +1,125 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Hover Card                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-hover-card {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Trigger ---------------------------------------------------------- */
+
+  .dk-hover-card_trigger {
+    cursor: pointer;
+    color: var(--accent-text);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--border-hover);
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-hover-card_trigger:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  /* Content ---------------------------------------------------------- */
+
+  .dk-hover-card_content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    min-width: 280px;
+    max-width: 360px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: var(--dk-z-popover);
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dk-transition-base),
+      visibility var(--dk-transition-base),
+      transform var(--dk-transition-base);
+    pointer-events: none;
+  }
+
+  /* Position: bottom (default) */
+  .dk-hover-card_content,
+  .dk-hover-card--bottom .dk-hover-card_content {
+    top: calc(100% + 8px);
+    bottom: auto;
+    transform: translateX(-50%) translateY(-4px);
+  }
+
+  .dk-hover-card.is-open .dk-hover-card_content,
+  .dk-hover-card--bottom.is-open .dk-hover-card_content {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Position: top */
+  .dk-hover-card--top .dk-hover-card_content {
+    bottom: calc(100% + 8px);
+    top: auto;
+    transform: translateX(-50%) translateY(4px);
+  }
+
+  .dk-hover-card--top.is-open .dk-hover-card_content {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .dk-hover-card.is-open .dk-hover-card_content {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Card inner elements ---------------------------------------------- */
+
+  .dk-hover-card_header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .dk-hover-card_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--bg-raised);
+    object-fit: cover;
+  }
+
+  .dk-hover-card_name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-heading);
+    line-height: 1.3;
+  }
+
+  .dk-hover-card_handle {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .dk-hover-card_body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .dk-hover-card_footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+}

@@ -1,0 +1,82 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Table                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+  }
+
+  .dk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+  }
+
+  /* Head */
+
+  .dk-table thead {
+    background: var(--bg-raised);
+  }
+
+  .dk-table th {
+    text-align: left;
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-default);
+    white-space: nowrap;
+  }
+
+  /* Body */
+
+  .dk-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .dk-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Variants                                                           */
+  /* ------------------------------------------------------------------ */
+
+  /* Striped */
+  .dk-table--striped tbody tr:nth-child(even) {
+    background: var(--bg-hover);
+  }
+
+  /* Hover rows */
+  .dk-table--hover tbody tr {
+    transition: background var(--dk-transition-fast);
+  }
+
+  .dk-table--hover tbody tr:hover {
+    background: var(--bg-active);
+  }
+
+  /* Compact */
+  .dk-table--compact th,
+  .dk-table--compact td {
+    padding: 6px 12px;
+  }
+
+  /* Bordered cells */
+  .dk-table--bordered td {
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .dk-table--bordered td:last-child {
+    border-right: none;
+  }
+}

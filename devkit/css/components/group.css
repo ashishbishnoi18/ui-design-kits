@@ -1,0 +1,27 @@
+@layer components {
+
+  .dk-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .dk-group-gap-sm {
+    gap: var(--dk-space-2);
+  }
+
+  .dk-group-gap-md {
+    gap: var(--dk-space-4);
+  }
+
+  .dk-group-gap-lg {
+    gap: var(--dk-space-6);
+  }
+
+  .dk-group-apart {
+    justify-content: space-between;
+  }
+
+  .dk-group-center {
+    justify-content: center;
+  }
+}

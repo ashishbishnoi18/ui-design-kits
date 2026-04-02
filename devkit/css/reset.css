@@ -1,0 +1,117 @@
+@layer reset {
+
+  /* Box sizing */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Remove default margin and padding */
+  *,
+  body,
+  h1, h2, h3, h4, h5, h6,
+  p, blockquote, pre,
+  dl, dd, ol, ul,
+  figure, fieldset, legend,
+  textarea, button, input, select {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Document */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    line-height: 1.15;
+  }
+
+  /* Smooth scrolling (only when not reduced-motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Reduced motion — disable all transitions and animations */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Form elements inherit font */
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+
+  /* Remove built-in button styles */
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    -webkit-appearance: button;
+    appearance: button;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Images are responsive by default */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Lists — no default markers */
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  /* Table */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* Textarea — no default resize handle */
+  textarea {
+    resize: vertical;
+  }
+
+  /* Links */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Remove search input styling */
+  [type="search"]::-webkit-search-cancel-button,
+  [type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  /* Hidden attribute support */
+  [hidden] {
+    display: none !important;
+  }
+}

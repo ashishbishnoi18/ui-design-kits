@@ -1,0 +1,42 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Breadcrumb                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .dk-breadcrumb_item {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dk-breadcrumb_link {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-breadcrumb_link:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-breadcrumb_separator {
+    color: var(--text-muted);
+    opacity: 0.4;
+    font-size: 0.75em;
+    user-select: none;
+  }
+
+  .dk-breadcrumb_current {
+    color: var(--text-secondary);
+  }
+}

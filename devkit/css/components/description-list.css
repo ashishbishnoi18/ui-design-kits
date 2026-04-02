@@ -1,0 +1,31 @@
+@layer components {
+
+  .dk-dl {
+    color: var(--text-primary);
+  }
+
+  .dk-dl_term {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .dk-dl_detail {
+    color: var(--text-primary);
+    margin-bottom: var(--dk-space-4);
+    line-height: 1.6;
+  }
+
+  /* Horizontal layout */
+  .dk-dl-horizontal {
+    display: grid;
+    grid-template-columns: minmax(120px, auto) 1fr;
+    gap: var(--dk-space-2) var(--dk-space-4);
+    align-items: baseline;
+  }
+
+  .dk-dl-horizontal .dk-dl_detail {
+    margin-bottom: 0;
+  }
+}

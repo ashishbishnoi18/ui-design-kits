@@ -1,0 +1,88 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  PIN / OTP Input                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-pin-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dk-pin-input_field,
+  .dk-pin-input_cell {
+    width: 40px;
+    height: 44px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-input);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: center;
+    outline: none;
+    padding: 0;
+    caret-color: var(--accent);
+    transition:
+      border-color var(--dk-transition-fast),
+      box-shadow var(--dk-transition-fast);
+  }
+
+  .dk-pin-input_field::placeholder,
+  .dk-pin-input_cell::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-pin-input_field:focus,
+  .dk-pin-input_cell:focus {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Filled state */
+  .dk-pin-input_field.is-filled,
+  .dk-pin-input_cell.is-filled {
+    border-color: var(--border-hover);
+    background: var(--bg-raised);
+  }
+
+  /* Disabled */
+  .dk-pin-input.is-disabled .dk-pin-input_field,
+  .dk-pin-input.is-disabled .dk-pin-input_cell {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Separator dot between groups (e.g., 3+3 layout) */
+  .dk-pin-input_separator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* Error state */
+  .dk-pin-input.is-error .dk-pin-input_field,
+  .dk-pin-input.is-error .dk-pin-input_cell {
+    border-color: #ef4444;
+  }
+
+  .dk-pin-input.is-error .dk-pin-input_field:focus,
+  .dk-pin-input.is-error .dk-pin-input_cell:focus {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px #ef4444;
+  }
+
+  /* Complete state */
+  .dk-pin-input.is-complete .dk-pin-input_field,
+  .dk-pin-input.is-complete .dk-pin-input_cell {
+    border-color: var(--accent);
+  }
+}

@@ -1,0 +1,276 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Date Range Picker                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-date-range {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Input row -------------------------------------------------------- */
+
+  .dk-date-range_inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dk-date-range_input {
+    display: block;
+    width: 140px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 7px 12px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .dk-date-range_input:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-date-range_input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-date-range_separator {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    user-select: none;
+  }
+
+  /* Dropdown --------------------------------------------------------- */
+
+  .dk-date-range_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: var(--dk-z-dropdown);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-date-range.is-open .dk-date-range_dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Presets sidebar -------------------------------------------------- */
+
+  .dk-date-range_presets {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-right: 1px solid var(--border-default);
+    padding-right: 12px;
+    min-width: 130px;
+  }
+
+  .dk-date-range_preset {
+    padding: 5px 10px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: transparent;
+    border-radius: var(--dk-radius-sm);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    white-space: nowrap;
+  }
+
+  .dk-date-range_preset:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-date-range_preset.is-active {
+    background: var(--accent-muted);
+    color: var(--accent-text);
+  }
+
+  /* Calendars container ---------------------------------------------- */
+
+  .dk-date-range_calendars {
+    display: flex;
+    gap: 16px;
+  }
+
+  /* Single calendar panel -------------------------------------------- */
+
+  .dk-date-range_calendar {
+    min-width: 252px;
+  }
+
+  .dk-date-range_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .dk-date-range_title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-heading);
+    user-select: none;
+  }
+
+  .dk-date-range_nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: var(--dk-radius-sm);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+  }
+
+  .dk-date-range_nav-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-date-range_nav-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Weekday headers */
+
+  .dk-date-range_weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 2px;
+  }
+
+  .dk-date-range_weekday {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+  }
+
+  /* Day grid */
+
+  .dk-date-range_days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+  }
+
+  .dk-date-range_day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: transparent;
+    border-radius: var(--dk-radius-sm);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    font-family: var(--font-sans);
+  }
+
+  .dk-date-range_day:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-date-range_day.is-today {
+    color: var(--accent-text);
+    font-weight: 600;
+  }
+
+  .dk-date-range_day.is-start,
+  .dk-date-range_day.is-end {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .dk-date-range_day.is-start:hover,
+  .dk-date-range_day.is-end:hover {
+    background: var(--accent-hover);
+  }
+
+  .dk-date-range_day.is-in-range {
+    background: var(--accent-muted);
+    color: var(--accent-text);
+    border-radius: 0;
+  }
+
+  .dk-date-range_day.is-start {
+    border-radius: var(--dk-radius-sm) 0 0 var(--dk-radius-sm);
+  }
+
+  .dk-date-range_day.is-end {
+    border-radius: 0 var(--dk-radius-sm) var(--dk-radius-sm) 0;
+  }
+
+  .dk-date-range_day.is-start.is-end {
+    border-radius: var(--dk-radius-sm);
+  }
+
+  .dk-date-range_day.is-outside {
+    color: var(--text-muted);
+    opacity: 0.4;
+  }
+
+  .dk-date-range_day.is-disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .dk-date-range_day:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  /* Focus ring for inputs */
+  .dk-date-range_input:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+}

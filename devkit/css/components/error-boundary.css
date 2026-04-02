@@ -1,0 +1,111 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Error Boundary — fallback UI                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-error-boundary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    min-height: 200px;
+  }
+
+  /* Icon ------------------------------------------------------------- */
+
+  .dk-error-boundary_icon {
+    width: 48px;
+    height: 48px;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* Fallback icon when no SVG is provided */
+  .dk-error-boundary_icon:empty::before {
+    content: '!';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border: 2px solid var(--border-default);
+    border-radius: 50%;
+  }
+
+  /* Title ------------------------------------------------------------ */
+
+  .dk-error-boundary_title {
+    font-size: var(--text-base, 14px);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Message ---------------------------------------------------------- */
+
+  .dk-error-boundary_message {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    line-height: 1.5;
+    max-width: 400px;
+    margin: 0;
+  }
+
+  /* Retry button ----------------------------------------------------- */
+
+  .dk-error-boundary_retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: var(--text-sm);
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+  }
+
+  .dk-error-boundary_retry:hover {
+    background: var(--bg-overlay);
+    border-color: var(--border-hover);
+  }
+
+  .dk-error-boundary_retry:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  /* Error details (collapsible) -------------------------------------- */
+
+  .dk-error-boundary_details {
+    margin-top: 8px;
+    padding: 12px 16px;
+    max-width: 500px;
+    width: 100%;
+    background: var(--bg-root);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--dk-radius-sm);
+    font-size: 12px;
+    font-family: var(--font-mono, monospace);
+    color: var(--text-muted);
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow: auto;
+    max-height: 120px;
+  }
+
+}

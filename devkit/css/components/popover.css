@@ -1,0 +1,145 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Popover                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dk-popover_trigger {
+    cursor: pointer;
+  }
+
+  .dk-popover_content {
+    position: absolute;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.15),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    min-width: 200px;
+    z-index: var(--dk-z-popover, 1050);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast);
+  }
+
+  .dk-popover.is-open .dk-popover_content {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Arrow                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover_arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    transform: rotate(45deg);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Position: Top                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover--top .dk-popover_content {
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dk-popover--top .dk-popover_arrow {
+    bottom: -5px;
+    left: 50%;
+    margin-left: -4px;
+    border-top: none;
+    border-left: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Position: Bottom (default)                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover--bottom .dk-popover_content,
+  .dk-popover .dk-popover_content {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dk-popover.is-open .dk-popover_content,
+  .dk-popover--bottom.is-open .dk-popover_content {
+    transform: translateX(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dk-popover--bottom .dk-popover_arrow,
+  .dk-popover .dk-popover_arrow {
+    top: -5px;
+    left: 50%;
+    margin-left: -4px;
+    border-bottom: none;
+    border-right: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Position: Left                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover--left .dk-popover_content {
+    right: calc(100% + 8px);
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  .dk-popover--left.is-open .dk-popover_content {
+    transform: translateY(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dk-popover--left .dk-popover_arrow {
+    right: -5px;
+    top: 50%;
+    margin-top: -4px;
+    border-bottom: none;
+    border-left: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Position: Right                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-popover--right .dk-popover_content {
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dk-popover--right.is-open .dk-popover_content {
+    transform: translateY(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dk-popover--right .dk-popover_arrow {
+    left: -5px;
+    top: 50%;
+    margin-top: -4px;
+    border-top: none;
+    border-right: none;
+  }
+}

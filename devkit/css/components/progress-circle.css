@@ -1,0 +1,106 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Progress Circle                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress-circle {
+    position: relative;
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+  }
+
+  .dk-progress-circle_svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .dk-progress-circle_track {
+    stroke: var(--border-default);
+    stroke-width: 4;
+    fill: none;
+  }
+
+  .dk-progress-circle_bar {
+    stroke: var(--accent);
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+    /* Circumference of r=45 circle: 2 * PI * 45 = ~283 */
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 0.4s ease;
+  }
+
+  .dk-progress-circle_label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-heading);
+    line-height: 1;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress-circle--sm {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dk-progress-circle--sm .dk-progress-circle_track,
+  .dk-progress-circle--sm .dk-progress-circle_bar {
+    stroke-width: 3;
+  }
+
+  .dk-progress-circle--sm .dk-progress-circle_label {
+    font-size: var(--text-xs);
+  }
+
+  .dk-progress-circle--md {
+    width: 64px;
+    height: 64px;
+  }
+
+  .dk-progress-circle--lg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .dk-progress-circle--lg .dk-progress-circle_track,
+  .dk-progress-circle--lg .dk-progress-circle_bar {
+    stroke-width: 5;
+  }
+
+  .dk-progress-circle--lg .dk-progress-circle_label {
+    font-size: var(--text-base);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Color variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-progress-circle--success .dk-progress-circle_bar {
+    stroke: var(--accent);
+  }
+
+  .dk-progress-circle--danger .dk-progress-circle_bar {
+    stroke: #ef4444;
+  }
+
+  .dk-progress-circle--warning .dk-progress-circle_bar {
+    stroke: #eab308;
+  }
+
+  .dk-progress-circle--info .dk-progress-circle_bar {
+    stroke: #3b82f6;
+  }
+}

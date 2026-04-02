@@ -1,0 +1,62 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Scroll Area                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-scroll-area {
+    position: relative;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-hover) transparent;
+  }
+
+  /* Webkit scrollbar ------------------------------------------------- */
+
+  .dk-scroll-area::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .dk-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dk-scroll-area::-webkit-scrollbar-thumb {
+    background: var(--border-hover);
+    border-radius: 3px;
+  }
+
+  .dk-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: var(--border-active);
+  }
+
+  .dk-scroll-area::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Auto-hide state -------------------------------------------------- */
+
+  .dk-scroll-area.is-idle::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .dk-scroll-area.is-idle {
+    scrollbar-color: transparent transparent;
+  }
+
+  /* Horizontal-only variant ------------------------------------------ */
+
+  .dk-scroll-area--x {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  /* Vertical-only variant -------------------------------------------- */
+
+  .dk-scroll-area--y {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+}

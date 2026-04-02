@@ -1,0 +1,30 @@
+@layer components {
+
+  .dk-spacer {
+    flex-shrink: 0;
+  }
+
+  .dk-spacer-xs {
+    height: var(--dk-space-2);
+  }
+
+  .dk-spacer-sm {
+    height: var(--dk-space-4);
+  }
+
+  .dk-spacer-md {
+    height: var(--dk-space-6);
+  }
+
+  .dk-spacer-lg {
+    height: var(--dk-space-8);
+  }
+
+  .dk-spacer-xl {
+    height: var(--dk-space-12);
+  }
+
+  .dk-spacer-2xl {
+    height: var(--dk-space-16);
+  }
+}

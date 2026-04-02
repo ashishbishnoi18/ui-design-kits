@@ -1,0 +1,58 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Date Display                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* Icon slot */
+
+  .dk-date_icon {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* Relative time styling */
+
+  .dk-date--relative {
+    color: var(--text-tertiary);
+  }
+
+  /* When showing "just now" or very recent */
+
+  .dk-date--recent {
+    color: var(--accent-text);
+  }
+
+  /* Long format - slightly larger */
+
+  .dk-date--long {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+  }
+
+  /* Compact inline */
+
+  .dk-date--compact {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  /* Tooltip-style hover for relative showing absolute date */
+
+  .dk-date[title] {
+    cursor: default;
+  }
+}

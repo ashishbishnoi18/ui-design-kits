@@ -1,0 +1,136 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Dropdown                                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Trigger ---------------------------------------------------------- */
+
+  .dk-dropdown_trigger {
+    cursor: pointer;
+  }
+
+  /* Menu ------------------------------------------------------------- */
+
+  .dk-dropdown_menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 180px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: var(--dk-z-dropdown);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+    padding: 4px 0;
+  }
+
+  .dk-dropdown.is-open .dk-dropdown_menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Items ------------------------------------------------------------ */
+
+  .dk-dropdown_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+  }
+
+  .dk-dropdown_item:hover,
+  .dk-dropdown_item.is-focused {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-dropdown_item:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Divider ---------------------------------------------------------- */
+
+  .dk-dropdown_divider {
+    height: 1px;
+    background: var(--border-default);
+    margin: 4px 0;
+  }
+
+  /* Header ----------------------------------------------------------- */
+
+  .dk-dropdown_header {
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+
+  /* Icon ------------------------------------------------------------- */
+
+  .dk-dropdown_icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* Shortcut hint ---------------------------------------------------- */
+
+  .dk-dropdown_shortcut {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Alignment variants                                                 */
+  /* ------------------------------------------------------------------ */
+
+  .dk-dropdown--right .dk-dropdown_menu {
+    left: auto;
+    right: 0;
+  }
+
+  .dk-dropdown--up .dk-dropdown_menu {
+    top: auto;
+    bottom: calc(100% + 4px);
+    transform: translateY(4px);
+  }
+
+  .dk-dropdown--up.is-open .dk-dropdown_menu {
+    transform: translateY(0);
+  }
+}

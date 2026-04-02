@@ -1,0 +1,198 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Command Palette                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-command-palette {
+    position: fixed;
+    inset: 0;
+    z-index: var(--dk-z-modal);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: min(20vh, 160px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dk-transition-base),
+      visibility var(--dk-transition-base);
+  }
+
+  .dk-command-palette.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Dialog ----------------------------------------------------------- */
+
+  .dk-command_dialog {
+    width: 100%;
+    max-width: 560px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.45),
+      0 4px 16px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transform: scale(0.96) translateY(-8px);
+    transition: transform var(--dk-transition-base);
+  }
+
+  .dk-command-palette.is-open .dk-command_dialog {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Search input ----------------------------------------------------- */
+
+  .dk-command_search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .dk-command_search-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+  }
+
+  .dk-command_input {
+    flex: 1;
+    border: none;
+    background: none;
+    color: var(--text-primary);
+    font-size: var(--text-base, 14px);
+    font-family: var(--font-sans);
+    outline: none;
+    line-height: 1.4;
+  }
+
+  .dk-command_input::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Results area ----------------------------------------------------- */
+
+  .dk-command_results {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 8px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-hover) transparent;
+  }
+
+  .dk-command_results:empty::after {
+    content: 'No results found';
+    display: block;
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Groups ----------------------------------------------------------- */
+
+  .dk-command_group {
+    padding: 4px 0;
+  }
+
+  .dk-command_group + .dk-command_group {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .dk-command_group-label {
+    padding: 6px 16px 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Items ------------------------------------------------------------ */
+
+  .dk-command_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 16px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    transition: background var(--dk-transition-fast);
+  }
+
+  .dk-command_item.is-active {
+    background: var(--bg-active);
+    color: var(--text-primary);
+  }
+
+  .dk-command_item:focus-visible {
+    outline: none;
+    background: var(--bg-active);
+  }
+
+  .dk-command_item-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+  }
+
+  .dk-command_item.is-active .dk-command_item-icon {
+    color: var(--text-secondary);
+  }
+
+  .dk-command_item-label {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dk-command_item-shortcut {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono, monospace);
+    flex-shrink: 0;
+  }
+
+  /* Footer ----------------------------------------------------------- */
+
+  .dk-command_footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 16px;
+    border-top: 1px solid var(--border-default);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .dk-command_footer kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    font-size: 11px;
+    font-family: var(--font-mono, monospace);
+    color: var(--text-tertiary);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: 3px;
+  }
+
+}

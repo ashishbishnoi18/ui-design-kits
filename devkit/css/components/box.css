@@ -1,0 +1,23 @@
+@layer components {
+
+  .dk-box {
+    display: block;
+  }
+
+  .dk-box-padded {
+    padding: var(--dk-space-4);
+  }
+
+  .dk-box-bordered {
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+  }
+
+  .dk-box-raised {
+    background: var(--bg-raised);
+  }
+
+  .dk-box-flush {
+    padding: 0;
+  }
+}

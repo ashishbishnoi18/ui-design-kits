@@ -1,0 +1,81 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Theme Provider — component-level scoping                           */
+  /* ------------------------------------------------------------------ */
+
+  /* Dark theme (default) --------------------------------------------- */
+
+  [data-theme="dark"],
+  .dk-theme-dark {
+    --bg-root: #050505;
+    --bg-surface: #0a0a0a;
+    --bg-raised: #111;
+    --bg-overlay: #161616;
+    --bg-active: rgba(255, 255, 255, 0.04);
+    --bg-hover: rgba(255, 255, 255, 0.03);
+
+    --text-primary: #e5e5e5;
+    --text-secondary: #999;
+    --text-tertiary: #666;
+    --text-muted: #444;
+    --text-heading: #f5f5f5;
+
+    --border-default: #1a1a1a;
+    --border-hover: #2a2a2a;
+    --border-active: #333;
+    --border-subtle: #141414;
+
+    --accent: #10b981;
+    --accent-hover: #059669;
+    --accent-text: #34d399;
+    --accent-muted: rgba(16, 185, 129, 0.12);
+  }
+
+  /* Light theme override --------------------------------------------- */
+
+  [data-theme="light"],
+  .dk-theme-light {
+    --bg-root: #ffffff;
+    --bg-surface: #fafafa;
+    --bg-raised: #f5f5f5;
+    --bg-overlay: #ebebeb;
+    --bg-active: rgba(0, 0, 0, 0.04);
+    --bg-hover: rgba(0, 0, 0, 0.02);
+
+    --text-primary: #1a1a1a;
+    --text-secondary: #525252;
+    --text-tertiary: #737373;
+    --text-muted: #a3a3a3;
+    --text-heading: #0a0a0a;
+
+    --border-default: #e5e5e5;
+    --border-hover: #d4d4d4;
+    --border-active: #a3a3a3;
+    --border-subtle: #f0f0f0;
+
+    --accent: #059669;
+    --accent-hover: #047857;
+    --accent-text: #047857;
+    --accent-muted: rgba(5, 150, 105, 0.1);
+  }
+
+  /* Component-level scoping ------------------------------------------ */
+
+  /* When a dk-theme class is placed on a component, it creates a
+     local context with its own token values. This allows mixing
+     themes within a single page. */
+
+  .dk-theme-dark,
+  .dk-theme-light {
+    color: var(--text-primary);
+    background-color: var(--bg-root);
+  }
+
+  /* Inline scoped container — does not override its own background */
+
+  .dk-theme-scope {
+    color: var(--text-primary);
+  }
+
+}

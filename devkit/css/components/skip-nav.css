@@ -1,0 +1,31 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Skip Nav (accessibility)                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-skip-nav {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .dk-skip-nav:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    background: var(--accent);
+    color: #000;
+    z-index: var(--dk-z-toast);
+    outline: none;
+    display: inline-block;
+  }
+}

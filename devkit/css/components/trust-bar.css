@@ -1,0 +1,114 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Trust Bar                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-trust-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 16px 24px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    background: var(--bg-card);
+  }
+
+  /* Item */
+
+  .dk-trust-bar_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px;
+    position: relative;
+  }
+
+  /* Dividers between items */
+
+  .dk-trust-bar_item + .dk-trust-bar_item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 24px;
+    background: var(--border-default);
+  }
+
+  /* Icon */
+
+  .dk-trust-bar_icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--accent-text);
+  }
+
+  /* Value (number) */
+
+  .dk-trust-bar_value {
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+  }
+
+  /* Label */
+
+  .dk-trust-bar_label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  /* Stars */
+
+  .dk-trust-bar_stars {
+    display: flex;
+    gap: 2px;
+    color: #f59e0b;
+  }
+
+  .dk-trust-bar_stars svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Strip variant (full width, no border)                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-trust-bar-strip {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 20px 24px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 640px) {
+    .dk-trust-bar {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .dk-trust-bar_item {
+      padding: 8px 16px;
+    }
+
+    .dk-trust-bar_item + .dk-trust-bar_item::before {
+      display: none;
+    }
+  }
+}

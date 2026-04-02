@@ -1,0 +1,58 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Loading Overlay                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(var(--bg-root-rgb, 5, 5, 5), 0.8);
+    z-index: var(--dk-z-overlay, 900);
+    border-radius: inherit;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dk-transition-base),
+      visibility var(--dk-transition-base);
+  }
+
+  .dk-loading-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Sub-elements                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-loading-overlay_spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-default);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: dk-spin 0.6s linear infinite;
+  }
+
+  .dk-loading-overlay_text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Full-page variant                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-loading-overlay--full-page {
+    position: fixed;
+    border-radius: 0;
+  }
+}

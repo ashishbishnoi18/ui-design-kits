@@ -1,0 +1,121 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Rating                                                             */
+  /* ------------------------------------------------------------------ */
+
+  .dk-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  /* Star button ------------------------------------------------------ */
+
+  .dk-rating_star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color var(--dk-transition-fast), transform var(--dk-transition-fast);
+    position: relative;
+  }
+
+  .dk-rating_star svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: fill var(--dk-transition-fast);
+  }
+
+  .dk-rating_star:hover {
+    transform: scale(1.1);
+  }
+
+  .dk-rating_star:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-radius: var(--dk-radius-sm);
+  }
+
+  /* Filled state */
+  .dk-rating_star.is-filled {
+    color: var(--accent);
+  }
+
+  /* Hover preview */
+  .dk-rating_star.is-hover {
+    color: var(--accent-text);
+  }
+
+  /* Half star — clip right half of fill */
+  .dk-rating_star.is-half {
+    color: var(--text-muted);
+  }
+
+  .dk-rating_star.is-half .dk-rating_star-fill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    clip-path: inset(0 50% 0 0);
+  }
+
+  .dk-rating_star.is-half .dk-rating_star-fill svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  /* Read-only -------------------------------------------------------- */
+
+  .dk-rating.is-readonly .dk-rating_star {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .dk-rating.is-readonly .dk-rating_star:hover {
+    transform: none;
+  }
+
+  /* Size variants ---------------------------------------------------- */
+
+  .dk-rating-sm .dk-rating_star {
+    width: 22px;
+    height: 22px;
+  }
+
+  .dk-rating-sm .dk-rating_star svg,
+  .dk-rating-sm .dk-rating_star .dk-rating_star-fill svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dk-rating-lg .dk-rating_star {
+    width: 36px;
+    height: 36px;
+  }
+
+  .dk-rating-lg .dk-rating_star svg,
+  .dk-rating-lg .dk-rating_star .dk-rating_star-fill svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Value display ---------------------------------------------------- */
+
+  .dk-rating_value {
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    margin-left: 6px;
+  }
+}

@@ -1,0 +1,117 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Splitter                                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-splitter {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .dk-splitter[data-dk-splitter="vertical"] {
+    flex-direction: column;
+  }
+
+  /* Panes ------------------------------------------------------------ */
+
+  .dk-splitter_pane {
+    overflow: auto;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_pane {
+    height: 100%;
+  }
+
+  .dk-splitter[data-dk-splitter="vertical"] > .dk-splitter_pane {
+    width: 100%;
+  }
+
+  /* Handle ----------------------------------------------------------- */
+
+  .dk-splitter_handle {
+    flex-shrink: 0;
+    position: relative;
+    background: var(--border-default);
+    transition: background var(--dk-transition-fast);
+    z-index: 1;
+  }
+
+  /* Horizontal handle (default) */
+  .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_handle {
+    width: 1px;
+    cursor: col-resize;
+    padding: 0 3px;
+    margin: 0 -3px;
+    background: transparent;
+    border-left: 1px solid var(--border-default);
+  }
+
+  /* Vertical handle */
+  .dk-splitter[data-dk-splitter="vertical"] > .dk-splitter_handle {
+    height: 1px;
+    cursor: row-resize;
+    padding: 3px 0;
+    margin: -3px 0;
+    background: transparent;
+    border-top: 1px solid var(--border-default);
+  }
+
+  /* Handle hover / active */
+  .dk-splitter_handle:hover,
+  .dk-splitter_handle.is-dragging {
+    background: var(--accent-muted);
+  }
+
+  .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_handle:hover,
+  .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_handle.is-dragging {
+    border-left-color: var(--accent);
+  }
+
+  .dk-splitter[data-dk-splitter="vertical"] > .dk-splitter_handle:hover,
+  .dk-splitter[data-dk-splitter="vertical"] > .dk-splitter_handle.is-dragging {
+    border-top-color: var(--accent);
+  }
+
+  /* Drag indicator dot */
+  .dk-splitter_handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1px;
+    background: var(--text-muted);
+    opacity: 0;
+    transition: opacity var(--dk-transition-fast);
+  }
+
+  .dk-splitter:not([data-dk-splitter="vertical"]) > .dk-splitter_handle::after {
+    width: 3px;
+    height: 24px;
+  }
+
+  .dk-splitter[data-dk-splitter="vertical"] > .dk-splitter_handle::after {
+    width: 24px;
+    height: 3px;
+  }
+
+  .dk-splitter_handle:hover::after {
+    opacity: 0.5;
+  }
+
+  /* Prevent text selection during drag */
+  .dk-splitter.is-resizing {
+    user-select: none;
+    cursor: col-resize;
+  }
+
+  .dk-splitter[data-dk-splitter="vertical"].is-resizing {
+    cursor: row-resize;
+  }
+
+}

@@ -1,0 +1,113 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Segmented Control                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-segmented,
+  .dk-segmented-control {
+    display: inline-flex;
+    align-items: stretch;
+    position: relative;
+    padding: 3px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    gap: 2px;
+  }
+
+  /* Sliding indicator (positioned absolutely, moved via JS) */
+  .dk-segmented_indicator,
+  .dk-segmented-control_indicator {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    height: calc(100% - 6px);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--dk-radius-sm);
+    transition:
+      transform var(--dk-transition-base),
+      width var(--dk-transition-base);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Individual segment items */
+  .dk-segmented_item,
+  .dk-segmented-control_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    transition: color var(--dk-transition-fast);
+    line-height: 1.5;
+    white-space: nowrap;
+    border-radius: var(--dk-radius-sm);
+  }
+
+  .dk-segmented_item:hover,
+  .dk-segmented-control_btn:hover {
+    color: var(--text-primary);
+  }
+
+  /* Active item */
+  .dk-segmented_item.is-active,
+  .dk-segmented-control_btn.is-active {
+    color: var(--text-primary);
+  }
+
+  /* Focus */
+  .dk-segmented_item:focus-visible,
+  .dk-segmented-control_btn:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Icon in segment */
+  .dk-segmented_item-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Disabled */
+  .dk-segmented.is-disabled,
+  .dk-segmented-control.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .dk-segmented_item:disabled,
+  .dk-segmented-control_btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Compact variant */
+  .dk-segmented-compact .dk-segmented_item {
+    padding: 3px 10px;
+    font-size: var(--text-xs);
+  }
+
+  /* Full-width variant */
+  .dk-segmented-full {
+    display: flex;
+    width: 100%;
+  }
+
+  .dk-segmented-full .dk-segmented_item {
+    flex: 1;
+  }
+}

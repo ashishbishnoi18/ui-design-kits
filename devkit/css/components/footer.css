@@ -1,0 +1,95 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Footer                                                             */
+  /* ------------------------------------------------------------------ */
+
+  .dk-footer {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-default);
+    padding: 48px 0 24px;
+  }
+
+  /* Grid ------------------------------------------------------------- */
+
+  .dk-footer_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  /* Column ----------------------------------------------------------- */
+
+  .dk-footer_column-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  /* Links ------------------------------------------------------------ */
+
+  .dk-footer_link {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    padding: 4px 0;
+    text-decoration: none;
+    transition: color var(--dk-transition-fast);
+    line-height: 1.5;
+  }
+
+  .dk-footer_link:hover {
+    color: var(--text-primary);
+  }
+
+  /* Bottom ----------------------------------------------------------- */
+
+  .dk-footer_bottom {
+    border-top: 1px solid var(--border-default);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .dk-footer_bottom a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-footer_bottom a:hover {
+    color: var(--text-primary);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 768px) {
+    .dk-footer_grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .dk-footer_bottom {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dk-footer_grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

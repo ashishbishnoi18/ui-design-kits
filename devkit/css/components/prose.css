@@ -1,0 +1,208 @@
+@layer components {
+
+  .dk-prose {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    line-height: 1.7;
+    max-width: 720px;
+  }
+
+  /* Vertical rhythm between children */
+  .dk-prose > * + * {
+    margin-top: 1.25em;
+  }
+
+  /* Headings */
+  .dk-prose h1,
+  .dk-prose h2,
+  .dk-prose h3,
+  .dk-prose h4,
+  .dk-prose h5,
+  .dk-prose h6 {
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .dk-prose h1 {
+    font-size: var(--text-3xl);
+    margin-top: 0;
+  }
+
+  .dk-prose h2 {
+    font-size: var(--text-2xl);
+    margin-top: 2em;
+  }
+
+  .dk-prose h3 {
+    font-size: var(--text-xl);
+    margin-top: 1.75em;
+  }
+
+  .dk-prose h4 {
+    font-size: var(--text-lg);
+    margin-top: 1.5em;
+  }
+
+  .dk-prose h5,
+  .dk-prose h6 {
+    font-size: var(--text-base);
+    margin-top: 1.5em;
+  }
+
+  /* Headings followed by content get tighter spacing */
+  .dk-prose h1 + *,
+  .dk-prose h2 + *,
+  .dk-prose h3 + *,
+  .dk-prose h4 + *,
+  .dk-prose h5 + *,
+  .dk-prose h6 + * {
+    margin-top: 0.5em;
+  }
+
+  /* Paragraphs */
+  .dk-prose p {
+    margin-top: 1.25em;
+  }
+
+  .dk-prose p:first-child {
+    margin-top: 0;
+  }
+
+  /* Lists */
+  .dk-prose ul,
+  .dk-prose ol {
+    padding-left: 1.5em;
+    margin-top: 1.25em;
+  }
+
+  .dk-prose ul {
+    list-style: disc;
+  }
+
+  .dk-prose ol {
+    list-style: decimal;
+  }
+
+  .dk-prose li {
+    margin-top: 0.5em;
+  }
+
+  .dk-prose li::marker {
+    color: var(--text-muted);
+  }
+
+  /* Links */
+  .dk-prose a {
+    color: var(--accent-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-prose a:hover {
+    color: var(--accent-hover);
+  }
+
+  /* Inline code */
+  .dk-prose code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    padding: 2px 6px;
+  }
+
+  /* Pre / code blocks */
+  .dk-prose pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: var(--dk-space-4);
+    overflow-x: auto;
+    margin-top: 1.25em;
+  }
+
+  .dk-prose pre code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
+
+  /* Blockquotes */
+  .dk-prose blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: var(--dk-space-4);
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 1.25em;
+  }
+
+  /* Horizontal rules */
+  .dk-prose hr {
+    border: none;
+    border-top: 1px solid var(--border-default);
+    margin: 2em 0;
+  }
+
+  /* Strong / em */
+  .dk-prose strong {
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  /* Images */
+  .dk-prose img {
+    border-radius: var(--dk-radius-lg);
+    margin-top: 1.25em;
+  }
+
+  /* Tables */
+  .dk-prose table {
+    width: 100%;
+    margin-top: 1.25em;
+    font-size: var(--text-sm);
+  }
+
+  .dk-prose th {
+    font-weight: 600;
+    text-align: left;
+    color: var(--text-secondary);
+    padding: var(--dk-space-2) var(--dk-space-3);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .dk-prose td {
+    padding: var(--dk-space-2) var(--dk-space-3);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Large variant */
+  .dk-prose-lg {
+    font-size: var(--text-lg);
+  }
+
+  /* Invert variant for dark backgrounds */
+  .dk-prose-invert {
+    color: var(--text-primary);
+  }
+
+  .dk-prose-invert strong {
+    color: #ffffff;
+  }
+
+  .dk-prose-invert h1,
+  .dk-prose-invert h2,
+  .dk-prose-invert h3,
+  .dk-prose-invert h4,
+  .dk-prose-invert h5,
+  .dk-prose-invert h6 {
+    color: #ffffff;
+  }
+}

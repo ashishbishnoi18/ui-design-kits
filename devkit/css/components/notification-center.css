@@ -1,0 +1,234 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Notification Center                                                */
+  /* ------------------------------------------------------------------ */
+
+  .dk-notifications {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Trigger button --------------------------------------------------- */
+
+  .dk-notifications_trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+      border-color var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+  }
+
+  .dk-notifications_trigger:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-notifications_trigger svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Badge count ------------------------------------------------------ */
+
+  .dk-notifications_badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--dk-red-500);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    border-radius: var(--dk-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .dk-notifications_badge:empty,
+  .dk-notifications_badge[data-count="0"] {
+    display: none;
+  }
+
+  /* Panel ------------------------------------------------------------ */
+
+  .dk-notifications_panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 360px;
+    max-height: 480px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: var(--dk-z-dropdown);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--dk-transition-fast),
+      visibility var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-notifications_panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Panel header ----------------------------------------------------- */
+
+  .dk-notifications_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .dk-notifications_title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0;
+  }
+
+  .dk-notifications_mark-all {
+    font-size: var(--text-xs);
+    color: var(--accent-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-notifications_mark-all:hover {
+    color: var(--accent);
+  }
+
+  /* Scrollable list -------------------------------------------------- */
+
+  .dk-notifications_list {
+    overflow-y: auto;
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Notification item ------------------------------------------------ */
+
+  .dk-notification_item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: background var(--dk-transition-fast);
+    position: relative;
+  }
+
+  .dk-notification_item:last-child {
+    border-bottom: none;
+  }
+
+  .dk-notification_item:hover {
+    background: var(--bg-active);
+  }
+
+  /* Unread indicator (dot) ------------------------------------------- */
+
+  .dk-notification_item.is-unread::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: var(--dk-radius-full);
+    background: var(--accent);
+  }
+
+  .dk-notification_item.is-unread {
+    padding-left: 20px;
+  }
+
+  /* Icon ------------------------------------------------------------- */
+
+  .dk-notification_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--dk-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .dk-notification_icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .dk-notification_icon--info    { background: rgba(59, 130, 246, 0.12); color: var(--dk-blue-400); }
+  .dk-notification_icon--warning { background: rgba(234, 179, 8, 0.12);  color: var(--dk-yellow-400); }
+  .dk-notification_icon--error   { background: rgba(239, 68, 68, 0.12);  color: var(--dk-red-400); }
+  .dk-notification_icon--success { background: var(--accent-muted);       color: var(--accent-text); }
+
+  /* Content ---------------------------------------------------------- */
+
+  .dk-notification_content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dk-notification_text {
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .dk-notification_text strong {
+    font-weight: 500;
+  }
+
+  .dk-notification_time {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+  }
+
+  /* Empty state ------------------------------------------------------ */
+
+  .dk-notifications_empty {
+    padding: 40px 16px;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+}

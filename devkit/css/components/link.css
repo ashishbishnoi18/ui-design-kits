@@ -1,0 +1,33 @@
+@layer components {
+
+  .dk-link {
+    color: var(--accent-text);
+    transition: color var(--dk-transition-fast);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .dk-link:hover {
+    text-decoration: underline;
+  }
+
+  .dk-link-muted {
+    color: var(--text-tertiary);
+  }
+
+  .dk-link-muted:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-link-external::after {
+    content: "\2197";
+    display: inline-block;
+    margin-left: 0.2em;
+    font-size: 0.85em;
+  }
+
+  .dk-link-underline {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}

@@ -1,0 +1,138 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Team Grid                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* Member card */
+
+  .dk-team-grid_member {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-team-grid_member:hover {
+    border-color: var(--border-hover);
+  }
+
+  /* Avatar */
+
+  .dk-team-grid_avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--dk-radius-full);
+    object-fit: cover;
+    border: 2px solid var(--border-default);
+    margin: 0 auto 16px;
+    display: block;
+  }
+
+  /* Name & role */
+
+  .dk-team-grid_name {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0 0 4px;
+    line-height: 1.3;
+  }
+
+  .dk-team-grid_role {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    margin: 0 0 16px;
+    line-height: 1.3;
+  }
+
+  /* Social links */
+
+  .dk-team-grid_socials {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity var(--dk-transition-fast),
+                transform var(--dk-transition-fast);
+  }
+
+  .dk-team-grid_member:hover .dk-team-grid_socials {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dk-team-grid_social {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--dk-transition-fast),
+                border-color var(--dk-transition-fast);
+  }
+
+  .dk-team-grid_social:hover {
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+
+  .dk-team-grid_social svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Bio (optional) */
+
+  .dk-team-grid_bio {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 1024px) {
+    .dk-team-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dk-team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dk-team-grid_socials {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dk-team-grid {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+  }
+}

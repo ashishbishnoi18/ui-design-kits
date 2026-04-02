@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — DevKit</title>
+  <link rel="stylesheet" href="../css/dk-all.css">
+  <style>
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 14px;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--dk-radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--dk-transition-fast);
+      text-decoration: none;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #000;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border-default);
+    }
+    .btn-outline:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+      color: var(--text-heading);
+    }
+    .btn-icon {
+      padding: 6px;
+      width: 34px;
+      height: 34px;
+    }
+    .btn-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-default);
+      gap: 16px;
+    }
+    .topbar_left {
+      flex: 1;
+      max-width: 400px;
+    }
+    .topbar_right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notification-dot {
+      position: relative;
+    }
+    .notification-dot::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--dk-red-500);
+      border-radius: 50%;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+
+    /* Chart placeholder */
+    .chart-placeholder {
+      height: 200px;
+      background: var(--bg-raised);
+      border-radius: var(--dk-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      border: 1px dashed var(--border-default);
+    }
+
+    /* Task list */
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: var(--text-sm);
+    }
+    .task-item:last-child {
+      border-bottom: none;
+    }
+    .task-item_text {
+      flex: 1;
+      color: var(--text-secondary);
+    }
+    .task-item_text.is-done {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dk-sidebar-layout">
+
+    <!-- Sidebar -->
+    <aside class="dk-sidebar">
+      <div class="dk-sidebar-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:28px; height:28px; background:var(--accent); border-radius:var(--dk-radius-sm); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:var(--text-xs); font-weight:700; color:#000;">dk</div>
+          <span style="font-family:var(--font-mono); font-weight:600; font-size:var(--text-base); color:var(--text-heading);">DevKit</span>
+        </div>
+      </div>
+
+      <nav class="dk-sidebar-nav">
+        <a href="#" class="active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          Analytics
+        </a>
+        <a href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
+          Projects
+        </a>
+        <a href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Team
+        </a>
+        <a href="settings.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+      </nav>
+
+      <div class="dk-sidebar-footer">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">JD</span></div>
+          <div>
+            <div style="font-size:var(--text-sm); font-weight:500; color:var(--text-heading);">Jane Doe</div>
+            <div style="font-size:var(--text-xs); color:var(--text-muted);">jane@company.com</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="dk-sidebar_backdrop"></div>
+
+    <!-- Main content -->
+    <main class="dk-main">
+      <div class="dk-main-content">
+
+        <!-- Top bar -->
+        <div class="topbar">
+          <div class="topbar_left">
+            <div class="dk-search dk-search--no-shortcut" data-dk-search>
+              <span class="dk-search_icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </span>
+              <input type="text" class="dk-search_input" placeholder="Search...">
+            </div>
+          </div>
+          <div class="topbar_right">
+            <button class="btn btn-icon btn-outline notification-dot" aria-label="Notifications">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+            <div class="dk-dropdown dk-dropdown--right" data-dk-dropdown>
+              <button class="dk-dropdown_trigger">
+                <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">JD</span></div>
+              </button>
+              <div class="dk-dropdown_menu">
+                <div class="dk-dropdown_header">Account</div>
+                <a href="settings.html" class="dk-dropdown_item">Profile</a>
+                <a href="settings.html" class="dk-dropdown_item">Settings</a>
+                <div class="dk-dropdown_divider"></div>
+                <a href="login.html" class="dk-dropdown_item">Sign out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page heading -->
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:var(--text-2xl);">Dashboard</h1>
+          <p style="font-size:var(--text-sm); color:var(--text-tertiary); margin-top:4px;">Welcome back, Jane. Here's what's happening today.</p>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="dk-grid dk-grid-cols-1 sm:dk-grid-cols-2 lg:dk-grid-cols-4 dk-gap-4" style="margin-bottom:24px;">
+          <div class="dk-stat-card">
+            <div class="dk-stat-card_top">
+              <div class="dk-stat-card_label">Revenue</div>
+              <div class="dk-stat-card_icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+            </div>
+            <div class="dk-stat-card_value">$48,290</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up">+12.5% from last month</span>
+          </div>
+
+          <div class="dk-stat-card">
+            <div class="dk-stat-card_top">
+              <div class="dk-stat-card_label">Users</div>
+              <div class="dk-stat-card_icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="dk-stat-card_value">2,847</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up">+8.2% from last month</span>
+          </div>
+
+          <div class="dk-stat-card">
+            <div class="dk-stat-card_top">
+              <div class="dk-stat-card_label">Projects</div>
+              <div class="dk-stat-card_icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+            </div>
+            <div class="dk-stat-card_value">142</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up">+3.1% from last month</span>
+          </div>
+
+          <div class="dk-stat-card">
+            <div class="dk-stat-card_top">
+              <div class="dk-stat-card_label">Uptime</div>
+              <div class="dk-stat-card_icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+            </div>
+            <div class="dk-stat-card_value">99.98%</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--down">-0.01% from last month</span>
+          </div>
+        </div>
+
+        <!-- Activity table -->
+        <div class="dk-card" style="margin-bottom:24px;">
+          <div class="dk-card_header">
+            <div class="dk-card_title">Recent Activity</div>
+            <a href="#" style="font-size:var(--text-xs); color:var(--accent-text);">View all</a>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="dk-table dk-table--hover">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Project</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">SL</span></div>
+                      Sarah Lin
+                    </div>
+                  </td>
+                  <td>Deployed v2.4.1</td>
+                  <td>Dashboard</td>
+                  <td><span class="dk-badge dk-badge--success dk-badge--dot">Live</span></td>
+                  <td style="color:var(--text-muted);">2 min ago</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">MK</span></div>
+                      Marcus Kim
+                    </div>
+                  </td>
+                  <td>Merged PR #847</td>
+                  <td>Auth Service</td>
+                  <td><span class="dk-badge dk-badge--success dk-badge--dot">Merged</span></td>
+                  <td style="color:var(--text-muted);">15 min ago</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+                      Aisha Johnson
+                    </div>
+                  </td>
+                  <td>Created issue #1204</td>
+                  <td>API Gateway</td>
+                  <td><span class="dk-badge dk-badge--warning dk-badge--dot">Open</span></td>
+                  <td style="color:var(--text-muted);">1 hr ago</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">RP</span></div>
+                      Raj Patel
+                    </div>
+                  </td>
+                  <td>Updated config</td>
+                  <td>Infrastructure</td>
+                  <td><span class="dk-badge dk-badge--info dk-badge--dot">In Review</span></td>
+                  <td style="color:var(--text-muted);">2 hrs ago</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">EC</span></div>
+                      Elena Cruz
+                    </div>
+                  </td>
+                  <td>Rolled back v2.3.9</td>
+                  <td>Payment Service</td>
+                  <td><span class="dk-badge dk-badge--danger dk-badge--dot">Reverted</span></td>
+                  <td style="color:var(--text-muted);">3 hrs ago</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">JD</span></div>
+                      Jane Doe
+                    </div>
+                  </td>
+                  <td>Added team member</td>
+                  <td>Dashboard</td>
+                  <td><span class="dk-badge dk-badge--success dk-badge--dot">Complete</span></td>
+                  <td style="color:var(--text-muted);">5 hrs ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Two column: chart + tasks -->
+        <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-2 dk-gap-4">
+          <!-- Chart -->
+          <div class="dk-card">
+            <div class="dk-card_header">
+              <div class="dk-card_title">Revenue Overview</div>
+              <div class="dk-badge">Last 30 days</div>
+            </div>
+            <div class="dk-card_body">
+              <div class="chart-placeholder">
+                <span>Chart visualization placeholder</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks -->
+          <div class="dk-card">
+            <div class="dk-card_header">
+              <div class="dk-card_title">Recent Tasks</div>
+              <button class="btn btn-outline" style="padding:4px 10px; font-size:var(--text-xs);">Add task</button>
+            </div>
+            <div class="dk-card_body">
+              <div class="task-item">
+                <label class="dk-checkbox">
+                  <input type="checkbox" class="dk-checkbox_input" checked>
+                  <span class="dk-checkbox_box"></span>
+                </label>
+                <span class="task-item_text is-done">Review pull request #842</span>
+                <span class="dk-badge dk-badge--sm">Done</span>
+              </div>
+              <div class="task-item">
+                <label class="dk-checkbox">
+                  <input type="checkbox" class="dk-checkbox_input" checked>
+                  <span class="dk-checkbox_box"></span>
+                </label>
+                <span class="task-item_text is-done">Update API documentation</span>
+                <span class="dk-badge dk-badge--sm">Done</span>
+              </div>
+              <div class="task-item">
+                <label class="dk-checkbox">
+                  <input type="checkbox" class="dk-checkbox_input">
+                  <span class="dk-checkbox_box"></span>
+                </label>
+                <span class="task-item_text">Deploy staging environment</span>
+                <span class="dk-badge dk-badge--sm dk-badge--warning">In Progress</span>
+              </div>
+              <div class="task-item">
+                <label class="dk-checkbox">
+                  <input type="checkbox" class="dk-checkbox_input">
+                  <span class="dk-checkbox_box"></span>
+                </label>
+                <span class="task-item_text">Write migration script</span>
+                <span class="dk-badge dk-badge--sm dk-badge--info">To Do</span>
+              </div>
+              <div class="task-item">
+                <label class="dk-checkbox">
+                  <input type="checkbox" class="dk-checkbox_input">
+                  <span class="dk-checkbox_box"></span>
+                </label>
+                <span class="task-item_text">Set up monitoring alerts</span>
+                <span class="dk-badge dk-badge--sm dk-badge--info">To Do</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <button class="dk-sidebar-toggle" aria-label="Toggle sidebar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="dk-sidebar-overlay"></div>
+
+  <script src="../js/dk-core.js"></script>
+  <script src="../js/dk-all.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

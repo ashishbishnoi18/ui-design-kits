@@ -1,0 +1,59 @@
+@layer layout {
+
+  /* ---- Responsive container ---- */
+  .dk-container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--dk-space-4);
+  }
+
+  @media (min-width: 640px) {
+    .dk-container {
+      max-width: 640px;
+      padding-inline: var(--dk-space-6);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .dk-container {
+      max-width: 768px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dk-container {
+      max-width: 1024px;
+      padding-inline: var(--dk-space-8);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .dk-container {
+      max-width: 1280px;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .dk-container {
+      max-width: 1536px;
+    }
+  }
+
+  /* ---- Fluid container ---- */
+  .dk-container-fluid {
+    width: 100%;
+    padding-inline: var(--dk-space-4);
+  }
+
+  @media (min-width: 640px) {
+    .dk-container-fluid {
+      padding-inline: var(--dk-space-6);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dk-container-fluid {
+      padding-inline: var(--dk-space-8);
+    }
+  }
+}

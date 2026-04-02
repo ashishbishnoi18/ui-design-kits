@@ -1,0 +1,111 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Testimonial Slider                                                 */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial-slider {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Track */
+
+  .dk-testimonial-slider_track {
+    display: flex;
+    transition: transform var(--dk-transition-slow);
+  }
+
+  /* Slide */
+
+  .dk-testimonial-slider_slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .dk-testimonial-slider_slide .dk-testimonial {
+    height: 100%;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Navigation arrows                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial-slider_nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    align-items: center;
+  }
+
+  .dk-testimonial-slider_prev,
+  .dk-testimonial-slider_next {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-full);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: border-color var(--dk-transition-fast),
+                color var(--dk-transition-fast);
+  }
+
+  .dk-testimonial-slider_prev:hover,
+  .dk-testimonial-slider_next:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-testimonial-slider_prev:disabled,
+  .dk-testimonial-slider_next:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .dk-testimonial-slider_prev svg,
+  .dk-testimonial-slider_next svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Dot indicators                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-testimonial-slider_dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0 12px;
+  }
+
+  .dk-testimonial-slider_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--dk-radius-full);
+    background: var(--border-default);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background var(--dk-transition-fast),
+                width var(--dk-transition-fast);
+  }
+
+  .dk-testimonial-slider_dot.is-active {
+    background: var(--accent);
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  .dk-testimonial-slider_dot:hover:not(.is-active) {
+    background: var(--border-hover);
+  }
+}

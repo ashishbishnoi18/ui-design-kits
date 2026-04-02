@@ -1,0 +1,21 @@
+{
+  "name": "devkit-ui",
+  "version": "0.1.0",
+  "description": "Developer-focused component library. Dark theme, emerald accent, zero dependencies.",
+  "main": "js/dk-all.js",
+  "style": "css/dk-all.css",
+  "files": [
+    "css/",
+    "js/",
+    "dist/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build:css": "node scripts/build-css.js",
+    "build:js": "node scripts/build-js.js",
+    "build": "npm run build:css && npm run build:js",
+    "dev": "python3 -m http.server 8080"
+  },
+  "author": "ashishbishnoi18",
+  "license": "MIT"
+}

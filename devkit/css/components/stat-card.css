@@ -1,0 +1,72 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Stat Card                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 20px;
+  }
+
+  .dk-stat-card_label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  .dk-stat-card_value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 4px 0;
+    line-height: 1.2;
+  }
+
+  .dk-stat-card_trend {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .dk-stat-card_trend--up {
+    color: var(--accent-text);
+  }
+
+  .dk-stat-card_trend--down {
+    color: var(--dk-red-400);
+  }
+
+  .dk-stat-card_icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--dk-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-muted);
+    color: var(--accent-text);
+    flex-shrink: 0;
+  }
+
+  .dk-stat-card_icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Layout helper — top row with icon + label */
+
+  .dk-stat-card_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}

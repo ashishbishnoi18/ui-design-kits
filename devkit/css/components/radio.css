@@ -1,0 +1,99 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Radio                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* Visually hidden native input */
+  .dk-radio_input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Custom circle */
+  .dk-radio_circle,
+  .dk-radio_indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-hover);
+    border-radius: 50%;
+    background: var(--bg-input);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--dk-transition-fast);
+    position: relative;
+  }
+
+  /* Inner dot via ::after */
+  .dk-radio_circle::after,
+  .dk-radio_indicator::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform var(--dk-transition-fast);
+  }
+
+  /* Checked state */
+  .dk-radio_input:checked + .dk-radio_circle,
+  .dk-radio_input:checked + .dk-radio_indicator {
+    border-color: var(--accent);
+  }
+
+  .dk-radio_input:checked + .dk-radio_circle::after,
+  .dk-radio_input:checked + .dk-radio_indicator::after {
+    transform: scale(1);
+  }
+
+  /* Label */
+  .dk-radio_label {
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    user-select: none;
+    line-height: 1.4;
+  }
+
+  /* Focus ring */
+  .dk-radio_input:focus-visible + .dk-radio_circle,
+  .dk-radio_input:focus-visible + .dk-radio_indicator {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Disabled state */
+  .dk-radio_input:disabled + .dk-radio_circle,
+  .dk-radio_input:disabled + .dk-radio_indicator {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .dk-radio_input:disabled ~ .dk-radio_label {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .dk-radio:has(.dk-radio_input:disabled) {
+    cursor: not-allowed;
+  }
+}

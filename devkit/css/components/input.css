@@ -1,0 +1,212 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Label                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .dk-label--required::after {
+    content: " *";
+    color: var(--dk-red-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Input                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-input {
+    display: block;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 7px 12px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+    line-height: 1.5;
+  }
+
+  .dk-input:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-input--sm {
+    padding: 5px 10px;
+    font-size: var(--text-xs);
+  }
+
+  .dk-input--lg {
+    padding: 9px 14px;
+    font-size: var(--text-base);
+  }
+
+  .dk-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Textarea                                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-textarea {
+    display: block;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 7px 12px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+    line-height: 1.5;
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .dk-textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-textarea:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Field (form group wrapper)                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-field {
+    margin-bottom: 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Input group (prefix / suffix)                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-input-group {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .dk-input-group .dk-input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .dk-input-group .dk-input:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .dk-input-group .dk-input:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .dk-input-group_prefix,
+  .dk-input-group_suffix {
+    display: flex;
+    align-items: center;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    padding: 7px 12px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    line-height: 1.5;
+  }
+
+  .dk-input-group_prefix {
+    border-right: none;
+    border-radius: var(--dk-radius-md) 0 0 var(--dk-radius-md);
+  }
+
+  .dk-input-group_suffix {
+    border-left: none;
+    border-radius: 0 var(--dk-radius-md) var(--dk-radius-md) 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Help text & Error text                                             */
+  /* ------------------------------------------------------------------ */
+
+  .dk-help-text {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .dk-error-text {
+    font-size: var(--text-xs);
+    color: var(--dk-red-500);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Fieldset & Legend                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-fieldset {
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 16px 20px;
+    margin: 0;
+  }
+
+  .dk-fieldset_legend {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    padding: 0 8px;
+    color: var(--text-primary);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Validation states                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-input.is-invalid,
+  .is-invalid .dk-input,
+  .dk-textarea.is-invalid,
+  .is-invalid .dk-textarea {
+    border-color: var(--dk-red-500);
+  }
+
+  .dk-input.is-invalid:focus,
+  .is-invalid .dk-input:focus,
+  .dk-textarea.is-invalid:focus,
+  .is-invalid .dk-textarea:focus {
+    border-color: var(--dk-red-500);
+  }
+
+  .dk-input.is-valid,
+  .is-valid .dk-input,
+  .dk-textarea.is-valid,
+  .is-valid .dk-textarea {
+    border-color: var(--accent);
+  }
+}

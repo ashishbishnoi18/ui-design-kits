@@ -1,0 +1,142 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Countdown                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Unit block */
+
+  .dk-countdown_unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dk-countdown_value {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .dk-countdown_label {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* Separator */
+
+  .dk-countdown_sep {
+    font-family: var(--font-mono);
+    font-size: var(--text-xl);
+    color: var(--text-tertiary);
+    font-weight: 700;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Card variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-countdown-card .dk-countdown_unit {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 16px 20px;
+    min-width: 72px;
+  }
+
+  .dk-countdown-card .dk-countdown_value {
+    font-size: var(--text-3xl);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Compact / inline variant                                           */
+  /* ------------------------------------------------------------------ */
+
+  .dk-countdown-compact {
+    gap: 4px;
+  }
+
+  .dk-countdown-compact .dk-countdown_unit {
+    flex-direction: row;
+    gap: 3px;
+  }
+
+  .dk-countdown-compact .dk-countdown_value {
+    font-size: var(--text-base);
+  }
+
+  .dk-countdown-compact .dk-countdown_label {
+    font-size: var(--text-xs);
+    text-transform: lowercase;
+  }
+
+  .dk-countdown-compact .dk-countdown_sep {
+    font-size: var(--text-base);
+    margin-top: 0;
+    align-self: center;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accent variant                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-countdown-accent .dk-countdown_value {
+    color: var(--accent-text);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Expired state                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-countdown.is-expired .dk-countdown_value {
+    color: var(--text-tertiary);
+  }
+
+  .dk-countdown_expired {
+    display: none;
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  .dk-countdown.is-expired .dk-countdown_expired {
+    display: block;
+  }
+
+  .dk-countdown.is-expired .dk-countdown_unit,
+  .dk-countdown.is-expired .dk-countdown_sep {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 480px) {
+    .dk-countdown-card .dk-countdown_unit {
+      padding: 12px 14px;
+      min-width: 56px;
+    }
+
+    .dk-countdown-card .dk-countdown_value {
+      font-size: var(--text-2xl);
+    }
+  }
+}

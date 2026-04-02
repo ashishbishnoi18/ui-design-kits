@@ -1,0 +1,119 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Stepper                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-stepper {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Step ------------------------------------------------------------- */
+
+  .dk-stepper_step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Indicator -------------------------------------------------------- */
+
+  .dk-stepper_indicator {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition:
+      background var(--dk-transition-fast),
+      border-color var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+  }
+
+  /* Active step */
+  .dk-stepper_step.is-active .dk-stepper_indicator {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+
+  /* Complete step */
+  .dk-stepper_step.is-complete .dk-stepper_indicator {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  /* Checkmark for completed steps */
+  .dk-stepper_step.is-complete .dk-stepper_indicator::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 5px;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  /* Hide step number text when complete */
+  .dk-stepper_step.is-complete .dk-stepper_indicator-text {
+    display: none;
+  }
+
+  /* Label ------------------------------------------------------------ */
+
+  .dk-stepper_label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-stepper_step.is-active .dk-stepper_label {
+    color: var(--text-primary);
+  }
+
+  .dk-stepper_step.is-complete .dk-stepper_label {
+    color: var(--text-secondary);
+  }
+
+  /* Connector -------------------------------------------------------- */
+
+  .dk-stepper_connector {
+    flex: 1;
+    height: 1px;
+    background: var(--border-default);
+    margin: 0 8px;
+    min-width: 24px;
+    transition: background var(--dk-transition-fast);
+  }
+
+  .dk-stepper_step.is-complete + .dk-stepper_connector {
+    background: var(--accent);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Variant: vertical                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-stepper--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dk-stepper--vertical .dk-stepper_connector {
+    width: 1px;
+    height: 24px;
+    margin: 4px 0 4px 13px; /* center under 28px indicator */
+    min-width: 0;
+    flex: none;
+  }
+}

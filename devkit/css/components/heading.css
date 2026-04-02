@@ -1,0 +1,44 @@
+@layer components {
+
+  .dk-heading {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .dk-heading-1 {
+    font-size: var(--text-3xl);
+  }
+
+  .dk-heading-2 {
+    font-size: var(--text-2xl);
+  }
+
+  .dk-heading-3 {
+    font-size: var(--text-xl);
+  }
+
+  .dk-heading-4 {
+    font-size: var(--text-lg);
+  }
+
+  .dk-heading-5 {
+    font-size: var(--text-base);
+  }
+
+  .dk-heading-6 {
+    font-size: var(--text-sm);
+  }
+
+  .dk-heading-mono {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+  }
+}

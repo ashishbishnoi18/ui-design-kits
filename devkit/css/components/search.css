@@ -1,0 +1,114 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Search input                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-search {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  /* Search icon (left) */
+  .dk-search_icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dk-search_icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Input with space for icon, clear button, and shortcut badge */
+  .dk-search_input {
+    display: block;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 7px 80px 7px 36px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+    line-height: 1.5;
+  }
+
+  .dk-search_input:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-search_input::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Clear button */
+  .dk-search_clear {
+    position: absolute;
+    right: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 2px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: var(--text-sm);
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-search_clear:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-search_clear.is-visible {
+    display: flex;
+  }
+
+  .dk-search_clear svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Keyboard shortcut badge */
+  .dk-search_shortcut {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--text-muted);
+    pointer-events: none;
+    line-height: 1.4;
+  }
+
+  /* Without shortcut badge, adjust clear position */
+  .dk-search--no-shortcut .dk-search_clear {
+    right: 12px;
+  }
+
+  .dk-search--no-shortcut .dk-search_input {
+    padding-right: 40px;
+  }
+}

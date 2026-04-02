@@ -1,0 +1,96 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Callout                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-callout {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Sub-elements                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-callout_icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .dk-callout_content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dk-callout_title {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--text-heading);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Color variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  /* Info */
+  .dk-callout--info {
+    background: rgba(59, 130, 246, 0.06);
+    border-color: rgba(59, 130, 246, 0.15);
+  }
+
+  .dk-callout--info .dk-callout_icon {
+    color: #3b82f6;
+  }
+
+  /* Success */
+  .dk-callout--success {
+    background: var(--accent-muted, rgba(16, 185, 129, 0.06));
+    border-color: rgba(16, 185, 129, 0.15);
+  }
+
+  .dk-callout--success .dk-callout_icon {
+    color: var(--accent);
+  }
+
+  /* Warning */
+  .dk-callout--warning {
+    background: rgba(234, 179, 8, 0.06);
+    border-color: rgba(234, 179, 8, 0.15);
+  }
+
+  .dk-callout--warning .dk-callout_icon {
+    color: #eab308;
+  }
+
+  /* Danger */
+  .dk-callout--danger {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: rgba(239, 68, 68, 0.15);
+  }
+
+  .dk-callout--danger .dk-callout_icon {
+    color: #ef4444;
+  }
+
+  /* Accent */
+  .dk-callout--accent {
+    background: var(--accent-muted, rgba(16, 185, 129, 0.06));
+    border-color: rgba(16, 185, 129, 0.15);
+  }
+
+  .dk-callout--accent .dk-callout_icon {
+    color: var(--accent);
+  }
+}

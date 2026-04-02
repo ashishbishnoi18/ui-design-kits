@@ -1,0 +1,36 @@
+@layer tokens {
+
+  [data-theme="light"] {
+
+    /* Backgrounds */
+    --bg-root:       #fafafa;
+    --bg-surface:    #ffffff;
+    --bg-raised:     #f4f4f5;
+    --bg-overlay:    #e4e4e7;
+    --bg-card:       #ffffff;
+    --bg-card-hover: #f9f9fa;
+    --bg-code:       #f4f4f5;
+    --bg-input:      #ffffff;
+    --bg-active:     rgba(0, 0, 0, 0.04);
+    --bg-hover:      rgba(0, 0, 0, 0.03);
+
+    /* Text */
+    --text-primary:   #18181b;
+    --text-secondary: #52525b;
+    --text-tertiary:  #71717a;
+    --text-muted:     #a1a1aa;
+    --text-heading:   #09090b;
+
+    /* Borders */
+    --border-default: #e4e4e7;
+    --border-subtle:  #f0f0f2;
+    --border-hover:   #d4d4d8;
+    --border-active:  #a1a1aa;
+
+    /* Accent */
+    --accent:       #059669;
+    --accent-hover: #047857;
+    --accent-muted: rgba(5, 150, 105, 0.08);
+    --accent-text:  #059669;
+  }
+}

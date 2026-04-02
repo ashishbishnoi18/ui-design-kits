@@ -1,0 +1,107 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  CTA Section                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-cta {
+    width: 100%;
+    padding: 64px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .dk-cta_inner {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dk-cta_title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0 0 16px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .dk-cta_desc {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .dk-cta_actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Glow variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-cta-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Card variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-cta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 48px 32px;
+    border-top: none;
+    border-bottom: none;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accent border variant                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-cta-accent {
+    border-top: 2px solid var(--accent);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 640px) {
+    .dk-cta {
+      padding: 48px 16px;
+    }
+
+    .dk-cta_title {
+      font-size: var(--text-2xl);
+    }
+
+    .dk-cta_actions {
+      flex-direction: column;
+    }
+  }
+}

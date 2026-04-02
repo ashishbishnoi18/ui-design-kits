@@ -1,0 +1,143 @@
+@layer utilities {
+
+  /* ---- Display ---- */
+  .dk-block       { display: block; }
+  .dk-flex        { display: flex; }
+  .dk-grid        { display: grid; }
+  .dk-hidden      { display: none; }
+  .dk-inline-flex { display: inline-flex; }
+  .dk-inline      { display: inline; }
+  .dk-inline-block { display: inline-block; }
+
+  /* ---- Flex direction ---- */
+  .dk-flex-row { flex-direction: row; }
+  .dk-flex-col { flex-direction: column; }
+
+  /* ---- Flex wrap ---- */
+  .dk-flex-wrap   { flex-wrap: wrap; }
+  .dk-flex-nowrap { flex-wrap: nowrap; }
+
+  /* ---- Flex grow / shrink ---- */
+  .dk-flex-1    { flex: 1 1 0%; }
+  .dk-flex-auto { flex: 1 1 auto; }
+  .dk-flex-none { flex: none; }
+
+  /* ---- Align items ---- */
+  .dk-items-start    { align-items: flex-start; }
+  .dk-items-center   { align-items: center; }
+  .dk-items-end      { align-items: flex-end; }
+  .dk-items-stretch  { align-items: stretch; }
+  .dk-items-baseline { align-items: baseline; }
+
+  /* ---- Justify content ---- */
+  .dk-justify-start   { justify-content: flex-start; }
+  .dk-justify-center  { justify-content: center; }
+  .dk-justify-end     { justify-content: flex-end; }
+  .dk-justify-between { justify-content: space-between; }
+  .dk-justify-around  { justify-content: space-around; }
+  .dk-justify-evenly  { justify-content: space-evenly; }
+
+  /* ---- Text alignment ---- */
+  .dk-text-left   { text-align: left; }
+  .dk-text-center { text-align: center; }
+  .dk-text-right  { text-align: right; }
+
+  /* ---- Font family ---- */
+  .dk-font-sans { font-family: var(--font-sans); }
+  .dk-font-mono { font-family: var(--font-mono); }
+
+  /* ---- Font weight ---- */
+  .dk-font-normal   { font-weight: 400; }
+  .dk-font-medium   { font-weight: 500; }
+  .dk-font-semibold { font-weight: 600; }
+  .dk-font-bold     { font-weight: 700; }
+
+  /* ---- Font size ---- */
+  .dk-text-xs   { font-size: var(--text-xs); }
+  .dk-text-sm   { font-size: var(--text-sm); }
+  .dk-text-base { font-size: var(--text-base); }
+  .dk-text-lg   { font-size: var(--text-lg); }
+  .dk-text-xl   { font-size: var(--text-xl); }
+  .dk-text-2xl  { font-size: var(--text-2xl); }
+  .dk-text-3xl  { font-size: var(--text-3xl); }
+
+  /* ---- Size ---- */
+  .dk-w-full  { width: 100%; }
+  .dk-h-full  { height: 100%; }
+  .dk-w-auto  { width: auto; }
+  .dk-h-auto  { height: auto; }
+  .dk-min-h-screen { min-height: 100vh; min-height: 100dvh; }
+
+  /* ---- Spacing ---- */
+  .dk-m-auto  { margin: auto; }
+  .dk-mx-auto { margin-inline: auto; }
+  .dk-my-auto { margin-block: auto; }
+
+  /* ---- Overflow ---- */
+  .dk-overflow-hidden  { overflow: hidden; }
+  .dk-overflow-auto    { overflow: auto; }
+  .dk-overflow-x-auto  { overflow-x: auto; }
+  .dk-overflow-y-auto  { overflow-y: auto; }
+
+  /* ---- Position ---- */
+  .dk-relative { position: relative; }
+  .dk-absolute { position: absolute; }
+  .dk-fixed    { position: fixed; }
+  .dk-sticky   { position: sticky; }
+
+  /* ---- Screen-reader only ---- */
+  .dk-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---- Responsive hidden ---- */
+  @media (max-width: 639px) {
+    .dk-hidden-sm { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    .dk-hidden-md { display: none; }
+  }
+
+  @media (max-width: 1023px) {
+    .dk-hidden-lg { display: none; }
+  }
+
+  /* ---- Color utilities ---- */
+  .dk-text-primary   { color: var(--text-primary); }
+  .dk-text-secondary { color: var(--text-secondary); }
+  .dk-text-tertiary  { color: var(--text-tertiary); }
+  .dk-text-muted     { color: var(--text-muted); }
+  .dk-text-heading   { color: var(--text-heading); }
+  .dk-text-accent    { color: var(--accent-text); }
+
+  /* ---- Truncate ---- */
+  .dk-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ---- Line clamp ---- */
+  .dk-line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .dk-line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,102 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Chat Message                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-chat-message {
+    display: flex;
+    gap: 10px;
+    max-width: 75%;
+    padding: 2px 0;
+  }
+
+  /* Avatar ----------------------------------------------------------- */
+
+  .dk-chat-message_avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--dk-radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+
+  /* Bubble ----------------------------------------------------------- */
+
+  .dk-chat-message_bubble {
+    padding: 10px 14px;
+    border-radius: var(--dk-radius-lg);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+
+  /* Timestamp -------------------------------------------------------- */
+
+  .dk-chat-message_time {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+    padding: 0 2px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Received (left-aligned, surface bg)                                */
+  /* ------------------------------------------------------------------ */
+
+  .dk-chat-message-received {
+    align-self: flex-start;
+  }
+
+  .dk-chat-message-received .dk-chat-message_bubble {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-bottom-left-radius: var(--dk-radius-sm);
+  }
+
+  .dk-chat-message-received .dk-chat-message_time {
+    text-align: left;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Sent (right-aligned, accent bg)                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-chat-message-sent {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .dk-chat-message-sent .dk-chat-message_bubble {
+    background: var(--accent);
+    color: #000;
+    border-bottom-right-radius: var(--dk-radius-sm);
+  }
+
+  .dk-chat-message-sent .dk-chat-message_time {
+    text-align: right;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Grouped — consecutive messages from same sender                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-chat-message.is-grouped {
+    padding-top: 0;
+  }
+
+  .dk-chat-message.is-grouped .dk-chat-message_avatar {
+    visibility: hidden;
+  }
+
+  .dk-chat-message-received.is-grouped .dk-chat-message_bubble {
+    border-top-left-radius: var(--dk-radius-sm);
+  }
+
+  .dk-chat-message-sent.is-grouped .dk-chat-message_bubble {
+    border-top-right-radius: var(--dk-radius-sm);
+  }
+}

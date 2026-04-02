@@ -1,0 +1,89 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Status Indicator                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1;
+  }
+
+  /* Dot */
+
+  .dk-status::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status states                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-status--online::before {
+    background: var(--accent);
+  }
+
+  .dk-status--offline::before {
+    background: var(--text-muted);
+  }
+
+  .dk-status--busy::before {
+    background: var(--dk-red-500);
+  }
+
+  .dk-status--away::before {
+    background: var(--dk-yellow-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Pulse animation                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-status--pulse::before {
+    animation: dk-status-pulse 2s infinite;
+  }
+
+  @keyframes dk-status-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-status--sm {
+    font-size: var(--text-xs);
+    gap: 4px;
+  }
+
+  .dk-status--sm::before {
+    width: 6px;
+    height: 6px;
+  }
+
+  .dk-status--lg::before {
+    width: 10px;
+    height: 10px;
+  }
+}

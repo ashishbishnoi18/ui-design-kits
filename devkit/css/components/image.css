@@ -1,0 +1,105 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Image                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--dk-radius-md);
+    background: var(--bg-raised);
+    display: block;
+  }
+
+  .dk-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Aspect ratios                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-image--16x9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  .dk-image--4x3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .dk-image--1x1 {
+    aspect-ratio: 1;
+  }
+
+  .dk-image--21x9 {
+    aspect-ratio: 21 / 9;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Shape variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-image-rounded {
+    border-radius: var(--dk-radius-lg);
+  }
+
+  .dk-image-circle {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Skeleton loading placeholder                                       */
+  /* ------------------------------------------------------------------ */
+
+  @keyframes dk-image-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .dk-image.is-loading {
+    background: linear-gradient(
+      90deg,
+      var(--bg-raised) 25%,
+      var(--border-default) 37%,
+      var(--bg-raised) 63%
+    );
+    background-size: 200% 100%;
+    animation: dk-image-shimmer 1.8s ease infinite;
+    min-height: 120px;
+  }
+
+  .dk-image.is-loading img {
+    opacity: 0;
+  }
+
+  /* When image loads, fade in */
+
+  .dk-image img {
+    transition: opacity var(--dk-transition-base);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Caption                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-image_caption {
+    padding: 8px 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Border variant                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-image--bordered {
+    border: 1px solid var(--border-default);
+  }
+}

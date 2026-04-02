@@ -1,0 +1,91 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Data Table — extends .dk-table with sort + filter controls         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-data-table .dk-table th {
+    position: relative;
+  }
+
+  /* Sort button inside th */
+
+  .dk-data-table_sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    transition: color var(--dk-transition-fast);
+    white-space: nowrap;
+  }
+
+  .dk-data-table_sort-btn:hover {
+    color: var(--text-secondary);
+  }
+
+  /* Sort arrow indicator */
+
+  .dk-data-table_sort-btn::after {
+    content: '\2195';  /* up-down arrow */
+    font-size: 10px;
+    opacity: 0.4;
+    transition: opacity var(--dk-transition-fast);
+  }
+
+  .dk-data-table_sort-btn[aria-sort="ascending"]::after {
+    content: '\2191';  /* up arrow */
+    opacity: 1;
+    color: var(--accent-text);
+  }
+
+  .dk-data-table_sort-btn[aria-sort="descending"]::after {
+    content: '\2193';  /* down arrow */
+    opacity: 1;
+    color: var(--accent-text);
+  }
+
+  /* Filter input */
+
+  .dk-data-table_filter {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    padding: 6px 12px;
+    margin-bottom: var(--dk-space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    outline: none;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-data-table_filter::placeholder {
+    color: var(--text-muted);
+  }
+
+  .dk-data-table_filter:focus {
+    border-color: var(--border-hover);
+  }
+
+  /* Empty state row shown when filter yields no results */
+
+  .dk-data-table_empty-row td {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+}

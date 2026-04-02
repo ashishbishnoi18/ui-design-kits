@@ -1,0 +1,174 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Toast Container                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toast-container {
+    position: fixed;
+    z-index: var(--dk-z-toast, 1200);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  /* Position variants */
+
+  .dk-toast-container--top-right {
+    top: 16px;
+    right: 16px;
+  }
+
+  .dk-toast-container--top-center {
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dk-toast-container--top-left {
+    top: 16px;
+    left: 16px;
+  }
+
+  .dk-toast-container--bottom-right {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .dk-toast-container--bottom-center {
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dk-toast-container--bottom-left {
+    bottom: 16px;
+    left: 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Toast                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    padding: 12px 16px;
+    min-width: 300px;
+    max-width: 420px;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.15),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+    animation: dk-toast-slideIn 0.2s ease-out;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Sub-elements                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toast_icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+  }
+
+  .dk-toast_content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dk-toast_title {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--text-heading);
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+
+  .dk-toast_message {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .dk-toast_close {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 1px;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-toast_close:hover {
+    color: var(--text-secondary);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status variants                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toast--success .dk-toast_icon {
+    color: var(--accent);
+  }
+
+  .dk-toast--danger .dk-toast_icon {
+    color: #ef4444;
+  }
+
+  .dk-toast--warning .dk-toast_icon {
+    color: #eab308;
+  }
+
+  .dk-toast--info .dk-toast_icon {
+    color: #3b82f6;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Exit animation                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-toast.is-exiting {
+    animation: dk-toast-slideOut 0.2s ease-in forwards;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Keyframes                                                          */
+  /* ------------------------------------------------------------------ */
+
+  @keyframes dk-toast-slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes dk-toast-slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+}

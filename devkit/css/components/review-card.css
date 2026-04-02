@@ -1,0 +1,134 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Review Card                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-review-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 24px;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-review-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  /* Stars */
+
+  .dk-review-card_stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 14px;
+  }
+
+  .dk-review-card_star {
+    width: 16px;
+    height: 16px;
+    color: #f59e0b;
+    fill: currentColor;
+  }
+
+  .dk-review-card_star.is-empty {
+    color: var(--border-default);
+  }
+
+  .dk-review-card_star.is-half {
+    color: #f59e0b;
+    position: relative;
+  }
+
+  /* Review text */
+
+  .dk-review-card_title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+
+  .dk-review-card_text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+
+  /* Author */
+
+  .dk-review-card_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .dk-review-card_author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dk-review-card_avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--dk-radius-full);
+    object-fit: cover;
+    border: 1px solid var(--border-default);
+    flex-shrink: 0;
+  }
+
+  .dk-review-card_name {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .dk-review-card_date {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  /* Verified badge */
+
+  .dk-review-card_verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--text-xs);
+    color: var(--accent-text);
+    font-weight: 500;
+  }
+
+  .dk-review-card_verified svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Grid for multiple reviews                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .dk-review-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dk-review-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

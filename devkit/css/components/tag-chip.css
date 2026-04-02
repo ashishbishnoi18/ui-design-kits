@@ -1,0 +1,153 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Tag / Chip                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag,
+  .dk-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border-default);
+    background: var(--bg-raised);
+    color: var(--text-secondary);
+    line-height: 1.4;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Outline variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag-outline {
+    background: transparent;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Solid variant                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag-solid {
+    background: var(--text-muted);
+    border-color: transparent;
+    color: var(--bg-root);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status colors                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag-success {
+    background: var(--accent-muted);
+    color: var(--accent-text);
+    border-color: transparent;
+  }
+
+  .dk-tag-warning {
+    background: rgba(234, 179, 8, 0.12);
+    color: #fbbf24;
+    border-color: transparent;
+  }
+
+  .dk-tag-danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border-color: transparent;
+  }
+
+  .dk-tag-info {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border-color: transparent;
+  }
+
+  /* Outline + color combos */
+
+  .dk-tag-outline.dk-tag-success {
+    background: transparent;
+    border-color: var(--accent-text);
+    color: var(--accent-text);
+  }
+
+  .dk-tag-outline.dk-tag-warning {
+    background: transparent;
+    border-color: #fbbf24;
+    color: #fbbf24;
+  }
+
+  .dk-tag-outline.dk-tag-danger {
+    background: transparent;
+    border-color: #f87171;
+    color: #f87171;
+  }
+
+  .dk-tag-outline.dk-tag-info {
+    background: transparent;
+    border-color: #60a5fa;
+    color: #60a5fa;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag-sm {
+    padding: 2px 6px;
+    font-size: 9px;
+    gap: 3px;
+  }
+
+  .dk-tag-lg {
+    padding: 5px 14px;
+    font-size: var(--text-sm);
+    gap: 6px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Remove button                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tag_remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: currentColor;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity var(--dk-transition-fast);
+    padding: 0;
+    margin-left: 2px;
+    margin-right: -4px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .dk-tag_remove:hover {
+    opacity: 1;
+  }
+
+  .dk-tag-lg .dk-tag_remove {
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+  }
+
+  .dk-tag-sm .dk-tag_remove {
+    width: 12px;
+    height: 12px;
+    font-size: 10px;
+    margin-right: -2px;
+  }
+}

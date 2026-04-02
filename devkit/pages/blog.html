@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — DevKit</title>
+  <link rel="stylesheet" href="../css/dk-all.css">
+  <style>
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 20px;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--dk-radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--dk-transition-fast);
+      text-decoration: none;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      color: #000;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border-default);
+    }
+    .btn-outline:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+    }
+    .btn-sm {
+      padding: 5px 14px;
+      font-size: var(--text-xs);
+    }
+
+    /* Blog layout */
+    .blog-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 48px;
+    }
+    @media (max-width: 768px) {
+      .blog-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 32px 16px;
+      }
+    }
+
+    /* Blog header */
+    .blog-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px 0;
+    }
+    @media (max-width: 768px) {
+      .blog-header {
+        padding: 32px 16px 0;
+      }
+    }
+
+    /* Blog card */
+    .blog-card_img {
+      width: 100%;
+      height: 180px;
+      background: var(--bg-raised);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+    }
+    .blog-card_content {
+      padding: 20px;
+    }
+    .blog-card_title {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-heading);
+      line-height: 1.4;
+      margin: 8px 0;
+    }
+    .blog-card_title:hover {
+      color: var(--accent-text);
+    }
+    .blog-card_excerpt {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .blog-card_meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
+    /* Sidebar widgets */
+    .sidebar-widget {
+      margin-bottom: 32px;
+    }
+    .sidebar-widget_title {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .category-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      transition: color var(--dk-transition-fast);
+    }
+    .category-link:hover {
+      color: var(--text-primary);
+    }
+    .category-count {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
+    .popular-post {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .popular-post:last-child {
+      border-bottom: none;
+    }
+    .popular-post_num {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--border-hover);
+      line-height: 1;
+      min-width: 28px;
+    }
+    .popular-post_title {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .popular-post_title:hover {
+      color: var(--text-heading);
+    }
+    .popular-post_date {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="dk-navbar" data-dk-navbar>
+    <div class="dk-navbar_brand">
+      <div class="dk-navbar_brand-icon">dk</div>
+      <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
+    </div>
+    <div class="dk-navbar_nav">
+      <a href="landing.html" class="dk-navbar_link">Home</a>
+      <a href="docs.html" class="dk-navbar_link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link">Blog</a>
+    </div>
+    <div class="dk-navbar_actions">
+      <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
+    </div>
+    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+      <span class="dk-navbar_mobile-toggle-icon"></span>
+    </button>
+  </nav>
+
+  <!-- Blog header -->
+  <div class="blog-header">
+    <h1 style="font-size:var(--text-3xl);">Blog</h1>
+    <p style="margin-top:8px; max-width:560px;">Insights on UI development, component design, and building better developer tools.</p>
+  </div>
+
+  <!-- Blog layout -->
+  <div class="blog-layout">
+
+    <!-- Main: Blog cards -->
+    <div>
+      <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-2 dk-gap-6">
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--success dk-badge--sm">Engineering</span>
+            <div class="blog-card_title">Building a Zero-Dependency UI Library</div>
+            <p class="blog-card_excerpt">How we built DevKit without pulling in a single npm package. The constraints that shaped our architecture.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">SL</span></div>
+              <span>Sarah Lin</span>
+              <span>Mar 28, 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--info dk-badge--sm">Design</span>
+            <div class="blog-card_title">Why Dark-First Design Makes Sense for Dev Tools</div>
+            <p class="blog-card_excerpt">Developers spend hours staring at screens. Here's why we chose dark as the default and how it influenced every decision.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+              <span>Aisha Johnson</span>
+              <span>Mar 22, 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--sm">Tutorial</span>
+            <div class="blog-card_title">Building a Dashboard in 30 Minutes with DevKit</div>
+            <p class="blog-card_excerpt">A step-by-step guide to creating a production-ready analytics dashboard using DevKit's component library.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">MK</span></div>
+              <span>Marcus Kim</span>
+              <span>Mar 15, 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--warning dk-badge--sm">Release</span>
+            <div class="blog-card_title">DevKit v0.1.0: The First Public Release</div>
+            <p class="blog-card_excerpt">156 components, 12 sample pages, zero dependencies. What's included and what's coming next.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">RP</span></div>
+              <span>Raj Patel</span>
+              <span>Mar 10, 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--success dk-badge--sm">Engineering</span>
+            <div class="blog-card_title">CSS Layers: The Architecture Behind DevKit</div>
+            <p class="blog-card_excerpt">How we use @layer to manage specificity across tokens, base styles, layouts, and components without conflicts.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">EC</span></div>
+              <span>Elena Cruz</span>
+              <span>Mar 5, 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="blog-post.html" class="dk-card dk-card--hover" style="text-decoration:none;">
+          <div class="blog-card_img">1200 x 630</div>
+          <div class="blog-card_content">
+            <span class="dk-badge dk-badge--info dk-badge--sm">Design</span>
+            <div class="blog-card_title">Designing Accessible Components That Look Good</div>
+            <p class="blog-card_excerpt">Accessibility should never be an afterthought. How we bake a11y into every component without compromising aesthetics.</p>
+            <div class="blog-card_meta">
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+              <span>Aisha Johnson</span>
+              <span>Feb 28, 2026</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="margin-top:40px; display:flex; justify-content:center;">
+        <nav class="dk-pagination">
+          <button class="dk-pagination_prev" disabled>&laquo;</button>
+          <a href="#" class="dk-pagination_item is-active">1</a>
+          <a href="#" class="dk-pagination_item">2</a>
+          <a href="#" class="dk-pagination_item">3</a>
+          <span class="dk-pagination_ellipsis">&hellip;</span>
+          <a href="#" class="dk-pagination_item">8</a>
+          <button class="dk-pagination_next">&raquo;</button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside>
+      <!-- Categories -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget_title">Categories</div>
+        <a href="#" class="category-link">
+          <span>Engineering</span>
+          <span class="category-count">12</span>
+        </a>
+        <a href="#" class="category-link">
+          <span>Design</span>
+          <span class="category-count">8</span>
+        </a>
+        <a href="#" class="category-link">
+          <span>Tutorial</span>
+          <span class="category-count">15</span>
+        </a>
+        <a href="#" class="category-link">
+          <span>Release</span>
+          <span class="category-count">6</span>
+        </a>
+        <a href="#" class="category-link">
+          <span>Case Study</span>
+          <span class="category-count">4</span>
+        </a>
+      </div>
+
+      <!-- Popular posts -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget_title">Popular Posts</div>
+
+        <div class="popular-post">
+          <div class="popular-post_num">01</div>
+          <div>
+            <a href="blog-post.html" class="popular-post_title">Building a Zero-Dependency UI Library</a>
+            <div class="popular-post_date">Mar 28, 2026</div>
+          </div>
+        </div>
+
+        <div class="popular-post">
+          <div class="popular-post_num">02</div>
+          <div>
+            <a href="blog-post.html" class="popular-post_title">CSS Layers: The Architecture Behind DevKit</a>
+            <div class="popular-post_date">Mar 5, 2026</div>
+          </div>
+        </div>
+
+        <div class="popular-post">
+          <div class="popular-post_num">03</div>
+          <div>
+            <a href="blog-post.html" class="popular-post_title">Why Dark-First Design Makes Sense</a>
+            <div class="popular-post_date">Mar 22, 2026</div>
+          </div>
+        </div>
+
+        <div class="popular-post">
+          <div class="popular-post_num">04</div>
+          <div>
+            <a href="blog-post.html" class="popular-post_title">DevKit v0.1.0: First Public Release</a>
+            <div class="popular-post_date">Mar 10, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="sidebar-widget">
+        <div class="dk-card">
+          <div class="dk-card_body">
+            <div class="sidebar-widget_title">Newsletter</div>
+            <p style="font-size:var(--text-sm); color:var(--text-tertiary); margin-bottom:12px;">Get the latest posts delivered to your inbox.</p>
+            <form onsubmit="return false;">
+              <div class="dk-field">
+                <input type="email" class="dk-input" placeholder="you@email.com">
+              </div>
+              <button class="btn btn-primary" style="width:100%;">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="dk-footer">
+    <div class="dk-container">
+      <div class="dk-footer_bottom">
+        <span>&copy; 2026 DevKit. All rights reserved.</span>
+        <div style="display:flex; gap:16px;">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/dk-core.js"></script>
+  <script src="../js/dk-all.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

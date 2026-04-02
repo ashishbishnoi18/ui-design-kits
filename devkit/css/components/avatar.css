@@ -1,0 +1,117 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Avatar                                                             */
+  /* ------------------------------------------------------------------ */
+
+  .dk-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--bg-raised);
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    width: 40px;
+    height: 40px;
+    font-size: var(--text-sm);
+    flex-shrink: 0;
+  }
+
+  .dk-avatar_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .dk-avatar_fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Sizes                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-avatar--xs {
+    width: 24px;
+    height: 24px;
+    font-size: 9px;
+  }
+
+  .dk-avatar--sm {
+    width: 32px;
+    height: 32px;
+    font-size: var(--text-xs);
+  }
+
+  /* --md is the default (40px) */
+
+  .dk-avatar--lg {
+    width: 48px;
+    height: 48px;
+    font-size: var(--text-base);
+  }
+
+  .dk-avatar--xl {
+    width: 64px;
+    height: 64px;
+    font-size: var(--text-lg);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Variants                                                           */
+  /* ------------------------------------------------------------------ */
+
+  /* Rounded — adds a subtle ring */
+  .dk-avatar--rounded {
+    border: 2px solid var(--border-default);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Avatar Group                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-avatar-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .dk-avatar-group .dk-avatar {
+    margin-left: -8px;
+    border: 2px solid var(--bg-root);
+    position: relative;
+  }
+
+  .dk-avatar-group .dk-avatar:first-child {
+    margin-left: 0;
+  }
+
+  .dk-avatar-group .dk-avatar:hover {
+    z-index: 1;
+  }
+
+  .dk-avatar-group_count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-raised);
+    border: 2px solid var(--bg-root);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: -8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+}

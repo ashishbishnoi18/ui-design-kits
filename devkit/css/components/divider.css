@@ -1,0 +1,49 @@
+@layer components {
+
+  .dk-divider {
+    border: none;
+    border-top: 1px solid var(--border-default);
+    width: 100%;
+    margin: 0;
+  }
+
+  .dk-divider-dashed {
+    border-top-style: dashed;
+  }
+
+  .dk-divider-dotted {
+    border-top-style: dotted;
+  }
+
+  .dk-divider-vertical {
+    border-top: none;
+    border-left: 1px solid var(--border-default);
+    width: auto;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .dk-divider-vertical.dk-divider-dashed {
+    border-left-style: dashed;
+  }
+
+  .dk-divider-vertical.dk-divider-dotted {
+    border-left-style: dotted;
+  }
+
+  .dk-divider-with-text {
+    display: flex;
+    align-items: center;
+    gap: var(--dk-space-4);
+    border: none;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .dk-divider-with-text::before,
+  .dk-divider-with-text::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--border-default);
+  }
+}

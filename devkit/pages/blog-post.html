@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a Zero-Dependency UI Library — DevKit Blog</title>
+  <link rel="stylesheet" href="../css/dk-all.css">
+  <style>
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 20px;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--dk-radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--dk-transition-fast);
+      text-decoration: none;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border-default);
+    }
+    .btn-outline:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-hover);
+    }
+    .btn-sm {
+      padding: 5px 14px;
+      font-size: var(--text-xs);
+    }
+
+    /* Article layout */
+    .article-container {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    @media (max-width: 768px) {
+      .article-container {
+        padding: 32px 16px;
+      }
+    }
+
+    /* Article header */
+    .article-header {
+      margin-bottom: 40px;
+    }
+    .article-header_title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text-heading);
+      margin: 16px 0;
+    }
+    .article-header_meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .article-header_author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Article body */
+    .article-body {
+      font-size: var(--text-base);
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    .article-body h2 {
+      font-size: var(--text-2xl);
+      margin: 40px 0 16px;
+    }
+    .article-body h3 {
+      font-size: var(--text-xl);
+      margin: 32px 0 12px;
+    }
+    .article-body p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .article-body ul, .article-body ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+    }
+    .article-body li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+    .article-body .dk-code-block {
+      margin: 24px 0;
+    }
+    .article-body .dk-blockquote {
+      margin: 24px 0;
+    }
+
+    /* Image placeholder */
+    .article-img {
+      width: 100%;
+      height: 360px;
+      background: var(--bg-raised);
+      border: 1px solid var(--border-default);
+      border-radius: var(--dk-radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      font-family: var(--font-mono);
+      margin: 32px 0;
+    }
+
+    /* Tags */
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 32px 0;
+      border-top: 1px solid var(--border-default);
+      border-bottom: 1px solid var(--border-default);
+      margin: 40px 0;
+    }
+
+    /* Author bio */
+    .author-bio {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    @media (max-width: 480px) {
+      .author-bio {
+        flex-direction: column;
+      }
+    }
+
+    /* Related posts */
+    .related-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+    .related-card_title {
+      font-weight: 600;
+      font-size: var(--text-base);
+      color: var(--text-heading);
+      line-height: 1.4;
+      margin: 8px 0;
+    }
+    .related-card_date {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="dk-navbar" data-dk-navbar>
+    <div class="dk-navbar_brand">
+      <div class="dk-navbar_brand-icon">dk</div>
+      <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
+    </div>
+    <div class="dk-navbar_nav">
+      <a href="landing.html" class="dk-navbar_link">Home</a>
+      <a href="docs.html" class="dk-navbar_link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link is-active">Blog</a>
+    </div>
+    <div class="dk-navbar_actions">
+      <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
+    </div>
+    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+      <span class="dk-navbar_mobile-toggle-icon"></span>
+    </button>
+  </nav>
+
+  <!-- Article -->
+  <article class="article-container">
+
+    <!-- Breadcrumb -->
+    <nav class="dk-breadcrumb" style="margin-bottom:24px;">
+      <span class="dk-breadcrumb_item">
+        <a href="blog.html" class="dk-breadcrumb_link">Blog</a>
+        <span class="dk-breadcrumb_separator">/</span>
+      </span>
+      <span class="dk-breadcrumb_item">
+        <a href="#" class="dk-breadcrumb_link">Engineering</a>
+        <span class="dk-breadcrumb_separator">/</span>
+      </span>
+      <span class="dk-breadcrumb_item">
+        <span class="dk-breadcrumb_current">Building a Zero-Dependency UI Library</span>
+      </span>
+    </nav>
+
+    <!-- Header -->
+    <header class="article-header">
+      <span class="dk-badge dk-badge--success">Engineering</span>
+      <h1 class="article-header_title">Building a Zero-Dependency UI Library</h1>
+      <div class="article-header_meta">
+        <div class="article-header_author">
+          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">SL</span></div>
+          <div>
+            <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">Sarah Lin</div>
+            <div style="font-size: var(--text-xs); color: var(--text-muted);">March 28, 2026</div>
+          </div>
+        </div>
+        <span class="dk-badge dk-badge--sm">8 min read</span>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="article-body">
+      <p>
+        When we started building DevKit, we made one unconventional decision early on: no dependencies. Not a single npm package. This constraint shaped everything about the library -- from architecture to testing to how we think about long-term maintenance.
+      </p>
+
+      <div class="article-img">1200 x 630 -- Featured Image</div>
+
+      <h2>Why zero dependencies?</h2>
+
+      <p>
+        The JavaScript ecosystem moves fast. Packages deprecate, APIs change, and supply-chain attacks are increasingly common. For a UI library that developers will rely on in production, we wanted to eliminate every point of external failure.
+      </p>
+
+      <p>
+        This does not mean we reinvented the wheel. It means we were deliberate about what we included and wrote exactly the code we needed -- nothing more, nothing less.
+      </p>
+
+      <blockquote class="dk-blockquote">
+        "The best dependency is the one you don't have. Every package you add is a bet that its maintainer will keep it working."
+        <cite class="dk-blockquote_cite">-- DevKit Engineering Principles</cite>
+      </blockquote>
+
+      <h2>The architecture</h2>
+
+      <p>
+        DevKit is structured as a layered CSS system with a thin JavaScript initialization layer. The CSS uses native <code>@layer</code> directives to manage specificity without resorting to excessive nesting or <code>!important</code> declarations.
+      </p>
+
+      <div class="dk-code-block">
+        <div class="dk-code-block_header">
+          <span class="dk-code-block_lang">css</span>
+          <button class="dk-code-block_copy-btn">Copy</button>
+        </div>
+        <pre class="dk-code-block_body"><code><span class="syn-comment">/* Layer order determines specificity */</span>
+<span class="syn-keyword">@layer</span> reset, tokens, base, layout, components, utilities;
+
+<span class="syn-comment">/* Tokens define the design system */</span>
+<span class="syn-keyword">@layer</span> tokens {
+  <span class="syn-tag">:root</span> {
+    <span class="syn-attr">--bg-root</span>: <span class="syn-string">#050505</span>;
+    <span class="syn-attr">--accent</span>: <span class="syn-string">#10b981</span>;
+    <span class="syn-attr">--font-sans</span>: <span class="syn-string">'Inter'</span>, sans-serif;
+  }
+}</code></pre>
+      </div>
+
+      <h3>Component registration</h3>
+
+      <p>
+        The JavaScript side follows a simple registration pattern. Each component registers an initializer function that gets called on elements matching a <code>data-dk-*</code> attribute. A MutationObserver handles dynamically added elements automatically.
+      </p>
+
+      <div class="dk-code-block">
+        <div class="dk-code-block_header">
+          <span class="dk-code-block_lang">javascript</span>
+          <button class="dk-code-block_copy-btn">Copy</button>
+        </div>
+        <pre class="dk-code-block_body"><code><span class="syn-comment">// Register a component</span>
+<span class="syn-type">DK</span>.<span class="syn-function">register</span>(<span class="syn-string">'accordion'</span>, <span class="syn-keyword">function</span>(<span class="syn-attr">el</span>) {
+  <span class="syn-keyword">var</span> triggers = <span class="syn-type">DK</span>.<span class="syn-function">$$</span>(<span class="syn-string">'.dk-accordion_trigger'</span>, el);
+  triggers.<span class="syn-function">forEach</span>(<span class="syn-keyword">function</span>(<span class="syn-attr">trigger</span>) {
+    <span class="syn-type">DK</span>.<span class="syn-function">on</span>(trigger, <span class="syn-string">'click'</span>, <span class="syn-keyword">function</span>() {
+      <span class="syn-comment">// toggle logic</span>
+    });
+  });
+});</code></pre>
+      </div>
+
+      <h2>What we learned</h2>
+
+      <p>
+        Building without dependencies forced us to truly understand every line of code in the library. There are no black boxes. When something breaks, we know exactly where to look and how to fix it.
+      </p>
+
+      <p>Here are the key takeaways from this approach:</p>
+
+      <ul>
+        <li><strong>Bundle size is predictable.</strong> Without transitive dependencies, the final size is exactly what we ship -- nothing hidden.</li>
+        <li><strong>Debugging is straightforward.</strong> The stack trace always leads to our code, not into a maze of third-party modules.</li>
+        <li><strong>Updates are on our schedule.</strong> We never have to rush a release because a dependency pushed a breaking change.</li>
+        <li><strong>Security audits are simple.</strong> There is no supply chain to audit beyond our own repository.</li>
+      </ul>
+
+      <div class="dk-alert dk-alert--info" style="margin: 24px 0;">
+        <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div class="dk-alert_content">
+          <div class="dk-alert_title">Note</div>
+          Zero dependencies does not mean zero tooling. We still use development tools like linters and test runners -- they just do not ship to your browser.
+        </div>
+      </div>
+
+      <h2>The tradeoffs</h2>
+
+      <p>
+        This approach is not free. Writing everything from scratch takes longer upfront. Features that would take minutes with a library take hours to implement correctly. But for a project meant to last years, the investment pays for itself many times over.
+      </p>
+
+      <p>
+        If you are building a component library, we encourage you to at least consider this approach. You might be surprised how little you actually need from external packages.
+      </p>
+    </div>
+
+    <!-- Tags -->
+    <div class="article-tags">
+      <span class="dk-badge">css</span>
+      <span class="dk-badge">architecture</span>
+      <span class="dk-badge">zero-dependencies</span>
+      <span class="dk-badge">component-library</span>
+      <span class="dk-badge">frontend</span>
+    </div>
+
+    <!-- Author bio -->
+    <div class="dk-card" style="margin-bottom:48px;">
+      <div class="dk-card_body">
+        <div class="author-bio">
+          <div class="dk-avatar dk-avatar--xl"><span class="dk-avatar_fallback">SL</span></div>
+          <div>
+            <div style="font-weight:600; color:var(--text-heading); margin-bottom:4px;">Sarah Lin</div>
+            <p style="font-size:var(--text-sm); color:var(--text-tertiary); line-height:1.6; margin-bottom:8px;">
+              Staff engineer at DevKit focusing on CSS architecture and component design systems. Previously at Vercel and Stripe. Writes about frontend engineering and developer tools.
+            </p>
+            <div style="display:flex; gap:8px;">
+              <a href="#" style="font-size:var(--text-xs); color:var(--accent-text);">Twitter</a>
+              <a href="#" style="font-size:var(--text-xs); color:var(--accent-text);">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- Related posts -->
+  <section class="related-section" style="border-top:1px solid var(--border-default);">
+    <h3 style="margin-bottom:24px;">Related posts</h3>
+    <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-3 dk-gap-6">
+      <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
+        <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
+        <div class="dk-card_body">
+          <span class="dk-badge dk-badge--success dk-badge--sm">Engineering</span>
+          <div class="related-card_title">CSS Layers: The Architecture Behind DevKit</div>
+          <div class="related-card_date">Mar 5, 2026</div>
+        </div>
+      </a>
+      <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
+        <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
+        <div class="dk-card_body">
+          <span class="dk-badge dk-badge--info dk-badge--sm">Design</span>
+          <div class="related-card_title">Why Dark-First Design Makes Sense for Dev Tools</div>
+          <div class="related-card_date">Mar 22, 2026</div>
+        </div>
+      </a>
+      <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
+        <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
+        <div class="dk-card_body">
+          <span class="dk-badge dk-badge--warning dk-badge--sm">Release</span>
+          <div class="related-card_title">DevKit v0.1.0: The First Public Release</div>
+          <div class="related-card_date">Mar 10, 2026</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="dk-footer">
+    <div class="dk-container">
+      <div class="dk-footer_bottom">
+        <span>&copy; 2026 DevKit. All rights reserved.</span>
+        <div style="display:flex; gap:16px;">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/dk-core.js"></script>
+  <script src="../js/dk-all.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

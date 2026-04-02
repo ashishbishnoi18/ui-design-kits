@@ -1,0 +1,74 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Spinner                                                            */
+  /* ------------------------------------------------------------------ */
+
+  .dk-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-default);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: dk-spin 0.6s linear infinite;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-spinner--xs {
+    width: 14px;
+    height: 14px;
+    border-width: 1.5px;
+  }
+
+  .dk-spinner--sm {
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+  }
+
+  .dk-spinner--md {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dk-spinner--lg {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Color variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-spinner--accent {
+    border-top-color: var(--accent);
+  }
+
+  .dk-spinner--white {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-top-color: #fff;
+  }
+
+  .dk-spinner--danger {
+    border-top-color: #ef4444;
+  }
+
+  .dk-spinner--info {
+    border-top-color: #3b82f6;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Keyframes                                                          */
+  /* ------------------------------------------------------------------ */
+
+  @keyframes dk-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

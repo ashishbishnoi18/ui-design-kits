@@ -1,0 +1,172 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Pricing Table                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-pricing-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Toggle (monthly/annual) */
+
+  .dk-pricing-table_toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .dk-pricing-table_toggle-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-pricing-table_toggle-label.is-active {
+    color: var(--text-heading);
+    font-weight: 500;
+  }
+
+  .dk-pricing-table_toggle-switch {
+    width: 44px;
+    height: 24px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-full);
+    cursor: pointer;
+    position: relative;
+    transition: background var(--dk-transition-fast),
+                border-color var(--dk-transition-fast);
+  }
+
+  .dk-pricing-table_toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--dk-radius-full);
+    background: var(--text-secondary);
+    transition: transform var(--dk-transition-fast),
+                background var(--dk-transition-fast);
+  }
+
+  .dk-pricing-table_toggle-switch.is-annual {
+    border-color: var(--accent);
+    background: var(--accent-muted);
+  }
+
+  .dk-pricing-table_toggle-switch.is-annual::after {
+    transform: translateX(20px);
+    background: var(--accent);
+  }
+
+  .dk-pricing-table_save {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent-text);
+    background: var(--accent-muted);
+    padding: 2px 8px;
+    border-radius: var(--dk-radius-full);
+    margin-left: 4px;
+    font-weight: 500;
+  }
+
+  /* Grid */
+
+  .dk-pricing-table_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Comparison rows */
+
+  .dk-pricing-table_comparison {
+    margin-top: 48px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    overflow: hidden;
+  }
+
+  .dk-pricing-table_comparison-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-heading);
+    padding: 16px 20px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-default);
+    margin: 0;
+  }
+
+  .dk-pricing-table_row {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(var(--dk-pricing-cols, 3), 1fr);
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .dk-pricing-table_row:last-child {
+    border-bottom: none;
+  }
+
+  .dk-pricing-table_row-header {
+    background: var(--bg-surface);
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  .dk-pricing-table_cell {
+    padding: 12px 20px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dk-pricing-table_cell:first-child {
+    justify-content: flex-start;
+    color: var(--text-primary);
+  }
+
+  /* Annual prices hidden by default, shown when toggled */
+
+  .dk-pricing-table [data-dk-price-annual] {
+    display: none;
+  }
+
+  .dk-pricing-table.is-annual [data-dk-price-monthly] {
+    display: none;
+  }
+
+  .dk-pricing-table.is-annual [data-dk-price-annual] {
+    display: inline;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 768px) {
+    .dk-pricing-table_grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .dk-pricing-table_comparison {
+      overflow-x: auto;
+    }
+
+    .dk-pricing-table_row {
+      min-width: 600px;
+    }
+  }
+}

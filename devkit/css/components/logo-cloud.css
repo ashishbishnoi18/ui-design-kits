@@ -1,0 +1,97 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Logo Cloud                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-logo-cloud {
+    width: 100%;
+    padding: 40px 24px;
+  }
+
+  .dk-logo-cloud_title {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    margin: 0 0 32px;
+  }
+
+  .dk-logo-cloud_grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+    align-items: center;
+    justify-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* Logo item */
+
+  .dk-logo-cloud_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0.4;
+    filter: grayscale(1) brightness(2);
+    transition: opacity var(--dk-transition-base),
+                filter var(--dk-transition-base);
+  }
+
+  .dk-logo-cloud_item:hover {
+    opacity: 1;
+    filter: grayscale(0) brightness(1);
+  }
+
+  .dk-logo-cloud_item img,
+  .dk-logo-cloud_item svg {
+    max-width: 120px;
+    max-height: 32px;
+    width: auto;
+    height: auto;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Bordered variant                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-logo-cloud-bordered .dk-logo-cloud_item {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--dk-radius-md);
+    padding: 20px 24px;
+    background: var(--bg-card);
+    transition: opacity var(--dk-transition-base),
+                filter var(--dk-transition-base),
+                border-color var(--dk-transition-fast);
+  }
+
+  .dk-logo-cloud-bordered .dk-logo-cloud_item:hover {
+    border-color: var(--border-hover);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 768px) {
+    .dk-logo-cloud_grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dk-logo-cloud_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dk-logo-cloud_item img,
+    .dk-logo-cloud_item svg {
+      max-width: 80px;
+    }
+  }
+}

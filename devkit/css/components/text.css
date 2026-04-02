@@ -1,0 +1,50 @@
+@layer components {
+
+  .dk-text {
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* Sizes */
+
+  .dk-text-xs {
+    font-size: var(--text-xs);
+  }
+
+  .dk-text-sm {
+    font-size: var(--text-sm);
+  }
+
+  .dk-text-base {
+    font-size: var(--text-base);
+  }
+
+  .dk-text-lg {
+    font-size: var(--text-lg);
+  }
+
+  .dk-text-xl {
+    font-size: var(--text-xl);
+  }
+
+  /* Colors */
+
+  .dk-text-muted {
+    color: var(--text-muted);
+  }
+
+  .dk-text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .dk-text-accent {
+    color: var(--accent-text);
+  }
+
+  /* Mono */
+
+  .dk-text-mono {
+    font-family: var(--font-mono);
+  }
+}

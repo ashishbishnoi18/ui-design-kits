@@ -1,0 +1,111 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Badge                                                              */
+  /* ------------------------------------------------------------------ */
+
+  .dk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 99px;
+    border: 1px solid var(--border-default);
+    background: var(--bg-raised);
+    color: var(--text-secondary);
+    line-height: 1.4;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status colors                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-badge--success {
+    background: var(--accent-muted);
+    color: var(--accent-text);
+    border-color: transparent;
+  }
+
+  .dk-badge--warning {
+    background: rgba(234, 179, 8, 0.12);
+    color: #fbbf24;
+    border-color: transparent;
+  }
+
+  .dk-badge--danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border-color: transparent;
+  }
+
+  .dk-badge--info {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border-color: transparent;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Dot variant — status dot before text                               */
+  /* ------------------------------------------------------------------ */
+
+  .dk-badge--dot::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Outline variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-badge--outline {
+    background: transparent;
+  }
+
+  .dk-badge--outline.dk-badge--success {
+    background: transparent;
+    border-color: var(--accent-text);
+    color: var(--accent-text);
+  }
+
+  .dk-badge--outline.dk-badge--warning {
+    background: transparent;
+    border-color: #fbbf24;
+    color: #fbbf24;
+  }
+
+  .dk-badge--outline.dk-badge--danger {
+    background: transparent;
+    border-color: #f87171;
+    color: #f87171;
+  }
+
+  .dk-badge--outline.dk-badge--info {
+    background: transparent;
+    border-color: #60a5fa;
+    color: #60a5fa;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-badge--sm {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+
+  .dk-badge--lg {
+    font-size: var(--text-sm);
+    padding: 4px 12px;
+  }
+}

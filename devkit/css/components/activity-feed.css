@@ -1,0 +1,140 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Activity Feed                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-activity-feed {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Vertical connector line ------------------------------------------ */
+
+  .dk-activity-feed::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    background: var(--border-default);
+  }
+
+  /* Item ------------------------------------------------------------- */
+
+  .dk-activity_item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    position: relative;
+  }
+
+  /* Avatar / icon holder --------------------------------------------- */
+
+  .dk-activity_icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--dk-radius-full);
+    border: 2px solid var(--bg-root);
+    background: var(--bg-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .dk-activity_icon svg {
+    width: 14px;
+    height: 14px;
+    color: var(--text-tertiary);
+  }
+
+  .dk-activity_icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--dk-radius-full);
+    object-fit: cover;
+  }
+
+  /* Type color coding ------------------------------------------------ */
+
+  .dk-activity_item--comment .dk-activity_icon { color: var(--dk-blue-400); }
+  .dk-activity_item--commit  .dk-activity_icon { color: var(--accent-text); }
+  .dk-activity_item--merge   .dk-activity_icon { color: var(--dk-purple-400); }
+  .dk-activity_item--deploy  .dk-activity_icon { color: var(--dk-yellow-400); }
+
+  .dk-activity_item--comment .dk-activity_icon svg { color: var(--dk-blue-400); }
+  .dk-activity_item--commit  .dk-activity_icon svg { color: var(--accent-text); }
+  .dk-activity_item--merge   .dk-activity_icon svg { color: var(--dk-purple-400); }
+  .dk-activity_item--deploy  .dk-activity_icon svg { color: var(--dk-yellow-400); }
+
+  /* Content ---------------------------------------------------------- */
+
+  .dk-activity_content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 4px;
+  }
+
+  .dk-activity_text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .dk-activity_text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .dk-activity_timestamp {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-family: var(--font-mono);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Compact variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .dk-activity-feed--compact .dk-activity_item {
+    padding: 6px 0;
+  }
+
+  .dk-activity-feed--compact .dk-activity_icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dk-activity-feed--compact .dk-activity_icon svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dk-activity-feed--compact::before {
+    left: 11px;
+  }
+
+  .dk-activity-feed--compact .dk-activity_text {
+    font-size: var(--text-xs);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Expanded variant                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-activity-feed--expanded .dk-activity_item {
+    padding: 16px 0;
+  }
+
+  .dk-activity-feed--expanded .dk-activity_content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--dk-radius-md);
+    padding: 12px 14px;
+  }
+}

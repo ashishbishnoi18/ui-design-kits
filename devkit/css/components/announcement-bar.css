@@ -1,0 +1,132 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Announcement Bar                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .dk-announcement-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 48px 10px 24px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-default);
+    position: relative;
+    font-size: var(--text-sm);
+    z-index: 100;
+  }
+
+  /* Fixed variant */
+
+  .dk-announcement-bar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Spacer to push content down when fixed */
+
+  .dk-announcement-bar-spacer {
+    height: 40px;
+  }
+
+  /* Text */
+
+  .dk-announcement-bar_text {
+    color: var(--text-primary);
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .dk-announcement-bar_text a {
+    color: var(--accent-text);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-muted);
+    text-underline-offset: 2px;
+    font-weight: 500;
+  }
+
+  .dk-announcement-bar_text a:hover {
+    text-decoration-color: var(--accent-text);
+  }
+
+  /* Link / CTA */
+
+  .dk-announcement-bar_link {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--accent-text);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-announcement-bar_link:hover {
+    color: var(--accent);
+  }
+
+  .dk-announcement-bar_link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Close button */
+
+  .dk-announcement-bar_close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--dk-radius-sm);
+    padding: 0;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-announcement-bar_close:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-announcement-bar_close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accent variant                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-announcement-bar-accent {
+    background: var(--accent-muted);
+    border-bottom-color: rgba(16, 185, 129, 0.2);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Dismissal                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-announcement-bar.is-hidden {
+    display: none;
+  }
+
+  .dk-announcement-bar.is-dismissing {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity var(--dk-transition-fast),
+                transform var(--dk-transition-fast);
+  }
+}

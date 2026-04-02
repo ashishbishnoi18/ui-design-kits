@@ -1,0 +1,99 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Tabs                                                               */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Tab list --------------------------------------------------------- */
+
+  .dk-tabs_list {
+    display: flex;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .dk-tabs_tab {
+    padding: 8px 16px;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    cursor: pointer;
+    transition:
+      color var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+    font-family: var(--font-sans);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .dk-tabs_tab:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-tabs_tab.is-active {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Panel ------------------------------------------------------------ */
+
+  .dk-tabs_panel {
+    padding: 16px 0;
+    display: none;
+  }
+
+  .dk-tabs_panel.is-active {
+    display: block;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Variant: pill                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tabs--pill .dk-tabs_list {
+    gap: 4px;
+    border-bottom: none;
+  }
+
+  .dk-tabs--pill .dk-tabs_tab {
+    border-radius: var(--dk-radius-md);
+    border-bottom: none;
+  }
+
+  .dk-tabs--pill .dk-tabs_tab.is-active {
+    background: var(--bg-active);
+    border-bottom: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Variant: bordered                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .dk-tabs--bordered .dk-tabs_list {
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg) var(--dk-radius-lg) 0 0;
+    overflow: hidden;
+    border-bottom: none;
+  }
+
+  .dk-tabs--bordered .dk-tabs_tab {
+    border-right: 1px solid var(--border-default);
+    border-bottom: none;
+    border-radius: 0;
+  }
+
+  .dk-tabs--bordered .dk-tabs_tab:last-child {
+    border-right: none;
+  }
+
+  .dk-tabs--bordered .dk-tabs_tab.is-active {
+    background: var(--bg-active);
+    border-bottom: none;
+  }
+}

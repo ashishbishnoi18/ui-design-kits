@@ -1,0 +1,168 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  JSON Viewer                                                        */
+  /* ------------------------------------------------------------------ */
+
+  .dk-json {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    background: var(--bg-code);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: 16px;
+    line-height: 1.65;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  /* Copy button */
+
+  .dk-json_copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    cursor: pointer;
+    transition:
+      color var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+    z-index: 1;
+  }
+
+  .dk-json_copy:hover {
+    color: var(--text-secondary);
+    border-color: var(--border-hover);
+  }
+
+  .dk-json_copy.is-copied {
+    color: var(--accent-text);
+    border-color: var(--accent-muted);
+  }
+
+  /* Node */
+
+  .dk-json_node {
+    /* container for each key-value or compound */
+  }
+
+  .dk-json_line {
+    display: flex;
+    align-items: baseline;
+    padding-left: 0;
+    min-height: 20px;
+  }
+
+  /* Indentation via nesting */
+
+  .dk-json_children {
+    padding-left: 20px;
+  }
+
+  .dk-json_children.is-collapsed {
+    display: none;
+  }
+
+  /* Toggle button */
+
+  .dk-json_toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border: none;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 8px;
+    margin-right: 4px;
+    flex-shrink: 0;
+    transition:
+      color var(--dk-transition-fast),
+      transform var(--dk-transition-fast);
+  }
+
+  .dk-json_toggle:hover {
+    color: var(--text-secondary);
+  }
+
+  .dk-json_toggle.is-collapsed {
+    transform: rotate(-90deg);
+  }
+
+  /* Syntax colors */
+
+  .dk-json_key {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .dk-json_colon {
+    color: var(--text-muted);
+    margin: 0 4px 0 0;
+  }
+
+  .dk-json_value--string {
+    color: var(--accent-text);
+  }
+
+  .dk-json_value--number {
+    color: #60a5fa;
+  }
+
+  .dk-json_value--boolean {
+    color: #facc15;
+    font-weight: 500;
+  }
+
+  .dk-json_value--null {
+    color: #f87171;
+    font-style: italic;
+  }
+
+  .dk-json_bracket {
+    color: var(--text-muted);
+  }
+
+  .dk-json_comma {
+    color: var(--text-muted);
+  }
+
+  .dk-json_count {
+    color: var(--text-muted);
+    font-size: 10px;
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  /* Line numbers (optional) */
+
+  .dk-json--line-numbers .dk-json_line {
+    counter-increment: json-line;
+  }
+
+  .dk-json--line-numbers .dk-json_line::before {
+    content: counter(json-line);
+    min-width: 28px;
+    text-align: right;
+    padding-right: 12px;
+    color: var(--text-muted);
+    font-size: 10px;
+    user-select: none;
+    -webkit-user-select: none;
+    flex-shrink: 0;
+  }
+
+  .dk-json--line-numbers {
+    counter-reset: json-line;
+  }
+}

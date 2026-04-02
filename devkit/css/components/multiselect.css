@@ -1,0 +1,226 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Multi-select                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-multiselect {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  /* Trigger / display area */
+  .dk-multiselect_trigger {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    min-height: 36px;
+    padding: 4px 32px 4px 8px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    cursor: pointer;
+    position: relative;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-multiselect_trigger:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .dk-multiselect.is-open .dk-multiselect_trigger {
+    border-color: var(--accent);
+  }
+
+  /* Placeholder */
+  .dk-multiselect_placeholder {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    padding: 2px 4px;
+    line-height: 1.5;
+  }
+
+  /* Chips container (alias for trigger's flex-wrap area) */
+  .dk-multiselect_chips {
+    display: contents;
+  }
+
+  /* Selected chips */
+  .dk-multiselect_chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 4px 1px 8px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .dk-multiselect_chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    transition:
+      color var(--dk-transition-fast),
+      background var(--dk-transition-fast);
+  }
+
+  .dk-multiselect_chip-remove:hover {
+    color: var(--text-primary);
+    background: var(--border-default);
+  }
+
+  /* Chevron */
+  .dk-multiselect_chevron {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: transform var(--dk-transition-fast);
+  }
+
+  .dk-multiselect.is-open .dk-multiselect_chevron {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* Dropdown panel */
+  .dk-multiselect_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 50;
+    padding: 4px;
+    display: none;
+  }
+
+  .dk-multiselect.is-open .dk-multiselect_dropdown {
+    display: block;
+  }
+
+  /* Search inside dropdown */
+  .dk-multiselect_search {
+    display: block;
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    padding: 5px 10px;
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+    outline: none;
+    margin-bottom: 4px;
+    transition: border-color var(--dk-transition-fast);
+  }
+
+  .dk-multiselect_search:focus {
+    border-color: var(--accent);
+  }
+
+  .dk-multiselect_search::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Option items */
+  .dk-multiselect_option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: var(--dk-radius-sm);
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast);
+    line-height: 1.5;
+  }
+
+  .dk-multiselect_option:hover {
+    background: var(--bg-raised);
+    color: var(--text-primary);
+  }
+
+  .dk-multiselect_option.is-checked,
+  .dk-multiselect_option.is-selected {
+    color: var(--accent-text);
+  }
+
+  .dk-multiselect_option.is-hidden {
+    display: none;
+  }
+
+  /* Checkbox indicator */
+  .dk-multiselect_check {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--border-hover);
+    border-radius: 3px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+  }
+
+  .dk-multiselect_option.is-checked .dk-multiselect_check,
+  .dk-multiselect_option.is-selected .dk-multiselect_check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .dk-multiselect_check-icon {
+    width: 10px;
+    height: 10px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity var(--dk-transition-fast);
+  }
+
+  .dk-multiselect_option.is-checked .dk-multiselect_check-icon,
+  .dk-multiselect_option.is-selected .dk-multiselect_check-icon {
+    opacity: 1;
+  }
+
+  /* Disabled */
+  .dk-multiselect.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}

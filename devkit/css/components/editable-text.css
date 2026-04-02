@@ -1,0 +1,156 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Editable Text                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-editable {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    min-width: 40px;
+  }
+
+  /* Display mode ----------------------------------------------------- */
+
+  .dk-editable_display {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+    border-radius: var(--dk-radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    line-height: 1.5;
+    transition:
+      background var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+    min-height: 30px;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+  }
+
+  .dk-editable_display:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-default);
+  }
+
+  .dk-editable_display:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .dk-editable_display-icon {
+    width: 12px;
+    height: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity var(--dk-transition-fast);
+  }
+
+  .dk-editable_display:hover .dk-editable_display-icon {
+    opacity: 1;
+  }
+
+  /* Edit mode -------------------------------------------------------- */
+
+  .dk-editable_edit {
+    display: none;
+    width: 100%;
+  }
+
+  .dk-editable.is-editing .dk-editable_display {
+    display: none;
+  }
+
+  .dk-editable.is-editing .dk-editable_edit {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dk-editable_input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--accent);
+    border-radius: var(--dk-radius-sm);
+    padding: 3px 8px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    outline: none;
+    line-height: 1.5;
+    min-height: 30px;
+    min-width: 0;
+  }
+
+  .dk-editable_input:focus {
+    box-shadow:
+      0 0 0 2px var(--bg-root),
+      0 0 0 4px var(--accent);
+  }
+
+  /* Action buttons --------------------------------------------------- */
+
+  .dk-editable_actions {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .dk-editable_action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-sm);
+    background: var(--bg-raised);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition:
+      background var(--dk-transition-fast),
+      color var(--dk-transition-fast),
+      border-color var(--dk-transition-fast);
+    padding: 0;
+  }
+
+  .dk-editable_action:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-editable_action--confirm:hover {
+    background: var(--accent-muted);
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+
+  .dk-editable_action--cancel:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--dk-red-400);
+    border-color: var(--dk-red-500);
+  }
+
+  .dk-editable_action svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dk-editable_action:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  /* Empty state */
+  .dk-editable_display.is-empty {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+}
