@@ -51,20 +51,20 @@
   }
 
   .dk-tag-warning {
-    background: rgba(234, 179, 8, 0.12);
-    color: #fbbf24;
+    background: var(--color-warning-muted);
+    color: var(--color-warning);
     border-color: transparent;
   }
 
   .dk-tag-danger {
-    background: rgba(239, 68, 68, 0.12);
-    color: #f87171;
+    background: var(--color-danger-muted);
+    color: var(--color-danger);
     border-color: transparent;
   }
 
   .dk-tag-info {
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
+    background: var(--color-info-muted);
+    color: var(--color-info);
     border-color: transparent;
   }
 
@@ -78,20 +78,20 @@
 
   .dk-tag-outline.dk-tag-warning {
     background: transparent;
-    border-color: #fbbf24;
-    color: #fbbf24;
+    border-color: var(--color-warning);
+    color: var(--color-warning);
   }
 
   .dk-tag-outline.dk-tag-danger {
     background: transparent;
-    border-color: #f87171;
-    color: #f87171;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
   }
 
   .dk-tag-outline.dk-tag-info {
     background: transparent;
-    border-color: #60a5fa;
-    color: #60a5fa;
+    border-color: var(--color-info);
+    color: var(--color-info);
   }
 
   /* ------------------------------------------------------------------ */

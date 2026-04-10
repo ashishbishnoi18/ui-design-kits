@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Blog Card — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Content cards for blog posts with image, excerpt, and meta.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base Card
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--nb-shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .nb-blog-card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-lg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Image
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card_image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  .nb-blog-card_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .nb-blog-card:hover .nb-blog-card_image img {
+    transform: scale(1.03);
+  }
+
+  /* --------------------------------------------------------------------------
+     Category Badge
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card_category {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: 600;
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+    border: 2px solid var(--nb-black);
+    padding: 3px 10px;
+    border-radius: var(--nb-radius);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* --------------------------------------------------------------------------
+     Body
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card_body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nb-blog-card_title {
+    font-size: var(--nb-text-base);
+    font-weight: 700;
+    color: var(--nb-black);
+    margin: 0 0 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .nb-blog-card_title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nb-blog-card_title a:hover {
+    color: var(--nb-green-500);
+  }
+
+  .nb-blog-card_excerpt {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1.6;
+    margin: 0 0 20px;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* --------------------------------------------------------------------------
+     Meta (author + date)
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card_meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 2px solid var(--nb-black);
+    margin-top: auto;
+  }
+
+  .nb-blog-card_author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nb-blog-card_author-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--nb-black);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .nb-blog-card_author-name {
+    font-size: var(--nb-text-xs);
+    font-weight: 600;
+    color: var(--nb-black);
+  }
+
+  .nb-blog-card_date {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-family: var(--nb-font-mono);
+    white-space: nowrap;
+  }
+
+  /* Read time */
+
+  .nb-blog-card_read-time {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-family: var(--nb-font-mono);
+  }
+
+  /* --------------------------------------------------------------------------
+     Horizontal Variant
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-card-horizontal {
+    flex-direction: row;
+  }
+
+  .nb-blog-card-horizontal .nb-blog-card_image {
+    flex: 0 0 240px;
+    aspect-ratio: auto;
+  }
+
+  /* --------------------------------------------------------------------------
+     Grid Layout
+     -------------------------------------------------------------------------- */
+
+  .nb-blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .nb-blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nb-blog-card-horizontal {
+      flex-direction: column;
+    }
+
+    .nb-blog-card-horizontal .nb-blog-card_image {
+      flex: none;
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nb-blog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-blog-card {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-blog-card_category {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-blog-card_title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-blog-card_meta {
+    border-top: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-blog-card_author-avatar {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-blog-card_author-name {
+    color: var(--nb-gray-100);
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "custom-property-pattern": "^nb-[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)*$",
+    "selector-class-pattern": [
+      "^nb-[a-z][a-z0-9]*(?:__[a-z][a-z0-9]*)?(?:--[a-z][a-z0-9]*)?$",
+      {
+        "resolveNestedSelectors": true,
+        "message": "Expected BEM class name matching nb-block__element--modifier"
+      }
+    ],
+    "no-descending-specificity": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["layer"]
+      }
+    ]
+  },
+  "ignoreFiles": ["dist/**"]
+}

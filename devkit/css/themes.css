@@ -32,5 +32,25 @@
     --accent-hover: #047857;
     --accent-muted: rgba(5, 150, 105, 0.08);
     --accent-text:  #059669;
+
+    /* Shadows — light theme */
+    --shadow-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg:  0 8px 24px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -4px rgba(0, 0, 0, 0.06);
+    --shadow-xl:  0 20px 40px -8px rgba(0, 0, 0, 0.15);
+
+    /* Status semantic colors — light theme */
+    --color-success:      var(--dk-emerald-600);
+    --color-success-muted: rgba(5, 150, 105, 0.08);
+    --color-danger:       var(--dk-red-600);
+    --color-danger-muted:  rgba(220, 38, 38, 0.08);
+    --color-warning:      var(--dk-yellow-600);
+    --color-warning-muted: rgba(202, 138, 4, 0.08);
+    --color-info:         var(--dk-blue-600);
+    --color-info-muted:    rgba(37, 99, 235, 0.08);
+
+    /* Inverted text */
+    --text-on-accent: #ffffff;
+    --text-on-inverted: #ffffff;
   }
 }

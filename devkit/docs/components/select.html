@@ -10,17 +10,17 @@
       <div class="docs-preview-tabs"><button class="docs-tab is-active" data-tab="preview">Preview</button><button class="docs-tab" data-tab="code">Code</button></div>
       <div class="docs-preview-panel" data-panel="preview">
         <div style="max-width:320px">
-          <div class="dk-field"><label class="dk-label">Language</label>
+          <div class="dk-field" data-slot="field"><label class="dk-label" data-slot="label">Language</label>
             <div class="dk-select" data-dk-select>
-              <button class="dk-select_trigger" type="button"><span class="dk-select_value" data-placeholder="Select a language...">Select a language...</span><svg class="dk-select_chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+              <button class="dk-select_trigger" data-slot="trigger" type="button"><span class="dk-select_value" data-slot="value" data-placeholder="Select a language...">Select a language...</span><svg class="dk-select_chevron" data-slot="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
               <div class="dk-select_dropdown">
                 <input class="dk-select_search" type="text" placeholder="Search...">
                 <div class="dk-select_options">
-                  <div class="dk-select_option" data-value="js">JavaScript</div>
-                  <div class="dk-select_option" data-value="ts">TypeScript</div>
-                  <div class="dk-select_option" data-value="py">Python</div>
-                  <div class="dk-select_option" data-value="go">Go</div>
-                  <div class="dk-select_option" data-value="rs">Rust</div>
+                  <div class="dk-select_option" data-slot="option" data-value="js">JavaScript</div>
+                  <div class="dk-select_option" data-slot="option" data-value="ts">TypeScript</div>
+                  <div class="dk-select_option" data-slot="option" data-value="py">Python</div>
+                  <div class="dk-select_option" data-slot="option" data-value="go">Go</div>
+                  <div class="dk-select_option" data-slot="option" data-value="rs">Rust</div>
                 </div>
               </div>
             </div>

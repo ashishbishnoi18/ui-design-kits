@@ -46,7 +46,7 @@
     line-height: 1.5;
   }
 
-  .dk-search_input:focus {
+  .dk-search_input:focus-visible {
     border-color: var(--accent);
   }
 

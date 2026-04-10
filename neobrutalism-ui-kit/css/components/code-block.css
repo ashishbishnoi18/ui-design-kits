@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Code Blocks — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Surgical refactor: Thicker borders, tokenized colors, better contrast.
+   ========================================================================== */
+
+@layer components {
+  .nb-code-block {
+    position: relative;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    background-color: var(--nb-gray-900);
+    overflow: hidden;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-code-block__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--nb-space-2) var(--nb-space-4);
+    background-color: var(--nb-black);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-code-block__lang {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    color: var(--nb-white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .nb-code-block__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-2);
+    padding: var(--nb-space-1) var(--nb-space-3);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background: var(--nb-gray-800);
+    color: var(--nb-white);
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-mono);
+    font-weight: var(--nb-font-bold);
+    cursor: pointer;
+    transition: all var(--nb-transition-fast);
+  }
+
+  .nb-code-block__copy:hover {
+    background-color: var(--nb-green-500);
+    color: var(--nb-black);
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 var(--nb-white);
+  }
+
+  .nb-code-inline {
+    display: inline;
+    font-family: var(--nb-font-mono);
+    font-size: 0.9em;
+    background-color: var(--nb-yellow-300);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    padding: 2px 6px;
+    color: var(--nb-black);
+    font-weight: var(--nb-font-bold);
+  }
+
+  /* Dark Syntax Highlighting (using CSS variables instead of hardcoded hex) */
+  :root {
+    --nb-code-comment: var(--nb-gray-500);
+    --nb-code-keyword: var(--nb-blue-500);
+    --nb-code-string: var(--nb-green-400);
+    --nb-code-function: var(--nb-yellow-500);
+    --nb-code-number: var(--nb-orange-500);
+    --nb-code-tag: var(--nb-red-500);
+  }
+
+  .nb-code-block .token.comment { color: var(--nb-code-comment); }
+  .nb-code-block .token.keyword { color: var(--nb-code-keyword); font-weight: bold; }
+  .nb-code-block .token.string { color: var(--nb-code-string); }
+  .nb-code-block .token.function { color: var(--nb-code-function); }
+  .nb-code-block .token.number { color: var(--nb-code-number); }
+  .nb-code-block .token.tag { color: var(--nb-code-tag); }
+}

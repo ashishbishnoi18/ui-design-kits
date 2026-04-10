@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Popover — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-popover {
+    position: relative;
+    display: inline-block;
+  }
+
+  .nb-popover__trigger {
+    cursor: pointer;
+  }
+
+  .nb-popover__content {
+    position: absolute;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    padding: 12px;
+    min-width: 200px;
+    z-index: var(--nb-z-popover, 1050);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--nb-transition-fast),
+      visibility var(--nb-transition-fast);
+  }
+
+  .nb-popover.is-open .nb-popover__content {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Arrow */
+
+  .nb-popover__arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    transform: rotate(45deg);
+  }
+
+  /* Position: Top */
+
+  .nb-popover--top .nb-popover__content {
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nb-popover--top .nb-popover__arrow {
+    bottom: -5px;
+    left: 50%;
+    margin-left: -4px;
+    border-top: none;
+    border-left: none;
+  }
+
+  /* Position: Bottom (default) */
+
+  .nb-popover--bottom .nb-popover__content,
+  .nb-popover .nb-popover__content {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nb-popover.is-open .nb-popover__content,
+  .nb-popover--bottom.is-open .nb-popover__content {
+    transform: translateX(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nb-popover--bottom .nb-popover__arrow,
+  .nb-popover .nb-popover__arrow {
+    top: -5px;
+    left: 50%;
+    margin-left: -4px;
+    border-bottom: none;
+    border-right: none;
+  }
+
+  /* Position: Left */
+
+  .nb-popover--left .nb-popover__content {
+    right: calc(100% + 8px);
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  .nb-popover--left.is-open .nb-popover__content {
+    transform: translateY(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nb-popover--left .nb-popover__arrow {
+    right: -5px;
+    top: 50%;
+    margin-top: -4px;
+    border-bottom: none;
+    border-left: none;
+  }
+
+  /* Position: Right */
+
+  .nb-popover--right .nb-popover__content {
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nb-popover--right.is-open .nb-popover__content {
+    transform: translateY(-50%);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nb-popover--right .nb-popover__arrow {
+    left: -5px;
+    top: 50%;
+    margin-top: -4px;
+    border-top: none;
+    border-right: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-popover__content {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-popover__arrow {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

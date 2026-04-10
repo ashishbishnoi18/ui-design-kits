@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Theme Provider — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  /* NB Light theme (default brutalist look) -------------------------- */
+
+  [data-theme="light"],
+  .nb-theme-light {
+    --nb-bg-root: var(--nb-white);
+    --nb-bg-surface: var(--nb-white);
+    --nb-bg-raised: var(--nb-gray-50);
+    --nb-bg-overlay: var(--nb-gray-100);
+    --nb-bg-active: var(--nb-yellow-500);
+    --nb-bg-hover: var(--nb-gray-100);
+
+    --nb-text-color: var(--nb-black);
+    --nb-text-color-secondary: var(--nb-gray-700);
+    --nb-text-color-tertiary: var(--nb-gray-500);
+    --nb-text-color-muted: var(--nb-gray-400);
+    --nb-text-color-heading: var(--nb-black);
+
+    --nb-border-color: var(--nb-black);
+    --nb-border-color-subtle: var(--nb-gray-200);
+  }
+
+  /* NB Dark theme override ------------------------------------------- */
+
+  [data-theme="dark"],
+  .nb-theme-dark {
+    --nb-bg-root: #050505;
+    --nb-bg-surface: #0a0a0a;
+    --nb-bg-raised: #111;
+    --nb-bg-overlay: #161616;
+    --nb-bg-active: var(--nb-yellow-500);
+    --nb-bg-hover: rgba(255, 255, 255, 0.03);
+
+    --nb-text-color: #e5e5e5;
+    --nb-text-color-secondary: #999;
+    --nb-text-color-tertiary: #666;
+    --nb-text-color-muted: #444;
+    --nb-text-color-heading: #f5f5f5;
+
+    --nb-border-color: #2a2a2a;
+    --nb-border-color-subtle: #141414;
+  }
+
+  /* Component-level scoping ------------------------------------------ */
+
+  .nb-theme-dark,
+  .nb-theme-light {
+    color: var(--nb-text-color);
+    background-color: var(--nb-bg-root);
+  }
+
+  /* Inline scoped container -- does not override its own background */
+
+  .nb-theme-scope {
+    color: var(--nb-text-color);
+  }
+
+}

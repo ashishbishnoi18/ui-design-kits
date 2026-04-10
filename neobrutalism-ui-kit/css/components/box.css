@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Box — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Generic container with padding, border, and background variants.
+   ========================================================================== */
+
+@layer components {
+
+  .nb-box {
+    display: block;
+  }
+
+  .nb-box-padded {
+    padding: 16px;
+  }
+
+  .nb-box-bordered {
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-box-raised {
+    background: var(--nb-gray-50);
+  }
+
+  .nb-box-flush {
+    padding: 0;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-box-bordered {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

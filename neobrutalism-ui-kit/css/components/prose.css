@@ -1,0 +1,271 @@
+/* ==========================================================================
+   Prose — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-prose {
+    font-family: inherit;
+    font-size: var(--nb-text-base);
+    color: var(--nb-black);
+    line-height: 1.7;
+    max-width: 720px;
+  }
+
+  /* Vertical rhythm between children */
+  .nb-prose > * + * {
+    margin-top: 1.25em;
+  }
+
+  /* Headings */
+  .nb-prose h1,
+  .nb-prose h2,
+  .nb-prose h3,
+  .nb-prose h4,
+  .nb-prose h5,
+  .nb-prose h6 {
+    font-weight: 700;
+    color: var(--nb-black);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .nb-prose h1 {
+    font-size: var(--nb-text-3xl);
+    margin-top: 0;
+  }
+
+  .nb-prose h2 {
+    font-size: var(--nb-text-2xl);
+    margin-top: 2em;
+  }
+
+  .nb-prose h3 {
+    font-size: var(--nb-text-xl);
+    margin-top: 1.75em;
+  }
+
+  .nb-prose h4 {
+    font-size: var(--nb-text-lg);
+    margin-top: 1.5em;
+  }
+
+  .nb-prose h5,
+  .nb-prose h6 {
+    font-size: var(--nb-text-base);
+    margin-top: 1.5em;
+  }
+
+  /* Headings followed by content get tighter spacing */
+  .nb-prose h1 + *,
+  .nb-prose h2 + *,
+  .nb-prose h3 + *,
+  .nb-prose h4 + *,
+  .nb-prose h5 + *,
+  .nb-prose h6 + * {
+    margin-top: 0.5em;
+  }
+
+  /* Paragraphs */
+  .nb-prose p {
+    margin-top: 1.25em;
+  }
+
+  .nb-prose p:first-child {
+    margin-top: 0;
+  }
+
+  /* Lists */
+  .nb-prose ul,
+  .nb-prose ol {
+    padding-left: 1.5em;
+    margin-top: 1.25em;
+  }
+
+  .nb-prose ul {
+    list-style: disc;
+  }
+
+  .nb-prose ol {
+    list-style: decimal;
+  }
+
+  .nb-prose li {
+    margin-top: 0.5em;
+  }
+
+  .nb-prose li::marker {
+    color: var(--nb-gray-400);
+  }
+
+  /* Links */
+  .nb-prose a {
+    color: var(--nb-green-500);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--nb-transition-fast);
+  }
+
+  .nb-prose a:hover {
+    color: var(--nb-black);
+  }
+
+  /* Inline code */
+  .nb-prose code {
+    font-family: var(--nb-font-mono);
+    font-size: 0.875em;
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 2px 6px;
+  }
+
+  /* Pre / code blocks */
+  .nb-prose pre {
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    padding: 16px;
+    overflow-x: auto;
+    margin-top: 1.25em;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-prose pre code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: var(--nb-text-sm);
+    line-height: 1.7;
+  }
+
+  /* Blockquotes */
+  .nb-prose blockquote {
+    border-left: 4px solid var(--nb-black);
+    padding-left: 16px;
+    color: var(--nb-gray-700);
+    font-style: italic;
+    margin-top: 1.25em;
+  }
+
+  /* Horizontal rules */
+  .nb-prose hr {
+    border: none;
+    border-top: 2px solid var(--nb-black);
+    margin: 2em 0;
+  }
+
+  /* Strong / em */
+  .nb-prose strong {
+    font-weight: 600;
+    color: var(--nb-black);
+  }
+
+  /* Images */
+  .nb-prose img {
+    border-radius: var(--nb-radius-lg);
+    border: 2px solid var(--nb-black);
+    margin-top: 1.25em;
+  }
+
+  /* Tables */
+  .nb-prose table {
+    width: 100%;
+    margin-top: 1.25em;
+    font-size: var(--nb-text-sm);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    border-collapse: collapse;
+  }
+
+  .nb-prose th {
+    font-weight: 600;
+    text-align: left;
+    color: var(--nb-gray-700);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-prose td {
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--nb-gray-200);
+  }
+
+  /* Large variant */
+  .nb-prose-lg {
+    font-size: var(--nb-text-lg);
+  }
+
+  /* Invert variant for dark backgrounds */
+  .nb-prose-invert {
+    color: var(--nb-black);
+  }
+
+  .nb-prose-invert strong {
+    color: #ffffff;
+  }
+
+  .nb-prose-invert h1,
+  .nb-prose-invert h2,
+  .nb-prose-invert h3,
+  .nb-prose-invert h4,
+  .nb-prose-invert h5,
+  .nb-prose-invert h6 {
+    color: #ffffff;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-prose {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose h1,
+  .nb-prose h2,
+  .nb-prose h3,
+  .nb-prose h4,
+  .nb-prose h5,
+  .nb-prose h6 {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose a:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose code {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose pre {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose blockquote {
+    border-left: 4px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose hr {
+    border-top: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose strong {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose img {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose table {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose th {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-prose-invert {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose-invert strong {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-prose-invert h1,
+  .nb-prose-invert h2,
+  .nb-prose-invert h3,
+  .nb-prose-invert h4,
+  .nb-prose-invert h5,
+  .nb-prose-invert h6 {
+    color: var(--nb-gray-100);
+  }
+}

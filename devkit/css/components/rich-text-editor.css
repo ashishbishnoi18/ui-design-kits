@@ -220,7 +220,7 @@
     outline: none;
   }
 
-  .dk-editor_link-input:focus {
+  .dk-editor_link-input:focus-visible {
     border-color: var(--accent);
   }
 

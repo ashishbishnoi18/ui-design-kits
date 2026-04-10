@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Checkout Stepper — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Multi-step checkout flow with step indicators and form panels.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base Checkout
+     -------------------------------------------------------------------------- */
+
+  .nb-checkout {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* --------------------------------------------------------------------------
+     Step Indicator
+     -------------------------------------------------------------------------- */
+
+  .nb-checkout__steps {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 2px solid var(--nb-black);
+    background: var(--nb-gray-50);
+  }
+
+  .nb-checkout__step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nb-checkout__step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--nb-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: 700;
+    color: var(--nb-gray-400);
+    background: var(--nb-white);
+    flex-shrink: 0;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+
+  .nb-checkout__step-label {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-400);
+    white-space: nowrap;
+    transition: color 0.1s ease;
+  }
+
+  /* Active step */
+  .nb-checkout__step.is-active .nb-checkout__step-number {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-checkout__step.is-active .nb-checkout__step-label {
+    color: var(--nb-black);
+    font-weight: 600;
+  }
+
+  /* Complete step */
+  .nb-checkout__step.is-complete .nb-checkout__step-number {
+    background: var(--nb-green-500);
+    color: var(--nb-black);
+  }
+
+  .nb-checkout__step.is-complete .nb-checkout__step-label {
+    color: var(--nb-gray-700);
+  }
+
+  /* Checkmark for completed */
+  .nb-checkout__step.is-complete .nb-checkout__step-text {
+    display: none;
+  }
+
+  .nb-checkout__step.is-complete .nb-checkout__step-number::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 5px;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  /* Connector */
+  .nb-checkout__connector {
+    flex: 1;
+    height: 2px;
+    background: var(--nb-gray-200);
+    margin: 0 12px;
+    min-width: 24px;
+    transition: background 0.1s ease;
+  }
+
+  .nb-checkout__step.is-complete + .nb-checkout__connector {
+    background: var(--nb-green-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Content Panels
+     -------------------------------------------------------------------------- */
+
+  .nb-checkout__panel {
+    display: none;
+    padding: 24px;
+  }
+
+  .nb-checkout__panel.is-active {
+    display: block;
+  }
+
+  .nb-checkout__panel-title {
+    font-size: var(--nb-text-lg);
+    font-weight: 700;
+    color: var(--nb-black);
+    margin: 0 0 20px 0;
+  }
+
+  /* --------------------------------------------------------------------------
+     Form Fields
+     -------------------------------------------------------------------------- */
+
+  .nb-checkout__field {
+    margin-bottom: 16px;
+  }
+
+  .nb-checkout__field label {
+    display: block;
+    font-size: var(--nb-text-xs);
+    font-weight: 600;
+    color: var(--nb-gray-700);
+    margin-bottom: 6px;
+  }
+
+  .nb-checkout__field input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-black);
+    font-size: var(--nb-text-sm);
+    transition: box-shadow 0.1s ease;
+  }
+
+  .nb-checkout__field input:focus-visible {
+    outline: none;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-checkout__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Navigation
+     -------------------------------------------------------------------------- */
+
+  .nb-checkout__nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-top: 2px solid var(--nb-black);
+  }
+
+  .nb-checkout__btn {
+    padding: 10px 24px;
+    border-radius: var(--nb-radius);
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid var(--nb-black);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .nb-checkout__btn--back {
+    background: var(--nb-white);
+    color: var(--nb-gray-700);
+  }
+
+  .nb-checkout__btn--back:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+    color: var(--nb-black);
+  }
+
+  .nb-checkout__btn--next {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-checkout__btn--next:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-checkout__btn[disabled] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-checkout {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-checkout__steps {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-checkout__step-number {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-checkout__step.is-active .nb-checkout__step-label {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-checkout__step.is-complete .nb-checkout__step-number::after {
+    border-left: var(--nb-gray-700);
+    border-bottom: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-checkout__panel-title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-checkout__field input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-checkout__nav {
+    border-top: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-checkout__btn {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-checkout__btn--back {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-checkout__btn--back:hover {
+    color: var(--nb-gray-100);
+  }
+}

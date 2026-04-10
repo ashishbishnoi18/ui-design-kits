@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Activity Feed — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Timeline-style feed with icon markers and connector line.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base Feed
+     -------------------------------------------------------------------------- */
+
+  .nb-activity-feed {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Vertical connector line */
+
+  .nb-activity-feed::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Item
+     -------------------------------------------------------------------------- */
+
+  .nb-activity__item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    position: relative;
+  }
+
+  /* --------------------------------------------------------------------------
+     Avatar / Icon Holder
+     -------------------------------------------------------------------------- */
+
+  .nb-activity__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--nb-black);
+    background: var(--nb-gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .nb-activity__icon svg {
+    width: 14px;
+    height: 14px;
+    color: var(--nb-gray-500);
+  }
+
+  .nb-activity__icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* --------------------------------------------------------------------------
+     Type Color Coding
+     -------------------------------------------------------------------------- */
+
+  .nb-activity__item--comment .nb-activity__icon { color: var(--nb-blue-500); }
+  .nb-activity__item--commit  .nb-activity__icon { color: var(--nb-green-500); }
+  .nb-activity__item--merge   .nb-activity__icon { color: var(--nb-purple-500); }
+  .nb-activity__item--deploy  .nb-activity__icon { color: var(--nb-yellow-500); }
+
+  .nb-activity__item--comment .nb-activity__icon svg { color: var(--nb-blue-500); }
+  .nb-activity__item--commit  .nb-activity__icon svg { color: var(--nb-green-500); }
+  .nb-activity__item--merge   .nb-activity__icon svg { color: var(--nb-purple-500); }
+  .nb-activity__item--deploy  .nb-activity__icon svg { color: var(--nb-yellow-500); }
+
+  /* --------------------------------------------------------------------------
+     Content
+     -------------------------------------------------------------------------- */
+
+  .nb-activity__content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 4px;
+  }
+
+  .nb-activity__text {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1.5;
+  }
+
+  .nb-activity__text strong {
+    color: var(--nb-black);
+    font-weight: 600;
+  }
+
+  .nb-activity__timestamp {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-400);
+    margin-top: 4px;
+    font-family: var(--nb-font-mono);
+  }
+
+  /* --------------------------------------------------------------------------
+     Compact Variant
+     -------------------------------------------------------------------------- */
+
+  .nb-activity-feed--compact .nb-activity__item {
+    padding: 6px 0;
+  }
+
+  .nb-activity-feed--compact .nb-activity__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nb-activity-feed--compact .nb-activity__icon svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .nb-activity-feed--compact::before {
+    left: 11px;
+  }
+
+  .nb-activity-feed--compact .nb-activity__text {
+    font-size: var(--nb-text-xs);
+  }
+
+  /* --------------------------------------------------------------------------
+     Expanded Variant
+     -------------------------------------------------------------------------- */
+
+  .nb-activity-feed--expanded .nb-activity__item {
+    padding: 16px 0;
+  }
+
+  .nb-activity-feed--expanded .nb-activity__content {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 12px 14px;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-activity-feed::before {
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-activity__icon {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-activity__text strong {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-activity-feed--expanded .nb-activity__content {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

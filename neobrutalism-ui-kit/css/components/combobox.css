@@ -1,0 +1,169 @@
+/* ==========================================================================
+   Combobox — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Searchable select with dropdown list and keyboard navigation.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  /* --------------------------------------------------------------------------
+     Text Input
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox__input {
+    display: block;
+    width: 100%;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 7px 32px 7px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    outline: none;
+    line-height: 1.5;
+    transition: box-shadow 0.1s ease;
+  }
+
+  .nb-combobox__input:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-combobox__input::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  /* --------------------------------------------------------------------------
+     Chevron Icon
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox__chevron {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    color: var(--nb-gray-400);
+    pointer-events: none;
+    transition: transform 0.1s ease;
+  }
+
+  .nb-combobox.is-open .nb-combobox__chevron {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Dropdown List
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox__list,
+  .nb-combobox__listbox {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 50;
+    padding: 4px;
+    display: none;
+  }
+
+  .nb-combobox.is-open .nb-combobox__list,
+  .nb-combobox.is-open .nb-combobox__listbox {
+    display: block;
+  }
+
+  /* --------------------------------------------------------------------------
+     Option Items
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox__option {
+    padding: 6px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    border-radius: var(--nb-radius);
+    transition: background 0.1s ease, color 0.1s ease;
+    line-height: 1.5;
+  }
+
+  .nb-combobox__option:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+  }
+
+  .nb-combobox__option.is-highlighted {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+  }
+
+  .nb-combobox__option.is-selected {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    font-weight: 600;
+  }
+
+  .nb-combobox__option.is-hidden {
+    display: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Empty State
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox__empty {
+    padding: 12px;
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-400);
+    text-align: center;
+    display: none;
+  }
+
+  .nb-combobox__empty.is-visible {
+    display: block;
+  }
+
+  /* --------------------------------------------------------------------------
+     Disabled
+     -------------------------------------------------------------------------- */
+
+  .nb-combobox.is-disabled .nb-combobox__input {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-combobox__input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-combobox__list,
+  .nb-combobox__listbox {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-combobox__option:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-combobox__option.is-highlighted {
+    color: var(--nb-gray-100);
+  }
+}

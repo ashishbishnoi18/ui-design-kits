@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Vertical Tabs — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-vtabs {
+    display: flex;
+    gap: 0;
+    min-height: 200px;
+  }
+
+  /* Tab list --------------------------------------------------------- */
+
+  .nb-vtabs__list {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    min-width: 160px;
+    border-right: 2px solid var(--nb-black);
+    padding: 4px 0;
+  }
+
+  .nb-vtabs__tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-400);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.4;
+    white-space: nowrap;
+    font-weight: 500;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .nb-vtabs__tab::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: transparent;
+    transition: background 0.15s ease;
+  }
+
+  .nb-vtabs__tab:hover {
+    color: var(--nb-gray-700);
+    background: var(--nb-gray-100);
+  }
+
+  .nb-vtabs__tab:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: -2px;
+    border-radius: var(--nb-radius);
+  }
+
+  .nb-vtabs__tab.is-active {
+    color: var(--nb-black);
+    font-weight: 700;
+  }
+
+  .nb-vtabs__tab.is-active::before {
+    background: var(--nb-black);
+  }
+
+  /* Panels ----------------------------------------------------------- */
+
+  .nb-vtabs__panel {
+    display: none;
+    flex: 1;
+    padding: 8px 24px;
+    min-width: 0;
+  }
+
+  .nb-vtabs__panel.is-active {
+    display: block;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-vtabs__list {
+    border-right: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-vtabs__tab.is-active {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-vtabs__tab.is-active::before {
+    background: var(--nb-gray-800);
+  }
+}

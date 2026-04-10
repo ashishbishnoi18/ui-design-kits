@@ -1,0 +1,151 @@
+/* ==========================================================================
+   Calendar — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Interactive calendar with month navigation, day selection.
+   Green-500 for selected — raw digital green. Yellow for today.
+   ========================================================================== */
+
+@layer components {
+  .nb-calendar {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    padding: var(--nb-space-4);
+    max-width: 320px;
+    font-family: var(--nb-font-sans);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* Header */
+  .nb-calendar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--nb-space-4);
+  }
+
+  .nb-calendar__title {
+    font-weight: var(--nb-font-bold);
+    font-size: var(--nb-text-base);
+    font-family: var(--nb-font-heading);
+  }
+
+  .nb-calendar__nav {
+    display: flex;
+    gap: var(--nb-space-1);
+  }
+
+  .nb-calendar__nav button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--nb-border);
+    background: var(--nb-white);
+    cursor: pointer;
+    border-radius: var(--nb-radius);
+    transition:
+      background var(--nb-transition-fast),
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-calendar__nav button:hover {
+    background: var(--nb-gray-100);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-calendar__nav button:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* Weekday labels — 2px border for kit consistency */
+  .nb-calendar__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-semibold);
+    color: var(--nb-gray-500);
+    margin-bottom: var(--nb-space-2);
+    padding-bottom: var(--nb-space-2);
+    border-bottom: 2px solid var(--nb-gray-200);
+  }
+
+  /* Day grid — 4px gap for breathing room */
+  .nb-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .nb-calendar__day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    font-size: var(--nb-text-sm);
+    transition:
+      background var(--nb-transition-fast),
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+    border: 2px solid transparent;
+  }
+
+  .nb-calendar__day:hover {
+    background: var(--nb-gray-100);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Today — yellow, bold, no shadow */
+  .nb-calendar__day--today {
+    background: var(--nb-yellow-500);
+    font-weight: var(--nb-font-bold);
+    border-color: var(--nb-black);
+  }
+
+  /* Selected — green-500, raw digital green */
+  .nb-calendar__day--selected {
+    background: var(--nb-green-500);
+    font-weight: var(--nb-font-bold);
+    border-color: var(--nb-black);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-calendar__day--selected:hover {
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* Other month */
+  .nb-calendar__day--other-month {
+    color: var(--nb-gray-300);
+  }
+
+  /* Disabled */
+  .nb-calendar__day--disabled {
+    color: var(--nb-gray-300);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-calendar {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-calendar__nav button {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-calendar__day--today {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-calendar__day--selected {
+    border-color: var(--nb-gray-700);
+  }
+}

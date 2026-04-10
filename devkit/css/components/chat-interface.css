@@ -151,7 +151,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-chat_input-field:focus {
+  .dk-chat_input-field:focus-visible {
     border-color: var(--accent);
   }
 
@@ -166,7 +166,7 @@
     align-items: center;
     justify-content: center;
     background: var(--accent);
-    color: #000;
+    color: var(--text-on-inverted);
     border: none;
     border-radius: var(--dk-radius-md);
     cursor: pointer;
@@ -181,5 +181,14 @@
   .dk-chat_send-btn svg {
     width: 16px;
     height: 16px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-chat,
+    .dk-chat * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

@@ -62,15 +62,15 @@
   }
 
   .dk-progress--danger .dk-progress_bar {
-    background: #ef4444;
+    background: var(--color-danger);
   }
 
   .dk-progress--warning .dk-progress_bar {
-    background: #eab308;
+    background: var(--color-warning);
   }
 
   .dk-progress--info .dk-progress_bar {
-    background: #3b82f6;
+    background: var(--color-info);
   }
 
   /* ------------------------------------------------------------------ */
@@ -105,6 +105,15 @@
     }
     to {
       background-position: 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-progress,
+    .dk-progress * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }

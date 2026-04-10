@@ -49,7 +49,7 @@
     display: block;
     width: 4px;
     height: 8px;
-    border: solid #fff;
+    border: solid var(--text-on-accent);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg) scale(0);
     transition: transform var(--dk-transition-fast);
@@ -98,5 +98,16 @@
 
   .dk-checkbox:has(.dk-checkbox_input:disabled) {
     cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    .dk-checkbox_box,
+    .dk-checkbox_indicator {
+      border: 1px solid ButtonText;
+    }
+    .dk-checkbox_input:focus-visible + .dk-checkbox_box,
+    .dk-checkbox_input:focus-visible + .dk-checkbox_indicator {
+      outline: 2px solid Highlight;
+    }
   }
 }

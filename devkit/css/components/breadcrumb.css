@@ -29,6 +29,11 @@
     color: var(--text-secondary);
   }
 
+  .dk-breadcrumb_link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
   .dk-breadcrumb_separator {
     color: var(--text-muted);
     opacity: 0.4;
@@ -38,5 +43,12 @@
 
   .dk-breadcrumb_current {
     color: var(--text-secondary);
+  }
+
+  @media (prefers-contrast: more) {
+    .dk-breadcrumb {
+      --border-default: #444;
+      --text-muted: #888;
+    }
   }
 }

@@ -61,4 +61,13 @@
     border-radius: var(--dk-radius-lg);
     height: auto;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-skeleton,
+    .dk-skeleton * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

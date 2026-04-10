@@ -37,7 +37,7 @@
     line-height: 1.5;
   }
 
-  .dk-input:focus {
+  .dk-input:focus-visible {
     border-color: var(--accent);
   }
 
@@ -81,7 +81,7 @@
     resize: vertical;
   }
 
-  .dk-textarea:focus {
+  .dk-textarea:focus-visible {
     border-color: var(--accent);
   }
 
@@ -196,10 +196,10 @@
     border-color: var(--dk-red-500);
   }
 
-  .dk-input.is-invalid:focus,
-  .is-invalid .dk-input:focus,
-  .dk-textarea.is-invalid:focus,
-  .is-invalid .dk-textarea:focus {
+  .dk-input.is-invalid:focus-visible,
+  .is-invalid .dk-input:focus-visible,
+  .dk-textarea.is-invalid:focus-visible,
+  .is-invalid .dk-textarea:focus-visible {
     border-color: var(--dk-red-500);
   }
 
@@ -208,5 +208,24 @@
   .dk-textarea.is-valid,
   .is-valid .dk-textarea {
     border-color: var(--accent);
+  }
+
+  @media (prefers-contrast: more) {
+    .dk-input,
+    .dk-textarea {
+      --border-default: #444;
+      --text-muted: #888;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .dk-input,
+    .dk-textarea {
+      border: 1px solid ButtonText;
+    }
+    .dk-input:focus-visible,
+    .dk-textarea:focus-visible {
+      outline: 2px solid Highlight;
+    }
   }
 }

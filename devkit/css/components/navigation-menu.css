@@ -71,9 +71,7 @@
     border: 1px solid var(--border-default);
     border-top: none;
     border-radius: 0 0 var(--dk-radius-lg) var(--dk-radius-lg);
-    box-shadow:
-      0 12px 32px rgba(0, 0, 0, 0.4),
-      0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
     z-index: var(--dk-z-dropdown);
     padding: 24px;
     opacity: 0;

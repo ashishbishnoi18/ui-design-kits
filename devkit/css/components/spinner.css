@@ -55,11 +55,11 @@
   }
 
   .dk-spinner--danger {
-    border-top-color: #ef4444;
+    border-top-color: var(--color-danger);
   }
 
   .dk-spinner--info {
-    border-top-color: #3b82f6;
+    border-top-color: var(--color-info);
   }
 
   /* ------------------------------------------------------------------ */
@@ -69,6 +69,15 @@
   @keyframes dk-spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-spinner,
+    .dk-spinner * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }

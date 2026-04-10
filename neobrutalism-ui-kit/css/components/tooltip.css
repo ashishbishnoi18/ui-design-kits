@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Tooltips — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Tooltip wrapper, content, position variants (top/bottom/left/right),
+   arrow pseudo-element, and active state.
+
+   Brutalist: black slab with visible border, instant appear via opacity.
+   No scale animation — the tooltip IS or ISN'T.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Tooltip Wrapper
+     -------------------------------------------------------------------------- */
+  .nb-tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* --------------------------------------------------------------------------
+     Tooltip Content — a black concrete slab
+     -------------------------------------------------------------------------- */
+  .nb-tooltip__content {
+    position: absolute;
+    z-index: var(--nb-z-tooltip);
+    padding: var(--nb-space-2) var(--nb-space-3);
+    background-color: var(--nb-black);
+    color: var(--nb-white);
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-semibold);
+    line-height: var(--nb-leading-normal);
+    max-width: 280px;
+    text-align: center;
+    border: 2px solid var(--nb-gray-700);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--nb-transition-fast);
+  }
+
+  /* --------------------------------------------------------------------------
+     Active State — instant appear, no scale, no slide
+     -------------------------------------------------------------------------- */
+  .nb-tooltip.is-active .nb-tooltip__content {
+    opacity: 1;
+  }
+
+  /* --------------------------------------------------------------------------
+     Position: Top (default)
+     -------------------------------------------------------------------------- */
+  .nb-tooltip[data-nb-position="top"] .nb-tooltip__content,
+  .nb-tooltip:not([data-nb-position]) .nb-tooltip__content {
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nb-tooltip[data-nb-position="top"] .nb-tooltip__content::after,
+  .nb-tooltip:not([data-nb-position]) .nb-tooltip__content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--nb-gray-700) transparent transparent transparent;
+  }
+
+  /* --------------------------------------------------------------------------
+     Position: Bottom
+     -------------------------------------------------------------------------- */
+  .nb-tooltip[data-nb-position="bottom"] .nb-tooltip__content {
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nb-tooltip[data-nb-position="bottom"] .nb-tooltip__content::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent var(--nb-gray-700) transparent;
+  }
+
+  /* --------------------------------------------------------------------------
+     Position: Left
+     -------------------------------------------------------------------------- */
+  .nb-tooltip[data-nb-position="left"] .nb-tooltip__content {
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nb-tooltip[data-nb-position="left"] .nb-tooltip__content::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--nb-gray-700);
+  }
+
+  /* --------------------------------------------------------------------------
+     Position: Right
+     -------------------------------------------------------------------------- */
+  .nb-tooltip[data-nb-position="right"] .nb-tooltip__content {
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nb-tooltip[data-nb-position="right"] .nb-tooltip__content::after {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent var(--nb-gray-700) transparent transparent;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-tooltip__content {
+    background-color: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+}

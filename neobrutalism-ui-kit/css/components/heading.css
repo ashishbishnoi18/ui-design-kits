@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Heading — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-heading {
+    font-family: var(--nb-font-sans);
+    font-weight: 700;
+    color: var(--nb-black);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .nb-heading-1 {
+    font-size: var(--nb-text-3xl);
+  }
+
+  .nb-heading-2 {
+    font-size: var(--nb-text-2xl);
+  }
+
+  .nb-heading-3 {
+    font-size: var(--nb-text-xl);
+  }
+
+  .nb-heading-4 {
+    font-size: var(--nb-text-lg);
+  }
+
+  .nb-heading-5 {
+    font-size: var(--nb-text-base);
+  }
+
+  .nb-heading-6 {
+    font-size: var(--nb-text-sm);
+  }
+
+  .nb-heading-mono {
+    font-family: var(--nb-font-mono);
+    font-weight: 600;
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-heading {
+    color: var(--nb-gray-100);
+  }
+}

@@ -11,10 +11,6 @@
 ;(function () {
   'use strict';
 
-  /* ------------------------------------------------------------------ */
-  /*  Determine base path from this script's own src attribute           */
-  /* ------------------------------------------------------------------ */
-
   var base = '';
   var currentScript = document.currentScript;
 
@@ -22,13 +18,10 @@
     base = currentScript.src.replace(/[^/]*$/, '');
   }
 
-  /* ------------------------------------------------------------------ */
-  /*  Script manifest — core first, then components in order             */
-  /* ------------------------------------------------------------------ */
-
   var scripts = [
     'dk-core.js',
-    'components/theme-toggle.js',
+
+    /* Forms */
     'components/toggle.js',
     'components/select.js',
     'components/search.js',
@@ -36,19 +29,6 @@
     'components/range.js',
     'components/checkbox.js',
     'components/radio.js',
-    'components/data-table.js',
-    'components/accordion.js',
-    'components/navbar.js',
-    'components/sidebar.js',
-    'components/tabs.js',
-    'components/stepper.js',
-    'components/dropdown.js',
-    'components/modal.js',
-    'components/drawer.js',
-    'components/tooltip.js',
-    'components/toast.js',
-    'components/alert-dismiss.js',
-    'components/popover.js',
     'components/file-upload.js',
     'components/tag-input.js',
     'components/number-input.js',
@@ -59,13 +39,8 @@
     'components/radio-card.js',
     'components/toggle-group.js',
     'components/segmented-control.js',
-    'components/calendar.js',
-    'components/date-display.js',
-    'components/marquee.js',
-    'components/json-viewer.js',
-    'components/clipboard.js',
-    'components/qr-code.js',
-    'components/tree-view.js',
+
+    /* Complex forms */
     'components/date-picker.js',
     'components/time-picker.js',
     'components/date-range-picker.js',
@@ -73,11 +48,37 @@
     'components/rating.js',
     'components/rich-text-editor.js',
     'components/editable-text.js',
+
+    /* Data display */
+    'components/data-table.js',
+    'components/accordion.js',
+    'components/calendar.js',
+    'components/date-display.js',
+    'components/marquee.js',
+    'components/json-viewer.js',
+    'components/clipboard.js',
+    'components/qr-code.js',
+    'components/tree-view.js',
+    'components/code-block.js',
+    'components/kv-editor.js',
+
+    /* Feedback */
+    'components/alert-dismiss.js',
+    'components/modal.js',
+    'components/drawer.js',
+    'components/tooltip.js',
+    'components/toast.js',
+    'components/popover.js',
+    'components/hover-card.js',
+
+    /* Marketing */
     'components/pricing-table.js',
     'components/testimonial-slider.js',
     'components/faq.js',
     'components/announcement-bar.js',
     'components/countdown.js',
+
+    /* Application */
     'components/api-playground.js',
     'components/notification-center.js',
     'components/comment-thread.js',
@@ -85,23 +86,30 @@
     'components/checkout-stepper.js',
     'components/kanban-board.js',
     'components/file-browser.js',
+
+    /* Navigation */
+    'components/navbar.js',
+    'components/sidebar.js',
+    'components/tabs.js',
+    'components/stepper.js',
+    'components/dropdown.js',
     'components/vertical-tabs.js',
     'components/context-menu.js',
     'components/menubar.js',
     'components/navigation-menu.js',
     'components/command-palette.js',
+
+    /* Layout extras */
     'components/scroll-area.js',
     'components/splitter.js',
+
+    /* Utilities */
+    'components/theme-toggle.js',
     'components/portal.js',
     'components/presence.js',
     'components/focus-trap.js',
-    'components/keyboard-shortcut.js',
-    'components/hover-card.js'
+    'components/keyboard-shortcut.js'
   ];
-
-  /* ------------------------------------------------------------------ */
-  /*  Load each script synchronously via document.write                  */
-  /* ------------------------------------------------------------------ */
 
   scripts.forEach(function (src) {
     document.write('<script src="' + base + src + '"><\/script>');

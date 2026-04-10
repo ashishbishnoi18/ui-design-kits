@@ -23,19 +23,19 @@
       </div>
       <div class="docs-preview-panel" data-panel="preview">
         <div class="dk-tabs">
-          <div class="dk-tabs_list">
-            <button class="dk-tabs_tab is-active">Overview</button>
-            <button class="dk-tabs_tab">Features</button>
-            <button class="dk-tabs_tab">Pricing</button>
+          <div class="dk-tabs_list" data-slot="list">
+            <button class="dk-tabs_tab is-active" data-slot="tab">Overview</button>
+            <button class="dk-tabs_tab" data-slot="tab">Features</button>
+            <button class="dk-tabs_tab" data-slot="tab">Pricing</button>
           </div>
-          <div class="dk-tabs_panel is-active" style="font-size:var(--text-sm);color:var(--text-secondary);">Overview content panel.</div>
+          <div class="dk-tabs_panel is-active" data-slot="panel" style="font-size:var(--text-sm);color:var(--text-secondary);">Overview content panel.</div>
         </div>
         <h3 style="margin-top:24px;font-size:var(--text-sm);color:var(--text-muted);margin-bottom:8px;">Pill variant</h3>
         <div class="dk-tabs dk-tabs--pill">
-          <div class="dk-tabs_list">
-            <button class="dk-tabs_tab is-active">Tab 1</button>
-            <button class="dk-tabs_tab">Tab 2</button>
-            <button class="dk-tabs_tab">Tab 3</button>
+          <div class="dk-tabs_list" data-slot="list">
+            <button class="dk-tabs_tab is-active" data-slot="tab">Tab 1</button>
+            <button class="dk-tabs_tab" data-slot="tab">Tab 2</button>
+            <button class="dk-tabs_tab" data-slot="tab">Tab 3</button>
           </div>
         </div>
       </div>

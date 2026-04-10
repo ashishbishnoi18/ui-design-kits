@@ -26,13 +26,13 @@
       <div class="docs-preview-panel" data-panel="preview">
         <div style="max-width:360px;">
           <div class="dk-card">
-            <div class="dk-card_header">
-              <span class="dk-card_title">Project Overview</span>
+            <div class="dk-card_header" data-slot="header">
+              <span class="dk-card_title" data-slot="title">Project Overview</span>
             </div>
-            <div class="dk-card_body">
-              <p class="dk-card_description">A summary of your project metrics and recent activity across all teams.</p>
+            <div class="dk-card_body" data-slot="body">
+              <p class="dk-card_description" data-slot="description">A summary of your project metrics and recent activity across all teams.</p>
             </div>
-            <div class="dk-card_footer" style="display:flex;gap:8px;">
+            <div class="dk-card_footer" data-slot="footer" style="display:flex;gap:8px;">
               <button style="padding:6px 14px;font-size:var(--text-sm);background:var(--accent);color:#000;border:none;border-radius:var(--dk-radius-md);cursor:pointer;">View</button>
               <button style="padding:6px 14px;font-size:var(--text-sm);background:transparent;color:var(--text-secondary);border:1px solid var(--border-default);border-radius:var(--dk-radius-md);cursor:pointer;">Dismiss</button>
             </div>
@@ -57,10 +57,10 @@
       <h2>Variants</h2>
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;">
         <div class="dk-card dk-card--hover" style="width:200px;">
-          <div class="dk-card_body"><span class="dk-card_title">Hover Card</span><p class="dk-card_description">Interactive on hover</p></div>
+          <div class="dk-card_body" data-slot="body"><span class="dk-card_title" data-slot="title">Hover Card</span><p class="dk-card_description" data-slot="description">Interactive on hover</p></div>
         </div>
         <div class="dk-card dk-card--ghost" style="width:200px;">
-          <div class="dk-card_body"><span class="dk-card_title">Ghost Card</span><p class="dk-card_description">No border or bg</p></div>
+          <div class="dk-card_body" data-slot="body"><span class="dk-card_title" data-slot="title">Ghost Card</span><p class="dk-card_description" data-slot="description">No border or bg</p></div>
         </div>
       </div>
     </section>

@@ -88,6 +88,11 @@
         input.blur();
       }
     });
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'keydown', onGlobalKeydown);
+    };
   });
 
 })(window.DK);

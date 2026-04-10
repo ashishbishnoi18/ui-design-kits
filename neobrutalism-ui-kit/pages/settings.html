@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — NB UI Kit</title>
+  <link rel="stylesheet" href="../css/nb-all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .nb-sidebar-overlay.is-active {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: calc(var(--nb-z-fixed) - 1);
+    }
+    .nb-sidebar-overlay {
+      display: none;
+    }
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: var(--nb-space-5);
+    }
+    .notification-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--nb-gray-200);
+    }
+    .notification-row:last-child { border-bottom: none; }
+    .notification-row__info {
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG ICON SPRITE
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="nb-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </symbol>
+    <symbol id="nb-icon-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>
+    </symbol>
+    <symbol id="nb-icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </symbol>
+    <symbol id="nb-icon-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="nb-icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+    </symbol>
+    <symbol id="nb-icon-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+    </symbol>
+    <symbol id="nb-icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+    </symbol>
+    <symbol id="nb-icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </symbol>
+    <symbol id="nb-icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </symbol>
+    <symbol id="nb-icon-credit-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+    </symbol>
+    <symbol id="nb-icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </symbol>
+    <symbol id="nb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<div class="nb-layout--sidebar">
+
+  <aside class="nb-sidebar" id="main-sidebar">
+    <!-- Sidebar Header -->
+    <div class="nb-sidebar__header" data-slot="header">
+      <a href="landing.html" class="nb-flex nb-items-center nb-gap-2" style="text-decoration:none; color:var(--nb-black);">
+        <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1; font-size: var(--nb-text-sm);">NB</span>
+        <span class="nb-font-bold nb-text-sm">NB UI Kit</span>
+      </a>
+    </div>
+
+    <!-- Sidebar Nav -->
+    <nav class="nb-sidebar__nav" data-slot="nav">
+      <!-- Main Section -->
+      <div class="nb-sidebar__section">
+        <div class="nb-sidebar__section-title">Main</div>
+        <a href="dashboard.html" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-home"/></svg>
+          Dashboard
+        </a>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-bar-chart"/></svg>
+          Analytics
+        </a>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-folder"/></svg>
+          Projects
+        </a>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-users"/></svg>
+          Team
+        </a>
+      </div>
+
+      <!-- Content Section -->
+      <div class="nb-sidebar__section">
+        <div class="nb-sidebar__section-title">Content</div>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-edit"/></svg>
+          Blog
+        </a>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-file-text"/></svg>
+          Docs
+        </a>
+        <a href="#" class="nb-sidebar__link">
+          <svg width="18" height="18"><use href="#nb-icon-image"/></svg>
+          Media
+        </a>
+      </div>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="nb-sidebar__footer" data-slot="footer">
+      <a href="settings.html" class="nb-sidebar__link is-active">
+        <svg width="18" height="18"><use href="#nb-icon-settings"/></svg>
+        Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="nb-sidebar-overlay" data-nb-sidebar-overlay aria-hidden="true"></div>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main class="nb-layout__main">
+
+    <!-- --------------------------------------------------------
+         TOP BAR
+         -------------------------------------------------------- -->
+    <header class="nb-flex nb-items-center nb-px-6 nb-py-4 nb-border-b nb-bg-white" style="min-height:64px;">
+      <div class="nb-flex nb-items-center nb-gap-4">
+        <!-- Sidebar toggle (mobile) -->
+        <button class="nb-btn nb-btn--ghost nb-btn--icon nb-btn--sm" data-nb-sidebar-toggle aria-label="Toggle sidebar" style="display:none;">
+          <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
+        </button>
+        <style>
+          @media (max-width: 768px) {
+            [data-nb-sidebar-toggle] { display: inline-flex !important; }
+          }
+        </style>
+
+        <div>
+          <h1 class="nb-text-xl nb-font-bold nb-mb-0">Settings</h1>
+          <p class="nb-text-sm nb-text-gray-500">Manage your account settings and preferences.</p>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- --------------------------------------------------------
+         SETTINGS CONTENT
+         -------------------------------------------------------- -->
+    <div class="nb-p-6">
+      <div class="nb-max-w-4xl">
+
+        <!-- ====================================================
+             TABS
+             ==================================================== -->
+        <div class="nb-tabs" data-nb-tabs>
+          <div class="nb-tabs__list" role="tablist" data-slot="list">
+            <button class="nb-tabs__tab is-active" data-nb-tab="profile" data-slot="tab">Profile</button>
+            <button class="nb-tabs__tab" data-nb-tab="security" data-slot="tab">Security</button>
+            <button class="nb-tabs__tab" data-nb-tab="subscription" data-slot="tab">Subscription</button>
+            <button class="nb-tabs__tab" data-nb-tab="billing" data-slot="tab">Billing</button>
+            <button class="nb-tabs__tab" data-nb-tab="notifications" data-slot="tab">Notifications</button>
+          </div>
+
+
+          <!-- ================================================
+               TAB: PROFILE
+               ================================================ -->
+          <div class="nb-tabs__panel is-active" data-nb-tab-panel="profile" data-slot="panel">
+
+            <!-- Avatar Section -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__body" data-slot="body">
+                <div class="avatar-upload">
+                  <div class="nb-avatar nb-avatar--xl nb-bg-green-500">
+                    <span class="nb-avatar__initials" data-slot="fallback">JD</span>
+                  </div>
+                  <div>
+                    <p class="nb-text-sm nb-font-bold nb-mb-2">Profile Photo</p>
+                    <button class="nb-btn nb-btn--outline nb-btn--sm">Change avatar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Form -->
+            <div class="nb-card">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Personal Information</h2>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+                <form>
+                  <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-2 nb-gap-5">
+                    <div class="nb-field" data-slot="field">
+                      <label class="nb-label" for="full-name" data-slot="label">Full Name</label>
+                      <input type="text" id="full-name" class="nb-input" value="John Doe" placeholder="Enter your full name" data-slot="control">
+                    </div>
+                    <div class="nb-field" data-slot="field">
+                      <label class="nb-label" for="email" data-slot="label">Email</label>
+                      <input type="email" id="email" class="nb-input" value="john.doe@example.com" placeholder="Enter your email" data-slot="control">
+                    </div>
+                    <div class="nb-field" data-slot="field">
+                      <label class="nb-label" for="username" data-slot="label">Username</label>
+                      <div class="nb-input-group">
+                        <span class="nb-input-group__prefix" data-slot="prefix">@</span>
+                        <input type="text" id="username" class="nb-input" value="johndoe" placeholder="Enter username" data-slot="control">
+                      </div>
+                    </div>
+                    <div class="nb-field" data-slot="field">
+                      <label class="nb-label" for="website" data-slot="label">Website URL</label>
+                      <div class="nb-input-group">
+                        <span class="nb-input-group__prefix" data-slot="prefix">https://</span>
+                        <input type="text" id="website" class="nb-input" value="johndoe.com" placeholder="yoursite.com" data-slot="control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="nb-field" data-slot="field">
+                    <label class="nb-label" for="bio" data-slot="label">Bio</label>
+                    <textarea id="bio" class="nb-textarea" placeholder="Write a short bio about yourself..." data-slot="control">Full-stack developer who loves building beautiful user interfaces. Based in San Francisco, CA.</textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="nb-card__footer nb-flex nb-gap-3 nb-justify-end" data-slot="footer">
+                <button class="nb-btn nb-btn--outline">Cancel</button>
+                <button class="nb-btn nb-btn--primary">Save changes</button>
+              </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="nb-card nb-mt-6" style="border-color: var(--nb-red-500);">
+              <div class="nb-card__header" style="border-bottom-color: var(--nb-red-500);" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold" style="color: var(--nb-red-500);">Danger Zone</h2>
+              </div>
+              <div class="nb-card__body nb-flex nb-items-center nb-justify-between" data-slot="body">
+                <div style="max-width: 400px;">
+                  <p class="nb-text-sm nb-font-semibold">Delete account</p>
+                  <p class="nb-text-xs nb-text-gray-500">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                </div>
+                <button class="nb-btn nb-btn--danger">Delete account</button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ================================================
+               TAB: SECURITY
+               ================================================ -->
+          <div class="nb-tabs__panel" data-nb-tab-panel="security" data-slot="panel">
+
+            <!-- Change Password -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Change Password</h2>
+                <p class="nb-text-sm nb-text-gray-500 nb-mt-1">Update your password to keep your account secure.</p>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+                <form>
+                  <div class="nb-field" data-slot="field">
+                    <label class="nb-label" for="current-password" data-slot="label">Current Password</label>
+                    <div class="nb-password-wrapper">
+                      <input type="password" id="current-password" class="nb-input" placeholder="Enter current password" data-slot="control">
+                      <button type="button" class="nb-password-wrapper__toggle" data-nb-password-toggle="#current-password" aria-label="Show password"></button>
+                    </div>
+                  </div>
+                  <div class="nb-field" data-slot="field">
+                    <label class="nb-label" for="new-password" data-slot="label">New Password</label>
+                    <div class="nb-password-wrapper">
+                      <input type="password" id="new-password" class="nb-input" placeholder="Enter new password" data-slot="control">
+                      <button type="button" class="nb-password-wrapper__toggle" data-nb-password-toggle="#new-password" aria-label="Show password"></button>
+                    </div>
+                    <p class="nb-help-text" data-slot="helper-text">Must be at least 8 characters with one uppercase letter and one number.</p>
+                  </div>
+                  <div class="nb-field" data-slot="field">
+                    <label class="nb-label" for="confirm-password" data-slot="label">Confirm Password</label>
+                    <div class="nb-password-wrapper">
+                      <input type="password" id="confirm-password" class="nb-input" placeholder="Confirm new password" data-slot="control">
+                      <button type="button" class="nb-password-wrapper__toggle" data-nb-password-toggle="#confirm-password" aria-label="Show password"></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="nb-card__footer nb-flex nb-justify-end" data-slot="footer">
+                <button class="nb-btn nb-btn--primary">Update password</button>
+              </div>
+            </div>
+
+            <!-- Two-Factor Authentication -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__body nb-flex nb-items-center nb-justify-between" data-slot="body">
+                <div style="max-width:480px;">
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-mb-1">
+                    <svg width="18" height="18" class="nb-text-gray-600"><use href="#nb-icon-shield"/></svg>
+                    <h3 class="nb-text-base nb-font-bold">Two-Factor Authentication</h3>
+                  </div>
+                  <p class="nb-text-sm nb-text-gray-500">Add an extra layer of security to your account by requiring a verification code in addition to your password.</p>
+                </div>
+                <label class="nb-toggle" data-nb-toggle>
+                  <input type="checkbox" class="nb-toggle__input" data-slot="input">
+                  <span class="nb-toggle__track" data-slot="track">
+                    <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Connected Accounts -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Connected Accounts</h2>
+                <p class="nb-text-sm nb-text-gray-500 nb-mt-1">Manage third-party accounts linked to your profile.</p>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+                <div class="nb-flex nb-items-center nb-justify-between nb-py-3" style="border-bottom: 1px solid var(--nb-gray-200);">
+                  <div class="nb-flex nb-items-center nb-gap-3">
+                    <div class="nb-bg-gray-100 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center" style="width:40px;height:40px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="nb-text-sm nb-font-semibold">Google</p>
+                      <p class="nb-text-xs nb-text-gray-500">john.doe@gmail.com</p>
+                    </div>
+                  </div>
+                  <span class="nb-badge nb-badge--success nb-badge--pill">Connected</span>
+                </div>
+                <div class="nb-flex nb-items-center nb-justify-between nb-py-3">
+                  <div class="nb-flex nb-items-center nb-gap-3">
+                    <div class="nb-bg-gray-100 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center" style="width:40px;height:40px;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="nb-text-sm nb-font-semibold">GitHub</p>
+                      <p class="nb-text-xs nb-text-gray-500">Not connected</p>
+                    </div>
+                  </div>
+                  <button class="nb-btn nb-btn--outline nb-btn--sm">Connect</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="nb-card">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Active Sessions</h2>
+                <p class="nb-text-sm nb-text-gray-500 nb-mt-1">Manage devices where you are currently logged in.</p>
+              </div>
+              <div class="nb-table-wrapper" style="border:none; border-radius:0;" data-slot="wrapper">
+                <table class="nb-table nb-table--hover">
+                  <thead>
+                    <tr>
+                      <th>Device</th>
+                      <th>Location</th>
+                      <th>Last Active</th>
+                      <th class="nb-text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="nb-font-medium">MacBook Pro 16"</span>
+                        <span class="nb-badge nb-badge--success nb-badge--pill nb-ml-2" style="font-size:0.625rem;">Current</span>
+                      </td>
+                      <td>San Francisco, CA</td>
+                      <td>Just now</td>
+                      <td class="nb-text-right">--</td>
+                    </tr>
+                    <tr>
+                      <td class="nb-font-medium">iPhone 15 Pro</td>
+                      <td>San Francisco, CA</td>
+                      <td>2 hours ago</td>
+                      <td class="nb-text-right">
+                        <button class="nb-btn nb-btn--danger nb-btn--sm">Revoke</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="nb-font-medium">Windows Desktop</td>
+                      <td>New York, NY</td>
+                      <td>3 days ago</td>
+                      <td class="nb-text-right">
+                        <button class="nb-btn nb-btn--danger nb-btn--sm">Revoke</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="nb-font-medium">iPad Air</td>
+                      <td>Los Angeles, CA</td>
+                      <td>1 week ago</td>
+                      <td class="nb-text-right">
+                        <button class="nb-btn nb-btn--danger nb-btn--sm">Revoke</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ================================================
+               TAB: SUBSCRIPTION
+               ================================================ -->
+          <div class="nb-tabs__panel" data-nb-tab-panel="subscription" data-slot="panel">
+
+            <!-- Current Plan Overview -->
+            <div class="nb-card nb-mb-6" style="border-color: var(--nb-green-500); border-width: 3px;">
+              <div class="nb-card__body nb-p-6" data-slot="body">
+                <div class="nb-flex nb-flex-col md:nb-flex-row nb-items-start md:nb-items-center nb-justify-between nb-gap-4 nb-mb-6">
+                  <div>
+                    <div class="nb-flex nb-items-center nb-gap-2 nb-mb-1">
+                      <h2 class="nb-text-xl nb-font-bold">Pro Plan</h2>
+                      <span class="nb-badge nb-badge--success nb-badge--pill">Active</span>
+                    </div>
+                    <p class="nb-text-2xl nb-font-extrabold">$29<span class="nb-text-sm nb-font-normal nb-text-gray-500">/month</span></p>
+                  </div>
+                  <div class="nb-flex nb-gap-3">
+                    <a href="pricing.html" class="nb-btn nb-btn--primary">Upgrade plan</a>
+                    <button class="nb-btn nb-btn--ghost nb-text-danger">Cancel</button>
+                  </div>
+                </div>
+
+                <!-- Usage Stats -->
+                <h3 class="nb-text-sm nb-font-bold nb-mb-3 nb-text-gray-600" style="text-transform: uppercase; letter-spacing: 0.05em;">Usage this month</h3>
+                <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-3 nb-gap-4">
+                  <div class="nb-p-4 nb-border nb-rounded" style="background: var(--nb-gray-50);">
+                    <p class="nb-text-xs nb-text-gray-500 nb-mb-1">API Requests</p>
+                    <p class="nb-text-2xl nb-font-extrabold">8,432</p>
+                    <div class="nb-progress nb-mt-2"><div class="nb-progress__bar" style="width:84%;" data-slot="bar"></div></div>
+                    <p class="nb-text-xs nb-text-gray-500 nb-mt-1">84% of 10,000 limit</p>
+                  </div>
+                  <div class="nb-p-4 nb-border nb-rounded" style="background: var(--nb-gray-50);">
+                    <p class="nb-text-xs nb-text-gray-500 nb-mb-1">Team Members</p>
+                    <p class="nb-text-2xl nb-font-extrabold">3 <span class="nb-text-sm nb-font-normal nb-text-gray-500">/ 5</span></p>
+                    <div class="nb-progress nb-mt-2"><div class="nb-progress__bar" style="width:60%;" data-slot="bar"></div></div>
+                    <p class="nb-text-xs nb-text-gray-500 nb-mt-1">3 of 5 seats used</p>
+                  </div>
+                  <div class="nb-p-4 nb-border nb-rounded" style="background: var(--nb-gray-50);">
+                    <p class="nb-text-xs nb-text-gray-500 nb-mb-1">Storage</p>
+                    <p class="nb-text-2xl nb-font-extrabold">2.1 <span class="nb-text-sm nb-font-normal nb-text-gray-500">GB</span></p>
+                    <div class="nb-progress nb-mt-2"><div class="nb-progress__bar" style="width:42%;" data-slot="bar"></div></div>
+                    <p class="nb-text-xs nb-text-gray-500 nb-mt-1">42% of 5 GB limit</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plan Features -->
+            <div class="nb-card">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">What's included in your plan</h2>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+                <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-2 nb-gap-3">
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>All 50+ components</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>11 page templates</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Custom design tokens</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Figma source files</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Priority email support</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Dark mode variants</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Lifetime updates</span>
+                  </div>
+                  <div class="nb-flex nb-items-center nb-gap-2 nb-text-sm">
+                    <svg width="18" height="18" style="color:var(--nb-green-600);flex-shrink:0;"><use href="#nb-icon-check"/></svg>
+                    <span>Commercial license</span>
+                  </div>
+                </div>
+              </div>
+              <div class="nb-card__footer" data-slot="footer">
+                <p class="nb-text-sm nb-text-gray-500">Need more? <a href="pricing.html" class="nb-font-semibold" style="color:var(--nb-blue-500);">Compare all plans</a></p>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ================================================
+               TAB: BILLING
+               ================================================ -->
+          <div class="nb-tabs__panel" data-nb-tab-panel="billing" data-slot="panel">
+
+            <!-- Current Plan -->
+            <div class="nb-card nb-card--primary nb-mb-6">
+              <div class="nb-card__body nb-flex nb-flex-col md:nb-flex-row nb-items-start md:nb-items-center nb-justify-between nb-gap-4" data-slot="body">
+                <div>
+                  <h2 class="nb-text-lg nb-font-bold nb-mb-1">Pro Plan</h2>
+                  <p class="nb-text-2xl nb-font-extrabold nb-mb-1">$29<span class="nb-text-sm nb-font-normal nb-text-gray-500">/month</span></p>
+                  <p class="nb-text-sm nb-text-gray-500">Your plan renews on April 14, 2026.</p>
+                </div>
+                <div class="nb-flex nb-gap-3 nb-flex-wrap">
+                  <button class="nb-btn nb-btn--outline">Change plan</button>
+                  <button class="nb-btn nb-btn--ghost nb-text-danger">Cancel subscription</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Payment Method</h2>
+              </div>
+              <div class="nb-card__body nb-flex nb-items-center nb-justify-between" data-slot="body">
+                <div class="nb-flex nb-items-center nb-gap-3">
+                  <div class="nb-bg-gray-100 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center" style="width:44px;height:44px;">
+                    <svg width="22" height="22"><use href="#nb-icon-credit-card"/></svg>
+                  </div>
+                  <div>
+                    <p class="nb-text-sm nb-font-semibold">Visa ending in 4242</p>
+                    <p class="nb-text-xs nb-text-gray-500">Expires 12/2028</p>
+                  </div>
+                </div>
+                <button class="nb-btn nb-btn--outline nb-btn--sm">Update</button>
+              </div>
+            </div>
+
+            <!-- Billing History -->
+            <div class="nb-card">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Billing History</h2>
+              </div>
+              <div class="nb-table-wrapper" style="border:none; border-radius:0;" data-slot="wrapper">
+                <table class="nb-table nb-table--striped nb-table--hover">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Description</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th class="nb-text-right">Invoice</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Mar 14, 2026</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--success nb-badge--pill">Paid</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Feb 14, 2026</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--success nb-badge--pill">Paid</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Jan 14, 2026</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--success nb-badge--pill">Paid</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dec 14, 2025</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--success nb-badge--pill">Paid</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Nov 14, 2025</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--warning nb-badge--pill">Refunded</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Oct 14, 2025</td>
+                      <td>Pro Plan -- Monthly</td>
+                      <td class="nb-font-semibold">$29.00</td>
+                      <td><span class="nb-badge nb-badge--success nb-badge--pill">Paid</span></td>
+                      <td class="nb-text-right">
+                        <a href="#" class="nb-btn nb-btn--ghost nb-btn--sm">
+                          <svg width="16" height="16"><use href="#nb-icon-download"/></svg>
+                          PDF
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ================================================
+               TAB: NOTIFICATIONS
+               ================================================ -->
+          <div class="nb-tabs__panel" data-nb-tab-panel="notifications" data-slot="panel">
+
+            <!-- Email Notifications -->
+            <div class="nb-card nb-mb-6">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Email Notifications</h2>
+                <p class="nb-text-sm nb-text-gray-500 nb-mt-1">Choose which email notifications you'd like to receive.</p>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+
+                <!-- Marketing -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">Marketing emails</p>
+                    <p class="nb-text-xs nb-text-gray-500">Receive emails about new products, features, and promotions.</p>
+                  </div>
+                  <label class="nb-toggle" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Product Updates -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">Product updates</p>
+                    <p class="nb-text-xs nb-text-gray-500">Get notified when we ship new features and improvements.</p>
+                  </div>
+                  <label class="nb-toggle is-active" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" checked data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Security Alerts -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">Security alerts</p>
+                    <p class="nb-text-xs nb-text-gray-500">Get notified about security issues and suspicious activity on your account.</p>
+                  </div>
+                  <label class="nb-toggle is-active" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" checked data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Push Notifications -->
+            <div class="nb-card">
+              <div class="nb-card__header" data-slot="header">
+                <h2 class="nb-text-lg nb-font-bold">Push Notifications</h2>
+                <p class="nb-text-sm nb-text-gray-500 nb-mt-1">Configure push notifications for your desktop and mobile devices.</p>
+              </div>
+              <div class="nb-card__body" data-slot="body">
+
+                <!-- New Messages -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">New messages</p>
+                    <p class="nb-text-xs nb-text-gray-500">Get push notifications when you receive new direct messages.</p>
+                  </div>
+                  <label class="nb-toggle is-active" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" checked data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Mentions -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">Mentions</p>
+                    <p class="nb-text-xs nb-text-gray-500">Get notified when someone mentions you in a comment or discussion.</p>
+                  </div>
+                  <label class="nb-toggle is-active" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" checked data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Task Assignments -->
+                <div class="notification-row">
+                  <div class="notification-row__info">
+                    <p class="nb-text-sm nb-font-semibold">Task assignments</p>
+                    <p class="nb-text-xs nb-text-gray-500">Get push notifications when a task is assigned to you or updated.</p>
+                  </div>
+                  <label class="nb-toggle" data-nb-toggle>
+                    <input type="checkbox" class="nb-toggle__input" data-slot="input">
+                    <span class="nb-toggle__track" data-slot="track">
+                      <span class="nb-toggle__thumb" data-slot="thumb"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../js/nb-all.js"></script>
+</body>
+</html>

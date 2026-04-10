@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Spacer — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-spacer {
+    flex-shrink: 0;
+  }
+
+  .nb-spacer-xs {
+    height: var(--nb-space-2, 8px);
+  }
+
+  .nb-spacer-sm {
+    height: var(--nb-space-4, 16px);
+  }
+
+  .nb-spacer-md {
+    height: var(--nb-space-6, 24px);
+  }
+
+  .nb-spacer-lg {
+    height: var(--nb-space-8, 32px);
+  }
+
+  .nb-spacer-xl {
+    height: var(--nb-space-12, 48px);
+  }
+
+  .nb-spacer-2xl {
+    height: var(--nb-space-16, 64px);
+  }
+}

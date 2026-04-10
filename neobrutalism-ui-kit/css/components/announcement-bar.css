@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Announcement Bar — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Full-width top bar for announcements and CTAs.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 48px 10px 24px;
+    background: var(--nb-white);
+    border-bottom: 2px solid var(--nb-black);
+    position: relative;
+    font-size: var(--nb-text-sm);
+    z-index: 100;
+  }
+
+  /* Fixed variant */
+
+  .nb-announcement-bar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Spacer to push content down when fixed */
+
+  .nb-announcement-bar-spacer {
+    height: 40px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Text
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar_text {
+    color: var(--nb-black);
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .nb-announcement-bar_text a {
+    color: var(--nb-green-500);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+  }
+
+  .nb-announcement-bar_text a:hover {
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Link / CTA
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar_link {
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-green-500);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.1s ease;
+  }
+
+  .nb-announcement-bar_link:hover {
+    color: var(--nb-black);
+  }
+
+  .nb-announcement-bar_link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Close Button
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar_close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid transparent;
+    color: var(--nb-gray-500);
+    cursor: pointer;
+    border-radius: var(--nb-radius);
+    padding: 0;
+    transition: color 0.1s ease, border-color 0.1s ease;
+  }
+
+  .nb-announcement-bar_close:hover {
+    color: var(--nb-black);
+    border-color: var(--nb-black);
+  }
+
+  .nb-announcement-bar_close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Accent Variant
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar-accent {
+    background: var(--nb-yellow-500);
+    border-bottom-color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Dismissal
+     -------------------------------------------------------------------------- */
+
+  .nb-announcement-bar.is-hidden {
+    display: none;
+  }
+
+  .nb-announcement-bar.is-dismissing {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nb-announcement-bar,
+    .nb-announcement-bar * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-announcement-bar {
+    background: var(--nb-gray-900);
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-announcement-bar_text {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-announcement-bar_text a:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-announcement-bar_link:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-announcement-bar_close:hover {
+    color: var(--nb-gray-100);
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-announcement-bar-accent {
+    border-bottom-color: var(--nb-gray-700);
+  }
+}

@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Tabs — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Tab list, tab items, panels, pills variant, vertical variant.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Tabs Container
+     -------------------------------------------------------------------------- */
+  .nb-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --------------------------------------------------------------------------
+     Tab List
+     -------------------------------------------------------------------------- */
+  .nb-tabs__list {
+    display: flex;
+    border-bottom: var(--nb-border);
+    gap: 0;
+  }
+
+  /* --------------------------------------------------------------------------
+     Tab Item
+     -------------------------------------------------------------------------- */
+  .nb-tabs__tab {
+    padding: 10px 20px;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-semibold);
+    line-height: var(--nb-leading-normal);
+    cursor: pointer;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-bottom: none;
+    border-radius: var(--nb-radius) var(--nb-radius) 0 0;
+    color: var(--nb-gray-500);
+    transform: translateY(2px);
+    transition:
+      color var(--nb-transition-fast),
+      background-color var(--nb-transition-fast),
+      border-color var(--nb-transition-fast);
+  }
+
+  .nb-tabs__tab:hover {
+    color: var(--nb-black);
+    background-color: var(--nb-gray-50);
+  }
+
+  .nb-tabs__tab:active {
+    background-color: var(--nb-gray-100);
+  }
+
+  .nb-tabs__tab:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  .nb-tabs__tab.is-active {
+    background-color: var(--nb-white);
+    border-color: var(--nb-black);
+    color: var(--nb-black);
+    transform: translateY(2px);
+  }
+
+  /* --------------------------------------------------------------------------
+     Tab Panel
+     -------------------------------------------------------------------------- */
+  .nb-tabs__panel {
+    padding: var(--nb-space-5) 0;
+    display: none;
+  }
+
+  .nb-tabs__panel.is-active {
+    display: block;
+  }
+
+  /* --------------------------------------------------------------------------
+     Pills Variant
+     -------------------------------------------------------------------------- */
+  .nb-tabs--pills .nb-tabs__list {
+    border-bottom: none;
+    gap: var(--nb-space-2);
+  }
+
+  .nb-tabs--pills .nb-tabs__tab {
+    border-radius: var(--nb-radius);
+    border: var(--nb-border);
+    border-bottom: 2px solid var(--nb-black);
+    transform: none;
+  }
+
+  .nb-tabs--pills .nb-tabs__tab.is-active {
+    background-color: var(--nb-black);
+    color: var(--nb-white);
+    transform: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Vertical Variant
+     -------------------------------------------------------------------------- */
+  .nb-tabs--vertical {
+    flex-direction: row;
+  }
+
+  .nb-tabs--vertical .nb-tabs__list {
+    flex-direction: column;
+    border-bottom: none;
+    border-right: var(--nb-border);
+    gap: 0;
+  }
+
+  .nb-tabs--vertical .nb-tabs__tab {
+    border-radius: var(--nb-radius) 0 0 var(--nb-radius);
+    border: 2px solid transparent;
+    border-right: none;
+    transform: translateX(2px);
+  }
+
+  .nb-tabs--vertical .nb-tabs__tab.is-active {
+    border-color: var(--nb-black);
+    transform: translateX(2px);
+  }
+
+  .nb-tabs--vertical .nb-tabs__panel {
+    padding: 0 var(--nb-space-5);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-tabs__tab:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-tabs__tab.is-active {
+    background-color: var(--nb-gray-900);
+    border-color: var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-tabs--pills .nb-tabs__tab {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-tabs--pills .nb-tabs__tab.is-active {
+    background-color: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-tabs--vertical .nb-tabs__tab.is-active {
+    border-color: var(--nb-gray-700);
+  }
+}

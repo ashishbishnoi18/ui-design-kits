@@ -2,19 +2,18 @@
   "name": "nb-ui-kit",
   "version": "1.0.0",
   "description": "A clean Neo Brutalism design system — 40+ components, bold borders, hard shadows, pure CSS + vanilla JS.",
-  "main": "js/nb-all.js",
-  "style": "css/nb-all.css",
+  "main": "neobrutalism-ui-kit/js/nb-all.js",
+  "style": "neobrutalism-ui-kit/css/nb-all.css",
   "files": [
-    "css/",
-    "js/",
+    "neobrutalism-ui-kit/",
+    "devkit/",
     "assets/",
-    "dist/",
     "LICENSE"
   ],
   "scripts": {
-    "build:css": "node scripts/build-css.js",
-    "build:js": "node scripts/build-js.js",
-    "build": "npm run build:css && npm run build:js",
+    "build:nb": "node neobrutalism-ui-kit/scripts/build-css.js && node neobrutalism-ui-kit/scripts/build-js.js",
+    "build:devkit": "node devkit/scripts/build-css.js && node devkit/scripts/build-js.js",
+    "build": "npm run build:nb && npm run build:devkit",
     "dev": "python3 -m http.server 8080"
   },
   "keywords": [

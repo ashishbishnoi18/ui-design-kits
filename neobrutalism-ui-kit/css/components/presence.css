@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Presence — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-presence {
+    /* Container for animated elements */
+  }
+
+  /* Fade */
+
+  @keyframes nb-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes nb-fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  .nb-fade-in {
+    animation: nb-fade-in var(--nb-transition-base, 200ms) ease-out both;
+  }
+
+  .nb-fade-out {
+    animation: nb-fade-out var(--nb-transition-base, 200ms) ease-in both;
+  }
+
+  /* Slide up */
+
+  @keyframes nb-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes nb-slide-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  .nb-slide-in {
+    animation: nb-slide-in var(--nb-transition-base, 200ms) ease-out both;
+  }
+
+  .nb-slide-out {
+    animation: nb-slide-out var(--nb-transition-base, 200ms) ease-in both;
+  }
+
+  /* Scale */
+
+  @keyframes nb-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes nb-scale-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  .nb-scale-in {
+    animation: nb-scale-in var(--nb-transition-base, 200ms) ease-out both;
+  }
+
+  .nb-scale-out {
+    animation: nb-scale-out var(--nb-transition-base, 200ms) ease-in both;
+  }
+
+  /* Slide from left */
+
+  @keyframes nb-slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes nb-slide-out-left {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+  }
+
+  .nb-slide-in-left {
+    animation: nb-slide-in-left var(--nb-transition-base, 200ms) ease-out both;
+  }
+
+  .nb-slide-out-left {
+    animation: nb-slide-out-left var(--nb-transition-base, 200ms) ease-in both;
+  }
+}

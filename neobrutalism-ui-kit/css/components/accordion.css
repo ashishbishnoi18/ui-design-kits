@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Accordions — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Accordion container, items, trigger, icon, collapsible content, body,
+   flush variant.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Accordion
+     -------------------------------------------------------------------------- */
+  .nb-accordion {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+  }
+
+  /* --------------------------------------------------------------------------
+     Accordion Item
+     -------------------------------------------------------------------------- */
+  .nb-accordion__item {
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-accordion__item:last-child {
+    border-bottom: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Accordion Trigger
+     -------------------------------------------------------------------------- */
+  .nb-accordion__trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-base);
+    font-weight: var(--nb-font-semibold);
+    line-height: var(--nb-leading-normal);
+    background-color: var(--nb-white);
+    color: var(--nb-black);
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    transition: background-color var(--nb-transition-fast);
+  }
+
+  .nb-accordion__trigger:hover {
+    background-color: var(--nb-gray-50);
+  }
+
+  .nb-accordion__trigger:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: -2px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Accordion Icon (chevron / toggle indicator)
+     -------------------------------------------------------------------------- */
+  .nb-accordion__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    transition: transform 200ms ease;
+  }
+
+  .nb-accordion__item.is-open .nb-accordion__icon {
+    transform: rotate(180deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Accordion Content (collapsible)
+     -------------------------------------------------------------------------- */
+  .nb-accordion__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease;
+  }
+
+  .nb-accordion__item.is-open .nb-accordion__content {
+    max-height: var(--nb-accordion-height, 500px);
+  }
+
+  /* --------------------------------------------------------------------------
+     Accordion Body (inner padding)
+     -------------------------------------------------------------------------- */
+  .nb-accordion__body {
+    padding: 0 20px 16px;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    line-height: var(--nb-leading-normal);
+    color: var(--nb-gray-700);
+  }
+
+  /* --------------------------------------------------------------------------
+     Flush Variant (no outer border, no border-radius)
+     -------------------------------------------------------------------------- */
+  .nb-accordion--flush {
+    border: none;
+    border-radius: 0;
+  }
+
+  .nb-accordion--flush .nb-accordion__item {
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-accordion--flush .nb-accordion__item:last-child {
+    border-bottom: var(--nb-border);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-accordion__trigger {
+    background-color: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+  }
+}

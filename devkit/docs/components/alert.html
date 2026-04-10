@@ -29,31 +29,31 @@
       <div class="docs-preview-panel" data-panel="preview">
         <div style="display:flex;flex-direction:column;gap:12px">
           <div class="dk-alert dk-alert--info">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-            <div class="dk-alert_content">
-              <div class="dk-alert_title">Information</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div class="dk-alert_content" data-slot="content">
+              <div class="dk-alert_title" data-slot="title">Information</div>
               A new software update is available. See what's new in version 3.0.
             </div>
-            <button class="dk-alert_close">&times;</button>
+            <button class="dk-alert_close" data-slot="dismiss">&times;</button>
           </div>
           <div class="dk-alert dk-alert--success">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-            <div class="dk-alert_content">
-              <div class="dk-alert_title">Success</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <div class="dk-alert_content" data-slot="content">
+              <div class="dk-alert_title" data-slot="title">Success</div>
               Your changes have been saved successfully.
             </div>
           </div>
           <div class="dk-alert dk-alert--warning">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div class="dk-alert_content">
-              <div class="dk-alert_title">Warning</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="dk-alert_content" data-slot="content">
+              <div class="dk-alert_title" data-slot="title">Warning</div>
               Your account storage is almost full. Upgrade to continue.
             </div>
           </div>
           <div class="dk-alert dk-alert--danger">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <div class="dk-alert_content">
-              <div class="dk-alert_title">Error</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <div class="dk-alert_content" data-slot="content">
+              <div class="dk-alert_title" data-slot="title">Error</div>
               There was a problem processing your request. Please try again.
             </div>
           </div>
@@ -61,12 +61,12 @@
       </div>
       <div class="docs-code-panel" data-panel="code" style="display:none">
         <pre><code>&lt;div class="dk-alert dk-alert--info"&gt;
-  &lt;svg class="dk-alert_icon" ...&gt;...&lt;/svg&gt;
-  &lt;div class="dk-alert_content"&gt;
-    &lt;div class="dk-alert_title"&gt;Information&lt;/div&gt;
+  &lt;svg class="dk-alert_icon" data-slot="icon" ...&gt;...&lt;/svg&gt;
+  &lt;div class="dk-alert_content" data-slot="content"&gt;
+    &lt;div class="dk-alert_title" data-slot="title"&gt;Information&lt;/div&gt;
     A new software update is available.
   &lt;/div&gt;
-  &lt;button class="dk-alert_close"&gt;&amp;times;&lt;/button&gt;
+  &lt;button class="dk-alert_close" data-slot="dismiss"&gt;&amp;times;&lt;/button&gt;
 &lt;/div&gt;
 
 &lt;!-- Variants: dk-alert--info | dk-alert--success | dk-alert--warning | dk-alert--danger --&gt;
@@ -79,8 +79,8 @@
       <div class="docs-preview-section">
         <div class="docs-preview-panel">
           <div class="dk-alert dk-alert--info dk-alert--banner">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-            <div class="dk-alert_content">Full-width banner alert without rounded corners or side borders.</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div class="dk-alert_content" data-slot="content">Full-width banner alert without rounded corners or side borders.</div>
           </div>
         </div>
       </div>

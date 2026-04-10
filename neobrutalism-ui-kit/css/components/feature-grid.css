@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Feature Grid — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Item */
+
+  .nb-feature-grid_item {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    padding: 28px 24px;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .nb-feature-grid_item:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-lg);
+  }
+
+  /* Icon */
+
+  .nb-feature-grid_icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--nb-yellow-500);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-black);
+    margin-bottom: 16px;
+  }
+
+  .nb-feature-grid_icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Title */
+
+  .nb-feature-grid_title {
+    font-size: var(--nb-text-base);
+    font-weight: 700;
+    color: var(--nb-black);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+
+  /* Description */
+
+  .nb-feature-grid_desc {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  2-column variant                                                   */
+  /* ------------------------------------------------------------------ */
+
+  .nb-feature-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Compact variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .nb-feature-grid-compact .nb-feature-grid_item {
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .nb-feature-grid-compact .nb-feature-grid_icon {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 768px) {
+    .nb-feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nb-feature-grid,
+    .nb-feature-grid-2col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-feature-grid_item {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-feature-grid_icon {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-feature-grid_title {
+    color: var(--nb-gray-100);
+  }
+}

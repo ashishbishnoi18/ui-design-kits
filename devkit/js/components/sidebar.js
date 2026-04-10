@@ -136,6 +136,13 @@
     DK.on(window, 'resize', handleResize);
     DK.on(document, 'keydown', handleKeydown);
 
+    /* Return cleanup for DK.destroy() */
+    DK._addCleanup(el, function () {
+      DK.off(window, 'resize', handleResize);
+      DK.off(document, 'keydown', handleKeydown);
+      clearTimeout(resizeTimer);
+    });
+
     /* -------------------------------------------------------------- */
     /*  Public API                                                     */
     /* -------------------------------------------------------------- */

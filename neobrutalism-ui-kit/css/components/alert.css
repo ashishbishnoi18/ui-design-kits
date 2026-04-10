@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Alerts — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Contextual feedback messages: info, success, warning, danger.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Alert
+     -------------------------------------------------------------------------- */
+  .nb-alert {
+    display: flex;
+    gap: var(--nb-space-3);
+    padding: var(--nb-space-4);
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    line-height: var(--nb-leading-normal);
+    color: var(--nb-black);
+    background-color: var(--nb-white);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm); /* Added signature shadow */
+  }
+
+  /* --------------------------------------------------------------------------
+     Alert Sub-Elements
+     -------------------------------------------------------------------------- */
+  .nb-alert__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .nb-alert__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nb-alert__title {
+    font-weight: var(--nb-font-bold);
+    margin-bottom: var(--nb-space-1);
+  }
+
+  .nb-alert__dismiss {
+    margin-left: auto;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--nb-space-1);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--nb-gray-500);
+    transition: color var(--nb-transition-fast);
+  }
+
+  .nb-alert__dismiss:hover {
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Color Variants — Using tokens for compatibility and bold aesthetic
+     -------------------------------------------------------------------------- */
+  .nb-alert--info {
+    background-color: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+
+  .nb-alert--info .nb-alert__icon,
+  .nb-alert--info .nb-alert__dismiss {
+    color: var(--nb-white);
+  }
+
+  .nb-alert--success {
+    background-color: var(--nb-green-500);
+    color: var(--nb-black);
+  }
+
+  .nb-alert--success .nb-alert__icon,
+  .nb-alert--success .nb-alert__dismiss {
+    color: var(--nb-black);
+  }
+
+  .nb-alert--warning {
+    background-color: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-alert--warning .nb-alert__icon,
+  .nb-alert--warning .nb-alert__dismiss {
+    color: var(--nb-black);
+  }
+
+  .nb-alert--danger {
+    background-color: var(--nb-red-500);
+    color: var(--nb-white);
+  }
+
+  .nb-alert--danger .nb-alert__icon,
+  .nb-alert--danger .nb-alert__dismiss {
+    color: var(--nb-white);
+  }
+
+  /* --------------------------------------------------------------------------
+     Banner Variant (full-width, no rounded corners, no side borders)
+     -------------------------------------------------------------------------- */
+  .nb-alert--banner {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-alert {
+    color: var(--nb-gray-100);
+    background-color: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-alert__dismiss:hover {
+    color: var(--nb-gray-100);
+  }
+}

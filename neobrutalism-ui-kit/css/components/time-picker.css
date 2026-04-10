@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Time Picker — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-time-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Input wrapper ---------------------------------------------------- */
+
+  .nb-time-picker_input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nb-time-picker_input {
+    display: block;
+    width: 100%;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 7px 36px 7px 12px;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    outline: none;
+    transition: box-shadow 0.15s ease;
+    line-height: 1.5;
+    cursor: pointer;
+    min-width: 120px;
+  }
+
+  .nb-time-picker_input:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-time-picker_input::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-time-picker_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--nb-gray-400);
+    pointer-events: none;
+  }
+
+  /* Dropdown --------------------------------------------------------- */
+
+  .nb-time-picker_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    box-shadow: var(--nb-shadow-lg);
+    padding: 8px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+  }
+
+  .nb-time-picker.is-open .nb-time-picker_dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Columns ---------------------------------------------------------- */
+
+  .nb-time-picker_col {
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--nb-black) transparent;
+  }
+
+  .nb-time-picker_col::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .nb-time-picker_col::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .nb-time-picker_col::-webkit-scrollbar-thumb {
+    background: var(--nb-black);
+    border-radius: 2px;
+  }
+
+  .nb-time-picker_col-label {
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-400);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 0 4px;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    background: var(--nb-white);
+  }
+
+  /* Divider between columns */
+  .nb-time-picker_divider {
+    width: 2px;
+    background: var(--nb-black);
+    margin: 4px 0;
+    flex-shrink: 0;
+  }
+
+  /* Items ------------------------------------------------------------ */
+
+  .nb-time-picker_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 30px;
+    font-size: var(--nb-text-sm);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-700);
+    border: none;
+    background: transparent;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    padding: 0 8px;
+  }
+
+  .nb-time-picker_item:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+  }
+
+  .nb-time-picker_item.is-selected {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    font-weight: 600;
+    border: 2px solid var(--nb-black);
+  }
+
+  .nb-time-picker_item.is-selected:hover {
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-time-picker_item:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: -2px;
+  }
+
+  /* AM/PM toggle ----------------------------------------------------- */
+
+  .nb-time-picker_period {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 2px;
+  }
+
+  .nb-time-picker_period-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 30px;
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--nb-gray-400);
+    border: 2px solid var(--nb-black);
+    background: transparent;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .nb-time-picker_period-btn:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-gray-700);
+  }
+
+  .nb-time-picker_period-btn.is-active {
+    background: var(--nb-yellow-500);
+    border-color: var(--nb-black);
+    color: var(--nb-black);
+  }
+
+  /* Focus ring for input */
+  .nb-time-picker_input:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--nb-white),
+      0 0 0 4px var(--nb-black);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-time-picker_input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-time-picker_dropdown {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-time-picker_col::-webkit-scrollbar-thumb {
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-time-picker_col-label {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-time-picker_divider {
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-time-picker_item:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-time-picker_item.is-selected {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-time-picker_period-btn {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-time-picker_period-btn.is-active {
+    border-color: var(--nb-gray-700);
+  }
+}

@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Themes — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Theme variants via token overrides on [data-theme].
+   Set on <html> to switch the entire page.
+
+   Three themes, each honest to a different material:
+   - light (default): white concrete — clean, bright
+   - dark: night concrete — inverted, white structural lines on black
+   - concrete: béton brut — warm raw concrete surface
+   ========================================================================== */
+
+/* ==========================================================================
+   Dark — inverted grayscale, white borders/shadows on black
+   ========================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --nb-black: #FFFFFF;
+  --nb-white: #111111;
+
+  --nb-gray-50:  #1A1A1A;
+  --nb-gray-100: #222222;
+  --nb-gray-200: #2E2E2E;
+  --nb-gray-300: #444444;
+  --nb-gray-400: #666666;
+  --nb-gray-500: #888888;
+  --nb-gray-600: #AAAAAA;
+  --nb-gray-700: #CCCCCC;
+  --nb-gray-800: #E0E0E0;
+  --nb-gray-900: #F0F0F0;
+}
+
+/* ==========================================================================
+   Concrete — warm raw concrete neutrals, black structure unchanged
+   ========================================================================== */
+[data-theme="concrete"] {
+  --nb-white:    #EDE8E2;
+  --nb-gray-50:  #E3DDD6;
+  --nb-gray-100: #D9D2CA;
+  --nb-gray-200: #C5BDB4;
+  --nb-gray-300: #A69E95;
+  --nb-gray-400: #857D74;
+  --nb-gray-500: #6B6359;
+  --nb-gray-600: #514A42;
+  --nb-gray-700: #3B342D;
+  --nb-gray-800: #261F1A;
+  --nb-gray-900: #15100C;
+}

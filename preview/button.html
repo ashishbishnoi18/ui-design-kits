@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button — DevKit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar (same as index) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">&lt;/&gt;</div>
+        <a class="sidebar-logo-text" href="index.html">devkit</a>
+        <span class="sidebar-logo-version">v0.1</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="text" class="sidebar-search-input" placeholder="Search components..." id="searchInput">
+      <span class="sidebar-search-hint">&#8984;K</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Getting Started</div>
+        <a class="sidebar-link" href="#">Introduction</a>
+        <a class="sidebar-link" href="#">Installation</a>
+        <a class="sidebar-link" href="#">Theming</a>
+        <a class="sidebar-link" href="#">CLI</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Forms</div>
+        <a class="sidebar-link active" href="button.html">Button</a>
+        <a class="sidebar-link" href="#">Input</a>
+        <a class="sidebar-link" href="#">Select</a>
+        <a class="sidebar-link" href="#">Checkbox</a>
+        <a class="sidebar-link" href="#">Toggle</a>
+        <a class="sidebar-link" href="#">Slider</a>
+        <a class="sidebar-link" href="#">File Upload <span class="sidebar-link-new">new</span></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Data Display</div>
+        <a class="sidebar-link" href="#">Card</a>
+        <a class="sidebar-link" href="#">Table</a>
+        <a class="sidebar-link" href="#">Badge</a>
+        <a class="sidebar-link" href="#">Avatar</a>
+        <a class="sidebar-link" href="#">Code Block</a>
+        <a class="sidebar-link" href="#">Calendar</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <a class="sidebar-link" href="#">Tabs</a>
+        <a class="sidebar-link" href="#">Breadcrumb</a>
+        <a class="sidebar-link" href="#">Sidebar</a>
+        <a class="sidebar-link" href="#">Pagination</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Feedback</div>
+        <a class="sidebar-link" href="#">Alert</a>
+        <a class="sidebar-link" href="#">Toast</a>
+        <a class="sidebar-link" href="#">Modal</a>
+        <a class="sidebar-link" href="#">Tooltip</a>
+        <a class="sidebar-link" href="#">Progress</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Layout</div>
+        <a class="sidebar-link" href="#">Accordion</a>
+        <a class="sidebar-link" href="#">Separator</a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="sidebar-footer-link" href="#">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile toggle -->
+  <button class="mobile-toggle" id="mobileToggle">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="sidebar-backdrop" id="backdrop"></div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="main-with-toc">
+
+      <div class="main-content">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="index.html">Components</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Button</span>
+        </div>
+
+        <!-- Component Header -->
+        <div class="component-header">
+          <h1 class="component-title">Button</h1>
+          <p class="component-desc">An interactive element that triggers an action or event. Supports multiple variants, sizes, states, and icon placement.</p>
+          <div class="component-tags">
+            <span class="tag">CSS</span>
+            <span class="tag">zero dependencies</span>
+            <span class="tag">accessible</span>
+          </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="demo-section" id="preview">
+          <div class="demo-section-title">Preview</div>
+          <div class="demo-area">
+            <div class="demo-toolbar">
+              <div class="demo-toolbar-tabs">
+                <button class="demo-toolbar-tab active" data-tab="preview-tab">Preview</button>
+                <button class="demo-toolbar-tab" data-tab="code-tab">Code</button>
+              </div>
+              <div class="demo-toolbar-actions">
+                <button class="demo-toolbar-btn" title="Copy code" id="copyPreview">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Preview panel -->
+            <div class="demo-preview" id="preview-tab">
+              <div class="demo-preview-wrap">
+                <div class="demo-row">
+                  <span class="demo-label">Variant</span>
+                  <button class="btn btn-primary btn-md">Primary</button>
+                  <button class="btn btn-secondary btn-md">Secondary</button>
+                  <button class="btn btn-outline btn-md">Outline</button>
+                  <button class="btn btn-ghost btn-md">Ghost</button>
+                  <button class="btn btn-danger btn-md">Danger</button>
+                  <button class="btn btn-link btn-md">Link</button>
+                </div>
+                <div class="demo-row">
+                  <span class="demo-label">Size</span>
+                  <button class="btn btn-primary btn-sm">Small</button>
+                  <button class="btn btn-primary btn-md">Medium</button>
+                  <button class="btn btn-primary btn-lg">Large</button>
+                </div>
+                <div class="demo-row">
+                  <span class="demo-label">State</span>
+                  <button class="btn btn-primary btn-md" disabled>Disabled</button>
+                  <button class="btn btn-primary btn-md btn-loading"><span class="btn-spinner"></span> Loading</button>
+                  <button class="btn btn-secondary btn-md btn-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+                <div class="demo-row">
+                  <span class="demo-label">With icon</span>
+                  <button class="btn btn-primary btn-md">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    Continue
+                  </button>
+                  <button class="btn btn-secondary btn-md">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code panel -->
+            <div id="code-tab" style="display:none;">
+              <div class="code-block" style="border:none;border-radius:0;">
+                <div class="code-body">
+                  <div class="code-line"><span class="code-line-num">1</span><span class="code-line-content"><span class="syn-comment">&lt;!-- Variants --&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">2</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-md"</span><span class="syn-tag">&gt;</span>Primary<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">3</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-secondary btn-md"</span><span class="syn-tag">&gt;</span>Secondary<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">4</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-outline btn-md"</span><span class="syn-tag">&gt;</span>Outline<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">5</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-ghost btn-md"</span><span class="syn-tag">&gt;</span>Ghost<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">6</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-danger btn-md"</span><span class="syn-tag">&gt;</span>Danger<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">7</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-link btn-md"</span><span class="syn-tag">&gt;</span>Link<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">8</span><span class="code-line-content"></span></div>
+                  <div class="code-line"><span class="code-line-num">9</span><span class="code-line-content"><span class="syn-comment">&lt;!-- Sizes --&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">10</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-sm"</span><span class="syn-tag">&gt;</span>Small<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">11</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-md"</span><span class="syn-tag">&gt;</span>Medium<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">12</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-lg"</span><span class="syn-tag">&gt;</span>Large<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">13</span><span class="code-line-content"></span></div>
+                  <div class="code-line"><span class="code-line-num">14</span><span class="code-line-content"><span class="syn-comment">&lt;!-- Disabled --&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">15</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-md"</span> <span class="syn-attr">disabled</span><span class="syn-tag">&gt;</span>Disabled<span class="syn-tag">&lt;/button&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">16</span><span class="code-line-content"></span></div>
+                  <div class="code-line"><span class="code-line-num">17</span><span class="code-line-content"><span class="syn-comment">&lt;!-- With icon --&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">18</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-md"</span><span class="syn-tag">&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">19</span><span class="code-line-content">  <span class="syn-tag">&lt;svg</span> <span class="syn-attr">width</span><span class="syn-punct">=</span><span class="syn-string">"14"</span> <span class="syn-attr">height</span><span class="syn-punct">=</span><span class="syn-string">"14"</span> <span class="syn-attr">...</span><span class="syn-tag">&gt;</span>...<span class="syn-tag">&lt;/svg&gt;</span></span></div>
+                  <div class="code-line"><span class="code-line-num">20</span><span class="code-line-content">  Continue</span></div>
+                  <div class="code-line"><span class="code-line-num">21</span><span class="code-line-content"><span class="syn-tag">&lt;/button&gt;</span></span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Installation -->
+        <div class="install-section" id="installation">
+          <div class="demo-section-title">Installation</div>
+          <div class="install-tabs">
+            <button class="install-tab active" data-pm="npm">npm</button>
+            <button class="install-tab" data-pm="pnpm">pnpm</button>
+            <button class="install-tab" data-pm="yarn">yarn</button>
+            <button class="install-tab" data-pm="cdn">CDN</button>
+          </div>
+          <div class="install-content active" data-pm-content="npm">
+            <span class="install-cmd">npm install devkit-ui</span>
+            <button class="install-copy" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-content" data-pm-content="pnpm">
+            <span class="install-cmd">pnpm add devkit-ui</span>
+            <button class="install-copy" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-content" data-pm-content="yarn">
+            <span class="install-cmd">yarn add devkit-ui</span>
+            <button class="install-copy" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+          <div class="install-content" data-pm-content="cdn">
+            <span class="install-cmd">&lt;link rel="stylesheet" href="https://cdn.devkit.dev/button.css"&gt;</span>
+            <button class="install-copy" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012-2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Usage -->
+        <div class="demo-section" id="usage">
+          <div class="demo-section-title">Usage</div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-header-lang">html</span>
+              <button class="code-header-copy">Copy</button>
+            </div>
+            <div class="code-body">
+              <div class="code-line"><span class="code-line-num">1</span><span class="code-line-content"><span class="syn-comment">&lt;!-- Import the CSS --&gt;</span></span></div>
+              <div class="code-line"><span class="code-line-num">2</span><span class="code-line-content"><span class="syn-tag">&lt;link</span> <span class="syn-attr">rel</span><span class="syn-punct">=</span><span class="syn-string">"stylesheet"</span> <span class="syn-attr">href</span><span class="syn-punct">=</span><span class="syn-string">"devkit/button.css"</span><span class="syn-tag">&gt;</span></span></div>
+              <div class="code-line"><span class="code-line-num">3</span><span class="code-line-content"></span></div>
+              <div class="code-line"><span class="code-line-num">4</span><span class="code-line-content"><span class="syn-comment">&lt;!-- Use the component --&gt;</span></span></div>
+              <div class="code-line"><span class="code-line-num">5</span><span class="code-line-content"><span class="syn-tag">&lt;button</span> <span class="syn-attr">class</span><span class="syn-punct">=</span><span class="syn-string">"btn btn-primary btn-md"</span><span class="syn-tag">&gt;</span></span></div>
+              <div class="code-line"><span class="code-line-num">6</span><span class="code-line-content">  Click me</span></div>
+              <div class="code-line"><span class="code-line-num">7</span><span class="code-line-content"><span class="syn-tag">&lt;/button&gt;</span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Props Table -->
+        <div class="props-section" id="api">
+          <div class="demo-section-title">API Reference</div>
+          <table class="props-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="prop-name">.btn</span><span class="prop-required">*</span></td>
+                <td><span class="prop-type">base</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Required base class for all buttons</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-primary</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Solid green background, for primary actions</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-secondary</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Raised background with border, for secondary actions</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-outline</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Transparent with border, for tertiary actions</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-ghost</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">No border or background, minimal presence</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-danger</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Red background for destructive actions</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-link</span></td>
+                <td><span class="prop-type">variant</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Looks like a link, no padding or background</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-sm</span></td>
+                <td><span class="prop-type">size</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">30px height, compact padding</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-md</span></td>
+                <td><span class="prop-type">size</span></td>
+                <td><span class="prop-default">default</span></td>
+                <td><span class="prop-desc">36px height, standard padding</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-lg</span></td>
+                <td><span class="prop-type">size</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">42px height, generous padding</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">.btn-icon</span></td>
+                <td><span class="prop-type">modifier</span></td>
+                <td><span class="prop-default">—</span></td>
+                <td><span class="prop-desc">Square button for icon-only usage</span></td>
+              </tr>
+              <tr>
+                <td><span class="prop-name">disabled</span></td>
+                <td><span class="prop-type">attribute</span></td>
+                <td><span class="prop-default">false</span></td>
+                <td><span class="prop-desc">Reduces opacity and disables pointer events</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Examples -->
+        <div class="demo-section" id="examples">
+          <div class="demo-section-title">Examples</div>
+
+          <!-- Example: Button Group -->
+          <div style="margin-bottom:32px;">
+            <p style="font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:12px;font-weight:500;">Button Group</p>
+            <div class="demo-area">
+              <div class="demo-preview" style="min-height:100px;padding:24px;">
+                <div style="display:flex;gap:0;">
+                  <button class="btn btn-secondary btn-md" style="border-radius:var(--radius-md) 0 0 var(--radius-md);border-right:none;">Left</button>
+                  <button class="btn btn-secondary btn-md" style="border-radius:0;border-right:none;">Center</button>
+                  <button class="btn btn-secondary btn-md" style="border-radius:0 var(--radius-md) var(--radius-md) 0;">Right</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Example: Full Width -->
+          <div style="margin-bottom:32px;">
+            <p style="font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:12px;font-weight:500;">Full Width</p>
+            <div class="demo-area">
+              <div class="demo-preview" style="min-height:80px;padding:24px 48px;">
+                <button class="btn btn-primary btn-lg" style="width:100%;max-width:360px;">
+                  Sign in with Email
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Example: Form Actions -->
+          <div>
+            <p style="font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:12px;font-weight:500;">Form Actions</p>
+            <div class="demo-area">
+              <div class="demo-preview" style="min-height:80px;padding:24px;">
+                <div style="display:flex;gap:8px;justify-content:flex-end;width:100%;max-width:360px;">
+                  <button class="btn btn-ghost btn-md">Cancel</button>
+                  <button class="btn btn-primary btn-md">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Components -->
+        <div class="related-section" id="related">
+          <div class="demo-section-title">Related Components</div>
+          <div class="related-grid">
+            <a class="related-card" href="#">
+              <div class="related-card-name">Input</div>
+              <div class="related-card-desc">Single-line text field with label and validation</div>
+            </a>
+            <a class="related-card" href="#">
+              <div class="related-card-name">Toggle</div>
+              <div class="related-card-desc">Binary on/off switch control</div>
+            </a>
+            <a class="related-card" href="#">
+              <div class="related-card-name">Badge</div>
+              <div class="related-card-desc">Small status or count labels</div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TOC (right sidebar) -->
+      <aside class="toc">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          <li><a class="toc-link active" href="#preview">Preview</a></li>
+          <li><a class="toc-link" href="#installation">Installation</a></li>
+          <li><a class="toc-link" href="#usage">Usage</a></li>
+          <li><a class="toc-link" href="#api">API Reference</a></li>
+          <li><a class="toc-link" href="#examples">Examples</a></li>
+          <li><a class="toc-link" href="#related">Related</a></li>
+        </ul>
+
+        <hr class="toc-divider">
+
+        <div class="toc-meta-title">Component Info</div>
+        <div class="toc-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          CSS-only
+        </div>
+        <div class="toc-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Updated Mar 2026
+        </div>
+        <div class="toc-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          ashishbishnoi
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Mobile sidebar toggle
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('mobileToggle');
+  const backdrop = document.getElementById('backdrop');
+
+  toggle?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('active');
+  });
+
+  backdrop?.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('active');
+  });
+
+  // Cmd+K search shortcut
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      document.getElementById('searchInput')?.focus();
+    }
+  });
+
+  // Preview/Code tab switching
+  document.querySelectorAll('.demo-toolbar-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.demo-toolbar-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('preview-tab').style.display = target === 'preview-tab' ? '' : 'none';
+      document.getElementById('code-tab').style.display = target === 'code-tab' ? '' : 'none';
+    });
+  });
+
+  // Install tab switching
+  document.querySelectorAll('.install-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const pm = tab.dataset.pm;
+      document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.install-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.install-content[data-pm-content="${pm}"]`)?.classList.add('active');
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.code-header-copy, .install-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const container = btn.closest('.code-block, .install-content');
+      const code = container?.querySelector('.code-line-content, .install-cmd');
+      if (code) {
+        navigator.clipboard.writeText(code.textContent.trim());
+        const original = btn.textContent || btn.innerHTML;
+        if (btn.classList.contains('code-header-copy')) {
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 1500);
+        }
+      }
+    });
+  });
+
+  // TOC active state on scroll
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = [...tocLinks].map(link => document.querySelector(link.getAttribute('href')));
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (section && section.getBoundingClientRect().top <= 100) {
+        current = section.id;
+      }
+    });
+    tocLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    });
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('devkit-theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+  themeToggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('devkit-theme', next);
+  });
+</script>
+
+</body>
+</html>

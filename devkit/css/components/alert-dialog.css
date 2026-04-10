@@ -59,13 +59,13 @@
   }
 
   .dk-alert-dialog_icon--danger {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
+    background: var(--color-danger-muted);
+    color: var(--color-danger);
   }
 
   .dk-alert-dialog_icon--warning {
-    background: rgba(234, 179, 8, 0.1);
-    color: #eab308;
+    background: var(--color-warning-muted);
+    color: var(--color-warning);
   }
 
   .dk-alert-dialog_title {

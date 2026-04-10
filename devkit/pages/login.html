@@ -5,45 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="Sign in to DevKit — secure authentication">
+  <meta property="og:title" content="Sign In — DevKit">
+  <meta property="og:description" content="Sign in to DevKit — secure authentication">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-      width: 100%;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-      color: var(--text-heading);
-    }
+    /* Auth button full-width override */
+    .auth-page .btn { width: 100%; }
 
     /* Auth layout */
     .auth-page {
@@ -159,8 +128,9 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
-  <div class="auth-page">
+  <div class="auth-page" id="main-content">
     <div class="auth-card">
 
       <!-- Logo -->
@@ -171,7 +141,7 @@
 
       <!-- Card -->
       <div class="dk-card">
-        <div class="dk-card_body" style="padding:28px;">
+        <div class="dk-card_body" data-slot="body" style="padding:28px;">
           <div class="auth-header">
             <h1>Welcome back</h1>
             <p>Sign in to your account to continue</p>
@@ -179,28 +149,30 @@
 
           <form onsubmit="return false;">
             <!-- Email -->
-            <div class="dk-field">
-              <label class="dk-label" for="email">Email</label>
-              <input type="email" id="email" class="dk-input" placeholder="you@company.com" autocomplete="email">
+            <div class="dk-field" data-slot="field">
+              <label class="dk-label" data-slot="label" for="email">Email</label>
+              <input type="email" id="email" class="dk-input" data-slot="control" placeholder="you@company.com" autocomplete="email">
+              <p class="form-error" aria-live="polite" hidden></p>
             </div>
 
             <!-- Password -->
-            <div class="dk-field">
-              <label class="dk-label" for="password">Password</label>
+            <div class="dk-field" data-slot="field">
+              <label class="dk-label" data-slot="label" for="password">Password</label>
               <div class="dk-password" data-dk-password>
                 <input type="password" id="password" class="dk-password_input" placeholder="Enter your password" autocomplete="current-password">
                 <button type="button" class="dk-password_toggle" aria-label="Toggle password visibility">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
               </div>
+              <p class="form-error" aria-live="polite" hidden></p>
             </div>
 
             <!-- Remember me + forgot -->
             <div class="form-row">
               <label class="dk-checkbox">
-                <input type="checkbox" class="dk-checkbox_input">
-                <span class="dk-checkbox_box"></span>
-                <span class="dk-checkbox_label">Remember me</span>
+                <input type="checkbox" class="dk-checkbox_input" data-slot="input">
+                <span class="dk-checkbox_box" data-slot="indicator"></span>
+                <span class="dk-checkbox_label" data-slot="label">Remember me</span>
               </label>
               <a href="forgot-password.html">Forgot password?</a>
             </div>

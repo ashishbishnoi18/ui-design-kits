@@ -36,6 +36,15 @@
     color: var(--text-secondary);
   }
 
+  .dk-tabs_tab:active {
+    color: var(--text-primary);
+  }
+
+  .dk-tabs_tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
   .dk-tabs_tab.is-active {
     color: var(--text-primary);
     border-bottom-color: var(--accent);

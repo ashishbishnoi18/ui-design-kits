@@ -1,0 +1,38 @@
+/* ==========================================================================
+   Skip Nav — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-skip-nav {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nb-skip-nav:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    border: 2px solid var(--nb-black);
+    box-shadow: var(--nb-shadow-sm);
+    z-index: 9999;
+    outline: none;
+    display: inline-block;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-skip-nav:focus-visible {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

@@ -96,4 +96,15 @@
   .dk-radio:has(.dk-radio_input:disabled) {
     cursor: not-allowed;
   }
+
+  @media (forced-colors: active) {
+    .dk-radio_circle,
+    .dk-radio_indicator {
+      border: 1px solid ButtonText;
+    }
+    .dk-radio_input:focus-visible + .dk-radio_circle,
+    .dk-radio_input:focus-visible + .dk-radio_indicator {
+      outline: 2px solid Highlight;
+    }
+  }
 }

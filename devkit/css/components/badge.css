@@ -32,20 +32,20 @@
   }
 
   .dk-badge--warning {
-    background: rgba(234, 179, 8, 0.12);
-    color: #fbbf24;
+    background: var(--color-warning-muted);
+    color: var(--color-warning);
     border-color: transparent;
   }
 
   .dk-badge--danger {
-    background: rgba(239, 68, 68, 0.12);
-    color: #f87171;
+    background: var(--color-danger-muted);
+    color: var(--color-danger);
     border-color: transparent;
   }
 
   .dk-badge--info {
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
+    background: var(--color-info-muted);
+    color: var(--color-info);
     border-color: transparent;
   }
 
@@ -79,20 +79,20 @@
 
   .dk-badge--outline.dk-badge--warning {
     background: transparent;
-    border-color: #fbbf24;
-    color: #fbbf24;
+    border-color: var(--color-warning);
+    color: var(--color-warning);
   }
 
   .dk-badge--outline.dk-badge--danger {
     background: transparent;
-    border-color: #f87171;
-    color: #f87171;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
   }
 
   .dk-badge--outline.dk-badge--info {
     background: transparent;
-    border-color: #60a5fa;
-    color: #60a5fa;
+    border-color: var(--color-info);
+    color: var(--color-info);
   }
 
   /* ------------------------------------------------------------------ */
@@ -107,5 +107,21 @@
   .dk-badge--lg {
     font-size: var(--text-sm);
     padding: 4px 12px;
+  }
+
+  @media (prefers-contrast: more) {
+    .dk-badge {
+      --border-default: #444;
+      --text-muted: #888;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .dk-badge {
+      border: 1px solid ButtonText;
+    }
+    .dk-badge:focus-visible {
+      outline: 2px solid Highlight;
+    }
   }
 }

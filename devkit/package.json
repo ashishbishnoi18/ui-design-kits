@@ -2,8 +2,18 @@
   "name": "devkit-ui",
   "version": "0.1.0",
   "description": "Developer-focused component library. Dark theme, emerald accent, zero dependencies.",
-  "main": "js/dk-all.js",
-  "style": "css/dk-all.css",
+  "main": "dist/devkit.js",
+  "style": "dist/devkit.min.css",
+  "exports": {
+    ".": {
+      "style": "./dist/devkit.min.css",
+      "default": "./dist/devkit.js"
+    },
+    "./css": "./dist/devkit.min.css",
+    "./css/*": "./css/*",
+    "./js": "./dist/devkit.js",
+    "./js/*": "./js/*"
+  },
   "files": [
     "css/",
     "js/",
@@ -15,6 +25,26 @@
     "build:js": "node scripts/build-js.js",
     "build": "npm run build:css && npm run build:js",
     "dev": "python3 -m http.server 8080"
+  },
+  "keywords": [
+    "ui-kit",
+    "component-library",
+    "css",
+    "javascript",
+    "dark-theme",
+    "zero-dependencies",
+    "developer-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashishbishnoi18/des.git"
+  },
+  "homepage": "https://github.com/ashishbishnoi18/des/tree/main/devkit",
+  "bugs": {
+    "url": "https://github.com/ashishbishnoi18/des/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "author": "ashishbishnoi18",
   "license": "MIT"

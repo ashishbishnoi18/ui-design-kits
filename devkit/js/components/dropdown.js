@@ -214,6 +214,11 @@
     DK.on(trigger, 'click', toggle);
     DK.on(document, 'click', handleOutsideClick);
     DK.on(el, 'keydown', handleKeydown);
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'click', handleOutsideClick);
+    };
   });
 
 })(window.DK);

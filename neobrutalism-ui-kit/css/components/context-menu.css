@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Context Menu — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-context-menu {
+    position: fixed;
+    min-width: 180px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    z-index: 9999;
+    padding: 4px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    transform-origin: top left;
+    transition:
+      opacity 0.1s ease,
+      visibility 0.1s ease,
+      transform 0.1s ease;
+  }
+
+  .nb-context-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  /* Item -------------------------------------------------------------- */
+
+  .nb-context-menu_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    line-height: 1.4;
+    transition:
+      color 0.1s ease,
+      background 0.1s ease;
+  }
+
+  .nb-context-menu_item:hover,
+  .nb-context-menu_item.is-focused {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-context-menu_item:focus-visible {
+    outline: none;
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-context-menu_item[disabled],
+  .nb-context-menu_item.is-disabled {
+    color: var(--nb-gray-400);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Icon slot -------------------------------------------------------- */
+
+  .nb-context-menu_icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--nb-gray-500);
+  }
+
+  .nb-context-menu_item:hover .nb-context-menu_icon,
+  .nb-context-menu_item.is-focused .nb-context-menu_icon {
+    color: var(--nb-gray-700);
+  }
+
+  /* Shortcut label --------------------------------------------------- */
+
+  .nb-context-menu_shortcut {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--nb-gray-400);
+    font-family: var(--nb-font-mono);
+  }
+
+  /* Divider ---------------------------------------------------------- */
+
+  .nb-context-menu_divider {
+    height: 2px;
+    background: var(--nb-black);
+    margin: 4px 0;
+  }
+
+  /* Label / group header --------------------------------------------- */
+
+  .nb-context-menu_label {
+    padding: 6px 12px 4px;
+    font-size: 11px;
+    color: var(--nb-gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-context-menu {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-context-menu_divider {
+    background: var(--nb-gray-800);
+  }
+}

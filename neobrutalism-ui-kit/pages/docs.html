@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Installation — NB UI Kit Docs</title>
+  <link rel="stylesheet" href="../css/nb-all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .docs-sidebar {
+      width: 280px;
+      min-height: 100vh;
+      border-right: var(--nb-border);
+      background-color: var(--nb-white);
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: var(--nb-z-fixed);
+      font-family: var(--nb-font-sans);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .docs-sidebar__header {
+      padding: var(--nb-space-5);
+      border-bottom: var(--nb-border);
+      display: flex;
+      align-items: center;
+      gap: var(--nb-space-2);
+    }
+    .docs-sidebar__header a {
+      display: flex;
+      align-items: center;
+      gap: var(--nb-space-2);
+      text-decoration: none;
+      color: var(--nb-black);
+      font-weight: var(--nb-font-bold);
+      font-size: var(--nb-text-lg);
+    }
+    .docs-sidebar__nav {
+      flex: 1;
+      padding: var(--nb-space-4);
+      overflow-y: auto;
+    }
+    .docs-sidebar__section {
+      margin-bottom: var(--nb-space-4);
+    }
+    .docs-sidebar__section-title {
+      padding: 6px 12px;
+      font-size: var(--nb-text-xs);
+      font-weight: var(--nb-font-bold);
+      text-transform: uppercase;
+      color: var(--nb-gray-500);
+      letter-spacing: var(--nb-tracking-wide);
+      margin-bottom: var(--nb-space-1);
+    }
+    .docs-main {
+      margin-left: 280px;
+      min-height: 100vh;
+    }
+    .docs-content {
+      max-width: 800px;
+      padding: var(--nb-space-8) var(--nb-space-8) var(--nb-space-16);
+    }
+    .docs-prev-next {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--nb-space-12);
+      padding-top: var(--nb-space-6);
+      border-top: var(--nb-border);
+    }
+    .docs-prev-next a {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--nb-black);
+      padding: var(--nb-space-3) var(--nb-space-4);
+      border: var(--nb-border);
+      border-radius: var(--nb-radius);
+      box-shadow: var(--nb-shadow-sm);
+      transition: transform var(--nb-transition-fast), box-shadow var(--nb-transition-fast);
+    }
+    .docs-prev-next a:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: var(--nb-shadow-md);
+    }
+    .docs-prev-next__label {
+      font-size: var(--nb-text-xs);
+      color: var(--nb-gray-500);
+      margin-bottom: var(--nb-space-1);
+    }
+    .docs-prev-next__title {
+      font-weight: var(--nb-font-semibold);
+      font-size: var(--nb-text-sm);
+    }
+    .docs-mobile-toggle {
+      display: none;
+      position: fixed;
+      bottom: var(--nb-space-4);
+      right: var(--nb-space-4);
+      z-index: var(--nb-z-fixed);
+    }
+    @media (max-width: 768px) {
+      .docs-sidebar {
+        transform: translateX(-280px);
+        transition: transform var(--nb-transition-base);
+      }
+      .docs-sidebar.is-open {
+        transform: translateX(0);
+      }
+      .docs-main {
+        margin-left: 0;
+      }
+      .docs-content {
+        padding: var(--nb-space-4) var(--nb-space-4) var(--nb-space-12);
+      }
+      .docs-mobile-toggle {
+        display: inline-flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG ICON SPRITE
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="nb-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </symbol>
+    <symbol id="nb-icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="nb-icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+    </symbol>
+    <symbol id="nb-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside class="docs-sidebar" id="docs-sidebar">
+  <div class="docs-sidebar__header">
+    <a href="../index.html">
+      <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1; font-size: var(--nb-text-xs);">NB</span>
+      NB Docs
+    </a>
+  </div>
+
+  <nav class="docs-sidebar__nav">
+    <!-- Getting Started -->
+    <div class="docs-sidebar__section">
+      <div class="docs-sidebar__section-title">Getting Started</div>
+      <a href="#" class="nb-sidebar__link is-active">Installation</a>
+      <a href="#" class="nb-sidebar__link">Quick Start</a>
+      <a href="#" class="nb-sidebar__link">Browser Support</a>
+    </div>
+
+    <!-- Design Tokens -->
+    <div class="docs-sidebar__section">
+      <div class="docs-sidebar__section-title">Design Tokens</div>
+      <a href="#" class="nb-sidebar__link">Colors</a>
+      <a href="#" class="nb-sidebar__link">Typography</a>
+      <a href="#" class="nb-sidebar__link">Spacing</a>
+      <a href="#" class="nb-sidebar__link">Shadows</a>
+    </div>
+
+    <!-- Components -->
+    <div class="docs-sidebar__section">
+      <div class="docs-sidebar__section-title">Components</div>
+      <a href="#" class="nb-sidebar__link">Buttons</a>
+      <a href="#" class="nb-sidebar__link">Inputs</a>
+      <a href="#" class="nb-sidebar__link">Cards</a>
+      <a href="#" class="nb-sidebar__link">Modals</a>
+      <a href="#" class="nb-sidebar__link">Tables</a>
+      <a href="#" class="nb-sidebar__link">Alerts</a>
+      <a href="#" class="nb-sidebar__link">Badges</a>
+      <a href="#" class="nb-sidebar__link">Tooltips</a>
+      <a href="#" class="nb-sidebar__link">Tabs</a>
+      <a href="#" class="nb-sidebar__link">Accordions</a>
+      <a href="#" class="nb-sidebar__link">Dropdowns</a>
+      <a href="#" class="nb-sidebar__link">Pagination</a>
+    </div>
+
+    <!-- Layouts -->
+    <div class="docs-sidebar__section">
+      <div class="docs-sidebar__section-title">Layouts</div>
+      <a href="#" class="nb-sidebar__link">Grid</a>
+      <a href="#" class="nb-sidebar__link">Containers</a>
+    </div>
+
+    <!-- Utilities -->
+    <div class="docs-sidebar__section">
+      <div class="docs-sidebar__section-title">Utilities</div>
+      <a href="#" class="nb-sidebar__link">Spacing</a>
+      <a href="#" class="nb-sidebar__link">Typography</a>
+      <a href="#" class="nb-sidebar__link">Flexbox</a>
+      <a href="#" class="nb-sidebar__link">Display</a>
+      <a href="#" class="nb-sidebar__link">Colors</a>
+    </div>
+  </nav>
+</aside>
+
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main class="docs-main">
+  <div class="docs-content">
+    <div class="nb-prose">
+
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb">
+        <ol class="nb-breadcrumb nb-mb-6">
+          <li class="nb-breadcrumb__item" data-slot="item">
+            <a href="#" class="nb-breadcrumb__link" data-slot="link">Docs</a>
+            <span class="nb-breadcrumb__separator" data-slot="separator">/</span>
+          </li>
+          <li class="nb-breadcrumb__item" data-slot="item">
+            <a href="#" class="nb-breadcrumb__link" data-slot="link">Getting Started</a>
+            <span class="nb-breadcrumb__separator" data-slot="separator">/</span>
+          </li>
+          <li class="nb-breadcrumb__item" data-slot="item">
+            <a href="#" class="nb-breadcrumb__link" data-slot="link">Installation</a>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Page Title -->
+      <h1>Installation</h1>
+      <p class="nb-text-sm nb-text-gray-500" style="margin-top: var(--nb-space-2);">Last updated March 2026</p>
+
+      <!-- Introduction -->
+      <p>
+        Getting started with NB UI Kit is straightforward. The kit requires no build tools, no package managers, and no frameworks. You simply download the files, include them in your HTML, and start building with the component classes.
+      </p>
+
+      <!-- Step 1 -->
+      <h2>Step 1: Download the files</h2>
+      <p>
+        Clone or download the NB UI Kit repository. The project is organized with CSS and JavaScript separated into modular files, with bundled versions for convenience.
+      </p>
+      <pre><code>nb-ui-kit/
+├── css/
+│   ├── nb-all.css          ← bundled CSS (include this)
+│   ├── tokens.css
+│   ├── reset.css
+│   ├── base.css
+│   ├── utilities.css
+│   ├── components/
+│   │   ├── buttons.css
+│   │   ├── cards.css
+│   │   ├── inputs.css
+│   │   └── ...
+│   └── layouts/
+│       ├── grid.css
+│       └── containers.css
+├── js/
+│   ├── nb-all.js            ← bundled JS (include this)
+│   ├── nb-core.js
+│   └── components/
+│       ├── modal.js
+│       ├── dropdown.js
+│       └── ...
+└── pages/
+    └── ...</code></pre>
+
+      <!-- Step 2 -->
+      <h2>Step 2: Include CSS</h2>
+      <p>
+        Add the stylesheet to the <code>&lt;head&gt;</code> of your HTML document. The single <code>nb-all.css</code> file includes all tokens, base styles, components, layouts, and utilities.
+      </p>
+      <pre><code>&lt;link rel="stylesheet" href="css/nb-all.css"&gt;</code></pre>
+      <p>
+        For better typography, we also recommend loading the Inter and JetBrains Mono fonts from Google Fonts:
+      </p>
+      <pre><code>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+
+      <!-- Step 3 -->
+      <h2>Step 3: Include JavaScript</h2>
+      <p>
+        Add the script tag before the closing <code>&lt;/body&gt;</code> tag. The JavaScript handles interactive components like modals, dropdowns, tabs, tooltips, and more.
+      </p>
+      <pre><code>&lt;script src="js/nb-all.js"&gt;&lt;/script&gt;</code></pre>
+      <p>
+        The script auto-initializes all components on <code>DOMContentLoaded</code>. No configuration needed.
+      </p>
+
+      <!-- Step 4 -->
+      <h2>Step 4: Start building</h2>
+      <p>
+        You are now ready to use any NB component. Here is a quick example to verify everything works:
+      </p>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My NB Project&lt;/title&gt;
+  &lt;link rel="stylesheet" href="css/nb-all.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="nb-container-xl nb-py-12 nb-text-center"&gt;
+    &lt;h1 class="nb-text-4xl nb-font-extrabold nb-mb-4"&gt;
+      Hello, NB UI Kit!
+    &lt;/h1&gt;
+    &lt;button class="nb-btn nb-btn--primary nb-btn--lg"&gt;
+      Get Started
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;script src="js/nb-all.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <p>
+        If you see a bold heading and a green button with a hard offset shadow, you are all set.
+      </p>
+
+      <!-- CDN Section -->
+      <h2>CDN</h2>
+      <div class="nb-alert nb-alert--info" role="alert">
+        <svg class="nb-alert__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-info"/></svg>
+        <div class="nb-alert__content" data-slot="content">
+          <div class="nb-alert__title" data-slot="title">CDN not available yet</div>
+          <p>A CDN-hosted version of NB UI Kit is planned for a future release. For now, please download the files and host them alongside your project. We will announce CDN availability on our blog and changelog.</p>
+        </div>
+      </div>
+
+      <!-- Browser Support -->
+      <h2>Browser Support</h2>
+      <p>
+        NB UI Kit is tested and supported in all modern evergreen browsers. We use standard CSS features including custom properties, <code>@layer</code>, and modern selectors like <code>:where()</code> and <code>:focus-visible</code>.
+      </p>
+      <div class="nb-table-wrapper" style="max-width: 100%;" data-slot="wrapper">
+        <table class="nb-table">
+          <thead>
+            <tr>
+              <th>Browser</th>
+              <th>Supported Versions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chrome</td>
+              <td>Latest 2 versions</td>
+            </tr>
+            <tr>
+              <td>Firefox</td>
+              <td>Latest 2 versions</td>
+            </tr>
+            <tr>
+              <td>Safari</td>
+              <td>Latest 2 versions</td>
+            </tr>
+            <tr>
+              <td>Edge</td>
+              <td>Latest 2 versions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Prev/Next Navigation -->
+      <div class="docs-prev-next">
+        <a href="#">
+          <span class="docs-prev-next__label">Previous</span>
+          <span class="docs-prev-next__title">&larr; Quick Start</span>
+        </a>
+        <a href="#" style="text-align: right;">
+          <span class="docs-prev-next__label">Next</span>
+          <span class="docs-prev-next__title">Colors &rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+
+<!-- Mobile sidebar toggle -->
+<button class="docs-mobile-toggle nb-btn nb-btn--primary nb-btn--icon" aria-label="Toggle sidebar" onclick="document.getElementById('docs-sidebar').classList.toggle('is-open')">
+  <svg width="20" height="20"><use href="#nb-icon-book"/></svg>
+</button>
+
+<script src="../js/nb-all.js"></script>
+</body>
+</html>

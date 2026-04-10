@@ -21,6 +21,9 @@
   /** WeakSet that tracks already-initialized elements */
   var _initialized = new WeakSet();
 
+  /** WeakMap storing cleanup functions per element */
+  DK._cleanups = new WeakMap();
+
   /** Counter for unique IDs */
   var _uidCounter = 0;
 
@@ -97,16 +100,62 @@
   /**
    * Internal -- init a single element if it hasn't been initialized yet.
    * Prevents double-init via the _initialized WeakSet.
+   * If the init function returns a cleanup function, it is registered
+   * automatically via DK._addCleanup.
    */
   function _maybeInit(el, fn) {
     if (_initialized.has(el)) return;
     _initialized.add(el);
     try {
-      fn(el);
+      var cleanup = fn(el);
+      if (typeof cleanup === 'function') {
+        DK._addCleanup(el, cleanup);
+      }
     } catch (err) {
       console.error('DK: component init error', err);
     }
   }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component destroy lifecycle                                        */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * Register a cleanup function for an element.
+   * Components call this to store teardown logic (remove listeners,
+   * clear timers, release focus traps, etc.).
+   * @param {HTMLElement} el
+   * @param {function}    fn -- cleanup function
+   */
+  DK._addCleanup = function (el, fn) {
+    var fns = DK._cleanups.get(el);
+    if (!fns) {
+      fns = [];
+      DK._cleanups.set(el, fns);
+    }
+    fns.push(fn);
+  };
+
+  /**
+   * Destroy a component instance: run all registered cleanup functions,
+   * remove the element from the initialized set, and dispatch `dk:destroy`.
+   * @param {HTMLElement} el
+   */
+  DK.destroy = function (el) {
+    var fns = DK._cleanups.get(el);
+    if (fns) {
+      for (var i = 0; i < fns.length; i++) {
+        try {
+          fns[i]();
+        } catch (err) {
+          console.error('DK: cleanup error', err);
+        }
+      }
+      DK._cleanups.delete(el);
+    }
+    _initialized.delete(el);
+    DK.emit(el, 'dk:destroy');
+  };
 
   /* ------------------------------------------------------------------ */
   /*  DOM query helpers                                                  */

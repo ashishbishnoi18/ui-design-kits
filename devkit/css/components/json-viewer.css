@@ -116,16 +116,16 @@
   }
 
   .dk-json_value--number {
-    color: #60a5fa;
+    color: var(--color-info);
   }
 
   .dk-json_value--boolean {
-    color: #facc15;
+    color: var(--color-warning);
     font-weight: 500;
   }
 
   .dk-json_value--null {
-    color: #f87171;
+    color: var(--color-danger);
     font-style: italic;
   }
 

@@ -47,11 +47,11 @@
 
   .dk-pill-nav_link.is-active {
     background: var(--accent);
-    color: #000;
+    color: var(--text-on-inverted);
     border-color: var(--accent);
   }
 
   [data-theme="light"] .dk-pill-nav_link.is-active {
-    color: #fff;
+    color: var(--text-on-accent);
   }
 }

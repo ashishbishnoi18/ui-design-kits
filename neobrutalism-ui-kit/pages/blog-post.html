@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Beautiful Interfaces with Neo Brutalism — NB UI Kit Blog</title>
+  <link rel="stylesheet" href="../css/nb-all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .article-header {
+      text-align: center;
+      padding: var(--nb-space-10) var(--nb-space-4) var(--nb-space-8);
+      max-width: 800px;
+      margin-inline: auto;
+    }
+    .article-hero {
+      width: 100%;
+      height: 300px;
+      border: var(--nb-border);
+      border-radius: var(--nb-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--nb-text-5xl);
+      font-weight: var(--nb-font-extrabold);
+      color: var(--nb-black);
+      margin-bottom: var(--nb-space-10);
+    }
+    @media (min-width: 768px) {
+      .article-hero {
+        height: 420px;
+      }
+      .article-header {
+        padding: var(--nb-space-16) var(--nb-space-4) var(--nb-space-10);
+      }
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--nb-space-3);
+      margin-top: var(--nb-space-4);
+      font-size: var(--nb-text-sm);
+      color: var(--nb-gray-500);
+    }
+    .article-meta__divider {
+      width: 4px;
+      height: 4px;
+      border-radius: var(--nb-radius-full);
+      background-color: var(--nb-gray-300);
+    }
+    .article-content {
+      max-width: 720px;
+      margin-inline: auto;
+      padding-inline: var(--nb-space-4);
+    }
+    .author-card {
+      max-width: 720px;
+      margin: var(--nb-space-12) auto;
+      padding-inline: var(--nb-space-4);
+    }
+    .related-section {
+      max-width: 1280px;
+      margin-inline: auto;
+      padding: var(--nb-space-12) var(--nb-space-4) var(--nb-space-16);
+    }
+    .related-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    .related-card__img {
+      width: 100%;
+      height: 160px;
+      border-bottom: var(--nb-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: var(--nb-font-extrabold);
+      font-size: var(--nb-text-2xl);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG ICON SPRITE
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="nb-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="nb-icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+    </symbol>
+    <symbol id="nb-icon-github" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    </symbol>
+    <symbol id="nb-icon-twitter" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </symbol>
+    <symbol id="nb-icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     1. NAVBAR
+     ============================================================ -->
+<nav class="nb-navbar" data-nb-navbar>
+  <a href="../index.html" class="nb-navbar__brand" data-slot="brand">
+    <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1; font-size: var(--nb-text-sm);">NB</span>
+  </a>
+
+  <div class="nb-navbar__nav" data-slot="nav">
+    <a href="landing.html" class="nb-navbar__link" data-slot="link">Home</a>
+    <a href="../index.html" class="nb-navbar__link" data-slot="link">Components</a>
+    <a href="docs.html" class="nb-navbar__link" data-slot="link">Docs</a>
+    <a href="blog.html" class="nb-navbar__link is-active" data-slot="link">Blog</a>
+    <a href="pricing.html" class="nb-navbar__link" data-slot="link">Pricing</a>
+  </div>
+
+  <div class="nb-navbar__actions" data-slot="actions">
+    <a href="login.html" class="nb-btn nb-btn--ghost nb-btn--sm">Sign in</a>
+    <a href="signup.html" class="nb-btn nb-btn--primary nb-btn--sm">Get Started</a>
+  </div>
+
+  <button class="nb-navbar__toggle" data-nb-navbar-toggle aria-label="Toggle menu" data-slot="toggle">
+    <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
+  </button>
+</nav>
+
+
+<!-- ============================================================
+     2. ARTICLE HEADER
+     ============================================================ -->
+<header class="article-header">
+  <span class="nb-badge nb-badge--info nb-badge--pill nb-mb-4">Design</span>
+  <h1 class="nb-text-3xl md:nb-text-5xl nb-font-extrabold" style="line-height: var(--nb-leading-tight); letter-spacing: var(--nb-tracking-tight);">
+    Building Beautiful Interfaces with Neo Brutalism
+  </h1>
+  <div class="article-meta">
+    <div class="nb-flex nb-items-center nb-gap-2">
+      <div class="nb-avatar nb-avatar--sm nb-bg-green-400">
+        <span class="nb-avatar__initials" data-slot="fallback">AC</span>
+      </div>
+      <span class="nb-font-medium nb-text-black">Alex Chen</span>
+    </div>
+    <span class="article-meta__divider"></span>
+    <span>March 10, 2026</span>
+    <span class="article-meta__divider"></span>
+    <span>8 min read</span>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     3. HERO IMAGE PLACEHOLDER
+     ============================================================ -->
+<div class="nb-container-lg">
+  <div class="article-hero nb-bg-yellow-300">NB</div>
+</div>
+
+
+<!-- ============================================================
+     4. ARTICLE CONTENT
+     ============================================================ -->
+<article class="article-content">
+  <div class="nb-prose">
+
+    <p>
+      Neo brutalism is more than a trend -- it is a design philosophy that challenges the polished, corporate sameness of modern user interfaces. By embracing bold colors, hard shadows, thick borders, and unapologetic visual weight, neo brutalism creates interfaces that feel tactile, honest, and memorable. In this post, we explore what makes this style work and how you can apply its principles to your own projects.
+    </p>
+
+    <h2>What is Neo Brutalism?</h2>
+
+    <p>
+      Neo brutalism draws its roots from the brutalist architecture movement of the mid-20th century, which valued raw materials, structural honesty, and functional forms over decorative ornamentation. When translated to digital design, these principles manifest as high-contrast interfaces, visible borders, hard offset shadows, monospaced type, and an intentional rejection of the soft gradients and rounded aesthetic that dominates mainstream UI design.
+    </p>
+
+    <p>
+      The key distinction between brutalism and neo brutalism is refinement. Where early web brutalism often embraced intentionally rough, jarring layouts, neo brutalism retains the boldness while introducing proper spacing, consistent typography scales, and genuine usability. The result is a style that is visually striking without sacrificing user experience.
+    </p>
+
+    <blockquote>
+      <p>
+        "Good design is honest. Neo brutalism strips away pretense and lets the structure speak for itself -- borders are borders, shadows are shadows, and colors are unapologetically vivid."
+      </p>
+    </blockquote>
+
+    <h2>Key Design Principles</h2>
+
+    <p>
+      When building interfaces in a neo-brutalist style, keep these core principles in mind:
+    </p>
+
+    <ol>
+      <li><strong>Hard offset shadows</strong> -- Replace blurred box shadows with crisp, pixel-perfect offset shadows. These create a sense of depth that feels physical and grounded rather than ethereal.</li>
+      <li><strong>Thick, visible borders</strong> -- Use 2-3px solid borders around interactive elements. Borders define structure and make the distinction between elements immediately clear.</li>
+      <li><strong>Bold, saturated colors</strong> -- Choose a palette with high-saturation accent colors. Neon greens, bright yellows, and vivid blues paired with stark black and white create visual energy.</li>
+      <li><strong>Honest typography</strong> -- Favor clean sans-serif typefaces for body text and monospaced fonts for code or technical content. Use weight contrast (extrabold headings, regular body) to establish hierarchy.</li>
+      <li><strong>Tactile interactions</strong> -- Buttons should feel clickable. Use translate transforms on hover to lift elements, and on active state, push them down while removing the shadow. This simulates a physical button press.</li>
+    </ol>
+
+    <p>
+      Here is a practical example of a button that applies these principles using the NB UI Kit:
+    </p>
+
+    <pre><code>&lt;button class="nb-btn nb-btn--primary nb-btn--lg"&gt;
+  Click Me
+&lt;/button&gt;
+
+&lt;!-- The button uses:
+  - 2px solid black border
+  - 4px 4px hard offset shadow
+  - Green background (#00FF00)
+  - On hover: translates -1px,-1px, shadow grows
+  - On active: translates 2px,2px, shadow removed
+--&gt;</code></pre>
+
+    <h2>Getting Started</h2>
+
+    <p>
+      If you want to adopt this style, you do not need to start from scratch. The NB UI Kit provides a complete design system with over 25 components, all built around the neo-brutalist aesthetic. Every component uses CSS custom properties for colors, spacing, and shadows, making it easy to customize the system to match your brand.
+    </p>
+
+    <p>
+      The foundation of the kit is its design token system. Tokens define every visual property -- colors, font sizes, spacing units, shadow offsets, and border widths -- as CSS custom properties on <code>:root</code>. This means you can restyle the entire kit by overriding a handful of variables.
+    </p>
+
+    <div class="nb-alert nb-alert--info" role="alert">
+      <svg class="nb-alert__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-info"/></svg>
+      <div class="nb-alert__content" data-slot="content">
+        <div class="nb-alert__title" data-slot="title">Pro tip</div>
+        <p>Start with the token overrides before building custom components. By setting your brand colors, preferred font stack, and shadow scale in <code>tokens.css</code>, every component in the kit will automatically adapt to your visual identity.</p>
+      </div>
+    </div>
+
+    <h3>Applying color effectively</h3>
+
+    <p>
+      One of the most common mistakes when working with bold color systems is using too many accent colors simultaneously. Here are some guidelines for effective use of color in neo-brutalist designs:
+    </p>
+
+    <ul>
+      <li>Choose one primary accent color for interactive elements (buttons, links, active states)</li>
+      <li>Use a secondary accent sparingly for highlights and badges</li>
+      <li>Reserve high-energy colors like red and orange for alerts and destructive actions</li>
+      <li>Keep large background areas neutral (white, light gray, or black) to let your accent colors pop</li>
+      <li>Test your color choices for sufficient contrast ratios -- bold design should still be accessible</li>
+    </ul>
+
+    <h3>Shadow and depth</h3>
+
+    <p>
+      The signature element of neo brutalism is the hard offset shadow. Unlike CSS <code>box-shadow</code> with blur values, neo-brutalist shadows use zero blur and a sharp offset. The NB UI Kit provides four shadow scales:
+    </p>
+
+    <ul>
+      <li><code>--nb-shadow-sm</code>: 2px 2px offset -- subtle, for small elements</li>
+      <li><code>--nb-shadow-md</code>: 4px 4px offset -- default for cards and buttons</li>
+      <li><code>--nb-shadow-lg</code>: 6px 6px offset -- hover states and emphasis</li>
+      <li><code>--nb-shadow-xl</code>: 8px 8px offset -- hero elements and dramatic focus</li>
+    </ul>
+
+    <p>
+      Used consistently, these shadows create a layered paper-cutout effect that gives interfaces a sense of physicality no gradient or blur can replicate.
+    </p>
+
+    <hr>
+
+    <p>
+      Neo brutalism is not about making things ugly or difficult to use. It is about making design choices that are honest, bold, and intentional. Whether you are building a personal portfolio, a SaaS dashboard, or a marketing landing page, these principles can help your product stand out in a sea of homogeneous interfaces.
+    </p>
+
+    <p>
+      Ready to try it? <a href="docs.html">Read the NB UI Kit documentation</a> and start building today.
+    </p>
+
+  </div>
+</article>
+
+
+<!-- ============================================================
+     5. AUTHOR BIO
+     ============================================================ -->
+<div class="author-card">
+  <div class="nb-card">
+    <div class="nb-card__body nb-p-6" data-slot="body">
+      <div class="nb-flex nb-flex-col sm:nb-flex-row nb-gap-4 nb-items-start sm:nb-items-center">
+        <div class="nb-avatar nb-avatar--xl nb-bg-green-400 nb-flex-shrink-0">
+          <span class="nb-avatar__initials" data-slot="fallback">AC</span>
+        </div>
+        <div>
+          <h4 class="nb-text-lg nb-font-bold nb-mb-1">Alex Chen</h4>
+          <p class="nb-text-sm nb-text-gray-600 nb-mb-3">
+            Alex is the creator of NB UI Kit and a design engineer passionate about bold, accessible interfaces. When not pushing pixels, he contributes to open-source design tools and writes about the intersection of design and engineering.
+          </p>
+          <div class="nb-flex nb-gap-3">
+            <a href="#" class="nb-text-gray-500 nb-inline-flex" style="text-decoration:none;" aria-label="Twitter">
+              <svg width="18" height="18"><use href="#nb-icon-twitter"/></svg>
+            </a>
+            <a href="#" class="nb-text-gray-500 nb-inline-flex" style="text-decoration:none;" aria-label="GitHub">
+              <svg width="18" height="18"><use href="#nb-icon-github"/></svg>
+            </a>
+            <a href="#" class="nb-text-gray-500 nb-inline-flex" style="text-decoration:none;" aria-label="Website">
+              <svg width="18" height="18"><use href="#nb-icon-globe"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     6. RELATED POSTS
+     ============================================================ -->
+<section class="nb-border-t">
+  <div class="related-section">
+    <h3 class="nb-text-2xl nb-font-extrabold nb-mb-6">Related Articles</h3>
+    <div class="nb-grid nb-grid-cols-1 sm:nb-grid-cols-2 lg:nb-grid-cols-3 nb-gap-6">
+
+      <!-- Related 1 -->
+      <a href="blog-post.html" class="nb-card nb-card--hover related-card" style="text-decoration:none; color:inherit;">
+        <div class="related-card__img nb-bg-blue-500" style="color:var(--nb-white);">NB</div>
+        <div class="nb-card__body" data-slot="body">
+          <span class="nb-badge nb-badge--info nb-mb-2" style="align-self:flex-start;">Design</span>
+          <h4 class="nb-text-base nb-font-bold nb-mb-2">Understanding Neo Brutalism in Modern Web Design</h4>
+          <p class="nb-text-sm nb-text-gray-500">Mar 8, 2026</p>
+        </div>
+      </a>
+
+      <!-- Related 2 -->
+      <a href="blog-post.html" class="nb-card nb-card--hover related-card" style="text-decoration:none; color:inherit;">
+        <div class="related-card__img nb-bg-red-500" style="color:var(--nb-white);">NB</div>
+        <div class="nb-card__body" data-slot="body">
+          <span class="nb-badge nb-badge--danger nb-mb-2" style="align-self:flex-start;">Design</span>
+          <h4 class="nb-text-base nb-font-bold nb-mb-2">Choosing the Right Color Palette for Bold UIs</h4>
+          <p class="nb-text-sm nb-text-gray-500">Feb 25, 2026</p>
+        </div>
+      </a>
+
+      <!-- Related 3 -->
+      <a href="blog-post.html" class="nb-card nb-card--hover related-card" style="text-decoration:none; color:inherit;">
+        <div class="related-card__img nb-bg-green-400">NB</div>
+        <div class="nb-card__body" data-slot="body">
+          <span class="nb-badge nb-badge--primary nb-mb-2" style="align-self:flex-start;">Tutorial</span>
+          <h4 class="nb-text-base nb-font-bold nb-mb-2">Building a Dashboard with NB Components</h4>
+          <p class="nb-text-sm nb-text-gray-500">Mar 5, 2026</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. FOOTER
+     ============================================================ -->
+<footer class="nb-footer">
+  <div class="nb-container-xl">
+    <div class="nb-footer__grid">
+
+      <!-- Brand Column -->
+      <div class="nb-footer__section" data-slot="section">
+        <div class="nb-flex nb-items-center nb-gap-2 nb-mb-4">
+          <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1;font-size:var(--nb-text-xs);">NB</span>
+          <span class="nb-font-bold">NB UI Kit</span>
+        </div>
+        <p class="nb-text-sm nb-text-gray-600" style="max-width:240px;">
+          A clean Neo Brutalism design system for the modern web. Open source and free to use.
+        </p>
+      </div>
+
+      <!-- Product -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Product</h4>
+        <a href="../index.html" class="nb-footer__link" data-slot="link">Components</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Templates</a>
+        <a href="pricing.html" class="nb-footer__link" data-slot="link">Pricing</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Changelog</a>
+      </div>
+
+      <!-- Resources -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Resources</h4>
+        <a href="docs.html" class="nb-footer__link" data-slot="link">Documentation</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Getting Started</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Design Tokens</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Examples</a>
+      </div>
+
+      <!-- Company -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Company</h4>
+        <a href="#" class="nb-footer__link" data-slot="link">About</a>
+        <a href="blog.html" class="nb-footer__link" data-slot="link">Blog</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Careers</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Contact</a>
+      </div>
+
+    </div>
+
+    <div class="nb-footer__bottom">
+      <p>&copy; 2026 NB UI Kit. All rights reserved.</p>
+      <div class="nb-flex nb-gap-4">
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="GitHub" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-github"/></svg>
+        </a>
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="Twitter" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-twitter"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/nb-all.js"></script>
+</body>
+</html>

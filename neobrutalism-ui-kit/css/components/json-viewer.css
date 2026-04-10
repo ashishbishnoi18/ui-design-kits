@@ -1,0 +1,72 @@
+/* ==========================================================================
+   JSON Viewer — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Brutalist JSON inspector.
+   ========================================================================== */
+
+@layer components {
+  .nb-json-viewer {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    background-color: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    padding: var(--nb-space-4);
+    box-shadow: var(--nb-shadow-md);
+    line-height: 1.6;
+  }
+
+  .nb-json-viewer__key {
+    color: var(--nb-blue-500);
+    font-weight: var(--nb-font-bold);
+  }
+
+  .nb-json-viewer__string {
+    color: var(--nb-green-400);
+  }
+
+  .nb-json-viewer__number {
+    color: var(--nb-orange-500);
+  }
+
+  .nb-json-viewer__boolean {
+    color: var(--nb-red-500);
+    font-weight: var(--nb-font-bold);
+  }
+
+  .nb-json-viewer__null {
+    color: var(--nb-gray-500);
+    font-style: italic;
+  }
+
+  .nb-json-viewer__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--nb-gray-700);
+    border-radius: 2px;
+    background: var(--nb-black);
+    color: var(--nb-white);
+    cursor: pointer;
+    font-size: 10px;
+    margin-right: var(--nb-space-2);
+    transition: all var(--nb-transition-fast);
+  }
+
+  .nb-json-viewer__toggle:hover {
+    background: var(--nb-blue-500);
+    border-color: var(--nb-black);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-json-viewer__toggle {
+    background: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-json-viewer__toggle:hover {
+    border-color: var(--nb-gray-700);
+  }
+}

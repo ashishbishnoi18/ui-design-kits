@@ -1,0 +1,3331 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-04-03",
+  "components": {
+    "accordion": {
+      "label": "Accordion",
+      "description": "Collapsible content sections with trigger, icon, and body",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "flush"
+      ],
+      "states": [
+        "hover",
+        "focus-visible",
+        "is-open"
+      ],
+      "slots": [
+        "item",
+        "trigger",
+        "icon",
+        "content",
+        "body"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/accordion.css",
+        "baseClass": ".nb-accordion"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/accordion.css",
+        "baseClass": ".dk-accordion"
+      }
+    },
+    "activity-feed": {
+      "label": "Activity Feed",
+      "description": "Chronological list of user or system events",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/activity-feed.css",
+        "baseClass": ".nb-activity-feed"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/activity-feed.css",
+        "baseClass": ".dk-activity-feed"
+      }
+    },
+    "alert": {
+      "label": "Alert",
+      "description": "Contextual feedback messages for info, success, warning, danger",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "banner"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "icon",
+        "content",
+        "title",
+        "dismiss"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/alert.css",
+        "baseClass": ".nb-alert"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/alert.css",
+        "baseClass": ".dk-alert"
+      }
+    },
+    "alert-dialog": {
+      "label": "Alert Dialog",
+      "description": "Modal confirmation dialog with destructive/warning actions",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [
+        "danger",
+        "warning"
+      ],
+      "states": [
+        "is-open"
+      ],
+      "slots": [
+        "icon",
+        "title",
+        "description",
+        "actions"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/alert-dialog.css",
+        "baseClass": ".nb-alert-dialog"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/alert-dialog.css",
+        "baseClass": ".dk-alert-dialog"
+      }
+    },
+    "announcement-bar": {
+      "label": "Announcement Bar",
+      "description": "Top-of-page promotional or informational banner",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/announcement-bar.css",
+        "baseClass": ".nb-announcement-bar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/announcement-bar.css",
+        "baseClass": ".dk-announcement-bar"
+      }
+    },
+    "api-playground": {
+      "label": "API Playground",
+      "description": "Interactive API testing UI with method badges, URL bar, key-value editor, and response pane",
+      "category": "application",
+      "tier": "extended",
+      "variants": [
+        "get",
+        "post",
+        "put",
+        "patch",
+        "delete",
+        "2xx",
+        "3xx",
+        "4xx",
+        "5xx"
+      ],
+      "states": [
+        "hover",
+        "is-active"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/api-playground.css",
+        "baseClass": ".nb-api-playground"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/api-playground.css",
+        "baseClass": ".dk-api-playground"
+      }
+    },
+    "aspect-ratio": {
+      "label": "Aspect Ratio",
+      "description": "Utility wrapper to enforce aspect ratio on children",
+      "category": "layout-extras",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/aspect-ratio.css",
+        "baseClass": ".nb-aspect-ratio"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/aspect-ratio.css",
+        "baseClass": ".dk-aspect-ratio"
+      }
+    },
+    "avatar": {
+      "label": "Avatar",
+      "description": "Circular or square avatar with image, initials fallback, and group stacking",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "xs",
+        "sm",
+        "lg",
+        "xl",
+        "square",
+        "rounded"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "image",
+        "fallback"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/avatar.css",
+        "baseClass": ".nb-avatar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/avatar.css",
+        "baseClass": ".dk-avatar"
+      }
+    },
+    "badge": {
+      "label": "Badge",
+      "description": "Inline status badge/tag with color variants and dot indicator",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "primary",
+        "secondary",
+        "danger",
+        "success",
+        "warning",
+        "info",
+        "dark",
+        "pill",
+        "lg",
+        "dot",
+        "outline"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/badge.css",
+        "baseClass": ".nb-badge"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/badge.css",
+        "baseClass": ".dk-badge"
+      }
+    },
+    "blockquote": {
+      "label": "Blockquote",
+      "description": "Styled block quotation with accent border",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/blockquote.css",
+        "baseClass": ".nb-blockquote"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/blockquote.css",
+        "baseClass": ".dk-blockquote"
+      }
+    },
+    "blog-card": {
+      "label": "Blog Card",
+      "description": "Article preview card with image, title, excerpt, and meta",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/blog-card.css",
+        "baseClass": ".nb-blog-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/blog-card.css",
+        "baseClass": ".dk-blog-card"
+      }
+    },
+    "box": {
+      "label": "Box",
+      "description": "Generic layout primitive for applying styles via props",
+      "category": "layout-extras",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/box.css",
+        "baseClass": ".nb-box"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/box.css",
+        "baseClass": ".dk-box"
+      }
+    },
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "description": "Hierarchical page navigation trail",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "item",
+        "link",
+        "separator",
+        "current"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/breadcrumb.css",
+        "baseClass": ".nb-breadcrumb"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/breadcrumb.css",
+        "baseClass": ".dk-breadcrumb"
+      }
+    },
+    "button": {
+      "label": "Button",
+      "description": "Interactive button with color, size, and state variants",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "primary",
+        "secondary",
+        "danger",
+        "ghost",
+        "outline",
+        "dark",
+        "sm",
+        "lg",
+        "xl",
+        "full",
+        "icon"
+      ],
+      "states": [
+        "hover",
+        "active",
+        "focus-visible",
+        "disabled",
+        "is-disabled",
+        "is-loading"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/button.css",
+        "baseClass": ".nb-btn"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/button.css",
+        "baseClass": ".dk-btn"
+      }
+    },
+    "calendar": {
+      "label": "Calendar",
+      "description": "Month-view date calendar with day selection",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "today",
+        "selected",
+        "other-month",
+        "disabled"
+      ],
+      "states": [
+        "hover",
+        "focus-visible"
+      ],
+      "slots": [
+        "header",
+        "title",
+        "nav",
+        "weekdays",
+        "grid",
+        "day"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/calendar.css",
+        "baseClass": ".nb-calendar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/calendar.css",
+        "baseClass": ".dk-calendar"
+      }
+    },
+    "callout": {
+      "label": "Callout",
+      "description": "Highlighted information block with icon and styled border",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/callout.css",
+        "baseClass": ".nb-callout"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/callout.css",
+        "baseClass": ".dk-callout"
+      }
+    },
+    "card": {
+      "label": "Card",
+      "description": "Container with header, body, footer, image, and accent variants",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "hover",
+        "highlight",
+        "flat",
+        "sm",
+        "lg",
+        "primary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "ghost",
+        "bordered"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "header",
+        "body",
+        "footer",
+        "title",
+        "description",
+        "media"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/card.css",
+        "baseClass": ".nb-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/card.css",
+        "baseClass": ".dk-card"
+      }
+    },
+    "cart-summary": {
+      "label": "Cart Summary",
+      "description": "E-commerce shopping cart summary with line items and totals",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/cart-summary.css",
+        "baseClass": ".nb-cart-summary"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/cart-summary.css",
+        "baseClass": ".dk-cart-summary"
+      }
+    },
+    "chat-interface": {
+      "label": "Chat Interface",
+      "description": "Full chat UI container with message list and input area",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/chat-interface.css",
+        "baseClass": ".nb-chat"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/chat-interface.css",
+        "baseClass": ".dk-chat"
+      }
+    },
+    "chat-message": {
+      "label": "Chat Message",
+      "description": "Individual chat message bubble with sender info and timestamp",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/chat-message.css",
+        "baseClass": ".nb-chat-message"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/chat-message.css",
+        "baseClass": ".dk-chat-message"
+      }
+    },
+    "checkbox": {
+      "label": "Checkbox",
+      "description": "Custom checkbox with hidden native input, styled indicator, and label",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "switch"
+      ],
+      "states": [
+        "hover",
+        "checked",
+        "focus-visible",
+        "disabled"
+      ],
+      "slots": [
+        "input",
+        "indicator",
+        "label"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/checkbox.css",
+        "baseClass": ".nb-checkbox"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/checkbox.css",
+        "baseClass": ".dk-checkbox"
+      }
+    },
+    "checkbox-card": {
+      "label": "Checkbox Card",
+      "description": "Card-styled checkbox for selecting options visually",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/checkbox-card.css",
+        "baseClass": ".nb-checkbox-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/checkbox-card.css",
+        "baseClass": ".dk-checkbox-card"
+      }
+    },
+    "checkout-stepper": {
+      "label": "Checkout Stepper",
+      "description": "E-commerce multi-step checkout progress indicator",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/checkout-stepper.css",
+        "baseClass": ".nb-checkout-stepper"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/checkout-stepper.css",
+        "baseClass": ".dk-checkout-stepper"
+      }
+    },
+    "clipboard": {
+      "label": "Clipboard",
+      "description": "Copy-to-clipboard button with confirmation feedback",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/clipboard.css",
+        "baseClass": ".nb-clipboard"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/clipboard.css",
+        "baseClass": ".dk-clipboard"
+      }
+    },
+    "code": {
+      "label": "Code (Inline)",
+      "description": "Inline code snippet with monospace font",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/code.css",
+        "baseClass": ".nb-code"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/code.css",
+        "baseClass": ".dk-code"
+      }
+    },
+    "code-block": {
+      "label": "Code Block",
+      "description": "Syntax-highlighted code block with header, language label, and copy button",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "header",
+        "content",
+        "copy-btn"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/code-block.css",
+        "baseClass": ".nb-code-block"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/code-block.css",
+        "baseClass": ".dk-code-block"
+      }
+    },
+    "color-picker": {
+      "label": "Color Picker",
+      "description": "Color selection UI with swatches, spectrum, and input",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/color-picker.css",
+        "baseClass": ".nb-color-picker"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/color-picker.css",
+        "baseClass": ".dk-color-picker"
+      }
+    },
+    "combobox": {
+      "label": "Combobox",
+      "description": "Searchable dropdown combining text input with option list",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/combobox.css",
+        "baseClass": ".nb-combobox"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/combobox.css",
+        "baseClass": ".dk-combobox"
+      }
+    },
+    "command-palette": {
+      "label": "Command Palette",
+      "description": "Keyboard-driven command search and execution overlay",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/command-palette.css",
+        "baseClass": ".nb-command-palette"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/command-palette.css",
+        "baseClass": ".dk-command-palette"
+      }
+    },
+    "comment-thread": {
+      "label": "Comment Thread",
+      "description": "Nested comment discussion thread with replies",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/comment-thread.css",
+        "baseClass": ".nb-comment-thread"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/comment-thread.css",
+        "baseClass": ".dk-comment-thread"
+      }
+    },
+    "context-menu": {
+      "label": "Context Menu",
+      "description": "Right-click context menu with items and dividers",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/context-menu.css",
+        "baseClass": ".nb-context-menu"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/context-menu.css",
+        "baseClass": ".dk-context-menu"
+      }
+    },
+    "countdown": {
+      "label": "Countdown",
+      "description": "Timer counting down to a target date/time",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/countdown.css",
+        "baseClass": ".nb-countdown"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/countdown.css",
+        "baseClass": ".dk-countdown"
+      }
+    },
+    "cta-section": {
+      "label": "CTA Section",
+      "description": "Call-to-action marketing section with headline and buttons",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/cta-section.css",
+        "baseClass": ".nb-cta-section"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/cta-section.css",
+        "baseClass": ".dk-cta-section"
+      }
+    },
+    "dashboard-widget": {
+      "label": "Dashboard Widget",
+      "description": "Configurable dashboard metric or content widget",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/dashboard-widget.css",
+        "baseClass": ".nb-dashboard-widget"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/dashboard-widget.css",
+        "baseClass": ".dk-dashboard-widget"
+      }
+    },
+    "data-table": {
+      "label": "Data Table",
+      "description": "Enhanced table with sorting, filtering, and pagination controls",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/data-table.css",
+        "baseClass": ".nb-data-table"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/data-table.css",
+        "baseClass": ".dk-data-table"
+      }
+    },
+    "date-display": {
+      "label": "Date Display",
+      "description": "Formatted date display with badge, relative, and range variants",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "badge",
+        "upcoming",
+        "past",
+        "overdue",
+        "relative",
+        "range"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/date-display.css",
+        "baseClass": ".nb-date"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/date-display.css",
+        "baseClass": ".dk-date"
+      }
+    },
+    "date-picker": {
+      "label": "Date Picker",
+      "description": "Calendar-based date selection input",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/date-picker.css",
+        "baseClass": ".nb-date-picker"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/date-picker.css",
+        "baseClass": ".dk-date-picker"
+      }
+    },
+    "date-range-picker": {
+      "label": "Date Range Picker",
+      "description": "Calendar-based date range selection with start and end dates",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/date-range-picker.css",
+        "baseClass": ".nb-date-range-picker"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/date-range-picker.css",
+        "baseClass": ".dk-date-range-picker"
+      }
+    },
+    "decoration": {
+      "label": "Decoration",
+      "description": "Floating animated decorative elements (float, spin, pulse, bounce)",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [
+        "float",
+        "spin",
+        "pulse",
+        "bounce",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/decoration.css",
+        "baseClass": ".nb-decor"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/decoration.css",
+        "baseClass": ".dk-decor"
+      }
+    },
+    "description-list": {
+      "label": "Description List",
+      "description": "Key-value pair list for metadata display",
+      "category": "typography",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/description-list.css",
+        "baseClass": ".nb-dl"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/description-list.css",
+        "baseClass": ".dk-dl"
+      }
+    },
+    "divider": {
+      "label": "Divider",
+      "description": "Horizontal or vertical separator line with style variants",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "thin",
+        "thick",
+        "dashed",
+        "dotted",
+        "vertical",
+        "with-text"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/divider.css",
+        "baseClass": ".nb-divider"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/divider.css",
+        "baseClass": ".dk-divider"
+      }
+    },
+    "drawer": {
+      "label": "Drawer",
+      "description": "Slide-over panel from edge of screen with header, body, footer",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "left",
+        "right",
+        "bottom",
+        "wide",
+        "full"
+      ],
+      "states": [
+        "is-open",
+        "hover",
+        "active",
+        "focus-visible"
+      ],
+      "slots": [
+        "backdrop",
+        "header",
+        "title",
+        "close",
+        "body",
+        "footer"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/drawer.css",
+        "baseClass": ".nb-drawer"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/drawer.css",
+        "baseClass": ".dk-drawer"
+      }
+    },
+    "dropdown": {
+      "label": "Dropdown",
+      "description": "Popup menu triggered by a button with items, dividers, and headers",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [
+        "right",
+        "up"
+      ],
+      "states": [
+        "hover",
+        "is-open",
+        "is-active",
+        "is-focused",
+        "disabled"
+      ],
+      "slots": [
+        "trigger",
+        "menu",
+        "item",
+        "divider",
+        "header"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/dropdown.css",
+        "baseClass": ".nb-dropdown"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/dropdown.css",
+        "baseClass": ".dk-dropdown"
+      }
+    },
+    "editable-text": {
+      "label": "Editable Text",
+      "description": "Inline-editable text field that toggles between view and edit modes",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/editable-text.css",
+        "baseClass": ".nb-editable-text"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/editable-text.css",
+        "baseClass": ".dk-editable-text"
+      }
+    },
+    "empty-state": {
+      "label": "Empty State",
+      "description": "Placeholder UI for empty data views with icon, text, and action",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "compact",
+        "bordered"
+      ],
+      "states": [],
+      "slots": [
+        "icon",
+        "title",
+        "description",
+        "actions"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/empty-state.css",
+        "baseClass": ".nb-empty-state"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/empty-state.css",
+        "baseClass": ".dk-empty-state"
+      }
+    },
+    "error-boundary": {
+      "label": "Error Boundary",
+      "description": "Fallback UI displayed when a component error occurs",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/error-boundary.css",
+        "baseClass": ".nb-error-boundary"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/error-boundary.css",
+        "baseClass": ".dk-error-boundary"
+      }
+    },
+    "faq": {
+      "label": "FAQ",
+      "description": "Frequently asked questions section with expandable answers",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/faq.css",
+        "baseClass": ".nb-faq"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/faq.css",
+        "baseClass": ".dk-faq"
+      }
+    },
+    "feature-comparison": {
+      "label": "Feature Comparison",
+      "description": "Side-by-side feature comparison table for products/plans",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/feature-comparison.css",
+        "baseClass": ".nb-feature-comparison"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/feature-comparison.css",
+        "baseClass": ".dk-feature-comparison"
+      }
+    },
+    "feature-grid": {
+      "label": "Feature Grid",
+      "description": "Grid of feature cards showcasing product capabilities",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/feature-grid.css",
+        "baseClass": ".nb-feature-grid"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/feature-grid.css",
+        "baseClass": ".dk-feature-grid"
+      }
+    },
+    "feature-highlight": {
+      "label": "Feature Highlight",
+      "description": "Split-panel feature showcase with media and content",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/feature-highlight.css",
+        "baseClass": ".nb-feature-highlight"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/feature-highlight.css",
+        "baseClass": ".dk-feature-highlight"
+      }
+    },
+    "file-browser": {
+      "label": "File Browser",
+      "description": "File system navigator with folder tree and file list",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/file-browser.css",
+        "baseClass": ".nb-file-browser"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/file-browser.css",
+        "baseClass": ".dk-file-browser"
+      }
+    },
+    "file-upload": {
+      "label": "File Upload",
+      "description": "Drag-and-drop file upload zone with file list",
+      "category": "forms",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "is-dragover",
+        "is-disabled",
+        "focus-visible"
+      ],
+      "slots": [
+        "zone",
+        "icon",
+        "text",
+        "hint",
+        "input",
+        "list",
+        "list-item"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/file-upload.css",
+        "baseClass": ".nb-file-upload"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/file-upload.css",
+        "baseClass": ".dk-file-upload"
+      }
+    },
+    "footer": {
+      "label": "Footer",
+      "description": "Site footer with grid sections, links, and bottom bar",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [
+        "dark"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "container",
+        "brand",
+        "nav",
+        "links",
+        "social",
+        "legal"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/footer.css",
+        "baseClass": ".nb-footer"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/footer.css",
+        "baseClass": ".dk-footer"
+      }
+    },
+    "group": {
+      "label": "Group",
+      "description": "Flex layout grouping utility for spacing child elements",
+      "category": "layout-extras",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/group.css",
+        "baseClass": ".nb-group"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/group.css",
+        "baseClass": ".dk-group"
+      }
+    },
+    "heading": {
+      "label": "Heading",
+      "description": "Typography heading component with size variants",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/heading.css",
+        "baseClass": ".nb-heading"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/heading.css",
+        "baseClass": ".dk-heading"
+      }
+    },
+    "hero": {
+      "label": "Hero",
+      "description": "Hero section with title, subtitle, actions, and media",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "split",
+        "centered",
+        "dark",
+        "yellow"
+      ],
+      "states": [],
+      "slots": [
+        "container",
+        "content",
+        "eyebrow",
+        "title",
+        "subtitle",
+        "actions",
+        "media"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/hero.css",
+        "baseClass": ".nb-hero"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/hero.css",
+        "baseClass": ".dk-hero"
+      }
+    },
+    "hover-card": {
+      "label": "Hover Card",
+      "description": "Rich content popover triggered on hover",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/hover-card.css",
+        "baseClass": ".nb-hover-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/hover-card.css",
+        "baseClass": ".dk-hover-card"
+      }
+    },
+    "icon": {
+      "label": "Icon",
+      "description": "Icon wrapper with size variants",
+      "category": "data-display",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/icon.css",
+        "baseClass": ".nb-icon"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/icon.css",
+        "baseClass": ".dk-icon"
+      }
+    },
+    "image": {
+      "label": "Image",
+      "description": "Responsive image component with border and fallback",
+      "category": "data-display",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/image.css",
+        "baseClass": ".nb-image"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/image.css",
+        "baseClass": ".dk-image"
+      }
+    },
+    "input": {
+      "label": "Input",
+      "description": "Text input, textarea, label, help text, field wrapper, and input group",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "lg",
+        "sm"
+      ],
+      "states": [
+        "focus",
+        "focus-visible",
+        "disabled",
+        "is-invalid",
+        "is-valid"
+      ],
+      "slots": [
+        "field",
+        "label",
+        "control",
+        "helper-text",
+        "error-text",
+        "prefix",
+        "suffix"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/input.css",
+        "baseClass": ".nb-input"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/input.css",
+        "baseClass": ".dk-input"
+      }
+    },
+    "json-viewer": {
+      "label": "JSON Viewer",
+      "description": "Collapsible JSON data inspector with syntax highlighting",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/json-viewer.css",
+        "baseClass": ".nb-json-viewer"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/json-viewer.css",
+        "baseClass": ".dk-json-viewer"
+      }
+    },
+    "kanban-board": {
+      "label": "Kanban Board",
+      "description": "Drag-and-drop kanban board with columns and cards",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/kanban-board.css",
+        "baseClass": ".nb-kanban"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/kanban-board.css",
+        "baseClass": ".dk-kanban"
+      }
+    },
+    "kbd": {
+      "label": "Kbd",
+      "description": "Keyboard key indicator element",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/kbd.css",
+        "baseClass": ".nb-kbd"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/kbd.css",
+        "baseClass": ".dk-kbd"
+      }
+    },
+    "keyboard-shortcut": {
+      "label": "Keyboard Shortcut",
+      "description": "Keyboard shortcut display with key combination",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/keyboard-shortcut.css",
+        "baseClass": ".nb-keyboard-shortcut"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/keyboard-shortcut.css",
+        "baseClass": ".dk-keyboard-shortcut"
+      }
+    },
+    "link": {
+      "label": "Link",
+      "description": "Styled anchor link with underline, arrow, external, and color variants",
+      "category": "typography",
+      "tier": "core",
+      "variants": [
+        "underline",
+        "hover-underline",
+        "bold",
+        "external",
+        "arrow",
+        "button",
+        "primary",
+        "secondary",
+        "muted"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/link.css",
+        "baseClass": ".nb-link"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/link.css",
+        "baseClass": ".dk-link"
+      }
+    },
+    "link-preview": {
+      "label": "Link Preview",
+      "description": "Rich link preview card with thumbnail, title, and URL",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [
+        "compact",
+        "vertical"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/link-preview.css",
+        "baseClass": ".nb-link-preview"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/link-preview.css",
+        "baseClass": ".dk-link-preview"
+      }
+    },
+    "list": {
+      "label": "List",
+      "description": "Styled ordered and unordered list",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/list.css",
+        "baseClass": ".nb-list"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/list.css",
+        "baseClass": ".dk-list"
+      }
+    },
+    "loading-overlay": {
+      "label": "Loading Overlay",
+      "description": "Full-area loading overlay with spinner",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/loading-overlay.css",
+        "baseClass": ".nb-loading-overlay"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/loading-overlay.css",
+        "baseClass": ".dk-loading-overlay"
+      }
+    },
+    "logo-cloud": {
+      "label": "Logo Cloud",
+      "description": "Partner/client logo grid with grayscale and bordered variants",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "pills",
+        "grayscale",
+        "bordered"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/logo-cloud.css",
+        "baseClass": ".nb-logo-cloud"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/logo-cloud.css",
+        "baseClass": ".dk-logo-cloud"
+      }
+    },
+    "mark": {
+      "label": "Mark",
+      "description": "Highlighted/marked text with accent background",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/mark.css",
+        "baseClass": ".nb-mark"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/mark.css",
+        "baseClass": ".dk-mark"
+      }
+    },
+    "marquee": {
+      "label": "Marquee",
+      "description": "Infinite horizontal scrolling ticker for logos or text",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "reverse",
+        "slow",
+        "fast",
+        "bordered",
+        "fade"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/marquee.css",
+        "baseClass": ".nb-marquee"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/marquee.css",
+        "baseClass": ".dk-marquee"
+      }
+    },
+    "media-gallery": {
+      "label": "Media Gallery",
+      "description": "Image/video gallery grid with masonry variant",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [
+        "masonry"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/media-gallery.css",
+        "baseClass": ".nb-media-gallery"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/media-gallery.css",
+        "baseClass": ".dk-media-gallery"
+      }
+    },
+    "menubar": {
+      "label": "Menubar",
+      "description": "Horizontal menu bar for application-style navigation",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/menubar.css",
+        "baseClass": ".nb-menubar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/menubar.css",
+        "baseClass": ".dk-menubar"
+      }
+    },
+    "modal": {
+      "label": "Modal",
+      "description": "Centered overlay dialog with backdrop, header, body, footer",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "sm",
+        "lg",
+        "full"
+      ],
+      "states": [
+        "is-open",
+        "hover",
+        "active",
+        "focus-visible"
+      ],
+      "slots": [
+        "backdrop",
+        "header",
+        "title",
+        "close",
+        "body",
+        "footer"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/modal.css",
+        "baseClass": ".nb-modal"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/modal.css",
+        "baseClass": ".dk-modal"
+      }
+    },
+    "multiselect": {
+      "label": "Multiselect",
+      "description": "Multi-value select dropdown with tag/chip display",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/multiselect.css",
+        "baseClass": ".nb-multiselect"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/multiselect.css",
+        "baseClass": ".dk-multiselect"
+      }
+    },
+    "navbar": {
+      "label": "Navbar",
+      "description": "Top navigation bar with brand, links, actions, and mobile toggle",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "is-active",
+        "is-open",
+        "focus-visible"
+      ],
+      "slots": [
+        "brand",
+        "nav",
+        "link",
+        "actions",
+        "toggle"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/navbar.css",
+        "baseClass": ".nb-navbar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/navbar.css",
+        "baseClass": ".dk-navbar"
+      }
+    },
+    "navigation-menu": {
+      "label": "Navigation Menu",
+      "description": "Mega-menu navigation with nested panels",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/navigation-menu.css",
+        "baseClass": ".nb-navigation-menu"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/navigation-menu.css",
+        "baseClass": ".dk-navigation-menu"
+      }
+    },
+    "newsletter": {
+      "label": "Newsletter",
+      "description": "Email subscription card with form input and submit button",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "featured",
+        "horizontal"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/newsletter.css",
+        "baseClass": ".nb-newsletter"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/newsletter.css",
+        "baseClass": ".dk-newsletter"
+      }
+    },
+    "notification-center": {
+      "label": "Notification Center",
+      "description": "Notification inbox panel with grouped notification items",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/notification-center.css",
+        "baseClass": ".nb-notification-center"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/notification-center.css",
+        "baseClass": ".dk-notification-center"
+      }
+    },
+    "number-input": {
+      "label": "Number Input",
+      "description": "Numeric input with increment/decrement controls",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/number-input.css",
+        "baseClass": ".nb-number-input"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/number-input.css",
+        "baseClass": ".dk-number-input"
+      }
+    },
+    "pagination": {
+      "label": "Pagination",
+      "description": "Page navigation with active, disabled, and ellipsis states",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [
+        "sm"
+      ],
+      "states": [
+        "hover",
+        "active",
+        "is-active",
+        "is-disabled"
+      ],
+      "slots": [
+        "prev",
+        "next",
+        "item",
+        "ellipsis"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/pagination.css",
+        "baseClass": ".nb-pagination"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/pagination.css",
+        "baseClass": ".dk-pagination"
+      }
+    },
+    "password": {
+      "label": "Password Input",
+      "description": "Password input with visibility toggle button",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/password.css",
+        "baseClass": ".nb-password"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/password.css",
+        "baseClass": ".dk-password"
+      }
+    },
+    "pill-nav": {
+      "label": "Pill Nav",
+      "description": "Horizontal pill-shaped navigation tabs",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/pill-nav.css",
+        "baseClass": ".nb-pill-nav"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/pill-nav.css",
+        "baseClass": ".dk-pill-nav"
+      }
+    },
+    "pin-input": {
+      "label": "PIN Input",
+      "description": "Multi-digit PIN or OTP code input with individual character cells",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/pin-input.css",
+        "baseClass": ".nb-pin-input"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/pin-input.css",
+        "baseClass": ".dk-pin-input"
+      }
+    },
+    "popover": {
+      "label": "Popover",
+      "description": "Floating content panel anchored to a trigger element",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/popover.css",
+        "baseClass": ".nb-popover"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/popover.css",
+        "baseClass": ".dk-popover"
+      }
+    },
+    "presence": {
+      "label": "Presence",
+      "description": "Enter/exit animation wrapper for conditional rendering",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/presence.css",
+        "baseClass": ".nb-presence"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/presence.css",
+        "baseClass": ".dk-presence"
+      }
+    },
+    "pricing-card": {
+      "label": "Pricing Card",
+      "description": "Individual pricing tier card with name, price, features, and CTA",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "featured"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "header",
+        "name",
+        "description",
+        "price",
+        "amount",
+        "period",
+        "features",
+        "feature",
+        "cta",
+        "badge"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/pricing-card.css",
+        "baseClass": ".nb-pricing-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/pricing-card.css",
+        "baseClass": ".dk-pricing-card"
+      }
+    },
+    "pricing-table": {
+      "label": "Pricing Table",
+      "description": "Pricing comparison grid with toggle and multiple tiers",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "is-active"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/pricing-table.css",
+        "baseClass": ".nb-pricing-table"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/pricing-table.css",
+        "baseClass": ".dk-pricing-table"
+      }
+    },
+    "product-card": {
+      "label": "Product Card",
+      "description": "E-commerce product card with image, price, and action",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/product-card.css",
+        "baseClass": ".nb-product-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/product-card.css",
+        "baseClass": ".dk-product-card"
+      }
+    },
+    "profile-card": {
+      "label": "Profile Card",
+      "description": "User profile display card with avatar, name, and bio",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/profile-card.css",
+        "baseClass": ".nb-profile-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/profile-card.css",
+        "baseClass": ".dk-profile-card"
+      }
+    },
+    "progress": {
+      "label": "Progress",
+      "description": "Progress bar with label, track, bar, color and animation variants",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "sm",
+        "lg",
+        "danger",
+        "warning",
+        "info",
+        "striped",
+        "animated",
+        "indeterminate"
+      ],
+      "states": [],
+      "slots": [
+        "label",
+        "track",
+        "bar"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/progress.css",
+        "baseClass": ".nb-progress"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/progress.css",
+        "baseClass": ".dk-progress"
+      }
+    },
+    "progress-circle": {
+      "label": "Progress Circle",
+      "description": "Circular SVG-based progress indicator",
+      "category": "feedback",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/progress-circle.css",
+        "baseClass": ".nb-progress-circle"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/progress-circle.css",
+        "baseClass": ".dk-progress-circle"
+      }
+    },
+    "promo-banner": {
+      "label": "Promo Banner",
+      "description": "Promotional banner with countdown or offer details",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/promo-banner.css",
+        "baseClass": ".nb-promo-banner"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/promo-banner.css",
+        "baseClass": ".dk-promo-banner"
+      }
+    },
+    "prose": {
+      "label": "Prose",
+      "description": "Long-form content typography container with sensible defaults",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/prose.css",
+        "baseClass": ".nb-prose"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/prose.css",
+        "baseClass": ".dk-prose"
+      }
+    },
+    "qr-code": {
+      "label": "QR Code",
+      "description": "QR code display component",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/qr-code.css",
+        "baseClass": ".nb-qr-code"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/qr-code.css",
+        "baseClass": ".dk-qr-code"
+      }
+    },
+    "radio": {
+      "label": "Radio",
+      "description": "Custom radio button with hidden native input, styled indicator, and label",
+      "category": "forms",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "checked",
+        "focus-visible",
+        "disabled"
+      ],
+      "slots": [
+        "input",
+        "indicator",
+        "label"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/radio.css",
+        "baseClass": ".nb-radio"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/radio.css",
+        "baseClass": ".dk-radio"
+      }
+    },
+    "radio-card": {
+      "label": "Radio Card",
+      "description": "Card-styled radio button for visual option selection",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/radio-card.css",
+        "baseClass": ".nb-radio-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/radio-card.css",
+        "baseClass": ".dk-radio-card"
+      }
+    },
+    "range": {
+      "label": "Range",
+      "description": "Range slider with filled track, thumb, value badge, and tick marks",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "sm"
+      ],
+      "states": [
+        "hover",
+        "focus-visible",
+        "active"
+      ],
+      "slots": [
+        "input",
+        "track",
+        "thumb",
+        "value"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/range.css",
+        "baseClass": ".nb-range"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/range.css",
+        "baseClass": ".dk-range"
+      }
+    },
+    "rating": {
+      "label": "Rating",
+      "description": "Star rating display and interactive selector",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/rating.css",
+        "baseClass": ".nb-rating"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/rating.css",
+        "baseClass": ".dk-rating"
+      }
+    },
+    "responsive-hidden": {
+      "label": "Responsive Hidden",
+      "description": "Utility classes to show/hide elements at breakpoints",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/responsive-hidden.css",
+        "baseClass": ".nb-hidden"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/responsive-hidden.css",
+        "baseClass": ".dk-hidden"
+      }
+    },
+    "review-card": {
+      "label": "Review Card",
+      "description": "Customer review card with rating, author, and content",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/review-card.css",
+        "baseClass": ".nb-review-card"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/review-card.css",
+        "baseClass": ".dk-review-card"
+      }
+    },
+    "rich-text-editor": {
+      "label": "Rich Text Editor",
+      "description": "WYSIWYG text editor with toolbar and content area",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/rich-text-editor.css",
+        "baseClass": ".nb-rich-text-editor"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/rich-text-editor.css",
+        "baseClass": ".dk-rich-text-editor"
+      }
+    },
+    "rtl": {
+      "label": "RTL",
+      "description": "Right-to-left layout overrides for internationalization",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/rtl.css",
+        "baseClass": null
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/rtl.css",
+        "baseClass": null
+      }
+    },
+    "scroll-area": {
+      "label": "Scroll Area",
+      "description": "Custom-styled scrollable container",
+      "category": "layout-extras",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/scroll-area.css",
+        "baseClass": ".nb-scroll-area"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/scroll-area.css",
+        "baseClass": ".dk-scroll-area"
+      }
+    },
+    "search": {
+      "label": "Search",
+      "description": "Search input with icon, keyboard shortcut hint, and results dropdown",
+      "category": "forms",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "focus",
+        "is-active",
+        "is-open",
+        "is-focused"
+      ],
+      "slots": [
+        "input",
+        "icon",
+        "shortcut"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/search.css",
+        "baseClass": ".nb-search"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/search.css",
+        "baseClass": ".dk-search"
+      }
+    },
+    "segmented-control": {
+      "label": "Segmented Control",
+      "description": "Tab-like toggle control with mutually exclusive segments",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/segmented-control.css",
+        "baseClass": ".nb-segmented-control"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/segmented-control.css",
+        "baseClass": ".dk-segmented-control"
+      }
+    },
+    "select": {
+      "label": "Select",
+      "description": "Custom dropdown select with trigger, options, and search",
+      "category": "forms",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "focus",
+        "focus-visible",
+        "is-open",
+        "is-selected",
+        "is-disabled"
+      ],
+      "slots": [
+        "trigger",
+        "value",
+        "placeholder",
+        "chevron",
+        "menu",
+        "option"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/select.css",
+        "baseClass": ".nb-select"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/select.css",
+        "baseClass": ".dk-select"
+      }
+    },
+    "settings-panel": {
+      "label": "Settings Panel",
+      "description": "Application settings form panel with grouped controls",
+      "category": "application",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/settings-panel.css",
+        "baseClass": ".nb-settings-panel"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/settings-panel.css",
+        "baseClass": ".dk-settings-panel"
+      }
+    },
+    "sidebar": {
+      "label": "Sidebar",
+      "description": "Fixed side navigation with header, groups, links, and footer",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "is-active",
+        "is-open"
+      ],
+      "slots": [
+        "header",
+        "nav",
+        "group",
+        "link",
+        "footer"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/sidebar.css",
+        "baseClass": ".nb-sidebar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/sidebar.css",
+        "baseClass": ".dk-sidebar"
+      }
+    },
+    "skeleton": {
+      "label": "Skeleton",
+      "description": "Loading placeholder with shimmer animation in various shapes",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "text",
+        "heading",
+        "avatar",
+        "avatar-sm",
+        "avatar-lg",
+        "card",
+        "image",
+        "button",
+        "circle",
+        "no-animate"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/skeleton.css",
+        "baseClass": ".nb-skeleton"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/skeleton.css",
+        "baseClass": ".dk-skeleton"
+      }
+    },
+    "skip-nav": {
+      "label": "Skip Nav",
+      "description": "Accessibility skip-to-content navigation link",
+      "category": "navigation",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/skip-nav.css",
+        "baseClass": ".nb-skip-nav"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/skip-nav.css",
+        "baseClass": ".dk-skip-nav"
+      }
+    },
+    "spacer": {
+      "label": "Spacer",
+      "description": "Spacing utility component for adding vertical/horizontal gaps",
+      "category": "layout-extras",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/spacer.css",
+        "baseClass": ".nb-spacer"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/spacer.css",
+        "baseClass": ".dk-spacer"
+      }
+    },
+    "spinner": {
+      "label": "Spinner",
+      "description": "Animated loading spinner with size and color variants",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "sm",
+        "lg",
+        "xl",
+        "primary",
+        "success",
+        "danger",
+        "white"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/spinner.css",
+        "baseClass": ".nb-spinner"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/spinner.css",
+        "baseClass": ".dk-spinner"
+      }
+    },
+    "splitter": {
+      "label": "Splitter",
+      "description": "Resizable split panel layout with draggable divider",
+      "category": "layout-extras",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/splitter.css",
+        "baseClass": ".nb-splitter"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/splitter.css",
+        "baseClass": ".dk-splitter"
+      }
+    },
+    "stat-card": {
+      "label": "Stat Card",
+      "description": "KPI/metric display card with label, value, trend, and icon",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "horizontal",
+        "accent-yellow",
+        "accent-green",
+        "accent-blue",
+        "accent-red"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "label",
+        "value",
+        "trend",
+        "icon"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/stat-card.css",
+        "baseClass": ".nb-stat"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/stat-card.css",
+        "baseClass": ".dk-stat"
+      }
+    },
+    "status-indicator": {
+      "label": "Status Indicator",
+      "description": "Small colored dot or badge indicating online/offline/busy status",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/status-indicator.css",
+        "baseClass": ".nb-status-indicator"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/status-indicator.css",
+        "baseClass": ".dk-status-indicator"
+      }
+    },
+    "stepper": {
+      "label": "Stepper",
+      "description": "Multi-step progress indicator with active and completed states",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [
+        "vertical"
+      ],
+      "states": [
+        "is-active",
+        "is-completed"
+      ],
+      "slots": [
+        "step",
+        "indicator",
+        "label",
+        "connector"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/stepper.css",
+        "baseClass": ".nb-stepper"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/stepper.css",
+        "baseClass": ".dk-stepper"
+      }
+    },
+    "table": {
+      "label": "Table",
+      "description": "Data table with sortable headers, striped/hover/bordered/compact variants",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "striped",
+        "hover",
+        "compact",
+        "bordered"
+      ],
+      "states": [
+        "hover",
+        "is-selected",
+        "is-asc",
+        "is-desc",
+        "focus-visible"
+      ],
+      "slots": [
+        "wrapper",
+        "head",
+        "body",
+        "row",
+        "cell",
+        "sort-btn"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/table.css",
+        "baseClass": ".nb-table"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/table.css",
+        "baseClass": ".dk-table"
+      }
+    },
+    "tabs": {
+      "label": "Tabs",
+      "description": "Tabbed content switcher with list, tab items, and panels",
+      "category": "navigation",
+      "tier": "core",
+      "variants": [
+        "pills",
+        "vertical"
+      ],
+      "states": [
+        "hover",
+        "is-active"
+      ],
+      "slots": [
+        "list",
+        "tab",
+        "panel"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/tabs.css",
+        "baseClass": ".nb-tabs"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/tabs.css",
+        "baseClass": ".dk-tabs"
+      }
+    },
+    "tag-chip": {
+      "label": "Tag Chip",
+      "description": "Standalone tag or chip element with optional remove button",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "label",
+        "remove"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/tag-chip.css",
+        "baseClass": ".nb-tag-chip"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/tag-chip.css",
+        "baseClass": ".dk-tag-chip"
+      }
+    },
+    "tag-input": {
+      "label": "Tag Input",
+      "description": "Text input that creates tag/chip elements from typed values",
+      "category": "forms",
+      "tier": "core",
+      "variants": [
+        "yellow",
+        "green",
+        "blue"
+      ],
+      "states": [
+        "hover",
+        "focus-within"
+      ],
+      "slots": [
+        "label",
+        "remove"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/tag-input.css",
+        "baseClass": ".nb-tag-input"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/tag-input.css",
+        "baseClass": ".dk-tag-input"
+      }
+    },
+    "team-grid": {
+      "label": "Team Grid",
+      "description": "Team member grid with photos, names, and roles",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/team-grid.css",
+        "baseClass": ".nb-team-grid"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/team-grid.css",
+        "baseClass": ".dk-team-grid"
+      }
+    },
+    "testimonial": {
+      "label": "Testimonial",
+      "description": "Customer testimonial quote card with avatar and attribution",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/testimonial.css",
+        "baseClass": ".nb-testimonial"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/testimonial.css",
+        "baseClass": ".dk-testimonial"
+      }
+    },
+    "testimonial-slider": {
+      "label": "Testimonial Slider",
+      "description": "Carousel of testimonial cards with navigation",
+      "category": "marketing",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/testimonial-slider.css",
+        "baseClass": ".nb-testimonial-slider"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/testimonial-slider.css",
+        "baseClass": ".dk-testimonial-slider"
+      }
+    },
+    "text": {
+      "label": "Text",
+      "description": "Typography text component with size and weight variants",
+      "category": "typography",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/text.css",
+        "baseClass": ".nb-text"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/text.css",
+        "baseClass": ".dk-text"
+      }
+    },
+    "theme-provider": {
+      "label": "Theme Provider",
+      "description": "Component-level theme scoping wrapper",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/theme-provider.css",
+        "baseClass": ".nb-theme-provider"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/theme-provider.css",
+        "baseClass": ".dk-theme-provider"
+      }
+    },
+    "time-picker": {
+      "label": "Time Picker",
+      "description": "Time selection input with hour/minute controls",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/time-picker.css",
+        "baseClass": ".nb-time-picker"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/time-picker.css",
+        "baseClass": ".dk-time-picker"
+      }
+    },
+    "timeline": {
+      "label": "Timeline",
+      "description": "Vertical event timeline with markers and content cards",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "compact"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [
+        "item",
+        "marker",
+        "content"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/timeline.css",
+        "baseClass": ".nb-timeline"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/timeline.css",
+        "baseClass": ".dk-timeline"
+      }
+    },
+    "toast": {
+      "label": "Toast",
+      "description": "Notification toast with icon, content, close, and progress bar",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "states": [
+        "hover",
+        "is-exiting"
+      ],
+      "slots": [
+        "icon",
+        "content",
+        "title",
+        "message",
+        "close",
+        "progress"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/toast.css",
+        "baseClass": ".nb-toast"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/toast.css",
+        "baseClass": ".dk-toast"
+      }
+    },
+    "toggle": {
+      "label": "Toggle",
+      "description": "On/off toggle switch with track, thumb, and label",
+      "category": "forms",
+      "tier": "core",
+      "variants": [],
+      "states": [
+        "hover",
+        "is-active",
+        "checked",
+        "focus-visible",
+        "disabled"
+      ],
+      "slots": [
+        "input",
+        "track",
+        "thumb",
+        "label"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/toggle.css",
+        "baseClass": ".nb-toggle"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/toggle.css",
+        "baseClass": ".dk-toggle"
+      }
+    },
+    "toggle-group": {
+      "label": "Toggle Group",
+      "description": "Group of mutually exclusive toggle buttons",
+      "category": "forms",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/toggle-group.css",
+        "baseClass": ".nb-toggle-group"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/toggle-group.css",
+        "baseClass": ".dk-toggle-group"
+      }
+    },
+    "tooltip": {
+      "label": "Tooltip",
+      "description": "Hover-triggered tooltip with position variants and arrow",
+      "category": "feedback",
+      "tier": "core",
+      "variants": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "states": [
+        "is-active"
+      ],
+      "slots": [
+        "trigger",
+        "content"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/tooltip.css",
+        "baseClass": ".nb-tooltip"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/tooltip.css",
+        "baseClass": ".dk-tooltip"
+      }
+    },
+    "tree-view": {
+      "label": "Tree View",
+      "description": "Hierarchical tree list with expand/collapse nodes",
+      "category": "data-display",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/tree-view.css",
+        "baseClass": ".nb-tree-view"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/tree-view.css",
+        "baseClass": ".dk-tree-view"
+      }
+    },
+    "trust-bar": {
+      "label": "Trust Bar",
+      "description": "Social proof strip with star ratings, member counts, and review badges",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "bordered",
+        "compact",
+        "centered"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/trust-bar.css",
+        "baseClass": ".nb-trust-bar"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/trust-bar.css",
+        "baseClass": ".dk-trust-bar"
+      }
+    },
+    "vertical-tabs": {
+      "label": "Vertical Tabs",
+      "description": "Vertically oriented tab navigation",
+      "category": "navigation",
+      "tier": "extended",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/vertical-tabs.css",
+        "baseClass": ".nb-vertical-tabs"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/vertical-tabs.css",
+        "baseClass": ".dk-vertical-tabs"
+      }
+    },
+    "visually-hidden": {
+      "label": "Visually Hidden",
+      "description": "Screen-reader-only utility that hides content visually",
+      "category": "utilities",
+      "tier": "infrastructure",
+      "variants": [],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/visually-hidden.css",
+        "baseClass": ".nb-visually-hidden"
+      },
+      "dk": {
+        "implemented": true,
+        "cssFile": "css/components/visually-hidden.css",
+        "baseClass": ".dk-visually-hidden"
+      }
+    },
+    "highlight-text": {
+      "label": "Highlight Text",
+      "description": "Highlighted/rotated text spans for hero headings with bold background strips, borders, shadows, and optional rotation",
+      "category": "typography",
+      "tier": "core",
+      "variants": [
+        "yellow",
+        "pink",
+        "green",
+        "blue",
+        "orange",
+        "rotate-left",
+        "rotate-right",
+        "lg"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/highlight-text.css",
+        "baseClass": ".nb-highlight"
+      },
+      "dk": {
+        "implemented": false,
+        "cssFile": null,
+        "baseClass": null
+      }
+    },
+    "stat-bar": {
+      "label": "Stat Bar",
+      "description": "Horizontal row of stat boxes for hero sections and landing pages, like uptime/response metrics bars",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "dark",
+        "wrap"
+      ],
+      "states": [],
+      "slots": [
+        "item",
+        "value",
+        "label"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/stat-bar.css",
+        "baseClass": ".nb-stat-bar"
+      },
+      "dk": {
+        "implemented": false,
+        "cssFile": null,
+        "baseClass": null
+      }
+    },
+    "code-window": {
+      "label": "Code Window",
+      "description": "Terminal-style code display window with colored dots, title bar, and syntax-highlighted body. Full browser/terminal window component distinct from code-block",
+      "category": "typography",
+      "tier": "core",
+      "variants": [
+        "rotate",
+        "no-rotate"
+      ],
+      "states": [],
+      "slots": [
+        "header",
+        "dot",
+        "title",
+        "body"
+      ],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/code-window.css",
+        "baseClass": ".nb-code-window"
+      },
+      "dk": {
+        "implemented": false,
+        "cssFile": null,
+        "baseClass": null
+      }
+    },
+    "floating-badge": {
+      "label": "Floating Badge",
+      "description": "Animated floating label badges that hover over content, like status indicators or output labels in hero sections",
+      "category": "data-display",
+      "tier": "core",
+      "variants": [
+        "green",
+        "yellow",
+        "orange",
+        "pink",
+        "blue",
+        "float",
+        "float-alt",
+        "top-right",
+        "top-left",
+        "bottom-right",
+        "bottom-left"
+      ],
+      "states": [
+        "hover"
+      ],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/floating-badge.css",
+        "baseClass": ".nb-floating-badge"
+      },
+      "dk": {
+        "implemented": false,
+        "cssFile": null,
+        "baseClass": null
+      }
+    },
+    "shape": {
+      "label": "Shape",
+      "description": "Large decorative background shapes for hero sections and landing pages. Colored rectangles, circles, blobs positioned behind content, rotated and semi-transparent.",
+      "category": "marketing",
+      "tier": "core",
+      "variants": [
+        "rect",
+        "circle",
+        "blob",
+        "strip",
+        "square",
+        "yellow",
+        "pink",
+        "green",
+        "blue",
+        "orange",
+        "purple",
+        "red",
+        "faint",
+        "subtle",
+        "medium",
+        "bold",
+        "solid",
+        "rotate",
+        "rotate-neg",
+        "rotate-heavy",
+        "rotate-slight",
+        "no-rotate",
+        "top-right",
+        "top-left",
+        "bottom-right",
+        "bottom-left",
+        "center",
+        "mid-right",
+        "mid-left",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "drift",
+        "drift-alt",
+        "no-border",
+        "hide-mobile"
+      ],
+      "states": [],
+      "slots": [],
+      "nb": {
+        "implemented": true,
+        "cssFile": "css/components/shape.css",
+        "baseClass": ".nb-shape"
+      },
+      "dk": {
+        "implemented": false,
+        "cssFile": null,
+        "baseClass": null
+      }
+    }
+  }
+}

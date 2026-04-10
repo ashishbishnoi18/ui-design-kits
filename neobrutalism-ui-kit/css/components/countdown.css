@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Countdown — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Unit block */
+
+  .nb-countdown__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nb-countdown__value {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-2xl);
+    font-weight: 700;
+    color: var(--nb-black);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .nb-countdown__label {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  /* Separator */
+
+  .nb-countdown__sep {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xl);
+    color: var(--nb-gray-500);
+    font-weight: 700;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Card variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .nb-countdown-card .nb-countdown__unit {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 16px 20px;
+    min-width: 72px;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-countdown-card .nb-countdown__value {
+    font-size: var(--nb-text-3xl);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Compact / inline variant                                           */
+  /* ------------------------------------------------------------------ */
+
+  .nb-countdown-compact {
+    gap: 4px;
+  }
+
+  .nb-countdown-compact .nb-countdown__unit {
+    flex-direction: row;
+    gap: 3px;
+  }
+
+  .nb-countdown-compact .nb-countdown__value {
+    font-size: var(--nb-text-base);
+  }
+
+  .nb-countdown-compact .nb-countdown__label {
+    font-size: var(--nb-text-xs);
+    text-transform: lowercase;
+  }
+
+  .nb-countdown-compact .nb-countdown__sep {
+    font-size: var(--nb-text-base);
+    margin-top: 0;
+    align-self: center;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accent variant                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .nb-countdown-accent .nb-countdown__value {
+    color: var(--nb-green-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Expired state                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-countdown.is-expired .nb-countdown__value {
+    color: var(--nb-gray-500);
+  }
+
+  .nb-countdown__expired {
+    display: none;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-500);
+    font-style: italic;
+  }
+
+  .nb-countdown.is-expired .nb-countdown__expired {
+    display: block;
+  }
+
+  .nb-countdown.is-expired .nb-countdown__unit,
+  .nb-countdown.is-expired .nb-countdown__sep {
+    display: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 480px) {
+    .nb-countdown-card .nb-countdown__unit {
+      padding: 12px 14px;
+      min-width: 56px;
+    }
+
+    .nb-countdown-card .nb-countdown__value {
+      font-size: var(--nb-text-2xl);
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-countdown__value {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-countdown-card .nb-countdown__unit {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

@@ -127,11 +127,11 @@
   /* Highlighted (featured) column */
 
   .dk-comparison_featured {
-    background: rgba(16, 185, 129, 0.03);
+    background: var(--color-success-muted);
   }
 
   .dk-comparison_thead .dk-comparison_featured {
-    background: rgba(16, 185, 129, 0.06);
+    background: var(--color-success-muted);
     border-bottom-color: var(--accent);
   }
 

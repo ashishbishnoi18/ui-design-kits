@@ -23,13 +23,13 @@
       </div>
       <div class="docs-preview-panel" data-panel="preview">
         <div class="dk-dropdown is-open" style="margin-bottom:200px;">
-          <button class="dk-dropdown_trigger" style="padding:6px 14px;font-size:var(--text-sm);background:var(--bg-raised);color:var(--text-secondary);border:1px solid var(--border-default);border-radius:var(--dk-radius-md);cursor:pointer;">Options</button>
-          <div class="dk-dropdown_menu">
-            <div class="dk-dropdown_header">Actions</div>
-            <button class="dk-dropdown_item">Edit <span class="dk-dropdown_shortcut">Ctrl+E</span></button>
-            <button class="dk-dropdown_item">Duplicate</button>
-            <div class="dk-dropdown_divider"></div>
-            <button class="dk-dropdown_item" style="color:var(--dk-red-400);">Delete</button>
+          <button class="dk-dropdown_trigger" data-slot="trigger" style="padding:6px 14px;font-size:var(--text-sm);background:var(--bg-raised);color:var(--text-secondary);border:1px solid var(--border-default);border-radius:var(--dk-radius-md);cursor:pointer;">Options</button>
+          <div class="dk-dropdown_menu" data-slot="menu">
+            <div class="dk-dropdown_header" data-slot="header">Actions</div>
+            <button class="dk-dropdown_item" data-slot="item">Edit <span class="dk-dropdown_shortcut">Ctrl+E</span></button>
+            <button class="dk-dropdown_item" data-slot="item">Duplicate</button>
+            <div class="dk-dropdown_divider" data-slot="divider"></div>
+            <button class="dk-dropdown_item" data-slot="item" style="color:var(--dk-red-400);">Delete</button>
           </div>
         </div>
       </div>

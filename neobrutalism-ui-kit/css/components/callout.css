@@ -1,0 +1,142 @@
+/* ==========================================================================
+   Callout — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Contextual callout boxes for tips, warnings, and notes.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base Callout
+     -------------------------------------------------------------------------- */
+
+  .nb-callout {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    font-size: var(--nb-text-sm);
+    line-height: 1.6;
+    color: var(--nb-gray-700);
+    background: var(--nb-white);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* --------------------------------------------------------------------------
+     Sub-elements
+     -------------------------------------------------------------------------- */
+
+  .nb-callout__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--nb-gray-400);
+    margin-top: 1px;
+  }
+
+  .nb-callout__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nb-callout__title {
+    font-weight: 700;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  /* --------------------------------------------------------------------------
+     Color Variants
+     -------------------------------------------------------------------------- */
+
+  /* Info */
+  .nb-callout--info {
+    background: var(--nb-blue-500);
+    border-color: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  .nb-callout--info .nb-callout__icon {
+    color: var(--nb-white);
+  }
+
+  .nb-callout--info .nb-callout__title {
+    color: var(--nb-white);
+  }
+
+  /* Success */
+  .nb-callout--success {
+    background: var(--nb-green-500);
+    border-color: var(--nb-black);
+    color: var(--nb-black);
+  }
+
+  .nb-callout--success .nb-callout__icon {
+    color: var(--nb-black);
+  }
+
+  /* Warning */
+  .nb-callout--warning {
+    background: var(--nb-yellow-500);
+    border-color: var(--nb-black);
+    color: var(--nb-black);
+  }
+
+  .nb-callout--warning .nb-callout__icon {
+    color: var(--nb-black);
+  }
+
+  /* Danger */
+  .nb-callout--danger {
+    background: var(--nb-red-500);
+    border-color: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  .nb-callout--danger .nb-callout__icon {
+    color: var(--nb-white);
+  }
+
+  .nb-callout--danger .nb-callout__title {
+    color: var(--nb-white);
+  }
+
+  /* Accent */
+  .nb-callout--accent {
+    background: var(--nb-green-500);
+    border-color: var(--nb-black);
+    color: var(--nb-black);
+  }
+
+  .nb-callout--accent .nb-callout__icon {
+    color: var(--nb-black);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-callout {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-callout__title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-callout--info {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-callout--success {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-callout--warning {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-callout--danger {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-callout--accent {
+    border-color: var(--nb-gray-700);
+  }
+}

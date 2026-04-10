@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Icon — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: currentColor;
+    vertical-align: middle;
+  }
+
+  .nb-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Size variants ---------------------------------------------------- */
+
+  .nb-icon-xs {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nb-icon-sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nb-icon-md {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nb-icon-lg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nb-icon-xl {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Default size when no variant specified */
+
+  .nb-icon:not(.nb-icon-xs):not(.nb-icon-sm):not(.nb-icon-md):not(.nb-icon-lg):not(.nb-icon-xl) {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Color variants --------------------------------------------------- */
+
+  .nb-icon--muted {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-icon--secondary {
+    color: var(--nb-gray-700);
+  }
+
+  .nb-icon--accent {
+    color: var(--nb-green-500);
+  }
+}

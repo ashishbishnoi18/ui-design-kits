@@ -3,6 +3,8 @@
  * - Persists and applies theme (dark/light) across all pages via localStorage
  * - Injects a floating theme toggle button
  * - Highlights current page in navigation
+ * - Persists sidebar toggle state
+ * - Provides form validation for auth pages
  */
 ;(function () {
   'use strict';
@@ -12,6 +14,7 @@
   /* ------------------------------------------------------------------ */
 
   var STORAGE_KEY = 'dk-theme';
+  var SIDEBAR_KEY = 'dk-sidebar-collapsed';
   var saved = null;
   try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
   if (saved === 'light' || saved === 'dark') {
@@ -77,29 +80,143 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /*  Highlight current page in navbar links                             */
+  /*  Highlight current page in navbar / sidebar links                   */
   /* ------------------------------------------------------------------ */
 
   function highlightCurrentNav() {
-    var currentFile = location.pathname.split('/').pop() || 'index.html';
+    var currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-    // Navbar links
-    var navLinks = document.querySelectorAll('.dk-navbar_link');
-    navLinks.forEach(function (link) {
-      link.classList.remove('is-active');
-      var href = link.getAttribute('href');
-      if (href && href.split('#')[0] === currentFile) {
+    // Highlight matching nav links
+    document.querySelectorAll('nav a, [class*="sidebar"] a').forEach(function(link) {
+      var linkPage = link.getAttribute('href');
+      if (!linkPage || linkPage === '#') return;
+      var linkFilename = linkPage.split('/').pop().split('?')[0].split('#')[0];
+      if (linkFilename === currentPage) {
         link.classList.add('is-active');
+        link.setAttribute('aria-current', 'page');
       }
     });
+  }
 
-    // Sidebar links
-    var sideLinks = document.querySelectorAll('.dk-sidebar_link, [class*="sidebar"] a');
-    sideLinks.forEach(function (link) {
-      var href = link.getAttribute('href');
-      if (href && href.split('#')[0] === currentFile) {
-        link.classList.add('is-active');
-      }
+  /* ------------------------------------------------------------------ */
+  /*  Sidebar toggle state persistence                                   */
+  /* ------------------------------------------------------------------ */
+
+  function restoreSidebarState() {
+    var sidebar = document.querySelector('.dk-sidebar');
+    if (!sidebar) return;
+
+    var collapsed = false;
+    try { collapsed = localStorage.getItem(SIDEBAR_KEY) === 'true'; } catch (e) {}
+
+    if (collapsed) {
+      sidebar.classList.add('is-collapsed');
+    }
+
+    // Listen for sidebar toggle clicks
+    var toggleBtn = document.querySelector('.dk-sidebar-toggle');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        var isNowCollapsed = sidebar.classList.contains('is-collapsed');
+        try { localStorage.setItem(SIDEBAR_KEY, String(!isNowCollapsed)); } catch (e) {}
+      });
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Form validation for auth pages                                     */
+  /* ------------------------------------------------------------------ */
+
+  function initFormValidation() {
+    var forms = document.querySelectorAll('.auth-page form');
+    if (!forms.length) return;
+
+    forms.forEach(function(form) {
+      form.setAttribute('novalidate', '');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var valid = true;
+
+        // Clear previous errors
+        form.querySelectorAll('.form-error').forEach(function(el) {
+          el.hidden = true;
+          el.textContent = '';
+        });
+        form.querySelectorAll('[aria-invalid]').forEach(function(el) {
+          el.removeAttribute('aria-invalid');
+        });
+
+        // Validate each required field
+        var inputs = form.querySelectorAll('input[type="email"], input[type="password"], input[type="text"]');
+        inputs.forEach(function(input) {
+          var error = input.closest('.dk-field') ?
+            input.closest('.dk-field').querySelector('.form-error') : null;
+          // For password inputs inside dk-password wrapper
+          if (!error) {
+            var wrapper = input.closest('.dk-password');
+            if (wrapper) {
+              error = wrapper.parentElement.querySelector('.form-error');
+            }
+          }
+          if (!error) return;
+
+          var val = input.value.trim();
+
+          // Required check
+          if (!val) {
+            valid = false;
+            input.setAttribute('aria-invalid', 'true');
+            error.textContent = 'This field is required.';
+            error.hidden = false;
+            return;
+          }
+
+          // Email format check
+          if (input.type === 'email') {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(val)) {
+              valid = false;
+              input.setAttribute('aria-invalid', 'true');
+              error.textContent = 'Please enter a valid email address.';
+              error.hidden = false;
+              return;
+            }
+          }
+
+          // Password min length check
+          if (input.type === 'password' && input.autocomplete !== 'current-password') {
+            if (val.length < 8) {
+              valid = false;
+              input.setAttribute('aria-invalid', 'true');
+              error.textContent = 'Password must be at least 8 characters.';
+              error.hidden = false;
+              return;
+            }
+          }
+        });
+
+        // Password match check (signup page)
+        var pw = form.querySelector('#password');
+        var pwConfirm = form.querySelector('#password-confirm');
+        if (pw && pwConfirm && pw.value && pwConfirm.value) {
+          if (pw.value !== pwConfirm.value) {
+            valid = false;
+            var confirmError = pwConfirm.closest('.dk-field') ?
+              pwConfirm.closest('.dk-field').querySelector('.form-error') : null;
+            if (confirmError) {
+              pwConfirm.setAttribute('aria-invalid', 'true');
+              confirmError.textContent = 'Passwords do not match.';
+              confirmError.hidden = false;
+            }
+          }
+        }
+
+        if (valid) {
+          // Form is valid — in a real app this would submit
+          // For the template, just show a quick visual confirmation
+        }
+      });
     });
   }
 
@@ -111,9 +228,13 @@
     document.addEventListener('DOMContentLoaded', function () {
       injectToggle();
       highlightCurrentNav();
+      restoreSidebarState();
+      initFormValidation();
     });
   } else {
     injectToggle();
     highlightCurrentNav();
+    restoreSidebarState();
+    initFormValidation();
   }
 })();

@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Menubar — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-menubar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--nb-white);
+    border-bottom: 2px solid var(--nb-black);
+    padding: 0 4px;
+  }
+
+  .nb-menubar[role="menubar"] {
+    /* ARIA handled by JS */
+  }
+
+  /* Top-level items -------------------------------------------------- */
+
+  .nb-menubar__item {
+    position: relative;
+    padding: 6px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--nb-font-sans);
+    line-height: 1.4;
+    white-space: nowrap;
+    border-radius: var(--nb-radius);
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nb-menubar__item:hover,
+  .nb-menubar__item.is-open {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-menubar__item:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: -2px;
+  }
+
+  /* Submenu ---------------------------------------------------------- */
+
+  .nb-menubar__submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-lg);
+    z-index: 50;
+    padding: 4px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2px);
+    transition:
+      opacity 0.15s ease,
+      visibility 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .nb-menubar__item.is-open > .nb-menubar__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(4px);
+  }
+
+  /* Submenu item ----------------------------------------------------- */
+
+  .nb-menubar__submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--nb-font-sans);
+    line-height: 1.4;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nb-menubar__submenu-item:hover,
+  .nb-menubar__submenu-item.is-focused {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-menubar__submenu-item:focus-visible {
+    outline: none;
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  /* Shortcut label --------------------------------------------------- */
+
+  .nb-menubar__shortcut {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--nb-gray-400);
+    font-family: var(--nb-font-mono);
+  }
+
+  /* Divider ---------------------------------------------------------- */
+
+  .nb-menubar__divider {
+    height: 2px;
+    background: var(--nb-black);
+    margin: 4px 0;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-menubar {
+    background: var(--nb-gray-900);
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-menubar__submenu {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-menubar__divider {
+    background: var(--nb-gray-800);
+  }
+}

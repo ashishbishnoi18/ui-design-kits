@@ -1,0 +1,93 @@
+/**
+ * NB UI Kit Shared Page Styles
+ * Common button and layout utilities extracted from page templates.
+ * Linked by every page AFTER nb-all.css.
+ */
+
+/* ------------------------------------------------------------------ */
+/*  Buttons                                                            */
+/* ------------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 20px;
+  font-family: var(--nb-font-sans);
+  font-size: var(--nb-text-sm);
+  font-weight: 600;
+  border-radius: var(--nb-radius);
+  border: var(--nb-border);
+  cursor: pointer;
+  transition: all var(--nb-transition-fast);
+  text-decoration: none;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--nb-green-500);
+  color: #000;
+  border-color: var(--nb-black);
+  box-shadow: var(--nb-shadow-sm);
+}
+.btn-primary:hover {
+  background: var(--nb-yellow-500);
+  border-color: var(--nb-black);
+  color: #000;
+  box-shadow: var(--nb-shadow-md);
+  transform: translate(-1px, -1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--nb-black);
+  border-color: var(--nb-black);
+}
+.btn-outline:hover {
+  border-color: var(--nb-black);
+  background: var(--nb-gray-100);
+  color: var(--nb-black);
+  box-shadow: var(--nb-shadow-sm);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--nb-gray-600);
+  border-color: transparent;
+}
+.btn-ghost:hover {
+  background: var(--nb-gray-100);
+  color: var(--nb-black);
+}
+
+.btn-sm {
+  padding: 5px 14px;
+  font-size: var(--nb-text-xs);
+}
+
+.btn-lg {
+  padding: 10px 28px;
+  font-size: var(--nb-text-base);
+}
+
+.btn-icon {
+  padding: 6px;
+  width: 34px;
+  height: 34px;
+}
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Form validation errors                                             */
+/* ------------------------------------------------------------------ */
+
+.form-error {
+  color: var(--nb-red-500);
+  font-size: var(--nb-text-xs);
+  margin-top: 4px;
+}

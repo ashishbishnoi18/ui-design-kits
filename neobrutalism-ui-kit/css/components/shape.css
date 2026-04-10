@@ -1,0 +1,315 @@
+/* ==========================================================================
+   Shape — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Large decorative background shapes for hero sections and landing pages.
+   Colored rectangles, circles, and blobs that sit behind content, rotated
+   and semi-transparent. Distinct from nb-decor (small icons/emojis) —
+   these are big, structural background elements.
+
+   Usage:
+     <section class="nb-hero" style="position:relative;overflow:hidden">
+       <div class="nb-shape nb-shape--yellow nb-shape--rect nb-shape--top-right"></div>
+       <div class="nb-shape nb-shape--pink nb-shape--rect nb-shape--bottom-left nb-shape--rotate-neg"></div>
+       <!-- content with z-index:1 -->
+     </section>
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Keyframes
+     -------------------------------------------------------------------------- */
+  @keyframes nb-shape-drift {
+    0%, 100% {
+      transform: translate(0, 0) rotate(var(--nb-shape-rotation, 0deg));
+    }
+    50% {
+      transform: translate(8px, -12px) rotate(var(--nb-shape-rotation, 0deg));
+    }
+  }
+
+  @keyframes nb-shape-drift-alt {
+    0%, 100% {
+      transform: translate(0, 0) rotate(var(--nb-shape-rotation, 0deg));
+    }
+    50% {
+      transform: translate(-6px, 10px) rotate(var(--nb-shape-rotation, 0deg));
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Base Shape
+     -------------------------------------------------------------------------- */
+  .nb-shape {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.25;
+    border: var(--nb-border);
+  }
+
+  /* --------------------------------------------------------------------------
+     Shape Types
+     -------------------------------------------------------------------------- */
+
+  /* Rectangle — large block shape */
+  .nb-shape--rect {
+    width: 400px;
+    height: 400px;
+    border-radius: var(--nb-radius);
+  }
+
+  /* Circle */
+  .nb-shape--circle {
+    width: 350px;
+    height: 350px;
+    border-radius: var(--nb-radius-full);
+  }
+
+  /* Blob — organic rounded shape */
+  .nb-shape--blob {
+    width: 380px;
+    height: 380px;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
+  /* Strip — wide and thin horizontal bar */
+  .nb-shape--strip {
+    width: 600px;
+    height: 120px;
+    border-radius: var(--nb-radius);
+  }
+
+  /* Square — smaller square */
+  .nb-shape--square {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--nb-radius);
+  }
+
+  /* --------------------------------------------------------------------------
+     Color Variants
+     -------------------------------------------------------------------------- */
+  .nb-shape--yellow {
+    background-color: var(--nb-yellow-500);
+  }
+
+  .nb-shape--pink {
+    background-color: var(--nb-pink-500, #EC4899);
+  }
+
+  .nb-shape--green {
+    background-color: var(--nb-green-500);
+  }
+
+  .nb-shape--blue {
+    background-color: var(--nb-blue-500);
+  }
+
+  .nb-shape--orange {
+    background-color: var(--nb-orange-500);
+  }
+
+  .nb-shape--purple {
+    background-color: var(--nb-purple-500, #A855F7);
+  }
+
+  .nb-shape--red {
+    background-color: var(--nb-red-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Opacity Variants
+     -------------------------------------------------------------------------- */
+  .nb-shape--faint {
+    opacity: 0.15;
+  }
+
+  .nb-shape--subtle {
+    opacity: 0.25;
+  }
+
+  .nb-shape--medium {
+    opacity: 0.35;
+  }
+
+  .nb-shape--bold {
+    opacity: 0.5;
+  }
+
+  .nb-shape--solid {
+    opacity: 1;
+  }
+
+  /* --------------------------------------------------------------------------
+     Rotation
+     -------------------------------------------------------------------------- */
+  .nb-shape--rotate {
+    --nb-shape-rotation: 15deg;
+    transform: rotate(15deg);
+  }
+
+  .nb-shape--rotate-neg {
+    --nb-shape-rotation: -10deg;
+    transform: rotate(-10deg);
+  }
+
+  .nb-shape--rotate-heavy {
+    --nb-shape-rotation: 25deg;
+    transform: rotate(25deg);
+  }
+
+  .nb-shape--rotate-slight {
+    --nb-shape-rotation: 5deg;
+    transform: rotate(5deg);
+  }
+
+  .nb-shape--no-rotate {
+    --nb-shape-rotation: 0deg;
+    transform: rotate(0deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Position — corner placement with partial overflow
+     -------------------------------------------------------------------------- */
+  .nb-shape--top-right {
+    top: -80px;
+    right: -120px;
+  }
+
+  .nb-shape--top-left {
+    top: -80px;
+    left: -120px;
+  }
+
+  .nb-shape--bottom-right {
+    bottom: -80px;
+    right: -120px;
+  }
+
+  .nb-shape--bottom-left {
+    bottom: -80px;
+    left: -120px;
+  }
+
+  /* Centered behind content */
+  .nb-shape--center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(var(--nb-shape-rotation, 0deg));
+  }
+
+  /* Mid positions */
+  .nb-shape--mid-right {
+    top: 30%;
+    right: -100px;
+  }
+
+  .nb-shape--mid-left {
+    top: 30%;
+    left: -100px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Size Variants
+     -------------------------------------------------------------------------- */
+  .nb-shape--sm {
+    width: 200px;
+    height: 200px;
+  }
+
+  .nb-shape--md {
+    width: 350px;
+    height: 350px;
+  }
+
+  .nb-shape--lg {
+    width: 500px;
+    height: 500px;
+  }
+
+  .nb-shape--xl {
+    width: 650px;
+    height: 650px;
+  }
+
+  /* Strip sizes */
+  .nb-shape--sm.nb-shape--strip {
+    width: 300px;
+    height: 80px;
+  }
+
+  .nb-shape--lg.nb-shape--strip {
+    width: 800px;
+    height: 160px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Animation
+     -------------------------------------------------------------------------- */
+  .nb-shape--drift {
+    animation: nb-shape-drift 8s ease-in-out infinite;
+  }
+
+  .nb-shape--drift-alt {
+    animation: nb-shape-drift-alt 10s ease-in-out infinite;
+  }
+
+  /* --------------------------------------------------------------------------
+     No Border — softer look
+     -------------------------------------------------------------------------- */
+  .nb-shape--no-border {
+    border: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Accessibility: respect reduced motion
+     -------------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .nb-shape--drift,
+    .nb-shape--drift-alt {
+      animation: none;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Responsive — hide on small screens to reduce clutter
+     -------------------------------------------------------------------------- */
+  @media (max-width: 639px) {
+    .nb-shape--hide-mobile {
+      display: none;
+    }
+
+    .nb-shape--rect,
+    .nb-shape--circle,
+    .nb-shape--blob {
+      width: 250px;
+      height: 250px;
+    }
+
+    .nb-shape--strip {
+      width: 350px;
+      height: 80px;
+    }
+
+    .nb-shape--top-right {
+      top: -40px;
+      right: -60px;
+    }
+
+    .nb-shape--top-left {
+      top: -40px;
+      left: -60px;
+    }
+
+    .nb-shape--bottom-right {
+      bottom: -40px;
+      right: -60px;
+    }
+
+    .nb-shape--bottom-left {
+      bottom: -40px;
+      left: -60px;
+    }
+  }
+}

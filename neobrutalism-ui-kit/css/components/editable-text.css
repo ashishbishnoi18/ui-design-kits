@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Editable Text — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-editable {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    min-width: 40px;
+  }
+
+  /* Display mode ----------------------------------------------------- */
+
+  .nb-editable__display {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+    border-radius: var(--nb-radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    line-height: 1.5;
+    transition:
+      background 0.1s ease,
+      border-color 0.1s ease;
+    min-height: 30px;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nb-editable__display:hover {
+    background: var(--nb-gray-100);
+    border-color: var(--nb-black);
+  }
+
+  .nb-editable__display:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 1px;
+  }
+
+  .nb-editable__display-icon {
+    width: 12px;
+    height: 12px;
+    color: var(--nb-gray-400);
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
+
+  .nb-editable__display:hover .nb-editable__display-icon {
+    opacity: 1;
+  }
+
+  /* Edit mode -------------------------------------------------------- */
+
+  .nb-editable__edit {
+    display: none;
+    width: 100%;
+  }
+
+  .nb-editable.is-editing .nb-editable__display {
+    display: none;
+  }
+
+  .nb-editable.is-editing .nb-editable__edit {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nb-editable__input {
+    flex: 1;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 3px 8px;
+    font-family: inherit;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    outline: none;
+    line-height: 1.5;
+    min-height: 30px;
+    min-width: 0;
+  }
+
+  .nb-editable__input:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Action buttons --------------------------------------------------- */
+
+  .nb-editable__actions {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .nb-editable__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    background: var(--nb-gray-50);
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    transition:
+      background 0.1s ease,
+      color 0.1s ease,
+      transform 0.1s ease,
+      box-shadow 0.1s ease;
+    padding: 0;
+  }
+
+  .nb-editable__action:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-editable__action--confirm:hover {
+    background: var(--nb-green-500);
+    color: var(--nb-white);
+    border-color: var(--nb-black);
+  }
+
+  .nb-editable__action--cancel:hover {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+    border-color: var(--nb-black);
+  }
+
+  .nb-editable__action svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nb-editable__action:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 1px;
+  }
+
+  /* Empty state */
+  .nb-editable__display.is-empty {
+    color: var(--nb-gray-400);
+    font-style: italic;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-editable__display {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-editable__display:hover {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-editable__input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-editable__action {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-editable__action:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-editable__action--confirm:hover {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-editable__action--cancel:hover {
+    border-color: var(--nb-gray-700);
+  }
+}

@@ -99,6 +99,12 @@
 
     // Ensure initial ARIA state
     syncAria();
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'click', handleOutsideClick);
+      DK.off(document, 'keydown', handleKeydown);
+    };
   });
 
 })(window.DK);

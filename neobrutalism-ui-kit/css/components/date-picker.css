@@ -1,0 +1,238 @@
+/* ==========================================================================
+   Date Picker — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-date-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Input wrapper ---------------------------------------------------- */
+
+  .nb-date-picker_input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nb-date-picker_input {
+    display: block;
+    width: 100%;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 7px 36px 7px 12px;
+    font-family: inherit;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    outline: none;
+    transition: box-shadow 0.1s ease;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .nb-date-picker_input:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-date-picker_input::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-date-picker_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--nb-gray-400);
+    pointer-events: none;
+  }
+
+  /* Calendar dropdown ------------------------------------------------ */
+
+  .nb-date-picker_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 9999;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    box-shadow: var(--nb-shadow-md);
+    padding: 12px;
+    min-width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity 0.1s ease,
+      visibility 0.1s ease,
+      transform 0.1s ease;
+  }
+
+  .nb-date-picker.is-open .nb-date-picker_dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Header: month/year nav ------------------------------------------- */
+
+  .nb-date-picker_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .nb-date-picker_title {
+    font-size: var(--nb-text-sm);
+    font-weight: 700;
+    color: var(--nb-black);
+    user-select: none;
+  }
+
+  .nb-date-picker_nav {
+    display: flex;
+    gap: 2px;
+  }
+
+  .nb-date-picker_nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--nb-black);
+    background: var(--nb-white);
+    color: var(--nb-gray-700);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    transition:
+      background 0.1s ease,
+      transform 0.1s ease,
+      box-shadow 0.1s ease;
+  }
+
+  .nb-date-picker_nav-btn:hover {
+    background: var(--nb-gray-100);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-date-picker_nav-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Weekday headers -------------------------------------------------- */
+
+  .nb-date-picker_weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 2px;
+  }
+
+  .nb-date-picker_weekday {
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-400);
+    text-align: center;
+    padding: 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+  }
+
+  /* Day grid --------------------------------------------------------- */
+
+  .nb-date-picker_days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+  }
+
+  .nb-date-picker_day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    border: none;
+    background: transparent;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    transition:
+      background 0.1s ease,
+      color 0.1s ease;
+    font-family: inherit;
+  }
+
+  .nb-date-picker_day:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+  }
+
+  .nb-date-picker_day.is-today {
+    color: var(--nb-green-500);
+    font-weight: 700;
+  }
+
+  .nb-date-picker_day.is-selected {
+    background: var(--nb-black);
+    color: var(--nb-white);
+    font-weight: 700;
+  }
+
+  .nb-date-picker_day.is-selected:hover {
+    background: var(--nb-gray-800, #333);
+  }
+
+  .nb-date-picker_day.is-outside {
+    color: var(--nb-gray-400);
+    opacity: 0.4;
+  }
+
+  .nb-date-picker_day.is-disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .nb-date-picker_day:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: -2px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-date-picker_input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-date-picker_dropdown {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-date-picker_title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-date-picker_nav-btn {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-date-picker_day:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-date-picker_day.is-selected {
+    background: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+}

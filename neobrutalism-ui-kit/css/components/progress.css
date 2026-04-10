@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Progress Bars — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Chunky, honest progress bars. The bar IS the information.
+
+   Design rationale (brutalist principles):
+   - 32px height: mass and weight — a concrete beam, not a wisp
+   - border-right on bar: the structural joint where fill meets empty
+   - #00FF00 green: raw digital color, unprocessed, unapologetic
+   - border-radius: 4px (kit base), not pill — geometric, rectangular
+   - Text inside bar: data cast directly into the material
+   - Stripes: construction-barrier signal meaning "active work"
+   - Indeterminate: full-width stripes, the honest answer to "unknown"
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Optional Label — structural sign plate above the bar
+     Use when you need a task name + percentage readout.
+     -------------------------------------------------------------------------- */
+  .nb-progress__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--nb-space-1);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Track — the concrete form
+     -------------------------------------------------------------------------- */
+  .nb-progress {
+    height: 32px;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background-color: var(--nb-white);
+    overflow: hidden;
+    box-shadow: var(--nb-shadow-sm);
+    position: relative;
+  }
+
+  /* --------------------------------------------------------------------------
+     Bar — the fill. Raw material showing progress.
+     -------------------------------------------------------------------------- */
+  .nb-progress__bar {
+    height: 100%;
+    background-color: var(--nb-green-500);
+    border-right: var(--nb-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-extrabold);
+    color: var(--nb-black);
+    white-space: nowrap;
+    transition: width var(--nb-transition-slow);
+  }
+
+  /* --------------------------------------------------------------------------
+     Size Variants — all maintain weight appropriate to their scale
+     -------------------------------------------------------------------------- */
+  .nb-progress--sm { height: 20px; }
+  .nb-progress--lg { height: 44px; }
+
+  /* --------------------------------------------------------------------------
+     Color Variants — bold and uncompromised
+     -------------------------------------------------------------------------- */
+  .nb-progress--danger .nb-progress__bar  { background-color: var(--nb-red-500); color: var(--nb-white); }
+  .nb-progress--warning .nb-progress__bar { background-color: var(--nb-yellow-500); }
+  .nb-progress--info .nb-progress__bar    { background-color: var(--nb-blue-500); color: var(--nb-white); }
+
+  /* --------------------------------------------------------------------------
+     Striped — construction-barrier pattern, signals active work
+     Applied by both --striped (static) and --animated (moving).
+     -------------------------------------------------------------------------- */
+  .nb-progress--striped .nb-progress__bar,
+  .nb-progress--animated .nb-progress__bar {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.15) 10px,
+      rgba(0, 0, 0, 0.15) 20px
+    );
+  }
+
+  /* --------------------------------------------------------------------------
+     Animated — stripes move to communicate active processing
+     -------------------------------------------------------------------------- */
+  .nb-progress--animated .nb-progress__bar {
+    animation: nb-progress-stripes 1s linear infinite;
+  }
+
+  @keyframes nb-progress-stripes {
+    from { background-position: 30px 0; }
+    to   { background-position: 0 0; }
+  }
+
+  /* --------------------------------------------------------------------------
+     Indeterminate — we don't know the progress.
+     Full-width animated stripes: the entire track is active.
+     No fake partial fill — that would lie about the state.
+     -------------------------------------------------------------------------- */
+  .nb-progress--indeterminate .nb-progress__bar {
+    width: 100% !important;
+    border-right: none;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.15) 10px,
+      rgba(0, 0, 0, 0.15) 20px
+    );
+    animation: nb-progress-stripes 1s linear infinite;
+  }
+
+  /* --------------------------------------------------------------------------
+     Reduced Motion — respect the preference, keep stripes visible
+     -------------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .nb-progress--animated .nb-progress__bar,
+    .nb-progress--indeterminate .nb-progress__bar {
+      animation: none;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-progress__label {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-progress {
+    background-color: var(--nb-gray-900);
+  }
+}

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Date Display — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Date display with badge, relative, color, and range variants.
+   No shadow on badges — consistent with badges.css (which has no shadow).
+   ========================================================================== */
+
+@layer components {
+  /* ===== Base ===== */
+  .nb-date {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+  }
+
+  /* ===== Badge variant — matches badges.css: border, no shadow ===== */
+  .nb-date--badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--nb-space-1) var(--nb-space-3);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-full);
+    background: var(--nb-gray-100);
+    font-weight: var(--nb-font-semibold);
+    font-size: var(--nb-text-xs);
+  }
+
+  /* ===== Badge color variants ===== */
+  .nb-date--upcoming {
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-date--past {
+    background: var(--nb-green-500);
+  }
+
+  .nb-date--overdue {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+  }
+
+  /* ===== Relative variant — no italic, medium weight ===== */
+  .nb-date--relative {
+    color: var(--nb-gray-500);
+    font-weight: var(--nb-font-medium);
+  }
+
+  /* ===== Range variant (connected pill pair) ===== */
+  .nb-date--range {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .nb-date--range .nb-date--badge:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+
+  .nb-date--range .nb-date--badge:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .nb-date--range-separator {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--nb-space-1) var(--nb-space-2);
+    border-top: var(--nb-border);
+    border-bottom: var(--nb-border);
+    background: var(--nb-gray-50);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-weight: var(--nb-font-bold);
+  }
+}

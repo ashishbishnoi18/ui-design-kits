@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Tables — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Responsive table wrapper, striped/hover/compact/bordered variants,
+   sortable column header button, and selected row state.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Table Wrapper (responsive scroll)
+     -------------------------------------------------------------------------- */
+  .nb-table-wrapper {
+    overflow-x: auto;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* --------------------------------------------------------------------------
+     Base Table
+     -------------------------------------------------------------------------- */
+  .nb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    line-height: var(--nb-leading-normal);
+    color: var(--nb-black);
+    background: var(--nb-white);
+  }
+
+  /* --------------------------------------------------------------------------
+     Table Head
+     -------------------------------------------------------------------------- */
+  .nb-table thead {
+    background-color: var(--nb-gray-100);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-table th {
+    padding: var(--nb-space-3) var(--nb-space-4);
+    font-weight: var(--nb-font-bold);
+    text-align: left;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--nb-text-xs);
+  }
+
+  /* --------------------------------------------------------------------------
+     Table Body
+     -------------------------------------------------------------------------- */
+  .nb-table td {
+    padding: var(--nb-space-3) var(--nb-space-4);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Striped Variant
+     -------------------------------------------------------------------------- */
+  .nb-table--striped tbody tr:nth-child(even) {
+    background-color: var(--nb-gray-50);
+  }
+
+  /* --------------------------------------------------------------------------
+     Hover Variant
+     -------------------------------------------------------------------------- */
+  .nb-table--hover tbody tr {
+    transition: background-color var(--nb-transition-fast);
+    cursor: pointer;
+  }
+
+  .nb-table--hover tbody tr:hover {
+    background-color: var(--nb-gray-100);
+  }
+
+  /* --------------------------------------------------------------------------
+     Selected Row
+     -------------------------------------------------------------------------- */
+  .nb-table tbody tr.is-selected {
+    background-color: var(--nb-gray-100);
+    box-shadow: inset 3px 0 0 var(--nb-blue-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Compact Variant
+     -------------------------------------------------------------------------- */
+  .nb-table--compact th,
+  .nb-table--compact td {
+    padding: var(--nb-space-2) var(--nb-space-3);
+  }
+
+  /* --------------------------------------------------------------------------
+     Bordered Variant (all cell borders)
+     -------------------------------------------------------------------------- */
+  .nb-table--bordered td,
+  .nb-table--bordered th {
+    border: var(--nb-border);
+  }
+
+  /* --------------------------------------------------------------------------
+     Sortable Column Header
+     -------------------------------------------------------------------------- */
+  .nb-table__sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: var(--nb-font-bold);
+    color: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: color var(--nb-transition-fast);
+  }
+
+  .nb-table__sort-btn:hover {
+    color: var(--nb-gray-600);
+  }
+
+  .nb-table__sort-btn:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  .nb-table__sort-btn::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 5px solid var(--nb-gray-400);
+    transition: transform var(--nb-transition-fast), border-color var(--nb-transition-fast);
+  }
+
+  .nb-table__sort-btn:hover::after {
+    border-bottom-color: var(--nb-gray-600);
+  }
+
+  .nb-table__sort-btn.is-asc::after {
+    border-bottom-color: var(--nb-black);
+  }
+
+  .nb-table__sort-btn.is-desc::after {
+    border-bottom-color: var(--nb-black);
+    transform: rotate(180deg);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-table {
+    color: var(--nb-gray-100);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-table__sort-btn.is-asc::after {
+    border-bottom-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-table__sort-btn.is-desc::after {
+    border-bottom-color: var(--nb-gray-700);
+  }
+}

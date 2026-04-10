@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Stat Bar — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Horizontal row of stat boxes for hero sections and landing pages.
+   Like "99.9% Uptime | 50ms Response | 10M+ Requests" bars.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Stat Bar
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background-color: var(--nb-white);
+    box-shadow: var(--nb-shadow-md);
+    overflow: hidden;
+  }
+
+  /* --------------------------------------------------------------------------
+     Stat Item
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--nb-space-4) var(--nb-space-6);
+    gap: var(--nb-space-1);
+    border-right: var(--nb-border);
+    flex: 1 1 0%;
+    text-align: center;
+  }
+
+  .nb-stat-bar__item:last-child {
+    border-right: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Stat Value - large mono number
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar__value {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-2xl);
+    font-weight: var(--nb-font-extrabold);
+    line-height: var(--nb-leading-none);
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Stat Label - small uppercase label
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar__label {
+    font-family: var(--nb-font-body);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-semibold);
+    color: var(--nb-gray-500);
+    text-transform: uppercase;
+    letter-spacing: var(--nb-tracking-wider);
+  }
+
+  /* --------------------------------------------------------------------------
+     Dark Variant
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar--dark {
+    background-color: var(--nb-black);
+    border-color: var(--nb-black);
+  }
+
+  .nb-stat-bar--dark .nb-stat-bar__item {
+    border-right-color: var(--nb-gray-800);
+  }
+
+  .nb-stat-bar--dark .nb-stat-bar__item:last-child {
+    border-right-color: transparent;
+  }
+
+  .nb-stat-bar--dark .nb-stat-bar__value {
+    color: var(--nb-white);
+  }
+
+  .nb-stat-bar--dark .nb-stat-bar__label {
+    color: var(--nb-gray-400);
+  }
+
+  /* --------------------------------------------------------------------------
+     Wrap Variant - flex-wrap for mobile
+     -------------------------------------------------------------------------- */
+  .nb-stat-bar--wrap {
+    flex-wrap: wrap;
+  }
+
+  .nb-stat-bar--wrap .nb-stat-bar__item {
+    flex: 1 1 auto;
+    min-width: calc(50% - var(--nb-space-1));
+  }
+
+  /* --------------------------------------------------------------------------
+     Responsive - stack on mobile
+     -------------------------------------------------------------------------- */
+  @media (max-width: 639px) {
+    .nb-stat-bar {
+      flex-direction: column;
+    }
+
+    .nb-stat-bar__item {
+      border-right: none;
+      border-bottom: var(--nb-border);
+      flex-direction: row;
+      justify-content: space-between;
+      padding: var(--nb-space-3) var(--nb-space-4);
+    }
+
+    .nb-stat-bar__item:last-child {
+      border-bottom: none;
+    }
+
+    .nb-stat-bar--dark .nb-stat-bar__item {
+      border-right-color: transparent;
+      border-bottom-color: var(--nb-gray-800);
+    }
+
+    .nb-stat-bar--dark .nb-stat-bar__item:last-child {
+      border-bottom-color: transparent;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-stat-bar {
+    background-color: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-stat-bar__value {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-stat-bar--dark {
+    background-color: var(--nb-gray-800);
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-stat-bar--dark .nb-stat-bar__value {
+    color: var(--nb-gray-100);
+  }
+}

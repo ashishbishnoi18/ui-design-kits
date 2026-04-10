@@ -34,9 +34,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.35),
-      0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
     z-index: var(--dk-z-popover);
     padding: 16px;
     opacity: 0;

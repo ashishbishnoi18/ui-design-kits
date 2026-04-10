@@ -44,6 +44,7 @@
   var allItems = [];
   var visibleItems = [];
   var activeIndex = -1;
+  var releaseFocusTrap = null;
 
   /* ------------------------------------------------------------------ */
   /*  Fuzzy match                                                        */
@@ -87,6 +88,10 @@
     el.classList.add('is-open');
     el.setAttribute('aria-hidden', 'false');
 
+    /* Trap focus inside the dialog */
+    var dialog = DK.$('.dk-command_dialog', el) || el;
+    releaseFocusTrap = DK.trapFocus(dialog);
+
     var input = DK.$('.dk-command_input', el);
     if (input) {
       input.value = '';
@@ -102,6 +107,13 @@
 
     activePalette.classList.remove('is-open');
     activePalette.setAttribute('aria-hidden', 'true');
+
+    /* Release focus trap */
+    if (releaseFocusTrap) {
+      releaseFocusTrap();
+      releaseFocusTrap = null;
+    }
+
     unlockScroll();
 
     DK.emit(activePalette, 'dk:command-close');
@@ -186,7 +198,7 @@
   /*  Global Cmd+K / Ctrl+K                                              */
   /* ------------------------------------------------------------------ */
 
-  DK.on(document, 'keydown', function (e) {
+  function handleGlobalKeydown(e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       if (activePalette) {
@@ -195,7 +207,9 @@
         openPalette();
       }
     }
-  });
+  }
+
+  DK.on(document, 'keydown', handleGlobalKeydown);
 
   /* ------------------------------------------------------------------ */
   /*  Component registration                                             */
@@ -254,6 +268,15 @@
           break;
       }
     });
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'keydown', handleGlobalKeydown);
+      if (releaseFocusTrap) {
+        releaseFocusTrap();
+        releaseFocusTrap = null;
+      }
+    };
   });
 
   /* Expose API */

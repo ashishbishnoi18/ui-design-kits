@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Progress Circle — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-progress-circle {
+    position: relative;
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+  }
+
+  .nb-progress-circle_svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .nb-progress-circle_track {
+    stroke: var(--nb-gray-200);
+    stroke-width: 4;
+    fill: none;
+  }
+
+  .nb-progress-circle_bar {
+    stroke: var(--nb-green-500);
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 0.4s ease;
+  }
+
+  .nb-progress-circle_label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-black);
+    line-height: 1;
+  }
+
+  /* Size variants */
+
+  .nb-progress-circle--sm {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nb-progress-circle--sm .nb-progress-circle_track,
+  .nb-progress-circle--sm .nb-progress-circle_bar {
+    stroke-width: 3;
+  }
+
+  .nb-progress-circle--sm .nb-progress-circle_label {
+    font-size: var(--nb-text-xs);
+  }
+
+  .nb-progress-circle--md {
+    width: 64px;
+    height: 64px;
+  }
+
+  .nb-progress-circle--lg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .nb-progress-circle--lg .nb-progress-circle_track,
+  .nb-progress-circle--lg .nb-progress-circle_bar {
+    stroke-width: 5;
+  }
+
+  .nb-progress-circle--lg .nb-progress-circle_label {
+    font-size: var(--nb-text-base);
+  }
+
+  /* Color variants */
+
+  .nb-progress-circle--success .nb-progress-circle_bar {
+    stroke: var(--nb-green-500);
+  }
+
+  .nb-progress-circle--danger .nb-progress-circle_bar {
+    stroke: var(--nb-red-500);
+  }
+
+  .nb-progress-circle--warning .nb-progress-circle_bar {
+    stroke: var(--nb-orange-500);
+  }
+
+  .nb-progress-circle--info .nb-progress-circle_bar {
+    stroke: var(--nb-blue-500);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-progress-circle_label {
+    color: var(--nb-gray-100);
+  }
+}

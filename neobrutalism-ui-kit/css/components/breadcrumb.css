@@ -1,0 +1,77 @@
+/* ==========================================================================
+   Breadcrumbs — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Horizontal breadcrumb navigation with separator and active-page styling.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Breadcrumb List
+     -------------------------------------------------------------------------- */
+  .nb-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--nb-space-1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    line-height: var(--nb-leading-normal);
+  }
+
+  /* --------------------------------------------------------------------------
+     Breadcrumb Item
+     -------------------------------------------------------------------------- */
+  .nb-breadcrumb__item {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+  }
+
+  /* --------------------------------------------------------------------------
+     Separator (defaults to "/", inserted via CSS)
+     -------------------------------------------------------------------------- */
+  .nb-breadcrumb__separator {
+    color: var(--nb-gray-400);
+    font-size: var(--nb-text-xs);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Link
+     -------------------------------------------------------------------------- */
+  .nb-breadcrumb__link {
+    color: var(--nb-gray-500);
+    text-decoration: none;
+    transition: color var(--nb-transition-fast);
+  }
+
+  .nb-breadcrumb__link:hover {
+    color: var(--nb-black);
+  }
+
+  .nb-breadcrumb__link:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Current Page (last item)
+     -------------------------------------------------------------------------- */
+  .nb-breadcrumb__item:last-child .nb-breadcrumb__link {
+    color: var(--nb-black);
+    font-weight: var(--nb-font-semibold);
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-breadcrumb__link:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-breadcrumb__item:last-child .nb-breadcrumb__link {
+    color: var(--nb-gray-100);
+  }
+}

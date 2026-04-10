@@ -159,12 +159,19 @@
   /*  Open triggers — delegated                                          */
   /* ------------------------------------------------------------------ */
 
-  DK.on(document, 'click', function (e) {
+  function handleOpenTrigger(e) {
     var trigger = e.target.closest('[data-dk-modal-open]');
     if (trigger) {
       var targetId = trigger.getAttribute('data-dk-modal-open');
       if (targetId) openModal(targetId);
     }
+  }
+
+  DK.on(document, 'click', handleOpenTrigger);
+
+  /** Remove the delegated open-trigger listener (called by DK.destroy). */
+  DK._addCleanup(document, function () {
+    DK.off(document, 'click', handleOpenTrigger);
   });
 
   /* ------------------------------------------------------------------ */

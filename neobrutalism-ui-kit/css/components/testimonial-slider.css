@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Testimonial Slider — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-testimonial-slider {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Track */
+
+  .nb-testimonial-slider_track {
+    display: flex;
+    transition: transform 0.4s ease;
+  }
+
+  /* Slide */
+
+  .nb-testimonial-slider_slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .nb-testimonial-slider_slide .nb-testimonial {
+    height: 100%;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Navigation arrows                                                  */
+  /* ------------------------------------------------------------------ */
+
+  .nb-testimonial-slider_nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    align-items: center;
+  }
+
+  .nb-testimonial-slider_prev,
+  .nb-testimonial-slider_next {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: 50%;
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    box-shadow: var(--nb-shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  }
+
+  .nb-testimonial-slider_prev:hover,
+  .nb-testimonial-slider_next:hover {
+    color: var(--nb-black);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-testimonial-slider_prev:disabled,
+  .nb-testimonial-slider_next:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .nb-testimonial-slider_prev svg,
+  .nb-testimonial-slider_next svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Dot indicators                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .nb-testimonial-slider_dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 0 12px;
+  }
+
+  .nb-testimonial-slider_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nb-gray-200);
+    border: 2px solid var(--nb-black);
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.15s ease, width 0.15s ease;
+  }
+
+  .nb-testimonial-slider_dot.is-active {
+    background: var(--nb-yellow-500);
+    width: 20px;
+    border-radius: var(--nb-radius);
+  }
+
+  .nb-testimonial-slider_dot:hover:not(.is-active) {
+    background: var(--nb-gray-400);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-testimonial-slider_prev,
+  .nb-testimonial-slider_next {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-testimonial-slider_prev:hover,
+  .nb-testimonial-slider_next:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-testimonial-slider_dot {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

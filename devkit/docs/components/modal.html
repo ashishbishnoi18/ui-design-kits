@@ -28,14 +28,14 @@
         <div style="position:relative;min-height:320px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-modal-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-modal is-open" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-            <div class="dk-modal_header">
-              <h3 class="dk-modal_title">Confirm Action</h3>
-              <button class="dk-modal_close">&times;</button>
+            <div class="dk-modal_header" data-slot="header">
+              <h3 class="dk-modal_title" data-slot="title">Confirm Action</h3>
+              <button class="dk-modal_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-modal_body">
+            <div class="dk-modal_body" data-slot="body">
               <p>Are you sure you want to proceed? This action cannot be undone.</p>
             </div>
-            <div class="dk-modal_footer">
+            <div class="dk-modal_footer" data-slot="footer">
               <button class="dk-btn dk-btn--ghost">Cancel</button>
               <button class="dk-btn dk-btn--primary">Confirm</button>
             </div>
@@ -71,14 +71,14 @@
         <div style="position:relative;min-height:260px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-modal-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-modal dk-modal--sm is-open" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-            <div class="dk-modal_header">
-              <h3 class="dk-modal_title">Delete Item</h3>
-              <button class="dk-modal_close">&times;</button>
+            <div class="dk-modal_header" data-slot="header">
+              <h3 class="dk-modal_title" data-slot="title">Delete Item</h3>
+              <button class="dk-modal_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-modal_body">
+            <div class="dk-modal_body" data-slot="body">
               <p>This item will be permanently deleted.</p>
             </div>
-            <div class="dk-modal_footer">
+            <div class="dk-modal_footer" data-slot="footer">
               <button class="dk-btn dk-btn--ghost">Cancel</button>
               <button class="dk-btn dk-btn--danger">Delete</button>
             </div>
@@ -108,18 +108,18 @@
         <div style="position:relative;min-height:340px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-modal-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-modal dk-modal--lg is-open" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:90%;">
-            <div class="dk-modal_header">
-              <h3 class="dk-modal_title">Edit Profile</h3>
-              <button class="dk-modal_close">&times;</button>
+            <div class="dk-modal_header" data-slot="header">
+              <h3 class="dk-modal_title" data-slot="title">Edit Profile</h3>
+              <button class="dk-modal_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-modal_body">
+            <div class="dk-modal_body" data-slot="body">
               <p>Use the large modal for forms and complex content that needs more horizontal space.</p>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
                 <input class="dk-input" placeholder="First name">
                 <input class="dk-input" placeholder="Last name">
               </div>
             </div>
-            <div class="dk-modal_footer">
+            <div class="dk-modal_footer" data-slot="footer">
               <button class="dk-btn dk-btn--ghost">Cancel</button>
               <button class="dk-btn dk-btn--primary">Save</button>
             </div>

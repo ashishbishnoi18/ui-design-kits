@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Modals — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Backdrop, modal container, header/body/footer, close button,
+   size variants (sm, lg, full).
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Backdrop
+     -------------------------------------------------------------------------- */
+  .nb-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: var(--nb-z-modal-backdrop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--nb-transition-base);
+  }
+
+  .nb-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Container
+     -------------------------------------------------------------------------- */
+  .nb-modal {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background-color: var(--nb-white);
+    box-shadow: var(--nb-shadow-xl);
+    max-width: 520px;
+    width: calc(100% - 32px);
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    transform: scale(0.95);
+    transition: transform var(--nb-transition-base);
+  }
+
+  .nb-modal-backdrop.is-open .nb-modal {
+    transform: scale(1);
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Header
+     -------------------------------------------------------------------------- */
+  .nb-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--nb-space-5);
+    border-bottom: var(--nb-border);
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Title
+     -------------------------------------------------------------------------- */
+  .nb-modal__title {
+    font-family: var(--nb-font-sans);
+    font-weight: var(--nb-font-bold);
+    font-size: var(--nb-text-lg);
+    line-height: var(--nb-leading-tight);
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Close Button (ghost style)
+     -------------------------------------------------------------------------- */
+  .nb-modal__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    color: var(--nb-gray-500);
+    transition: background-color var(--nb-transition-fast),
+      color var(--nb-transition-fast);
+  }
+
+  .nb-modal__close:hover {
+    background-color: var(--nb-gray-100);
+    color: var(--nb-black);
+  }
+
+  .nb-modal__close:active {
+    background-color: var(--nb-gray-200);
+  }
+
+  .nb-modal__close:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Body
+     -------------------------------------------------------------------------- */
+  .nb-modal__body {
+    padding: var(--nb-space-5);
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Footer
+     -------------------------------------------------------------------------- */
+  .nb-modal__footer {
+    padding: var(--nb-space-5);
+    border-top: var(--nb-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--nb-space-2);
+  }
+
+  /* --------------------------------------------------------------------------
+     Size Variants
+     -------------------------------------------------------------------------- */
+  .nb-modal--sm {
+    max-width: 400px;
+  }
+
+  .nb-modal--lg {
+    max-width: 720px;
+  }
+
+  .nb-modal--full {
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-modal {
+    background-color: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-modal__title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-modal__close:hover {
+    color: var(--nb-gray-100);
+  }
+}

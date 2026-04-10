@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Tag / Chip — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-tag,
+  .nb-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--nb-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    background: var(--nb-gray-50);
+    color: var(--nb-gray-700);
+    line-height: 1.4;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Outline variant                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .nb-tag-outline {
+    background: transparent;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Solid variant                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-tag-solid {
+    background: var(--nb-black);
+    border-color: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status colors                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-tag-success {
+    background: var(--nb-green-500);
+    color: var(--nb-white);
+    border-color: var(--nb-black);
+  }
+
+  .nb-tag-warning {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    border-color: var(--nb-black);
+  }
+
+  .nb-tag-danger {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+    border-color: var(--nb-black);
+  }
+
+  .nb-tag-info {
+    background: var(--nb-blue-500);
+    color: var(--nb-white);
+    border-color: var(--nb-black);
+  }
+
+  /* Outline + color combos */
+
+  .nb-tag-outline.nb-tag-success {
+    background: transparent;
+    border-color: var(--nb-green-500);
+    color: var(--nb-green-500);
+  }
+
+  .nb-tag-outline.nb-tag-warning {
+    background: transparent;
+    border-color: var(--nb-orange-500);
+    color: var(--nb-orange-500);
+  }
+
+  .nb-tag-outline.nb-tag-danger {
+    background: transparent;
+    border-color: var(--nb-red-500);
+    color: var(--nb-red-500);
+  }
+
+  .nb-tag-outline.nb-tag-info {
+    background: transparent;
+    border-color: var(--nb-blue-500);
+    color: var(--nb-blue-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-tag-sm {
+    padding: 2px 6px;
+    font-size: 9px;
+    gap: 3px;
+  }
+
+  .nb-tag-lg {
+    padding: 5px 14px;
+    font-size: var(--nb-text-sm);
+    gap: 6px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Remove button                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-tag__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: currentColor;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+    padding: 0;
+    margin-left: 2px;
+    margin-right: -4px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .nb-tag__remove:hover {
+    opacity: 1;
+  }
+
+  .nb-tag-lg .nb-tag__remove {
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+  }
+
+  .nb-tag-sm .nb-tag__remove {
+    width: 12px;
+    height: 12px;
+    font-size: 10px;
+    margin-right: -2px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-tag,
+  .nb-chip {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-tag-solid {
+    background: var(--nb-gray-800);
+    border-color: var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-tag-success {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-tag-warning {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-tag-danger {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-tag-info {
+    border-color: var(--nb-gray-700);
+  }
+}

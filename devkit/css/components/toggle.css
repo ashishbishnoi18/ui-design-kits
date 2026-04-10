@@ -42,7 +42,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--text-on-accent);
     top: 2px;
     left: 2px;
     transition: transform var(--dk-transition-fast);
@@ -85,5 +85,14 @@
 
   .dk-toggle:has(.dk-toggle_input:disabled) {
     cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    .dk-toggle_track {
+      border: 1px solid ButtonText;
+    }
+    .dk-toggle_input:focus-visible + .dk-toggle_track {
+      outline: 2px solid Highlight;
+    }
   }
 }

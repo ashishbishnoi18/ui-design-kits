@@ -5,47 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentation — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit documentation — component API reference and usage examples">
+  <meta property="og:title" content="Documentation — DevKit">
+  <meta property="og:description" content="DevKit documentation — component API reference and usage examples">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 6px 14px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-    }
-    .btn-sm {
-      padding: 5px 14px;
-      font-size: var(--text-xs);
-    }
-
     /* Docs three-column layout */
     .docs-layout {
       display: flex;
@@ -214,6 +179,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <div class="docs-layout">
 
@@ -268,17 +234,17 @@
     </aside>
 
     <!-- Main content -->
-    <main class="docs-main">
+    <main class="docs-main" id="main-content">
 
       <!-- SECTION: Introduction -->
       <div class="docs-section-page is-active" id="introduction">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item">
-            <a href="docs.html" class="dk-breadcrumb_link">Docs</a>
-            <span class="dk-breadcrumb_separator">/</span>
+          <span class="dk-breadcrumb_item" data-slot="item">
+            <a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a>
+            <span class="dk-breadcrumb_separator" data-slot="separator">/</span>
           </span>
-          <span class="dk-breadcrumb_item">
-            <span class="dk-breadcrumb_current">Introduction</span>
+          <span class="dk-breadcrumb_item" data-slot="item">
+            <span class="dk-breadcrumb_current" data-slot="current">Introduction</span>
           </span>
         </nav>
         <div style="margin-bottom:32px;">
@@ -289,9 +255,9 @@
           <h2>Overview</h2>
           <p>DevKit provides 156+ ready-to-use components, from inputs and tables to full page layouts. It uses semantic CSS custom properties for theming and native <code>@layer</code> directives for clean specificity management.</p>
           <div class="dk-alert dk-alert--info">
-            <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-            <div class="dk-alert_content">
-              <div class="dk-alert_title">Tip</div>
+            <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <div class="dk-alert_content" data-slot="content">
+              <div class="dk-alert_title" data-slot="title">Tip</div>
               DevKit requires no build tools or JavaScript frameworks. Include the CSS and JS files, then use the component classes in your HTML.
             </div>
           </div>
@@ -312,8 +278,8 @@
       <!-- SECTION: Installation -->
       <div class="docs-section-page" id="installation">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Installation</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Installation</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Installation</h1>
@@ -322,28 +288,28 @@
         <div class="docs-content">
           <h2>CDN (easiest)</h2>
           <p>Add these two lines to your HTML:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ashishbishnoi18/devkit@main/dist/devkit.min.css"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ashishbishnoi18/devkit@main/dist/devkit.min.css"&gt;
 &lt;script src="https://cdn.jsdelivr.net/gh/ashishbishnoi18/devkit@main/dist/devkit.min.js"&gt;&lt;/script&gt;</code></pre></div>
 
           <h2>Download</h2>
           <p>Copy the dist files into your project:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="devkit.min.css"&gt;   &lt;!-- 241 KB --&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="devkit.min.css"&gt;   &lt;!-- 241 KB --&gt;
 &lt;script src="devkit.min.js"&gt;&lt;/script&gt;           &lt;!-- 194 KB --&gt;</code></pre></div>
 
           <h2>npm</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">bash</span></div><pre class="dk-code-block_body"><code>npm install devkit-ui</code></pre></div>
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">bash</span></div><pre class="dk-code-block_body"><code>npm install devkit-ui</code></pre></div>
           <p>Then include in your HTML:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="node_modules/devkit-ui/dist/devkit.min.css"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="node_modules/devkit-ui/dist/devkit.min.css"&gt;
 &lt;script src="node_modules/devkit-ui/dist/devkit.min.js"&gt;&lt;/script&gt;</code></pre></div>
 
           <h2>Development (source)</h2>
           <p>For development with individual component files:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="devkit/css/dk-all.css"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;link rel="stylesheet" href="devkit/css/dk-all.css"&gt;
 &lt;script src="devkit/js/dk-core.js"&gt;&lt;/script&gt;
 &lt;script src="devkit/js/dk-all.js"&gt;&lt;/script&gt;</code></pre></div>
 
           <h2>Build from Source</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">bash</span></div><pre class="dk-code-block_body"><code>git clone https://github.com/ashishbishnoi18/devkit.git
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">bash</span></div><pre class="dk-code-block_body"><code>git clone https://github.com/ashishbishnoi18/devkit.git
 cd devkit
 npm run build
 # → dist/devkit.css + dist/devkit.min.css
@@ -354,8 +320,8 @@ npm run build
       <!-- SECTION: Usage -->
       <div class="docs-section-page" id="usage">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Usage</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Usage</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Usage</h1>
@@ -364,7 +330,7 @@ npm run build
         <div class="docs-content">
           <h2>Basic Pattern</h2>
           <p>All DevKit components use the <code>dk-</code> class prefix. Sub-elements use a single underscore: <code>dk-card_header</code>. Variants use flat naming: <code>dk-card--hover</code>.</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-card dk-card--hover"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-card dk-card--hover"&gt;
   &lt;div class="dk-card_header"&gt;
     &lt;div class="dk-card_title"&gt;Project Alpha&lt;/div&gt;
   &lt;/div&gt;
@@ -375,7 +341,7 @@ npm run build
 
           <h2>Interactive Components</h2>
           <p>Components with JavaScript behavior use <code>data-dk-*</code> attributes for auto-initialization:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;!-- Accordion — auto-inits via data-dk-accordion --&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;!-- Accordion — auto-inits via data-dk-accordion --&gt;
 &lt;div class="dk-accordion" data-dk-accordion="single"&gt;
   &lt;div class="dk-accordion_item"&gt;
     &lt;button class="dk-accordion_trigger"&gt;Section 1&lt;/button&gt;
@@ -410,7 +376,7 @@ npm run build
 
           <h2>Events</h2>
           <p>Interactive components emit custom events with the <code>dk:</code> prefix:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Listen for modal events
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Listen for modal events
 document.querySelector('#my-modal').addEventListener('dk:modal-open', () => {
   console.log('Modal opened!');
 });
@@ -430,7 +396,7 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
             <li><code>md:</code> — 768px+</li>
             <li><code>lg:</code> — 1024px+</li>
           </ul>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-grid dk-grid-cols-1 sm:dk-grid-cols-2 lg:dk-grid-cols-4"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-grid dk-grid-cols-1 sm:dk-grid-cols-2 lg:dk-grid-cols-4"&gt;
   &lt;div class="dk-col-span-1"&gt;...&lt;/div&gt;
 &lt;/div&gt;</code></pre></div>
         </div>
@@ -439,8 +405,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: Theming -->
       <div class="docs-section-page" id="theming">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Theming</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Theming</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Theming</h1>
@@ -449,17 +415,17 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
         <div class="docs-content">
           <h2>Dark &amp; Light Themes</h2>
           <p>DevKit defaults to dark. Switch to light by setting <code>data-theme="light"</code> on <code>&lt;html&gt;</code>:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;html data-theme="dark"&gt;  &lt;!-- default --&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;html data-theme="dark"&gt;  &lt;!-- default --&gt;
 &lt;html data-theme="light"&gt; &lt;!-- light mode --&gt;</code></pre></div>
 
           <h2>Theme Toggle</h2>
           <p>Use the built-in theme toggle component:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;button data-dk-theme-toggle&gt;Toggle Theme&lt;/button&gt;</code></pre></div>
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;button data-dk-theme-toggle&gt;Toggle Theme&lt;/button&gt;</code></pre></div>
           <p>This saves the user's preference to <code>localStorage</code> under the key <code>dk-theme</code>.</p>
 
           <h2>Design Tokens</h2>
           <p>Override any semantic token in your own CSS to customize the entire library:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">css</span></div><pre class="dk-code-block_body"><code>:root {
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">css</span></div><pre class="dk-code-block_body"><code>:root {
   /* Change accent from emerald to blue */
   --accent:       #3b82f6;
   --accent-hover: #2563eb;
@@ -500,8 +466,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: Layout -->
       <div class="docs-section-page" id="layout">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Container &amp; Grid</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Container &amp; Grid</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Container &amp; Grid</h1>
@@ -510,7 +476,7 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
         <div class="docs-content">
           <h2>Container</h2>
           <p>Centers content with responsive max-widths:</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-container"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-container"&gt;
   &lt;!-- Max-width: 640/768/1024/1280px at breakpoints --&gt;
 &lt;/div&gt;
 &lt;div class="dk-container dk-container--fluid"&gt;
@@ -527,7 +493,7 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
               <div style="background:var(--bg-raised); border:1px solid var(--border-default); padding:12px; border-radius:var(--dk-radius-md); text-align:center; font-family:var(--font-mono); font-size:var(--text-xs); color:var(--text-muted);">col</div>
             </div>
           </div>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-grid dk-grid-cols-4 dk-gap-3"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-grid dk-grid-cols-4 dk-gap-3"&gt;
   &lt;div&gt;col&lt;/div&gt;
   &lt;div&gt;col&lt;/div&gt;
   &lt;div class="dk-col-span-2"&gt;spans 2&lt;/div&gt;
@@ -543,8 +509,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: Stack -->
       <div class="docs-section-page" id="stack">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Stack &amp; Spacing</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Stack &amp; Spacing</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Stack &amp; Spacing</h1>
@@ -552,7 +518,7 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
         </div>
         <div class="docs-content">
           <h2>Stack</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-stack dk-stack--md"&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-stack dk-stack--md"&gt;
   &lt;div&gt;Item 1&lt;/div&gt;
   &lt;div&gt;Item 2&lt;/div&gt;
   &lt;div&gt;Item 3&lt;/div&gt;
@@ -561,13 +527,13 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
 &lt;!-- Horizontal --&gt;
 &lt;div class="dk-stack dk-stack--horizontal dk-stack--sm"&gt;...&lt;/div&gt;</code></pre></div>
           <h2>Spacer</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-spacer dk-spacer--lg"&gt;&lt;/div&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-spacer dk-spacer--lg"&gt;&lt;/div&gt;
 &lt;!-- Sizes: --xs, --sm, --md (default), --lg, --xl, --2xl --&gt;</code></pre></div>
           <h2>Divider</h2>
           <div style="margin:20px 0;">
             <div class="dk-divider"></div>
           </div>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-divider"&gt;&lt;/div&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div class="dk-divider"&gt;&lt;/div&gt;
 &lt;div class="dk-divider dk-divider-dashed"&gt;&lt;/div&gt;
 &lt;div class="dk-divider dk-divider-with-text"&gt;OR&lt;/div&gt;</code></pre></div>
         </div>
@@ -576,8 +542,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: Browse All Components -->
       <div class="docs-section-page" id="components">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">Browse All Components</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">Browse All Components</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl);">Components</h1>
@@ -669,8 +635,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: DK.register() -->
       <div class="docs-section-page" id="api-register">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">DK.register()</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">DK.register()</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl); font-family:var(--font-mono);">DK.register()</h1>
@@ -678,12 +644,12 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
         </div>
         <div class="docs-content">
           <h2>Signature</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.register(name: string, initFn: (el: HTMLElement) => void): void</code></pre></div>
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.register(name: string, initFn: (el: HTMLElement) => void): void</code></pre></div>
           <h2>How It Works</h2>
           <p>The <code>name</code> maps to elements with a <code>data-dk-&lt;name&gt;</code> attribute. When <code>DK.init()</code> runs (automatically on DOMContentLoaded), it finds all matching elements and calls <code>initFn</code> once per element.</p>
           <p>A <code>WeakSet</code> prevents double-initialization — the same element is never initialized twice, even if <code>DK.init()</code> is called again.</p>
           <h2>Example</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>;(function (DK) {
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>;(function (DK) {
   DK.register('counter', function (el) {
     var count = 0;
     var display = DK.$('.counter-value', el);
@@ -696,7 +662,7 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
     });
   });
 })(window.DK);</code></pre></div>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div data-dk-counter&gt;
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">html</span></div><pre class="dk-code-block_body"><code>&lt;div data-dk-counter&gt;
   &lt;span class="counter-value"&gt;0&lt;/span&gt;
   &lt;button class="counter-btn"&gt;+1&lt;/button&gt;
 &lt;/div&gt;</code></pre></div>
@@ -706,8 +672,8 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
       <!-- SECTION: DK.init() -->
       <div class="docs-section-page" id="api-init">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">DK.init()</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">DK.init()</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl); font-family:var(--font-mono);">DK.init()</h1>
@@ -715,10 +681,10 @@ DK.toast({ message: 'Saved!', type: 'success', duration: 3000 });</code></pre></
         </div>
         <div class="docs-content">
           <h2>Signature</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.init(root?: Document | HTMLElement): void</code></pre></div>
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.init(root?: Document | HTMLElement): void</code></pre></div>
           <h2>Usage</h2>
           <p>Called automatically on <code>DOMContentLoaded</code>. Also called automatically via <code>MutationObserver</code> when new nodes are added to the DOM. You only need to call it manually if you bypass normal DOM insertion.</p>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Re-init a specific container after innerHTML change
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Re-init a specific container after innerHTML change
 var container = document.getElementById('dynamic-area');
 container.innerHTML = newHTML;
 DK.init(container);
@@ -731,8 +697,8 @@ DK.initComponent('accordion', container);</code></pre></div>
       <!-- SECTION: DK.trapFocus() -->
       <div class="docs-section-page" id="api-trapfocus">
         <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-          <span class="dk-breadcrumb_item"><a href="docs.html" class="dk-breadcrumb_link">Docs</a><span class="dk-breadcrumb_separator">/</span></span>
-          <span class="dk-breadcrumb_item"><span class="dk-breadcrumb_current">DK.trapFocus()</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><a href="docs.html" class="dk-breadcrumb_link" data-slot="link">Docs</a><span class="dk-breadcrumb_separator" data-slot="separator">/</span></span>
+          <span class="dk-breadcrumb_item" data-slot="item"><span class="dk-breadcrumb_current" data-slot="current">DK.trapFocus()</span></span>
         </nav>
         <div style="margin-bottom:32px;">
           <h1 style="font-size:var(--text-3xl); font-family:var(--font-mono);">DK.trapFocus()</h1>
@@ -740,9 +706,9 @@ DK.initComponent('accordion', container);</code></pre></div>
         </div>
         <div class="docs-content">
           <h2>Signature</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.trapFocus(container: HTMLElement): () => void  // returns release function</code></pre></div>
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>DK.trapFocus(container: HTMLElement): () => void  // returns release function</code></pre></div>
           <h2>Usage</h2>
-          <div class="dk-code-block"><div class="dk-code-block_header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Trap focus
+          <div class="dk-code-block"><div class="dk-code-block_header" data-slot="header"><span class="dk-code-block_lang">js</span></div><pre class="dk-code-block_body"><code>// Trap focus
 var release = DK.trapFocus(modalElement);
 
 // Tab key will cycle through focusable elements inside modalElement

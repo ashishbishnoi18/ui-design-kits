@@ -89,7 +89,7 @@
     min-width: 0;
   }
 
-  .dk-editable_input:focus {
+  .dk-editable_input:focus-visible {
     box-shadow:
       0 0 0 2px var(--bg-root),
       0 0 0 4px var(--accent);
@@ -133,7 +133,7 @@
   }
 
   .dk-editable_action--cancel:hover {
-    background: rgba(239, 68, 68, 0.1);
+    background: var(--color-danger-muted);
     color: var(--dk-red-400);
     border-color: var(--dk-red-500);
   }

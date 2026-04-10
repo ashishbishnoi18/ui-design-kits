@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Feature Comparison — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-comparison {
+    width: 100%;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-comparison__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* Header */
+
+  .nb-comparison__thead th {
+    padding: 16px 20px;
+    font-size: var(--nb-text-sm);
+    font-weight: 700;
+    color: var(--nb-black);
+    text-align: center;
+    background: var(--nb-white);
+    border-bottom: 2px solid var(--nb-black);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .nb-comparison__thead th:first-child {
+    text-align: left;
+    min-width: 200px;
+  }
+
+  /* Column header labels */
+
+  .nb-comparison__plan {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .nb-comparison__plan-name {
+    font-weight: 700;
+    color: var(--nb-black);
+  }
+
+  .nb-comparison__plan-price {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-weight: 400;
+  }
+
+  /* Group header rows */
+
+  .nb-comparison__group td {
+    padding: 12px 20px;
+    font-size: var(--nb-text-sm);
+    font-weight: 700;
+    color: var(--nb-black);
+    background: var(--nb-gray-50);
+    border-bottom: 2px solid var(--nb-gray-200);
+    border-top: 2px solid var(--nb-black);
+  }
+
+  /* Body rows */
+
+  .nb-comparison__table tbody tr {
+    border-bottom: 2px solid var(--nb-gray-200);
+  }
+
+  .nb-comparison__table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .nb-comparison__table td {
+    padding: 12px 20px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .nb-comparison__table td:first-child {
+    text-align: left;
+    color: var(--nb-black);
+  }
+
+  /* Check / X marks */
+
+  .nb-comparison__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--nb-green-500);
+    color: var(--nb-white);
+    border: 2px solid var(--nb-black);
+  }
+
+  .nb-comparison__check svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nb-comparison__x {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--nb-gray-500);
+  }
+
+  .nb-comparison__x svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Highlighted (featured) column */
+
+  .nb-comparison__featured {
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-comparison__thead .nb-comparison__featured {
+    background: var(--nb-yellow-500);
+    border-bottom-color: var(--nb-black);
+  }
+
+  /* Value text in cells */
+
+  .nb-comparison__value {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-700);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 768px) {
+    .nb-comparison {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nb-comparison__table {
+      min-width: 600px;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-comparison {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-comparison__thead th {
+    color: var(--nb-gray-100);
+    background: var(--nb-gray-900);
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-comparison__plan-name {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-comparison__group td {
+    color: var(--nb-gray-100);
+    border-top: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-comparison__table td:first-child {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-comparison__check {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-comparison__thead .nb-comparison__featured {
+    border-bottom-color: var(--nb-gray-700);
+  }
+}

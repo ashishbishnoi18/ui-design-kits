@@ -61,6 +61,12 @@
     DK.on(el, 'mouseleave', hide);
     DK.on(el, 'focusin', show);
     DK.on(el, 'focusout', hide);
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
   });
 
 })(window.DK);

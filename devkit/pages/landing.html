@@ -5,54 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DevKit — Developer-Focused UI Library</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit — developer-focused component library with dark theme and emerald accents">
+  <meta property="og:title" content="DevKit — Developer-Focused UI Library">
+  <meta property="og:description" content="DevKit — developer-focused component library with dark theme and emerald accents">
+  <meta property="og:type" content="website">
   <style>
-    /* Page-specific button styles (no button.css in library) */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-      color: var(--text-heading);
-    }
-    .btn-lg {
-      padding: 10px 28px;
-      font-size: var(--text-base);
-    }
-    .btn-sm {
-      padding: 5px 14px;
-      font-size: var(--text-xs);
-    }
-
     /* Trust bar */
     .trust-bar {
       border-top: 1px solid var(--border-default);
@@ -164,38 +122,39 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <!-- Navbar -->
   <nav class="dk-navbar" data-dk-navbar>
-    <div class="dk-navbar_brand">
+    <div class="dk-navbar_brand" data-slot="brand">
       <div class="dk-navbar_brand-icon">dk</div>
       <span class="dk-navbar_brand-text">DevKit</span>
     </div>
-    <div class="dk-navbar_nav">
-      <a href="landing.html" class="dk-navbar_link">Home</a>
-      <a href="docs.html" class="dk-navbar_link">Docs</a>
-      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
-      <a href="blog.html" class="dk-navbar_link">Blog</a>
+    <div class="dk-navbar_nav" data-slot="nav">
+      <a href="landing.html" class="dk-navbar_link" data-slot="link">Home</a>
+      <a href="docs.html" class="dk-navbar_link" data-slot="link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link" data-slot="link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link" data-slot="link">Blog</a>
     </div>
-    <div class="dk-navbar_actions">
+    <div class="dk-navbar_actions" data-slot="actions">
       <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
       <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
     </div>
-    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+    <button class="dk-navbar_mobile-toggle" data-slot="toggle" aria-label="Toggle menu">
       <span class="dk-navbar_mobile-toggle-icon"></span>
     </button>
   </nav>
 
   <!-- Hero -->
-  <section class="dk-hero dk-hero-centered dk-hero-lg">
-    <div class="dk-hero_inner">
-      <span class="dk-hero_eyebrow">v0.1.0 Released</span>
-      <h1 class="dk-hero_title">Build faster with DevKit</h1>
-      <p class="dk-hero_subtitle">
+  <section class="dk-hero dk-hero-centered dk-hero-lg" id="main-content">
+    <div class="dk-hero_inner" data-slot="container">
+      <span class="dk-hero_eyebrow" data-slot="eyebrow">v0.1.0 Released</span>
+      <h1 class="dk-hero_title" data-slot="title">Build faster with DevKit</h1>
+      <p class="dk-hero_subtitle" data-slot="subtitle">
         A dark-first, developer-focused component library. Clean design, zero dependencies,
         and ready to drop into any project. Ship beautiful interfaces without fighting your tools.
       </p>
-      <div class="dk-hero_actions">
+      <div class="dk-hero_actions" data-slot="actions">
         <a href="docs.html" class="btn btn-primary btn-lg">Get Started</a>
         <a href="https://github.com" class="btn btn-outline btn-lg">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
@@ -232,62 +191,62 @@
     <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-2 lg:dk-grid-cols-3 dk-gap-6">
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
           </div>
-          <div class="dk-card_title">Layout System</div>
-          <p class="dk-card_description" style="margin-top:8px;">Responsive grid, containers, stacks, and sidebar layouts. Build any page structure with minimal markup.</p>
+          <div class="dk-card_title" data-slot="title">Layout System</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Responsive grid, containers, stacks, and sidebar layouts. Build any page structure with minimal markup.</p>
         </div>
       </div>
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
           </div>
-          <div class="dk-card_title">Form Components</div>
-          <p class="dk-card_description" style="margin-top:8px;">Inputs, selects, checkboxes, toggles, password fields, and search with built-in validation states.</p>
+          <div class="dk-card_title" data-slot="title">Form Components</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Inputs, selects, checkboxes, toggles, password fields, and search with built-in validation states.</p>
         </div>
       </div>
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M21 9H3M21 15H3M12 3v18"/></svg>
           </div>
-          <div class="dk-card_title">Data Display</div>
-          <p class="dk-card_description" style="margin-top:8px;">Tables, data tables, stat cards, timelines, accordions, and badges for presenting information clearly.</p>
+          <div class="dk-card_title" data-slot="title">Data Display</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Tables, data tables, stat cards, timelines, accordions, and badges for presenting information clearly.</p>
         </div>
       </div>
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18 22 12 16 6"/><path d="M8 6 2 12 8 18"/></svg>
           </div>
-          <div class="dk-card_title">Code Blocks</div>
-          <p class="dk-card_description" style="margin-top:8px;">Syntax-highlighted code display with line numbers, copy buttons, and language badges. Built for dev docs.</p>
+          <div class="dk-card_title" data-slot="title">Code Blocks</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Syntax-highlighted code display with line numbers, copy buttons, and language badges. Built for dev docs.</p>
         </div>
       </div>
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
           </div>
-          <div class="dk-card_title">Navigation</div>
-          <p class="dk-card_description" style="margin-top:8px;">Navbar, sidebar, tabs, breadcrumbs, pagination, steppers, and dropdowns. Full navigation toolkit.</p>
+          <div class="dk-card_title" data-slot="title">Navigation</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Navbar, sidebar, tabs, breadcrumbs, pagination, steppers, and dropdowns. Full navigation toolkit.</p>
         </div>
       </div>
 
       <div class="dk-card dk-card--hover">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="feature-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
           </div>
-          <div class="dk-card_title">Feedback & Overlays</div>
-          <p class="dk-card_description" style="margin-top:8px;">Alerts, toasts, modals, drawers, tooltips, spinners, and progress bars for user interaction feedback.</p>
+          <div class="dk-card_title" data-slot="title">Feedback & Overlays</div>
+          <p class="dk-card_description" data-slot="description" style="margin-top:8px;">Alerts, toasts, modals, drawers, tooltips, spinners, and progress bars for user interaction feedback.</p>
         </div>
       </div>
 
@@ -302,9 +261,9 @@
         <p style="margin-top:8px;">No build tools. No JavaScript frameworks. Just classes.</p>
       </div>
       <div class="dk-code-block">
-        <div class="dk-code-block_header">
+        <div class="dk-code-block_header" data-slot="header">
           <span class="dk-code-block_lang">html</span>
-          <button class="dk-code-block_copy-btn">Copy</button>
+          <button class="dk-code-block_copy-btn" data-slot="copy-btn">Copy</button>
         </div>
         <pre class="dk-code-block_body"><code><span class="syn-comment">&lt;!-- A stat card in three lines --&gt;</span>
 <span class="syn-tag">&lt;div</span> <span class="syn-attr">class</span>=<span class="syn-string">"dk-stat-card"</span><span class="syn-tag">&gt;</span>
@@ -331,10 +290,10 @@
     </div>
     <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-3 dk-gap-6">
       <div class="dk-card testimonial-card">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <p class="testimonial-text">"DevKit replaced our entire internal UI library. The dark theme is perfect for our monitoring dashboard, and the component quality is exceptional."</p>
           <div class="testimonial-author">
-            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">SL</span></div>
+            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">SL</span></div>
             <div>
               <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">Sarah Lin</div>
               <div style="font-size: var(--text-xs); color: var(--text-tertiary);">Staff Engineer, Dataflow</div>
@@ -343,10 +302,10 @@
         </div>
       </div>
       <div class="dk-card testimonial-card">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <p class="testimonial-text">"Zero dependencies means zero supply-chain risk. We dropped it into our air-gapped environment and everything just worked. Exactly what we needed."</p>
           <div class="testimonial-author">
-            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">MK</span></div>
+            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">MK</span></div>
             <div>
               <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">Marcus Kim</div>
               <div style="font-size: var(--text-xs); color: var(--text-tertiary);">Security Lead, Sentinel</div>
@@ -355,10 +314,10 @@
         </div>
       </div>
       <div class="dk-card testimonial-card">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <p class="testimonial-text">"I prototyped our entire SaaS UI in a weekend. The component naming is intuitive and the docs are clear. This is how UI libraries should work."</p>
           <div class="testimonial-author">
-            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">AJ</span></div>
+            <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">AJ</span></div>
             <div>
               <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">Aisha Johnson</div>
               <div style="font-size: var(--text-xs); color: var(--text-tertiary);">Founder, ShipFast</div>
@@ -386,31 +345,31 @@
       <div class="dk-footer_grid">
         <div>
           <div class="dk-footer_column-title">Product</div>
-          <a href="docs.html" class="dk-footer_link">Documentation</a>
-          <a href="pricing.html" class="dk-footer_link">Pricing</a>
-          <a href="#" class="dk-footer_link">Changelog</a>
-          <a href="#" class="dk-footer_link">Releases</a>
+          <a href="docs.html" class="dk-footer_link" data-slot="link">Documentation</a>
+          <a href="pricing.html" class="dk-footer_link" data-slot="link">Pricing</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Changelog</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Releases</a>
         </div>
         <div>
           <div class="dk-footer_column-title">Resources</div>
-          <a href="blog.html" class="dk-footer_link">Blog</a>
-          <a href="#" class="dk-footer_link">Examples</a>
-          <a href="#" class="dk-footer_link">Templates</a>
-          <a href="#" class="dk-footer_link">Figma Kit</a>
+          <a href="blog.html" class="dk-footer_link" data-slot="link">Blog</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Examples</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Templates</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Figma Kit</a>
         </div>
         <div>
           <div class="dk-footer_column-title">Company</div>
-          <a href="#" class="dk-footer_link">About</a>
-          <a href="#" class="dk-footer_link">Careers</a>
-          <a href="#" class="dk-footer_link">Contact</a>
-          <a href="#" class="dk-footer_link">Legal</a>
+          <a href="#" class="dk-footer_link" data-slot="link">About</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Careers</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Contact</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Legal</a>
         </div>
         <div>
           <div class="dk-footer_column-title">Connect</div>
-          <a href="#" class="dk-footer_link">GitHub</a>
-          <a href="#" class="dk-footer_link">Discord</a>
-          <a href="#" class="dk-footer_link">Twitter / X</a>
-          <a href="#" class="dk-footer_link">YouTube</a>
+          <a href="#" class="dk-footer_link" data-slot="link">GitHub</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Discord</a>
+          <a href="#" class="dk-footer_link" data-slot="link">Twitter / X</a>
+          <a href="#" class="dk-footer_link" data-slot="link">YouTube</a>
         </div>
       </div>
       <div class="dk-footer_bottom">

@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Error Boundary — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-error-boundary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    min-height: 200px;
+  }
+
+  /* Icon ------------------------------------------------------------- */
+
+  .nb-error-boundary_icon {
+    width: 48px;
+    height: 48px;
+    color: var(--nb-gray-400);
+    opacity: 0.6;
+  }
+
+  /* Fallback icon when no SVG is provided */
+  .nb-error-boundary_icon:empty::before {
+    content: '!';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--nb-red-500);
+    border: 3px solid var(--nb-black);
+    border-radius: 50%;
+    background: var(--nb-white);
+  }
+
+  /* Title ------------------------------------------------------------ */
+
+  .nb-error-boundary_title {
+    font-size: var(--nb-text-base);
+    font-weight: 700;
+    color: var(--nb-black);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Message ---------------------------------------------------------- */
+
+  .nb-error-boundary_message {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-500);
+    line-height: 1.5;
+    max-width: 400px;
+    margin: 0;
+  }
+
+  /* Retry button ----------------------------------------------------- */
+
+  .nb-error-boundary_retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: var(--nb-text-sm);
+    font-family: inherit;
+    color: var(--nb-black);
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform 0.1s ease,
+      box-shadow 0.1s ease;
+  }
+
+  .nb-error-boundary_retry:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-error-boundary_retry:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 1px;
+  }
+
+  /* Error details (collapsible) -------------------------------------- */
+
+  .nb-error-boundary_details {
+    margin-top: 8px;
+    padding: 12px 16px;
+    max-width: 500px;
+    width: 100%;
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    font-size: 12px;
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-500);
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow: auto;
+    max-height: 120px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-error-boundary_icon:empty::before {
+    border: 3px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-error-boundary_title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-error-boundary_retry {
+    color: var(--nb-gray-100);
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-error-boundary_details {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

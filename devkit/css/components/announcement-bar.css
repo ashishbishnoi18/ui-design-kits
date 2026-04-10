@@ -112,7 +112,7 @@
 
   .dk-announcement-bar-accent {
     background: var(--accent-muted);
-    border-bottom-color: rgba(16, 185, 129, 0.2);
+    border-bottom-color: var(--color-success-muted);
   }
 
   /* ------------------------------------------------------------------ */
@@ -128,5 +128,14 @@
     transform: translateY(-100%);
     transition: opacity var(--dk-transition-fast),
                 transform var(--dk-transition-fast);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-announcement-bar,
+    .dk-announcement-bar * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

@@ -24,6 +24,9 @@
   /** WeakSet that tracks already-initialized elements */
   var _initialized = new WeakSet();
 
+  /** WeakMap storing cleanup functions per element */
+  DK._cleanups = new WeakMap();
+
   /** Counter for unique IDs */
   var _uidCounter = 0;
 
@@ -100,16 +103,62 @@
   /**
    * Internal -- init a single element if it hasn't been initialized yet.
    * Prevents double-init via the _initialized WeakSet.
+   * If the init function returns a cleanup function, it is registered
+   * automatically via DK._addCleanup.
    */
   function _maybeInit(el, fn) {
     if (_initialized.has(el)) return;
     _initialized.add(el);
     try {
-      fn(el);
+      var cleanup = fn(el);
+      if (typeof cleanup === 'function') {
+        DK._addCleanup(el, cleanup);
+      }
     } catch (err) {
       console.error('DK: component init error', err);
     }
   }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component destroy lifecycle                                        */
+  /* ------------------------------------------------------------------ */
+
+  /**
+   * Register a cleanup function for an element.
+   * Components call this to store teardown logic (remove listeners,
+   * clear timers, release focus traps, etc.).
+   * @param {HTMLElement} el
+   * @param {function}    fn -- cleanup function
+   */
+  DK._addCleanup = function (el, fn) {
+    var fns = DK._cleanups.get(el);
+    if (!fns) {
+      fns = [];
+      DK._cleanups.set(el, fns);
+    }
+    fns.push(fn);
+  };
+
+  /**
+   * Destroy a component instance: run all registered cleanup functions,
+   * remove the element from the initialized set, and dispatch `dk:destroy`.
+   * @param {HTMLElement} el
+   */
+  DK.destroy = function (el) {
+    var fns = DK._cleanups.get(el);
+    if (fns) {
+      for (var i = 0; i < fns.length; i++) {
+        try {
+          fns[i]();
+        } catch (err) {
+          console.error('DK: cleanup error', err);
+        }
+      }
+      DK._cleanups.delete(el);
+    }
+    _initialized.delete(el);
+    DK.emit(el, 'dk:destroy');
+  };
 
   /* ------------------------------------------------------------------ */
   /*  DOM query helpers                                                  */
@@ -312,73 +361,6 @@
 
   global.DK = DK;
 })(typeof window !== 'undefined' ? window : this);
-
-
-/* --- components/theme-toggle.js --- */
-
-/**
- * DK Theme Toggle Component
- * Toggles `data-theme` between 'dark' and 'light' on <html>.
- * Persists the selection to localStorage and restores it on init.
- * Emits a `dk:theme-change` CustomEvent with `{ theme }` detail.
- *
- * Usage:
- *   <button data-dk-theme-toggle>Toggle theme</button>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var STORAGE_KEY = 'dk-theme';
-  var root = document.documentElement;
-
-  DK.register('theme-toggle', function (el) {
-
-    /* ---------------------------------------------------------------- */
-    /*  Restore saved theme on init                                      */
-    /* ---------------------------------------------------------------- */
-
-    var saved = null;
-    try {
-      saved = localStorage.getItem(STORAGE_KEY);
-    } catch (e) {
-      // localStorage may be unavailable (private browsing, etc.)
-    }
-
-    if (saved === 'dark' || saved === 'light') {
-      root.setAttribute('data-theme', saved);
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Toggle handler                                                   */
-    /* ---------------------------------------------------------------- */
-
-    function toggle() {
-      var current = root.getAttribute('data-theme');
-      var next = current === 'dark' ? 'light' : 'dark';
-
-      root.setAttribute('data-theme', next);
-
-      // Persist preference
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch (e) {
-        // Silently fail if storage is unavailable
-      }
-
-      // Notify listeners
-      DK.emit(el, 'dk:theme-change', { theme: next });
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Bind click                                                       */
-    /* ---------------------------------------------------------------- */
-
-    DK.on(el, 'click', toggle);
-  });
-
-})(window.DK);
 
 
 /* --- components/toggle.js --- */
@@ -820,6 +802,11 @@
         input.blur();
       }
     });
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'keydown', onGlobalKeydown);
+    };
   });
 
 })(window.DK);
@@ -1169,1985 +1156,6 @@
         nextRadio.dispatchEvent(new Event('change', { bubbles: true }));
       }
     });
-  });
-
-})(window.DK);
-
-
-/* --- components/data-table.js --- */
-
-/**
- * DK Data Table Component
- * Adds sorting to table columns via sort buttons.
- * Rearranges tbody rows on click, cycling through asc / desc / none.
- * Emits `dk:table-sort` with `{ column, direction }` detail.
- *
- * Usage:
- *   <div class="dk-data-table" data-dk-data-table>
- *     <table class="dk-table">
- *       <thead>
- *         <tr>
- *           <th><button class="dk-data-table_sort-btn" data-col="0">Name</button></th>
- *           <th><button class="dk-data-table_sort-btn" data-col="1">Value</button></th>
- *         </tr>
- *       </thead>
- *       <tbody>...</tbody>
- *     </table>
- *   </div>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  /** Sort direction cycle: none -> ascending -> descending -> none */
-  var CYCLE = { none: 'ascending', ascending: 'descending', descending: 'none' };
-
-  DK.register('data-table', function (el) {
-    var table   = DK.$('.dk-table', el) || el.querySelector('table');
-    if (!table) return;
-
-    var tbody   = table.querySelector('tbody');
-    if (!tbody) return;
-
-    var sortBtns = DK.$$('.dk-data-table_sort-btn', el);
-    if (!sortBtns.length) return;
-
-    /* -------------------------------------------------------------- */
-    /*  State                                                          */
-    /* -------------------------------------------------------------- */
-
-    var currentBtn   = null;
-    var currentDir   = 'none';
-    var originalRows = null; // snapshot for resetting to "none"
-
-    /* -------------------------------------------------------------- */
-    /*  Helpers                                                        */
-    /* -------------------------------------------------------------- */
-
-    /**
-     * Extract sortable text content from a cell.
-     * Strips whitespace and lowercases for natural comparison.
-     */
-    function getCellValue(row, colIndex) {
-      var cell = row.children[colIndex];
-      if (!cell) return '';
-
-      // Prefer data-sort-value attribute for custom sort keys
-      var explicit = cell.getAttribute('data-sort-value');
-      if (explicit !== null) return explicit;
-
-      return (cell.textContent || '').trim().toLowerCase();
-    }
-
-    /**
-     * Compare two values — tries numeric first, falls back to string.
-     */
-    function compare(a, b) {
-      var numA = parseFloat(a);
-      var numB = parseFloat(b);
-
-      // Both are valid numbers
-      if (!isNaN(numA) && !isNaN(numB)) {
-        return numA - numB;
-      }
-
-      // String comparison
-      if (a < b) return -1;
-      if (a > b) return 1;
-      return 0;
-    }
-
-    /**
-     * Sort and re-append rows into tbody.
-     */
-    function sortRows(colIndex, direction) {
-      if (!originalRows) {
-        // Snapshot the original DOM order on first sort
-        originalRows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
-      }
-
-      var rows;
-
-      if (direction === 'none') {
-        // Restore original order
-        rows = originalRows.slice();
-      } else {
-        rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
-        rows.sort(function (rowA, rowB) {
-          var valA = getCellValue(rowA, colIndex);
-          var valB = getCellValue(rowB, colIndex);
-          var result = compare(valA, valB);
-          return direction === 'descending' ? -result : result;
-        });
-      }
-
-      // Re-append in new order (moves existing DOM nodes)
-      var frag = document.createDocumentFragment();
-      for (var i = 0; i < rows.length; i++) {
-        frag.appendChild(rows[i]);
-      }
-      tbody.appendChild(frag);
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Reset ARIA on all buttons                                      */
-    /* -------------------------------------------------------------- */
-
-    function resetAllButtons() {
-      for (var i = 0; i < sortBtns.length; i++) {
-        sortBtns[i].removeAttribute('aria-sort');
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Click handler                                                  */
-    /* -------------------------------------------------------------- */
-
-    function handleSort(e) {
-      var btn = e.currentTarget;
-      var colIndex = parseInt(btn.getAttribute('data-col'), 10);
-      if (isNaN(colIndex)) return;
-
-      // Determine new direction
-      var prevDir = btn === currentBtn ? currentDir : 'none';
-      var nextDir = CYCLE[prevDir];
-
-      // Reset all, then set active
-      resetAllButtons();
-
-      if (nextDir !== 'none') {
-        btn.setAttribute('aria-sort', nextDir);
-      }
-
-      currentBtn = btn;
-      currentDir = nextDir;
-
-      // Sort
-      sortRows(colIndex, nextDir);
-
-      // Emit event
-      DK.emit(el, 'dk:table-sort', {
-        column: colIndex,
-        direction: nextDir
-      });
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Bind                                                           */
-    /* -------------------------------------------------------------- */
-
-    for (var i = 0; i < sortBtns.length; i++) {
-      DK.on(sortBtns[i], 'click', handleSort);
-    }
-  });
-
-})(window.DK);
-
-
-/* --- components/accordion.js --- */
-
-/**
- * DK Accordion Component
- * Toggles accordion items open/closed with animated max-height.
- * Supports single-open mode via data-dk-accordion="single".
- * Keyboard accessible: Enter / Space to toggle.
- * ARIA: aria-expanded on trigger, aria-controls linking to content panel.
- *
- * Usage:
- *   <div class="dk-accordion" data-dk-accordion>              (multi-open)
- *   <div class="dk-accordion" data-dk-accordion="single">     (single-open)
- *     <div class="dk-accordion_item">
- *       <button class="dk-accordion_trigger">
- *         Section Title
- *         <svg class="dk-accordion_icon">...</svg>
- *       </button>
- *       <div class="dk-accordion_content">
- *         <div class="dk-accordion_body">Content here</div>
- *       </div>
- *     </div>
- *   </div>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('accordion', function (el) {
-
-    var mode     = el.getAttribute('data-dk-accordion'); // "single" or ""
-    var isSingle = mode === 'single';
-    var items    = DK.$$('.dk-accordion_item', el);
-
-    if (!items.length) return;
-
-    /* -------------------------------------------------------------- */
-    /*  Setup ARIA attributes                                          */
-    /* -------------------------------------------------------------- */
-
-    items.forEach(function (item) {
-      var trigger = DK.$('.dk-accordion_trigger', item);
-      var content = DK.$('.dk-accordion_content', item);
-      if (!trigger || !content) return;
-
-      // Generate unique IDs for ARIA linking
-      var panelId  = content.id || DK.uid('dk-acc-panel');
-      var triggerId = trigger.id || DK.uid('dk-acc-trigger');
-
-      content.id = panelId;
-      trigger.id = triggerId;
-
-      trigger.setAttribute('aria-controls', panelId);
-      content.setAttribute('role', 'region');
-      content.setAttribute('aria-labelledby', triggerId);
-
-      // Set initial ARIA state based on whether item is already open
-      var isOpen = item.classList.contains('is-open');
-      trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-
-      // If already open, set maxHeight so it displays correctly
-      if (isOpen) {
-        content.style.maxHeight = content.scrollHeight + 'px';
-      }
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Toggle logic                                                   */
-    /* -------------------------------------------------------------- */
-
-    function closeItem(item) {
-      var trigger = DK.$('.dk-accordion_trigger', item);
-      var content = DK.$('.dk-accordion_content', item);
-      if (!trigger || !content) return;
-
-      item.classList.remove('is-open');
-      trigger.setAttribute('aria-expanded', 'false');
-      content.style.maxHeight = '0';
-    }
-
-    function openItem(item) {
-      var trigger = DK.$('.dk-accordion_trigger', item);
-      var content = DK.$('.dk-accordion_content', item);
-      if (!trigger || !content) return;
-
-      item.classList.add('is-open');
-      trigger.setAttribute('aria-expanded', 'true');
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
-
-    function toggleItem(item) {
-      var isOpen = item.classList.contains('is-open');
-
-      // In single mode, close all others first
-      if (isSingle && !isOpen) {
-        items.forEach(function (other) {
-          if (other !== item && other.classList.contains('is-open')) {
-            closeItem(other);
-          }
-        });
-      }
-
-      if (isOpen) {
-        closeItem(item);
-      } else {
-        openItem(item);
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Event delegation                                               */
-    /* -------------------------------------------------------------- */
-
-    DK.on(el, 'click', function (e) {
-      var trigger = e.target.closest('.dk-accordion_trigger');
-      if (!trigger) return;
-
-      var item = trigger.closest('.dk-accordion_item');
-      if (!item || !el.contains(item)) return;
-
-      e.preventDefault();
-      toggleItem(item);
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Keyboard: Enter / Space                                        */
-    /* -------------------------------------------------------------- */
-
-    DK.on(el, 'keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-
-      var trigger = e.target.closest('.dk-accordion_trigger');
-      if (!trigger) return;
-
-      var item = trigger.closest('.dk-accordion_item');
-      if (!item || !el.contains(item)) return;
-
-      e.preventDefault();
-      toggleItem(item);
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Handle dynamic content height changes                          */
-    /* -------------------------------------------------------------- */
-
-    /** Recalculate max-height for all open items. */
-    el._dkRecalc = function () {
-      items.forEach(function (item) {
-        if (!item.classList.contains('is-open')) return;
-        var content = DK.$('.dk-accordion_content', item);
-        if (content) {
-          content.style.maxHeight = content.scrollHeight + 'px';
-        }
-      });
-    };
-  });
-
-})(window.DK);
-
-
-/* --- components/navbar.js --- */
-
-/**
- * DK Navbar Component
- * Mobile hamburger toggle: show/hide nav on click.
- * Closes on outside click and Escape key.
- *
- * Usage:
- *   <nav data-dk-navbar class="dk-navbar">
- *     <div class="dk-navbar_brand">...</div>
- *     <button class="dk-navbar_mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
- *       <span class="dk-navbar_mobile-toggle-icon"></span>
- *     </button>
- *     <div class="dk-navbar_nav">...</div>
- *     <div class="dk-navbar_actions">...</div>
- *   </nav>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('navbar', function (el) {
-
-    var toggle = DK.$('.dk-navbar_mobile-toggle', el);
-    var nav = DK.$('.dk-navbar_nav', el);
-
-    if (!toggle || !nav) return;
-
-    /* -------------------------------------------------------------- */
-    /*  ARIA setup                                                     */
-    /* -------------------------------------------------------------- */
-
-    var navId = nav.id || DK.uid('dk-navbar-nav');
-    nav.id = navId;
-    toggle.setAttribute('aria-controls', navId);
-
-    function isOpen() {
-      return el.classList.contains('is-open');
-    }
-
-    function syncAria() {
-      toggle.setAttribute('aria-expanded', String(isOpen()));
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Toggle                                                         */
-    /* -------------------------------------------------------------- */
-
-    function open() {
-      el.classList.add('is-open');
-      syncAria();
-      DK.emit(el, 'dk:navbar-open');
-    }
-
-    function close() {
-      if (!isOpen()) return;
-      el.classList.remove('is-open');
-      syncAria();
-      DK.emit(el, 'dk:navbar-close');
-    }
-
-    function handleToggle(e) {
-      e.stopPropagation();
-      if (isOpen()) {
-        close();
-      } else {
-        open();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Outside click                                                   */
-    /* -------------------------------------------------------------- */
-
-    function handleOutsideClick(e) {
-      if (!isOpen()) return;
-      if (!el.contains(e.target)) {
-        close();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Escape key                                                     */
-    /* -------------------------------------------------------------- */
-
-    function handleKeydown(e) {
-      if (e.key === 'Escape' && isOpen()) {
-        close();
-        toggle.focus();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Bind events                                                    */
-    /* -------------------------------------------------------------- */
-
-    DK.on(toggle, 'click', handleToggle);
-    DK.on(document, 'click', handleOutsideClick);
-    DK.on(document, 'keydown', handleKeydown);
-
-    // Ensure initial ARIA state
-    syncAria();
-  });
-
-})(window.DK);
-
-
-/* --- components/sidebar.js --- */
-
-/**
- * DK Sidebar Component
- * Toggles `is-collapsed` on desktop. Shows/hides with backdrop on mobile.
- * Handles window resize to clean up mobile state when returning to desktop.
- *
- * Usage:
- *   <aside data-dk-sidebar class="dk-sidebar">
- *     <div class="dk-sidebar_header">
- *       <div class="dk-sidebar_logo">...</div>
- *       <button data-dk-sidebar-toggle aria-label="Toggle sidebar">...</button>
- *     </div>
- *     ...
- *   </aside>
- *   <div class="dk-sidebar_backdrop"></div>
- *
- * External trigger (e.g. in a navbar):
- *   <button data-dk-sidebar-open aria-label="Open sidebar">...</button>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var MOBILE_BREAKPOINT = 768;
-
-  DK.register('sidebar', function (el) {
-
-    var toggleBtn = DK.$('[data-dk-sidebar-toggle]', el);
-    var backdrop = el.nextElementSibling;
-
-    // Validate backdrop
-    if (!backdrop || !backdrop.classList.contains('dk-sidebar_backdrop')) {
-      backdrop = null;
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Desktop: collapse / expand                                     */
-    /* -------------------------------------------------------------- */
-
-    function isMobile() {
-      return window.innerWidth <= MOBILE_BREAKPOINT;
-    }
-
-    function toggleCollapse() {
-      if (isMobile()) {
-        toggleMobile();
-        return;
-      }
-      el.classList.toggle('is-collapsed');
-      DK.emit(el, 'dk:sidebar-toggle', {
-        collapsed: el.classList.contains('is-collapsed'),
-      });
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Mobile: overlay sidebar                                        */
-    /* -------------------------------------------------------------- */
-
-    function openMobile() {
-      el.classList.add('is-mobile-open');
-      if (backdrop) backdrop.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-      DK.emit(el, 'dk:sidebar-open');
-    }
-
-    function closeMobile() {
-      el.classList.remove('is-mobile-open');
-      if (backdrop) backdrop.style.display = '';
-      document.body.style.overflow = '';
-      DK.emit(el, 'dk:sidebar-close');
-    }
-
-    function toggleMobile() {
-      if (el.classList.contains('is-mobile-open')) {
-        closeMobile();
-      } else {
-        openMobile();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Handle resize: clean up mobile state on breakpoint cross       */
-    /* -------------------------------------------------------------- */
-
-    var resizeTimer;
-
-    function handleResize() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () {
-        if (!isMobile() && el.classList.contains('is-mobile-open')) {
-          closeMobile();
-        }
-      }, 100);
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Escape key                                                     */
-    /* -------------------------------------------------------------- */
-
-    function handleKeydown(e) {
-      if (e.key === 'Escape' && isMobile() && el.classList.contains('is-mobile-open')) {
-        closeMobile();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  External open triggers                                         */
-    /* -------------------------------------------------------------- */
-
-    var externalOpeners = DK.$$('[data-dk-sidebar-open]');
-    externalOpeners.forEach(function (btn) {
-      DK.on(btn, 'click', function () {
-        if (isMobile()) {
-          openMobile();
-        } else {
-          if (el.classList.contains('is-collapsed')) {
-            el.classList.remove('is-collapsed');
-            DK.emit(el, 'dk:sidebar-toggle', { collapsed: false });
-          }
-        }
-      });
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Bind events                                                    */
-    /* -------------------------------------------------------------- */
-
-    if (toggleBtn) {
-      DK.on(toggleBtn, 'click', toggleCollapse);
-    }
-
-    if (backdrop) {
-      DK.on(backdrop, 'click', closeMobile);
-    }
-
-    DK.on(window, 'resize', handleResize);
-    DK.on(document, 'keydown', handleKeydown);
-
-    /* -------------------------------------------------------------- */
-    /*  Public API                                                     */
-    /* -------------------------------------------------------------- */
-
-    DK.sidebar = DK.sidebar || {};
-    DK.sidebar.collapse = function () {
-      el.classList.add('is-collapsed');
-      DK.emit(el, 'dk:sidebar-toggle', { collapsed: true });
-    };
-    DK.sidebar.expand = function () {
-      el.classList.remove('is-collapsed');
-      DK.emit(el, 'dk:sidebar-toggle', { collapsed: false });
-    };
-    DK.sidebar.openMobile = openMobile;
-    DK.sidebar.closeMobile = closeMobile;
-  });
-
-})(window.DK);
-
-
-/* --- components/tabs.js --- */
-
-/**
- * DK Tabs Component
- * Click to activate tab + panel. Arrow keys for navigation.
- * Full ARIA: role=tablist, role=tab, role=tabpanel, aria-selected.
- *
- * Usage:
- *   <div data-dk-tabs class="dk-tabs">
- *     <div class="dk-tabs_list" role="tablist">
- *       <button class="dk-tabs_tab is-active" data-dk-tab="panel-1">Tab 1</button>
- *       <button class="dk-tabs_tab" data-dk-tab="panel-2">Tab 2</button>
- *     </div>
- *     <div class="dk-tabs_panel is-active" id="panel-1">Content 1</div>
- *     <div class="dk-tabs_panel" id="panel-2">Content 2</div>
- *   </div>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('tabs', function (el) {
-
-    var tablist = DK.$('.dk-tabs_list', el);
-    var tabs = DK.$$('.dk-tabs_tab', el);
-    var panels = DK.$$('.dk-tabs_panel', el);
-
-    if (!tablist || !tabs.length) return;
-
-    /* -------------------------------------------------------------- */
-    /*  ARIA setup                                                     */
-    /* -------------------------------------------------------------- */
-
-    tablist.setAttribute('role', 'tablist');
-
-    tabs.forEach(function (tab, i) {
-      var panelId = tab.getAttribute('data-dk-tab');
-      var tabId = tab.id || DK.uid('dk-tab');
-      tab.id = tabId;
-      tab.setAttribute('role', 'tab');
-      tab.setAttribute('tabindex', tab.classList.contains('is-active') ? '0' : '-1');
-      tab.setAttribute('aria-selected', String(tab.classList.contains('is-active')));
-
-      if (panelId) {
-        tab.setAttribute('aria-controls', panelId);
-        var panel = document.getElementById(panelId);
-        if (panel) {
-          panel.setAttribute('role', 'tabpanel');
-          panel.setAttribute('aria-labelledby', tabId);
-          panel.setAttribute('tabindex', '0');
-        }
-      }
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Activate tab                                                   */
-    /* -------------------------------------------------------------- */
-
-    function activate(tab) {
-      // Deactivate all
-      tabs.forEach(function (t) {
-        t.classList.remove('is-active');
-        t.setAttribute('aria-selected', 'false');
-        t.setAttribute('tabindex', '-1');
-      });
-
-      panels.forEach(function (p) {
-        p.classList.remove('is-active');
-      });
-
-      // Activate selected
-      tab.classList.add('is-active');
-      tab.setAttribute('aria-selected', 'true');
-      tab.setAttribute('tabindex', '0');
-      tab.focus();
-
-      var panelId = tab.getAttribute('data-dk-tab');
-      if (panelId) {
-        var panel = document.getElementById(panelId);
-        if (panel) {
-          panel.classList.add('is-active');
-        }
-      }
-
-      DK.emit(el, 'dk:tab-change', { tab: tab, panelId: panelId });
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Click handler                                                  */
-    /* -------------------------------------------------------------- */
-
-    tabs.forEach(function (tab) {
-      DK.on(tab, 'click', function () {
-        activate(tab);
-      });
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Keyboard navigation                                            */
-    /* -------------------------------------------------------------- */
-
-    DK.on(tablist, 'keydown', function (e) {
-      var currentIndex = tabs.indexOf(document.activeElement);
-      if (currentIndex === -1) return;
-
-      var nextIndex;
-
-      switch (e.key) {
-        case 'ArrowRight':
-        case 'ArrowDown':
-          e.preventDefault();
-          nextIndex = (currentIndex + 1) % tabs.length;
-          activate(tabs[nextIndex]);
-          break;
-
-        case 'ArrowLeft':
-        case 'ArrowUp':
-          e.preventDefault();
-          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-          activate(tabs[nextIndex]);
-          break;
-
-        case 'Home':
-          e.preventDefault();
-          activate(tabs[0]);
-          break;
-
-        case 'End':
-          e.preventDefault();
-          activate(tabs[tabs.length - 1]);
-          break;
-      }
-    });
-  });
-
-})(window.DK);
-
-
-/* --- components/stepper.js --- */
-
-/**
- * DK Stepper Component
- * Manages multi-step indicator state. Exposes API for next/prev/goTo.
- * Updates is-active and is-complete classes on steps.
- *
- * Usage:
- *   <div data-dk-stepper class="dk-stepper">
- *     <div class="dk-stepper_step is-complete">
- *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">1</span></div>
- *       <span class="dk-stepper_label">Account</span>
- *     </div>
- *     <div class="dk-stepper_connector"></div>
- *     <div class="dk-stepper_step is-active">
- *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">2</span></div>
- *       <span class="dk-stepper_label">Profile</span>
- *     </div>
- *     <div class="dk-stepper_connector"></div>
- *     <div class="dk-stepper_step">
- *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">3</span></div>
- *       <span class="dk-stepper_label">Review</span>
- *     </div>
- *   </div>
- *
- * JS API:
- *   DK.stepper.next()   — advance to next step
- *   DK.stepper.prev()   — go back one step
- *   DK.stepper.goTo(n)  — jump to step n (0-indexed)
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('stepper', function (el) {
-
-    var steps = DK.$$('.dk-stepper_step', el);
-    if (!steps.length) return;
-
-    /* -------------------------------------------------------------- */
-    /*  Determine current step from markup                             */
-    /* -------------------------------------------------------------- */
-
-    var currentIndex = 0;
-
-    steps.forEach(function (step, i) {
-      if (step.classList.contains('is-active')) {
-        currentIndex = i;
-      }
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Update step states                                             */
-    /* -------------------------------------------------------------- */
-
-    function updateSteps() {
-      steps.forEach(function (step, i) {
-        step.classList.remove('is-active', 'is-complete');
-
-        if (i < currentIndex) {
-          step.classList.add('is-complete');
-        } else if (i === currentIndex) {
-          step.classList.add('is-active');
-        }
-      });
-
-      // Update connector states: connectors follow the step that precedes them
-      var connectors = DK.$$('.dk-stepper_connector', el);
-      connectors.forEach(function (conn, i) {
-        if (i < currentIndex) {
-          conn.style.background = 'var(--accent)';
-        } else {
-          conn.style.background = '';
-        }
-      });
-
-      DK.emit(el, 'dk:stepper-change', {
-        step: currentIndex,
-        total: steps.length,
-      });
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Navigation methods                                             */
-    /* -------------------------------------------------------------- */
-
-    function next() {
-      if (currentIndex < steps.length - 1) {
-        currentIndex++;
-        updateSteps();
-      }
-    }
-
-    function prev() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateSteps();
-      }
-    }
-
-    function goTo(n) {
-      if (typeof n !== 'number') return;
-      var index = Math.max(0, Math.min(n, steps.length - 1));
-      currentIndex = index;
-      updateSteps();
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Public API                                                     */
-    /* -------------------------------------------------------------- */
-
-    DK.stepper = DK.stepper || {};
-    DK.stepper.next = next;
-    DK.stepper.prev = prev;
-    DK.stepper.goTo = goTo;
-
-    DK.stepper.getCurrent = function () {
-      return currentIndex;
-    };
-
-    DK.stepper.getTotal = function () {
-      return steps.length;
-    };
-
-    // Initialize from markup state
-    updateSteps();
-  });
-
-})(window.DK);
-
-
-/* --- components/dropdown.js --- */
-
-/**
- * DK Dropdown Component
- * Toggle menu on trigger click. Close on outside click / Escape.
- * Arrow key navigation of items. Full ARIA: menu, menuitem, haspopup, expanded.
- *
- * Usage:
- *   <div data-dk-dropdown class="dk-dropdown">
- *     <button class="dk-dropdown_trigger">Options</button>
- *     <div class="dk-dropdown_menu">
- *       <div class="dk-dropdown_header">Section</div>
- *       <button class="dk-dropdown_item">Edit</button>
- *       <button class="dk-dropdown_item">Duplicate</button>
- *       <div class="dk-dropdown_divider"></div>
- *       <button class="dk-dropdown_item">Delete</button>
- *     </div>
- *   </div>
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('dropdown', function (el) {
-
-    var trigger = DK.$('.dk-dropdown_trigger', el);
-    var menu = DK.$('.dk-dropdown_menu', el);
-
-    if (!trigger || !menu) return;
-
-    var items = DK.$$('.dk-dropdown_item', menu);
-    var focusedIndex = -1;
-
-    /* -------------------------------------------------------------- */
-    /*  ARIA setup                                                     */
-    /* -------------------------------------------------------------- */
-
-    var menuId = menu.id || DK.uid('dk-dropdown-menu');
-    menu.id = menuId;
-    menu.setAttribute('role', 'menu');
-
-    trigger.setAttribute('aria-haspopup', 'true');
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-controls', menuId);
-
-    items.forEach(function (item) {
-      item.setAttribute('role', 'menuitem');
-      item.setAttribute('tabindex', '-1');
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  State helpers                                                   */
-    /* -------------------------------------------------------------- */
-
-    function isOpen() {
-      return el.classList.contains('is-open');
-    }
-
-    function clearFocus() {
-      items.forEach(function (item) {
-        item.classList.remove('is-focused');
-      });
-      focusedIndex = -1;
-    }
-
-    function focusItem(index) {
-      clearFocus();
-      if (index < 0 || index >= items.length) return;
-      focusedIndex = index;
-      items[focusedIndex].classList.add('is-focused');
-      items[focusedIndex].focus();
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Open / close                                                   */
-    /* -------------------------------------------------------------- */
-
-    function open() {
-      el.classList.add('is-open');
-      trigger.setAttribute('aria-expanded', 'true');
-      DK.emit(el, 'dk:dropdown-open');
-
-      // Focus first item
-      if (items.length) {
-        focusItem(0);
-      }
-    }
-
-    function close() {
-      if (!isOpen()) return;
-      el.classList.remove('is-open');
-      trigger.setAttribute('aria-expanded', 'false');
-      clearFocus();
-      DK.emit(el, 'dk:dropdown-close');
-    }
-
-    function toggle(e) {
-      e.stopPropagation();
-      if (isOpen()) {
-        close();
-        trigger.focus();
-      } else {
-        open();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Item selection                                                  */
-    /* -------------------------------------------------------------- */
-
-    function selectItem(item) {
-      DK.emit(el, 'dk:dropdown-select', {
-        value: item.textContent.trim(),
-        item: item,
-      });
-      close();
-      trigger.focus();
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Outside click                                                   */
-    /* -------------------------------------------------------------- */
-
-    function handleOutsideClick(e) {
-      if (!isOpen()) return;
-      if (!el.contains(e.target)) {
-        close();
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Keyboard navigation                                            */
-    /* -------------------------------------------------------------- */
-
-    function handleKeydown(e) {
-      if (!isOpen() && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) {
-        if (el.contains(document.activeElement)) {
-          e.preventDefault();
-          open();
-          return;
-        }
-      }
-
-      if (!isOpen()) return;
-
-      switch (e.key) {
-        case 'Escape':
-          e.preventDefault();
-          close();
-          trigger.focus();
-          break;
-
-        case 'ArrowDown':
-          e.preventDefault();
-          if (focusedIndex < items.length - 1) {
-            focusItem(focusedIndex + 1);
-          } else {
-            focusItem(0);
-          }
-          break;
-
-        case 'ArrowUp':
-          e.preventDefault();
-          if (focusedIndex > 0) {
-            focusItem(focusedIndex - 1);
-          } else {
-            focusItem(items.length - 1);
-          }
-          break;
-
-        case 'Home':
-          e.preventDefault();
-          focusItem(0);
-          break;
-
-        case 'End':
-          e.preventDefault();
-          focusItem(items.length - 1);
-          break;
-
-        case 'Enter':
-        case ' ':
-          e.preventDefault();
-          if (focusedIndex >= 0 && focusedIndex < items.length) {
-            selectItem(items[focusedIndex]);
-          }
-          break;
-
-        case 'Tab':
-          close();
-          break;
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Item click                                                     */
-    /* -------------------------------------------------------------- */
-
-    items.forEach(function (item) {
-      DK.on(item, 'click', function (e) {
-        e.stopPropagation();
-        selectItem(item);
-      });
-
-      // Hover focus
-      DK.on(item, 'mouseenter', function () {
-        focusItem(items.indexOf(item));
-      });
-    });
-
-    /* -------------------------------------------------------------- */
-    /*  Bind events                                                    */
-    /* -------------------------------------------------------------- */
-
-    DK.on(trigger, 'click', toggle);
-    DK.on(document, 'click', handleOutsideClick);
-    DK.on(el, 'keydown', handleKeydown);
-  });
-
-})(window.DK);
-
-
-/* --- components/modal.js --- */
-
-/**
- * DK Modal Component
- * Manages modal open/close, backdrop click, Escape key, focus trap,
- * and body scroll lock.
- *
- * Usage:
- *   <div class="dk-modal-backdrop" id="my-modal" data-dk-modal>
- *     <div class="dk-modal">
- *       <div class="dk-modal_header">
- *         <h3 class="dk-modal_title">Title</h3>
- *         <button class="dk-modal_close">&times;</button>
- *       </div>
- *       <div class="dk-modal_body">Content</div>
- *       <div class="dk-modal_footer">Actions</div>
- *     </div>
- *   </div>
- *
- *   <button data-dk-modal-open="my-modal">Open</button>
- *
- * API:
- *   DK.modal.open(id)
- *   DK.modal.close(id)
- *   DK.modal.closeAll()
- *
- * Events:
- *   dk:modal-open   — detail: { id }
- *   dk:modal-close  — detail: { id }
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var openModals = [];
-  var scrollbarWidth = 0;
-
-  /* ------------------------------------------------------------------ */
-  /*  Scrollbar width measurement                                        */
-  /* ------------------------------------------------------------------ */
-
-  function measureScrollbar() {
-    var outer = document.createElement('div');
-    outer.style.cssText =
-      'position:fixed;top:0;left:0;width:50px;height:50px;overflow:scroll;visibility:hidden;';
-    document.body.appendChild(outer);
-    scrollbarWidth = outer.offsetWidth - outer.clientWidth;
-    document.body.removeChild(outer);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Scroll lock                                                        */
-  /* ------------------------------------------------------------------ */
-
-  function lockBody() {
-    if (openModals.length > 0) return; // already locked
-    if (!scrollbarWidth) measureScrollbar();
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth) {
-      document.body.style.paddingRight = scrollbarWidth + 'px';
-    }
-  }
-
-  function unlockBody() {
-    if (openModals.length > 0) return; // other modals still open
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Open / Close                                                       */
-  /* ------------------------------------------------------------------ */
-
-  function openModal(id) {
-    var backdrop = document.getElementById(id);
-    if (!backdrop || backdrop.classList.contains('is-open')) return;
-
-    lockBody();
-    backdrop.classList.add('is-open');
-    backdrop.setAttribute('aria-hidden', 'false');
-
-    var modal = backdrop.querySelector('.dk-modal');
-    if (modal) {
-      modal.setAttribute('role', 'dialog');
-      modal.setAttribute('aria-modal', 'true');
-    }
-
-    // Store release function for focus trap
-    backdrop._dkReleaseFocus = DK.trapFocus(modal || backdrop);
-    openModals.push(id);
-
-    DK.emit(backdrop, 'dk:modal-open', { id: id });
-  }
-
-  function closeModal(id) {
-    var backdrop = document.getElementById(id);
-    if (!backdrop || !backdrop.classList.contains('is-open')) return;
-
-    backdrop.classList.remove('is-open');
-    backdrop.setAttribute('aria-hidden', 'true');
-
-    // Release focus trap
-    if (backdrop._dkReleaseFocus) {
-      backdrop._dkReleaseFocus();
-      backdrop._dkReleaseFocus = null;
-    }
-
-    // Remove from open list
-    var idx = openModals.indexOf(id);
-    if (idx !== -1) openModals.splice(idx, 1);
-
-    unlockBody();
-    DK.emit(backdrop, 'dk:modal-close', { id: id });
-  }
-
-  function closeAll() {
-    var ids = openModals.slice();
-    for (var i = 0; i < ids.length; i++) {
-      closeModal(ids[i]);
-    }
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component registration                                             */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('modal', function (backdrop) {
-    var id = backdrop.id;
-    if (!id) {
-      id = DK.uid('modal');
-      backdrop.id = id;
-    }
-
-    backdrop.setAttribute('aria-hidden', 'true');
-
-    /* Close button */
-    var closeBtn = backdrop.querySelector('.dk-modal_close');
-    if (closeBtn) {
-      DK.on(closeBtn, 'click', function () {
-        closeModal(id);
-      });
-    }
-
-    /* Backdrop click */
-    DK.on(backdrop, 'click', function (e) {
-      if (e.target === backdrop) {
-        closeModal(id);
-      }
-    });
-
-    /* Escape key */
-    DK.on(backdrop, 'keydown', function (e) {
-      if (e.key === 'Escape') {
-        closeModal(id);
-      }
-    });
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Open triggers — delegated                                          */
-  /* ------------------------------------------------------------------ */
-
-  DK.on(document, 'click', function (e) {
-    var trigger = e.target.closest('[data-dk-modal-open]');
-    if (trigger) {
-      var targetId = trigger.getAttribute('data-dk-modal-open');
-      if (targetId) openModal(targetId);
-    }
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Public API                                                         */
-  /* ------------------------------------------------------------------ */
-
-  DK.modal = {
-    open: openModal,
-    close: closeModal,
-    closeAll: closeAll,
-  };
-
-})(window.DK);
-
-
-/* --- components/drawer.js --- */
-
-/**
- * DK Drawer Component
- * Slide-in panel from right, left, or bottom with backdrop, Escape key,
- * and focus trap.
- *
- * Usage:
- *   <div class="dk-drawer-backdrop" data-dk-drawer>
- *     <div class="dk-drawer dk-drawer--right" id="my-drawer">
- *       <div class="dk-drawer_header">
- *         <h3 class="dk-drawer_title">Title</h3>
- *         <button class="dk-drawer_close">&times;</button>
- *       </div>
- *       <div class="dk-drawer_body">Content</div>
- *     </div>
- *   </div>
- *
- *   <button data-dk-drawer-open="my-drawer">Open</button>
- *
- * API:
- *   DK.drawer.open(id)
- *   DK.drawer.close(id)
- *
- * Events:
- *   dk:drawer-open   — detail: { id }
- *   dk:drawer-close  — detail: { id }
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var openDrawers = [];
-
-  /* ------------------------------------------------------------------ */
-  /*  Scroll lock                                                        */
-  /* ------------------------------------------------------------------ */
-
-  function lockBody() {
-    if (openDrawers.length > 0) return;
-    document.body.style.overflow = 'hidden';
-  }
-
-  function unlockBody() {
-    if (openDrawers.length > 0) return;
-    document.body.style.overflow = '';
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Open / Close                                                       */
-  /* ------------------------------------------------------------------ */
-
-  function openDrawer(id) {
-    var drawer = document.getElementById(id);
-    if (!drawer) return;
-
-    /* Determine if the target is the drawer itself or a backdrop wrapper */
-    var backdrop = drawer.closest('.dk-drawer-backdrop');
-    var panel = drawer.classList.contains('dk-drawer') ? drawer : drawer.querySelector('.dk-drawer');
-
-    if (!panel || panel.classList.contains('is-open')) return;
-
-    lockBody();
-    panel.classList.add('is-open');
-    panel.setAttribute('aria-hidden', 'false');
-    panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-modal', 'true');
-
-    if (backdrop) {
-      backdrop.classList.add('is-open');
-    }
-
-    panel._dkReleaseFocus = DK.trapFocus(panel);
-    openDrawers.push(id);
-
-    DK.emit(panel, 'dk:drawer-open', { id: id });
-  }
-
-  function closeDrawer(id) {
-    var drawer = document.getElementById(id);
-    if (!drawer) return;
-
-    var backdrop = drawer.closest('.dk-drawer-backdrop');
-    var panel = drawer.classList.contains('dk-drawer') ? drawer : drawer.querySelector('.dk-drawer');
-
-    if (!panel || !panel.classList.contains('is-open')) return;
-
-    panel.classList.remove('is-open');
-    panel.setAttribute('aria-hidden', 'true');
-
-    if (backdrop) {
-      backdrop.classList.remove('is-open');
-    }
-
-    if (panel._dkReleaseFocus) {
-      panel._dkReleaseFocus();
-      panel._dkReleaseFocus = null;
-    }
-
-    var idx = openDrawers.indexOf(id);
-    if (idx !== -1) openDrawers.splice(idx, 1);
-
-    unlockBody();
-    DK.emit(panel, 'dk:drawer-close', { id: id });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component registration                                             */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('drawer', function (el) {
-    /* el may be the backdrop or the drawer panel itself */
-    var backdrop = el.classList.contains('dk-drawer-backdrop') ? el : null;
-    var drawers = backdrop
-      ? DK.$$('.dk-drawer', backdrop)
-      : [el];
-
-    drawers.forEach(function (panel) {
-      var id = panel.id;
-      if (!id) {
-        id = DK.uid('drawer');
-        panel.id = id;
-      }
-
-      panel.setAttribute('aria-hidden', 'true');
-
-      /* Close button */
-      var closeBtn = panel.querySelector('.dk-drawer_close');
-      if (closeBtn) {
-        DK.on(closeBtn, 'click', function () {
-          closeDrawer(id);
-        });
-      }
-
-      /* Escape key */
-      DK.on(panel, 'keydown', function (e) {
-        if (e.key === 'Escape') {
-          closeDrawer(id);
-        }
-      });
-    });
-
-    /* Backdrop click */
-    if (backdrop) {
-      DK.on(backdrop, 'click', function (e) {
-        if (e.target === backdrop) {
-          /* Close the first open drawer in this backdrop */
-          drawers.forEach(function (panel) {
-            if (panel.classList.contains('is-open') && panel.id) {
-              closeDrawer(panel.id);
-            }
-          });
-        }
-      });
-    }
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Open triggers — delegated                                          */
-  /* ------------------------------------------------------------------ */
-
-  DK.on(document, 'click', function (e) {
-    var trigger = e.target.closest('[data-dk-drawer-open]');
-    if (trigger) {
-      var targetId = trigger.getAttribute('data-dk-drawer-open');
-      if (targetId) openDrawer(targetId);
-    }
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Public API                                                         */
-  /* ------------------------------------------------------------------ */
-
-  DK.drawer = {
-    open: openDrawer,
-    close: closeDrawer,
-  };
-
-})(window.DK);
-
-
-/* --- components/tooltip.js --- */
-
-/**
- * DK Tooltip Component
- * Shows tooltip content on mouseenter/focus, hides on mouseleave/blur.
- * Adds `is-visible` class with a slight delay for smoother UX.
- *
- * Usage:
- *   <span class="dk-tooltip dk-tooltip--top" data-dk-tooltip>
- *     Hover me
- *     <span class="dk-tooltip_content">Tooltip text</span>
- *   </span>
- *
- * Options (via data attributes):
- *   data-dk-tooltip-delay="200"  — show delay in ms (default: 100)
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('tooltip', function (el) {
-    var content = el.querySelector('.dk-tooltip_content');
-    if (!content) return;
-
-    var delay = parseInt(el.getAttribute('data-dk-tooltip-delay'), 10) || 100;
-    var showTimer = null;
-    var hideTimer = null;
-
-    /* Ensure ARIA */
-    var tooltipId = content.id || DK.uid('tooltip');
-    content.id = tooltipId;
-    content.setAttribute('role', 'tooltip');
-
-    /* Find the trigger — first child that is not the content */
-    var trigger = el.firstElementChild;
-    if (trigger === content) trigger = el;
-    trigger.setAttribute('aria-describedby', tooltipId);
-
-    /* ---------------------------------------------------------------- */
-    /*  Show / Hide                                                      */
-    /* ---------------------------------------------------------------- */
-
-    function show() {
-      clearTimeout(hideTimer);
-      showTimer = setTimeout(function () {
-        el.classList.add('is-visible');
-      }, delay);
-    }
-
-    function hide() {
-      clearTimeout(showTimer);
-      hideTimer = setTimeout(function () {
-        el.classList.remove('is-visible');
-      }, 50);
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Event binding                                                     */
-    /* ---------------------------------------------------------------- */
-
-    DK.on(el, 'mouseenter', show);
-    DK.on(el, 'mouseleave', hide);
-    DK.on(el, 'focusin', show);
-    DK.on(el, 'focusout', hide);
-  });
-
-})(window.DK);
-
-
-/* --- components/toast.js --- */
-
-/**
- * DK Toast Component
- * Programmatic toast notifications with auto-dismiss and hover pause.
- *
- * Usage:
- *   <!-- Container (place once in your page) -->
- *   <div class="dk-toast-container dk-toast-container--top-right"
- *        data-dk-toast-container></div>
- *
- * API:
- *   DK.toast({ title, message, type, duration, closable })
- *   DK.toast.success(message, options?)
- *   DK.toast.danger(message, options?)
- *   DK.toast.warning(message, options?)
- *   DK.toast.info(message, options?)
- *
- * Options:
- *   title    — string (optional heading)
- *   message  — string (required body text)
- *   type     — 'success' | 'danger' | 'warning' | 'info' (default: none)
- *   duration — ms before auto-dismiss (default: 5000, 0 = no auto)
- *   closable — show close button (default: true)
- *
- * Events:
- *   dk:toast-dismiss — on the toast element, detail: { type }
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var container = null;
-  var DEFAULT_DURATION = 5000;
-
-  /* ------------------------------------------------------------------ */
-  /*  SVG icons by type                                                  */
-  /* ------------------------------------------------------------------ */
-
-  var ICONS = {
-    success:
-      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-    danger:
-      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-    warning:
-      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-    info:
-      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-  };
-
-  var CLOSE_ICON =
-    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-
-  /* ------------------------------------------------------------------ */
-  /*  Find or create container                                           */
-  /* ------------------------------------------------------------------ */
-
-  function getContainer() {
-    if (container && document.body.contains(container)) return container;
-
-    container = document.querySelector('[data-dk-toast-container]');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'dk-toast-container dk-toast-container--top-right';
-      container.setAttribute('data-dk-toast-container', '');
-      container.setAttribute('aria-live', 'polite');
-      container.setAttribute('aria-relevant', 'additions');
-      document.body.appendChild(container);
-    }
-    return container;
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Dismiss a toast                                                    */
-  /* ------------------------------------------------------------------ */
-
-  function dismiss(toastEl) {
-    if (toastEl._dkDismissed) return;
-    toastEl._dkDismissed = true;
-
-    toastEl.classList.add('is-exiting');
-    DK.emit(toastEl, 'dk:toast-dismiss', {
-      type: toastEl._dkType || null,
-    });
-
-    /* Remove after animation */
-    setTimeout(function () {
-      if (toastEl.parentNode) {
-        toastEl.parentNode.removeChild(toastEl);
-      }
-    }, 220);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Create & show toast                                                */
-  /* ------------------------------------------------------------------ */
-
-  function createToast(opts) {
-    if (typeof opts === 'string') {
-      opts = { message: opts };
-    }
-
-    var type = opts.type || '';
-    var title = opts.title || '';
-    var message = opts.message || '';
-    var duration = opts.duration !== undefined ? opts.duration : DEFAULT_DURATION;
-    var closable = opts.closable !== undefined ? opts.closable : true;
-
-    /* Build element */
-    var toast = document.createElement('div');
-    toast.className = 'dk-toast' + (type ? ' dk-toast--' + type : '');
-    toast.setAttribute('role', 'alert');
-    toast._dkType = type;
-
-    var html = '';
-
-    /* Icon */
-    if (type && ICONS[type]) {
-      html += '<span class="dk-toast_icon">' + ICONS[type] + '</span>';
-    }
-
-    /* Content */
-    html += '<div class="dk-toast_content">';
-    if (title) {
-      html += '<div class="dk-toast_title">' + escapeHtml(title) + '</div>';
-    }
-    if (message) {
-      html += '<div class="dk-toast_message">' + escapeHtml(message) + '</div>';
-    }
-    html += '</div>';
-
-    /* Close */
-    if (closable) {
-      html +=
-        '<button class="dk-toast_close" aria-label="Dismiss">' +
-        CLOSE_ICON +
-        '</button>';
-    }
-
-    toast.innerHTML = html;
-
-    /* Close button handler */
-    if (closable) {
-      var closeBtn = toast.querySelector('.dk-toast_close');
-      DK.on(closeBtn, 'click', function () {
-        dismiss(toast);
-      });
-    }
-
-    /* Auto-dismiss timer */
-    var timer = null;
-
-    function startTimer() {
-      if (duration > 0) {
-        timer = setTimeout(function () {
-          dismiss(toast);
-        }, duration);
-      }
-    }
-
-    function pauseTimer() {
-      if (timer) {
-        clearTimeout(timer);
-        timer = null;
-      }
-    }
-
-    /* Pause on hover */
-    DK.on(toast, 'mouseenter', pauseTimer);
-    DK.on(toast, 'mouseleave', startTimer);
-
-    /* Append and start */
-    getContainer().appendChild(toast);
-    startTimer();
-
-    return toast;
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  HTML escape                                                        */
-  /* ------------------------------------------------------------------ */
-
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Shortcut methods                                                   */
-  /* ------------------------------------------------------------------ */
-
-  createToast.success = function (message, opts) {
-    return createToast(Object.assign({ type: 'success', message: message }, opts || {}));
-  };
-
-  createToast.danger = function (message, opts) {
-    return createToast(Object.assign({ type: 'danger', message: message }, opts || {}));
-  };
-
-  createToast.warning = function (message, opts) {
-    return createToast(Object.assign({ type: 'warning', message: message }, opts || {}));
-  };
-
-  createToast.info = function (message, opts) {
-    return createToast(Object.assign({ type: 'info', message: message }, opts || {}));
-  };
-
-  /* ------------------------------------------------------------------ */
-  /*  Register container element (for ARIA)                              */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('toast-container', function (el) {
-    container = el;
-    if (!el.getAttribute('aria-live')) {
-      el.setAttribute('aria-live', 'polite');
-      el.setAttribute('aria-relevant', 'additions');
-    }
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Public API                                                         */
-  /* ------------------------------------------------------------------ */
-
-  DK.toast = createToast;
-
-})(window.DK);
-
-
-/* --- components/alert-dismiss.js --- */
-
-/**
- * DK Alert Dismiss Component
- * Handles dismissing alerts with a fade-out animation and DOM removal.
- *
- * Usage:
- *   <div class="dk-alert dk-alert--info" data-dk-alert>
- *     <span class="dk-alert_icon">...</span>
- *     <div class="dk-alert_content">
- *       <div class="dk-alert_title">Title</div>
- *       Message text
- *     </div>
- *     <button class="dk-alert_close" data-dk-alert-dismiss>
- *       &times;
- *     </button>
- *   </div>
- *
- * Events:
- *   dk:alert-dismiss — on the alert element, before removal
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  /* ------------------------------------------------------------------ */
-  /*  Dismiss handler                                                    */
-  /* ------------------------------------------------------------------ */
-
-  function dismissAlert(alertEl) {
-    if (!alertEl || alertEl._dkDismissed) return;
-    alertEl._dkDismissed = true;
-
-    DK.emit(alertEl, 'dk:alert-dismiss');
-
-    /* Fade out */
-    alertEl.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
-    alertEl.style.opacity = '0';
-    alertEl.style.transform = 'translateY(-4px)';
-
-    /* Remove from DOM after transition */
-    setTimeout(function () {
-      if (alertEl.parentNode) {
-        alertEl.parentNode.removeChild(alertEl);
-      }
-    }, 160);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component registration                                             */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('alert', function (el) {
-    var closeBtn = el.querySelector('[data-dk-alert-dismiss]');
-    if (!closeBtn) return;
-
-    DK.on(closeBtn, 'click', function () {
-      dismissAlert(el);
-    });
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Delegated click handler for dismiss buttons                        */
-  /* ------------------------------------------------------------------ */
-
-  DK.on(document, 'click', function (e) {
-    var btn = e.target.closest('[data-dk-alert-dismiss]');
-    if (!btn) return;
-
-    var alert = btn.closest('.dk-alert');
-    if (alert) {
-      dismissAlert(alert);
-    }
-  });
-
-})(window.DK);
-
-
-/* --- components/popover.js --- */
-
-/**
- * DK Popover Component
- * Toggle popover content on trigger click. Closes on outside click
- * or Escape key. Manages ARIA attributes.
- *
- * Usage:
- *   <div class="dk-popover dk-popover--bottom" data-dk-popover>
- *     <button class="dk-popover_trigger">Click me</button>
- *     <div class="dk-popover_content">
- *       <div class="dk-popover_arrow"></div>
- *       Popover content
- *     </div>
- *   </div>
- *
- * Events:
- *   dk:popover-open  — detail: { id }
- *   dk:popover-close — detail: { id }
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var openPopovers = [];
-
-  /* ------------------------------------------------------------------ */
-  /*  Close a specific popover                                           */
-  /* ------------------------------------------------------------------ */
-
-  function closePopover(el) {
-    if (!el.classList.contains('is-open')) return;
-
-    el.classList.remove('is-open');
-
-    var content = el.querySelector('.dk-popover_content');
-    if (content) {
-      content.setAttribute('aria-hidden', 'true');
-    }
-
-    var trigger = el.querySelector('.dk-popover_trigger');
-    if (trigger) {
-      trigger.setAttribute('aria-expanded', 'false');
-    }
-
-    var idx = openPopovers.indexOf(el);
-    if (idx !== -1) openPopovers.splice(idx, 1);
-
-    DK.emit(el, 'dk:popover-close', { id: el.id || null });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Open a specific popover                                            */
-  /* ------------------------------------------------------------------ */
-
-  function openPopover(el) {
-    if (el.classList.contains('is-open')) return;
-
-    /* Close all other open popovers */
-    var others = openPopovers.slice();
-    for (var i = 0; i < others.length; i++) {
-      closePopover(others[i]);
-    }
-
-    el.classList.add('is-open');
-
-    var content = el.querySelector('.dk-popover_content');
-    if (content) {
-      content.setAttribute('aria-hidden', 'false');
-    }
-
-    var trigger = el.querySelector('.dk-popover_trigger');
-    if (trigger) {
-      trigger.setAttribute('aria-expanded', 'true');
-    }
-
-    openPopovers.push(el);
-    DK.emit(el, 'dk:popover-open', { id: el.id || null });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component registration                                             */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('popover', function (el) {
-    if (!el.id) {
-      el.id = DK.uid('popover');
-    }
-
-    var trigger = el.querySelector('.dk-popover_trigger');
-    var content = el.querySelector('.dk-popover_content');
-
-    if (!trigger || !content) return;
-
-    /* ARIA setup */
-    var contentId = content.id || DK.uid('popover-content');
-    content.id = contentId;
-    content.setAttribute('role', 'dialog');
-    content.setAttribute('aria-hidden', 'true');
-    trigger.setAttribute('aria-haspopup', 'dialog');
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-controls', contentId);
-
-    /* Toggle on trigger click */
-    DK.on(trigger, 'click', function (e) {
-      e.stopPropagation();
-      if (el.classList.contains('is-open')) {
-        closePopover(el);
-      } else {
-        openPopover(el);
-      }
-    });
-
-    /* Escape key */
-    DK.on(el, 'keydown', function (e) {
-      if (e.key === 'Escape' && el.classList.contains('is-open')) {
-        closePopover(el);
-        trigger.focus();
-      }
-    });
-  });
-
-  /* ------------------------------------------------------------------ */
-  /*  Close on outside click — delegated                                 */
-  /* ------------------------------------------------------------------ */
-
-  DK.on(document, 'click', function (e) {
-    if (!openPopovers.length) return;
-
-    var popovers = openPopovers.slice();
-    for (var i = 0; i < popovers.length; i++) {
-      if (!popovers[i].contains(e.target)) {
-        closePopover(popovers[i]);
-      }
-    }
   });
 
 })(window.DK);
@@ -4861,1439 +2869,6 @@
         if (current) moveIndicator(current, false);
       }, 100);
     });
-  });
-
-})(window.DK);
-
-
-/* --- components/calendar.js --- */
-
-/**
- * DK Calendar Component
- * Interactive month grid with keyboard navigation and date selection.
- * Emits dk:calendar-select on date pick.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var CHEVRON_LEFT =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '</svg>';
-
-  var CHEVRON_RIGHT =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '</svg>';
-
-  var WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-
-  var MONTHS = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  /* ------------------------------------------------------------------ */
-  /*  Helpers                                                            */
-  /* ------------------------------------------------------------------ */
-
-  function parseISO(str) {
-    if (!str) return null;
-    var p = str.split('-');
-    if (p.length === 3) return new Date(+p[0], +p[1] - 1, +p[2]);
-    var d = new Date(str);
-    return isNaN(d.getTime()) ? null : d;
-  }
-
-  function toISO(d) {
-    var m = d.getMonth() + 1;
-    var day = d.getDate();
-    return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
-  }
-
-  function sameDay(a, b) {
-    return a.getFullYear() === b.getFullYear() &&
-           a.getMonth() === b.getMonth() &&
-           a.getDate() === b.getDate();
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component                                                          */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('calendar', function (el) {
-    var valueAttr = el.getAttribute('data-dk-calendar');
-    var minDate = parseISO(el.getAttribute('data-dk-calendar-min'));
-    var maxDate = parseISO(el.getAttribute('data-dk-calendar-max'));
-    var eventsAttr = el.getAttribute('data-dk-calendar-events');
-
-    var events = {};
-    if (eventsAttr) {
-      try {
-        var arr = JSON.parse(eventsAttr);
-        arr.forEach(function (iso) { events[iso] = true; });
-      } catch (e) { /* ignore */ }
-    }
-
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    var selected = (valueAttr && valueAttr !== 'true') ? parseISO(valueAttr) : new Date(today);
-    if (selected) selected.setHours(0, 0, 0, 0);
-
-    var viewMonth = selected ? selected.getMonth() : today.getMonth();
-    var viewYear = selected ? selected.getFullYear() : today.getFullYear();
-
-    var titleEl, gridEl, prevBtn, nextBtn;
-
-    /* ---------------------------------------------------------------- */
-    /*  Build scaffold                                                   */
-    /* ---------------------------------------------------------------- */
-
-    function build() {
-      el.innerHTML = '';
-      el.classList.add('dk-calendar');
-
-      var header = document.createElement('div');
-      header.className = 'dk-calendar_header';
-
-      titleEl = document.createElement('span');
-      titleEl.className = 'dk-calendar_title';
-
-      var nav = document.createElement('div');
-      nav.className = 'dk-calendar_nav';
-
-      prevBtn = document.createElement('button');
-      prevBtn.type = 'button';
-      prevBtn.setAttribute('aria-label', 'Previous month');
-      prevBtn.innerHTML = CHEVRON_LEFT;
-
-      nextBtn = document.createElement('button');
-      nextBtn.type = 'button';
-      nextBtn.setAttribute('aria-label', 'Next month');
-      nextBtn.innerHTML = CHEVRON_RIGHT;
-
-      nav.appendChild(prevBtn);
-      nav.appendChild(nextBtn);
-
-      header.appendChild(titleEl);
-      header.appendChild(nav);
-      el.appendChild(header);
-
-      var weekdays = document.createElement('div');
-      weekdays.className = 'dk-calendar_weekdays';
-      WEEKDAYS.forEach(function (d) {
-        var s = document.createElement('span');
-        s.textContent = d;
-        weekdays.appendChild(s);
-      });
-      el.appendChild(weekdays);
-
-      gridEl = document.createElement('div');
-      gridEl.className = 'dk-calendar_grid';
-      gridEl.setAttribute('role', 'grid');
-      el.appendChild(gridEl);
-    }
-
-    build();
-
-    /* ---------------------------------------------------------------- */
-    /*  Render                                                           */
-    /* ---------------------------------------------------------------- */
-
-    function isDisabled(d) {
-      if (minDate && d < minDate) return true;
-      if (maxDate && d > maxDate) return true;
-      return false;
-    }
-
-    function render() {
-      titleEl.textContent = MONTHS[viewMonth] + ' ' + viewYear;
-      gridEl.innerHTML = '';
-
-      var first = new Date(viewYear, viewMonth, 1);
-      var startDow = first.getDay();
-      var lastDay = new Date(viewYear, viewMonth + 1, 0).getDate();
-      var prevLast = new Date(viewYear, viewMonth, 0).getDate();
-
-      for (var i = 0; i < 42; i++) {
-        var dayNum, cellDate, isOther = false;
-
-        if (i < startDow) {
-          dayNum = prevLast - startDow + 1 + i;
-          cellDate = new Date(viewYear, viewMonth - 1, dayNum);
-          isOther = true;
-        } else if (i - startDow >= lastDay) {
-          dayNum = i - startDow - lastDay + 1;
-          cellDate = new Date(viewYear, viewMonth + 1, dayNum);
-          isOther = true;
-        } else {
-          dayNum = i - startDow + 1;
-          cellDate = new Date(viewYear, viewMonth, dayNum);
-        }
-
-        cellDate.setHours(0, 0, 0, 0);
-
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'dk-calendar_day';
-        btn.textContent = cellDate.getDate();
-        btn.setAttribute('data-date', toISO(cellDate));
-
-        if (isOther) btn.classList.add('is-other-month');
-        if (sameDay(cellDate, today)) btn.classList.add('is-today');
-        if (selected && sameDay(cellDate, selected)) btn.classList.add('is-selected');
-        if (events[toISO(cellDate)]) btn.classList.add('has-event');
-
-        if (isDisabled(cellDate)) {
-          btn.classList.add('is-disabled');
-          btn.disabled = true;
-        }
-
-        gridEl.appendChild(btn);
-      }
-    }
-
-    render();
-
-    /* ---------------------------------------------------------------- */
-    /*  Navigation                                                       */
-    /* ---------------------------------------------------------------- */
-
-    function prevMonth() {
-      viewMonth--;
-      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-      render();
-    }
-
-    function nextMonth() {
-      viewMonth++;
-      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
-      render();
-    }
-
-    DK.on(prevBtn, 'click', function (e) { e.preventDefault(); prevMonth(); });
-    DK.on(nextBtn, 'click', function (e) { e.preventDefault(); nextMonth(); });
-
-    /* ---------------------------------------------------------------- */
-    /*  Selection                                                        */
-    /* ---------------------------------------------------------------- */
-
-    function selectDate(d) {
-      selected = new Date(d);
-      selected.setHours(0, 0, 0, 0);
-      viewMonth = selected.getMonth();
-      viewYear = selected.getFullYear();
-      render();
-      DK.emit(el, 'dk:calendar-select', { date: new Date(selected), iso: toISO(selected) });
-    }
-
-    DK.on(gridEl, 'click', function (e) {
-      var btn = e.target.closest('.dk-calendar_day');
-      if (!btn || btn.disabled) return;
-      var d = parseISO(btn.getAttribute('data-date'));
-      if (d) selectDate(d);
-    });
-
-    /* ---------------------------------------------------------------- */
-    /*  Keyboard                                                         */
-    /* ---------------------------------------------------------------- */
-
-    DK.on(gridEl, 'keydown', function (e) {
-      var focused = document.activeElement;
-      if (!focused || !focused.classList.contains('dk-calendar_day')) return;
-
-      var d = parseISO(focused.getAttribute('data-date'));
-      if (!d) return;
-
-      var nd = null;
-      switch (e.key) {
-        case 'ArrowLeft':  e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() - 1); break;
-        case 'ArrowRight': e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() + 1); break;
-        case 'ArrowUp':    e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() - 7); break;
-        case 'ArrowDown':  e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() + 7); break;
-        case 'Enter':      e.preventDefault(); if (!focused.disabled) selectDate(d); return;
-        default: return;
-      }
-
-      if (!nd || isDisabled(nd)) return;
-      nd.setHours(0, 0, 0, 0);
-
-      if (nd.getMonth() !== viewMonth || nd.getFullYear() !== viewYear) {
-        viewMonth = nd.getMonth();
-        viewYear = nd.getFullYear();
-        render();
-      }
-
-      var target = gridEl.querySelector('[data-date="' + toISO(nd) + '"]');
-      if (target) target.focus();
-    });
-  });
-
-})(window.DK);
-
-
-/* --- components/date-display.js --- */
-
-/**
- * DK Date Display Component
- * Renders formatted dates with relative time support and auto-updates.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var MONTH_LONG = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  var activeInstances = [];
-  var timerStarted = false;
-
-  /* ------------------------------------------------------------------ */
-  /*  Format helpers                                                     */
-  /* ------------------------------------------------------------------ */
-
-  function formatRelative(date) {
-    var now = Date.now();
-    var diff = now - date.getTime();
-    var absDiff = Math.abs(diff);
-    var seconds = Math.floor(absDiff / 1000);
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
-    var days = Math.floor(hours / 24);
-    var weeks = Math.floor(days / 7);
-    var months = Math.floor(days / 30);
-    var years = Math.floor(days / 365);
-
-    if (seconds < 60) return 'just now';
-    if (minutes < 60) return minutes + 'm ago';
-    if (hours < 24) return hours + 'h ago';
-    if (days < 7) return days + 'd ago';
-    if (weeks < 5) return weeks + 'w ago';
-    if (months < 12) return months + 'mo ago';
-    return years + 'y ago';
-  }
-
-  function formatShort(date) {
-    return MONTH_SHORT[date.getMonth()] + ' ' + date.getDate();
-  }
-
-  function formatLong(date) {
-    return MONTH_LONG[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-  }
-
-  function formatAbsolute(date) {
-    return MONTH_LONG[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() +
-      ' at ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Auto-update timer                                                  */
-  /* ------------------------------------------------------------------ */
-
-  function startTimer() {
-    if (timerStarted) return;
-    timerStarted = true;
-
-    setInterval(function () {
-      activeInstances.forEach(function (inst) {
-        inst.update();
-      });
-    }, 60000);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /*  Component                                                          */
-  /* ------------------------------------------------------------------ */
-
-  DK.register('date', function (el) {
-    var timestamp = el.getAttribute('data-dk-date');
-    var format = el.getAttribute('data-dk-date-format') || 'relative';
-
-    if (!timestamp || timestamp === 'true') return;
-
-    var date = new Date(timestamp);
-    if (isNaN(date.getTime())) {
-      var parts = timestamp.split('-');
-      if (parts.length === 3) {
-        date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
-      }
-      if (isNaN(date.getTime())) return;
-    }
-
-    el.classList.add('dk-date');
-
-    function update() {
-      var text;
-      switch (format) {
-        case 'short':
-          text = formatShort(date);
-          el.classList.add('dk-date--compact');
-          break;
-        case 'long':
-          text = formatLong(date);
-          el.classList.add('dk-date--long');
-          break;
-        case 'relative':
-        default:
-          text = formatRelative(date);
-          el.classList.add('dk-date--relative');
-
-          var diff = Date.now() - date.getTime();
-          if (diff < 300000) {
-            el.classList.add('dk-date--recent');
-          } else {
-            el.classList.remove('dk-date--recent');
-          }
-          break;
-      }
-
-      el.textContent = text;
-      el.setAttribute('title', formatAbsolute(date));
-    }
-
-    update();
-
-    if (format === 'relative') {
-      activeInstances.push({ update: update });
-      startTimer();
-    }
-  });
-
-})(window.DK);
-
-
-/* --- components/marquee.js --- */
-
-/**
- * DK Marquee Component
- * Clones track children for seamless looping. Supports pausable and speed options.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('marquee', function (el) {
-    var track = DK.$('.dk-marquee_track', el);
-    if (!track || track.dataset.dkCloned) return;
-
-    /* ---------------------------------------------------------------- */
-    /*  Read options                                                     */
-    /* ---------------------------------------------------------------- */
-
-    var attrVal = el.getAttribute('data-dk-marquee') || '';
-    var speed = el.getAttribute('data-dk-marquee-speed');
-
-    if (attrVal === 'pausable' || attrVal === 'pause') {
-      el.classList.add('is-pausable');
-    }
-
-    if (speed === 'slow') el.classList.add('dk-marquee--slow');
-    if (speed === 'fast') el.classList.add('dk-marquee--fast');
-
-    /* ---------------------------------------------------------------- */
-    /*  Clone children for seamless loop                                 */
-    /* ---------------------------------------------------------------- */
-
-    var items = Array.prototype.slice.call(track.children);
-    items.forEach(function (item) {
-      var clone = item.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      track.appendChild(clone);
-    });
-
-    track.dataset.dkCloned = 'true';
-  });
-
-})(window.DK);
-
-
-/* --- components/json-viewer.js --- */
-
-/**
- * DK JSON Viewer Component
- * Collapsible JSON tree with syntax coloring and copy button.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var COPY_ICON =
-    '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>' +
-    '<path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.5"/>' +
-    '</svg>';
-
-  var CHECK_ICON =
-    '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M3 8.5l3.5 3.5 6.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '</svg>';
-
-  DK.register('json-viewer', function (el) {
-
-    /* ---------------------------------------------------------------- */
-    /*  Read JSON                                                        */
-    /* ---------------------------------------------------------------- */
-
-    var raw = el.getAttribute('data-dk-json-viewer');
-
-    if (!raw || raw === '' || raw === 'true') {
-      var scriptEl = DK.$('script[type="application/json"]', el);
-      if (scriptEl) {
-        raw = scriptEl.textContent;
-      } else {
-        raw = el.textContent.trim();
-      }
-    }
-
-    if (!raw) return;
-
-    var data;
-    try {
-      data = JSON.parse(raw);
-    } catch (err) {
-      console.warn('DK json-viewer: invalid JSON', err);
-      return;
-    }
-
-    var lineNumbers = el.hasAttribute('data-dk-json-lines');
-    var rawJSON = JSON.stringify(data, null, 2);
-
-    /* ---------------------------------------------------------------- */
-    /*  Build UI                                                         */
-    /* ---------------------------------------------------------------- */
-
-    el.innerHTML = '';
-    el.classList.add('dk-json');
-    if (lineNumbers) el.classList.add('dk-json--line-numbers');
-
-    // Copy button
-    var copyBtn = document.createElement('button');
-    copyBtn.type = 'button';
-    copyBtn.className = 'dk-json_copy';
-    copyBtn.innerHTML = COPY_ICON + ' Copy';
-    copyBtn.setAttribute('aria-label', 'Copy JSON');
-    el.appendChild(copyBtn);
-
-    DK.on(copyBtn, 'click', function () {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(rawJSON).then(function () {
-          showCopied();
-        });
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = rawJSON;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showCopied();
-      }
-    });
-
-    function showCopied() {
-      copyBtn.innerHTML = CHECK_ICON + ' Copied!';
-      copyBtn.classList.add('is-copied');
-      setTimeout(function () {
-        copyBtn.innerHTML = COPY_ICON + ' Copy';
-        copyBtn.classList.remove('is-copied');
-      }, 2000);
-    }
-
-    // Build tree
-    var tree = buildNode(null, data, 0, false);
-    el.appendChild(tree);
-
-    /* ---------------------------------------------------------------- */
-    /*  Build a node                                                     */
-    /* ---------------------------------------------------------------- */
-
-    function buildNode(key, value, depth, isLast) {
-      var node = document.createElement('div');
-      node.className = 'dk-json_node';
-
-      var type = getType(value);
-
-      if (type === 'object' || type === 'array') {
-        buildCompound(node, key, value, type, depth, isLast);
-      } else {
-        buildPrimitive(node, key, value, type, isLast);
-      }
-
-      return node;
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Compound node                                                    */
-    /* ---------------------------------------------------------------- */
-
-    function buildCompound(node, key, value, type, depth, isLast) {
-      var open = type === 'array' ? '[' : '{';
-      var close = type === 'array' ? ']' : '}';
-      var keys = Object.keys(value);
-      var count = keys.length;
-      var label = type === 'array'
-        ? count + ' item' + (count !== 1 ? 's' : '')
-        : count + ' key' + (count !== 1 ? 's' : '');
-
-      var collapsed = depth >= 2;
-
-      // Line
-      var line = document.createElement('div');
-      line.className = 'dk-json_line';
-
-      var toggle = document.createElement('button');
-      toggle.type = 'button';
-      toggle.className = 'dk-json_toggle';
-      toggle.innerHTML = '<svg width="8" height="8" viewBox="0 0 8 8"><path d="M1 2l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';
-      if (collapsed) toggle.classList.add('is-collapsed');
-      line.appendChild(toggle);
-
-      if (key !== null) {
-        var keySpan = document.createElement('span');
-        keySpan.className = 'dk-json_key';
-        keySpan.textContent = '"' + key + '"';
-        line.appendChild(keySpan);
-
-        var colon = document.createElement('span');
-        colon.className = 'dk-json_colon';
-        colon.textContent = ': ';
-        line.appendChild(colon);
-      }
-
-      var bracket = document.createElement('span');
-      bracket.className = 'dk-json_bracket';
-      bracket.textContent = open;
-      line.appendChild(bracket);
-
-      var countSpan = document.createElement('span');
-      countSpan.className = 'dk-json_count';
-      countSpan.textContent = label;
-      if (!collapsed) countSpan.style.display = 'none';
-      line.appendChild(countSpan);
-
-      var closeInline = document.createElement('span');
-      closeInline.className = 'dk-json_bracket';
-      closeInline.textContent = close;
-      if (!collapsed) closeInline.style.display = 'none';
-      line.appendChild(closeInline);
-
-      var commaInline = null;
-      if (!isLast) {
-        commaInline = document.createElement('span');
-        commaInline.className = 'dk-json_comma';
-        commaInline.textContent = ',';
-        if (!collapsed) commaInline.style.display = 'none';
-        line.appendChild(commaInline);
-      }
-
-      node.appendChild(line);
-
-      // Children
-      var children = document.createElement('div');
-      children.className = 'dk-json_children';
-      if (collapsed) children.classList.add('is-collapsed');
-
-      for (var i = 0; i < keys.length; i++) {
-        var ck = type === 'array' ? null : keys[i];
-        children.appendChild(buildNode(ck, value[keys[i]], depth + 1, i === keys.length - 1));
-      }
-      node.appendChild(children);
-
-      // Closing line
-      var closingLine = document.createElement('div');
-      closingLine.className = 'dk-json_line dk-json_closing';
-
-      var closingBracket = document.createElement('span');
-      closingBracket.className = 'dk-json_bracket';
-      closingBracket.textContent = close;
-      closingLine.appendChild(closingBracket);
-
-      if (!isLast) {
-        var comma = document.createElement('span');
-        comma.className = 'dk-json_comma';
-        comma.textContent = ',';
-        closingLine.appendChild(comma);
-      }
-
-      if (collapsed) closingLine.style.display = 'none';
-      node.appendChild(closingLine);
-
-      // Toggle handler
-      DK.on(toggle, 'click', function () {
-        var nowCollapsed = !toggle.classList.contains('is-collapsed');
-        toggle.classList.toggle('is-collapsed', nowCollapsed);
-        children.classList.toggle('is-collapsed', nowCollapsed);
-        countSpan.style.display = nowCollapsed ? '' : 'none';
-        closeInline.style.display = nowCollapsed ? '' : 'none';
-        closingLine.style.display = nowCollapsed ? 'none' : '';
-        if (commaInline) commaInline.style.display = nowCollapsed ? '' : 'none';
-      });
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Primitive node                                                   */
-    /* ---------------------------------------------------------------- */
-
-    function buildPrimitive(node, key, value, type, isLast) {
-      var line = document.createElement('div');
-      line.className = 'dk-json_line';
-
-      if (key !== null) {
-        var keySpan = document.createElement('span');
-        keySpan.className = 'dk-json_key';
-        keySpan.textContent = '"' + key + '"';
-        line.appendChild(keySpan);
-
-        var colon = document.createElement('span');
-        colon.className = 'dk-json_colon';
-        colon.textContent = ': ';
-        line.appendChild(colon);
-      }
-
-      var valSpan = document.createElement('span');
-      valSpan.className = 'dk-json_value dk-json_value--' + type;
-
-      if (type === 'string') valSpan.textContent = '"' + value + '"';
-      else if (type === 'null') valSpan.textContent = 'null';
-      else valSpan.textContent = String(value);
-
-      line.appendChild(valSpan);
-
-      if (!isLast) {
-        var comma = document.createElement('span');
-        comma.className = 'dk-json_comma';
-        comma.textContent = ',';
-        line.appendChild(comma);
-      }
-
-      node.appendChild(line);
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Type helper                                                      */
-    /* ---------------------------------------------------------------- */
-
-    function getType(v) {
-      if (v === null) return 'null';
-      if (Array.isArray(v)) return 'array';
-      return typeof v;
-    }
-  });
-
-})(window.DK);
-
-
-/* --- components/clipboard.js --- */
-
-/**
- * DK Clipboard Component
- * Copy-to-clipboard with visual feedback and icon swap.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var COPY_SVG =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>' +
-    '<path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.5"/>' +
-    '</svg>';
-
-  var CHECK_SVG =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M3 8.5l3.5 3.5 6.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '</svg>';
-
-  DK.register('clipboard', function (el) {
-    var target = el.getAttribute('data-dk-clipboard');
-    var iconEl = DK.$('.dk-clipboard_icon', el);
-
-    el.classList.add('dk-clipboard');
-
-    // Create tooltip
-    var tooltip = document.createElement('span');
-    tooltip.className = 'dk-clipboard_tooltip';
-    tooltip.textContent = 'Copied!';
-    el.appendChild(tooltip);
-
-    // Set initial icon if icon slot exists
-    if (iconEl) {
-      iconEl.innerHTML = COPY_SVG;
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Get text to copy                                                 */
-    /* ---------------------------------------------------------------- */
-
-    function getTextToCopy() {
-      // If target is a selector, get text from that element
-      if (target && target !== 'true' && target !== '') {
-        var targetEl = document.querySelector(target);
-        if (targetEl) {
-          return targetEl.textContent || targetEl.value || '';
-        }
-      }
-
-      // Otherwise use data attribute text or button text
-      var text = el.getAttribute('data-dk-clipboard-text');
-      if (text) return text;
-
-      return el.textContent.replace('Copied!', '').trim();
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Copy action                                                      */
-    /* ---------------------------------------------------------------- */
-
-    function doCopy() {
-      var text = getTextToCopy();
-      if (!text) return;
-
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(showFeedback);
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showFeedback();
-      }
-    }
-
-    function showFeedback() {
-      el.classList.add('is-copied');
-      if (iconEl) iconEl.innerHTML = CHECK_SVG;
-
-      DK.emit(el, 'dk:clipboard-copy');
-
-      setTimeout(function () {
-        el.classList.remove('is-copied');
-        if (iconEl) iconEl.innerHTML = COPY_SVG;
-      }, 2000);
-    }
-
-    DK.on(el, 'click', function (e) {
-      e.preventDefault();
-      doCopy();
-    });
-  });
-
-})(window.DK);
-
-
-/* --- components/qr-code.js --- */
-
-/**
- * DK QR Code Component
- * Generates a QR code as an SVG element using a simple QR encoding algorithm.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  /* ================================================================== */
-  /*  Minimal QR encoder (Version 1-4, Mode Byte, ECC L)                */
-  /*  Simplified implementation for short text/URLs.                     */
-  /* ================================================================== */
-
-  var ALIGNMENT = { 2: [6, 18], 3: [6, 22], 4: [6, 26] };
-  var EC_CODEWORDS = { 1: 7, 2: 10, 3: 15, 4: 20 };
-  var DATA_CAPACITY = { 1: 17, 2: 32, 3: 53, 4: 78 };
-  var SIZES = { 1: 21, 2: 25, 3: 29, 4: 33 };
-
-  /* ---- Galois Field GF(256) tables ---- */
-
-  var EXP = new Array(256);
-  var LOG = new Array(256);
-
-  (function () {
-    var x = 1;
-    for (var i = 0; i < 256; i++) {
-      EXP[i] = x;
-      LOG[x] = i;
-      x <<= 1;
-      if (x >= 256) x ^= 0x11d;
-    }
-    LOG[0] = undefined;
-  })();
-
-  function gfMul(a, b) {
-    if (a === 0 || b === 0) return 0;
-    return EXP[(LOG[a] + LOG[b]) % 255];
-  }
-
-  /* ---- Reed-Solomon ECC ---- */
-
-  function rsGenPoly(n) {
-    var poly = [1];
-    for (var i = 0; i < n; i++) {
-      var next = new Array(poly.length + 1);
-      for (var j = 0; j < next.length; j++) next[j] = 0;
-      for (var j = 0; j < poly.length; j++) {
-        next[j] ^= poly[j];
-        next[j + 1] ^= gfMul(poly[j], EXP[i]);
-      }
-      poly = next;
-    }
-    return poly;
-  }
-
-  function rsEncode(data, ecLen) {
-    var gen = rsGenPoly(ecLen);
-    var msg = new Array(data.length + ecLen);
-    for (var i = 0; i < msg.length; i++) msg[i] = 0;
-    for (var i = 0; i < data.length; i++) msg[i] = data[i];
-
-    for (var i = 0; i < data.length; i++) {
-      var coef = msg[i];
-      if (coef === 0) continue;
-      for (var j = 0; j < gen.length; j++) {
-        msg[i + j] ^= gfMul(gen[j], coef);
-      }
-    }
-
-    return msg.slice(data.length);
-  }
-
-  /* ---- Bit stream helpers ---- */
-
-  function BitStream() {
-    this.bits = [];
-  }
-
-  BitStream.prototype.push = function (val, len) {
-    for (var i = len - 1; i >= 0; i--) {
-      this.bits.push((val >> i) & 1);
-    }
-  };
-
-  BitStream.prototype.toBytes = function () {
-    while (this.bits.length % 8 !== 0) this.bits.push(0);
-    var bytes = [];
-    for (var i = 0; i < this.bits.length; i += 8) {
-      var b = 0;
-      for (var j = 0; j < 8; j++) b = (b << 1) | this.bits[i + j];
-      bytes.push(b);
-    }
-    return bytes;
-  };
-
-  /* ---- Data encoding (byte mode) ---- */
-
-  function encodeData(text) {
-    var bytes = [];
-    for (var i = 0; i < text.length; i++) {
-      var c = text.charCodeAt(i);
-      if (c < 128) {
-        bytes.push(c);
-      } else if (c < 2048) {
-        bytes.push(0xc0 | (c >> 6));
-        bytes.push(0x80 | (c & 0x3f));
-      } else {
-        bytes.push(0xe0 | (c >> 12));
-        bytes.push(0x80 | ((c >> 6) & 0x3f));
-        bytes.push(0x80 | (c & 0x3f));
-      }
-    }
-
-    // Determine version
-    var version = 1;
-    for (var v = 1; v <= 4; v++) {
-      if (bytes.length <= DATA_CAPACITY[v]) { version = v; break; }
-      if (v === 4) version = 4;
-    }
-
-    var dataCapacity = DATA_CAPACITY[version];
-    var ecCount = EC_CODEWORDS[version];
-
-    var bs = new BitStream();
-    bs.push(0b0100, 4); // byte mode indicator
-    bs.push(bytes.length, version >= 1 ? 8 : 16); // character count
-
-    for (var i = 0; i < bytes.length; i++) {
-      bs.push(bytes[i], 8);
-    }
-
-    bs.push(0, 4); // terminator
-
-    var dataBytes = bs.toBytes();
-
-    // Pad to capacity
-    var padPatterns = [0xEC, 0x11];
-    var padIdx = 0;
-    while (dataBytes.length < dataCapacity) {
-      dataBytes.push(padPatterns[padIdx % 2]);
-      padIdx++;
-    }
-
-    dataBytes = dataBytes.slice(0, dataCapacity);
-
-    var ecBytes = rsEncode(dataBytes, ecCount);
-
-    return { version: version, data: dataBytes.concat(ecBytes) };
-  }
-
-  /* ---- Matrix construction ---- */
-
-  function createMatrix(version) {
-    var size = SIZES[version];
-    var matrix = [];
-    var reserved = [];
-    for (var r = 0; r < size; r++) {
-      matrix[r] = new Array(size);
-      reserved[r] = new Array(size);
-      for (var c = 0; c < size; c++) {
-        matrix[r][c] = 0;
-        reserved[r][c] = false;
-      }
-    }
-    return { matrix: matrix, reserved: reserved, size: size };
-  }
-
-  function placeFinderPattern(m, row, col) {
-    for (var r = -1; r <= 7; r++) {
-      for (var c = -1; c <= 7; c++) {
-        var rr = row + r, cc = col + c;
-        if (rr < 0 || rr >= m.size || cc < 0 || cc >= m.size) continue;
-        var v = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
-                (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
-                (r >= 2 && r <= 4 && c >= 2 && c <= 4);
-        m.matrix[rr][cc] = v ? 1 : 0;
-        m.reserved[rr][cc] = true;
-      }
-    }
-  }
-
-  function placeTimingPatterns(m) {
-    for (var i = 8; i < m.size - 8; i++) {
-      m.matrix[6][i] = i % 2 === 0 ? 1 : 0;
-      m.reserved[6][i] = true;
-      m.matrix[i][6] = i % 2 === 0 ? 1 : 0;
-      m.reserved[i][6] = true;
-    }
-  }
-
-  function placeAlignmentPattern(m, version) {
-    var positions = ALIGNMENT[version];
-    if (!positions) return;
-    for (var i = 0; i < positions.length; i++) {
-      for (var j = 0; j < positions.length; j++) {
-        var r = positions[i], c = positions[j];
-        // Skip if overlaps with finder pattern
-        if ((r <= 8 && c <= 8) || (r <= 8 && c >= m.size - 8) || (r >= m.size - 8 && c <= 8)) continue;
-        for (var dr = -2; dr <= 2; dr++) {
-          for (var dc = -2; dc <= 2; dc++) {
-            var v = Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0);
-            m.matrix[r + dr][c + dc] = v ? 1 : 0;
-            m.reserved[r + dr][c + dc] = true;
-          }
-        }
-      }
-    }
-  }
-
-  function reserveFormatInfo(m) {
-    for (var i = 0; i <= 8; i++) {
-      if (i < m.size) { m.reserved[8][i] = true; m.reserved[i][8] = true; }
-    }
-    for (var i = 0; i < 8; i++) {
-      m.reserved[8][m.size - 1 - i] = true;
-      m.reserved[m.size - 1 - i][8] = true;
-    }
-    m.matrix[m.size - 8][8] = 1;
-    m.reserved[m.size - 8][8] = true;
-  }
-
-  function placeData(m, data) {
-    var bitIdx = 0;
-    var totalBits = data.length * 8;
-    var isUpward = true;
-
-    for (var col = m.size - 1; col >= 0; col -= 2) {
-      if (col === 6) col = 5; // skip timing column
-
-      var rows = isUpward
-        ? (function (s) { var a = []; for (var i = s - 1; i >= 0; i--) a.push(i); return a; })(m.size)
-        : (function (s) { var a = []; for (var i = 0; i < s; i++) a.push(i); return a; })(m.size);
-
-      for (var ri = 0; ri < rows.length; ri++) {
-        var r = rows[ri];
-        for (var dc = 0; dc <= 1; dc++) {
-          var c = col - dc;
-          if (c < 0) continue;
-          if (m.reserved[r][c]) continue;
-          if (bitIdx < totalBits) {
-            var byteIdx = Math.floor(bitIdx / 8);
-            var bitPos = 7 - (bitIdx % 8);
-            m.matrix[r][c] = (data[byteIdx] >> bitPos) & 1;
-            bitIdx++;
-          }
-        }
-      }
-
-      isUpward = !isUpward;
-    }
-  }
-
-  function applyMask0(m) {
-    for (var r = 0; r < m.size; r++) {
-      for (var c = 0; c < m.size; c++) {
-        if (!m.reserved[r][c] && (r + c) % 2 === 0) {
-          m.matrix[r][c] ^= 1;
-        }
-      }
-    }
-  }
-
-  function placeFormatInfo(m) {
-    // Format info for ECC L + mask 0: pre-computed
-    var FORMAT_BITS = 0x77c4;
-    var bits = [];
-    for (var i = 14; i >= 0; i--) bits.push((FORMAT_BITS >> i) & 1);
-
-    // Around top-left finder
-    for (var i = 0; i <= 5; i++) m.matrix[8][i] = bits[i];
-    m.matrix[8][7] = bits[6];
-    m.matrix[8][8] = bits[7];
-    m.matrix[7][8] = bits[8];
-    for (var i = 9; i <= 14; i++) m.matrix[14 - i][8] = bits[i];
-
-    // Around other finders
-    for (var i = 0; i <= 7; i++) m.matrix[8][m.size - 1 - i] = bits[i];
-    for (var i = 0; i <= 6; i++) m.matrix[m.size - 1 - i][8] = bits[14 - i];
-  }
-
-  /* ---- Generate full QR matrix ---- */
-
-  function generateQR(text) {
-    var encoded = encodeData(text);
-    var m = createMatrix(encoded.version);
-
-    placeFinderPattern(m, 0, 0);
-    placeFinderPattern(m, 0, m.size - 7);
-    placeFinderPattern(m, m.size - 7, 0);
-    placeTimingPatterns(m);
-    placeAlignmentPattern(m, encoded.version);
-    reserveFormatInfo(m);
-    placeData(m, encoded.data);
-    applyMask0(m);
-    placeFormatInfo(m);
-
-    return m;
-  }
-
-  /* ---- Render as SVG ---- */
-
-  function renderSVG(m, fgColor, bgColor) {
-    var size = m.size;
-    var q = 4; // quiet zone
-    var total = size + q * 2;
-
-    var paths = [];
-    for (var r = 0; r < size; r++) {
-      for (var c = 0; c < size; c++) {
-        if (m.matrix[r][c]) {
-          paths.push('M' + (c + q) + ',' + (r + q) + 'h1v1h-1z');
-        }
-      }
-    }
-
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + ' ' + total + '" shape-rendering="crispEdges">' +
-      '<rect width="' + total + '" height="' + total + '" fill="' + bgColor + '"/>' +
-      '<path d="' + paths.join('') + '" fill="' + fgColor + '"/>' +
-      '</svg>';
-  }
-
-  /* ================================================================== */
-  /*  Component                                                          */
-  /* ================================================================== */
-
-  DK.register('qr', function (el) {
-    var text = el.getAttribute('data-dk-qr');
-    if (!text || text === 'true') return;
-
-    el.classList.add('dk-qr');
-
-    var style = getComputedStyle(el);
-    var fgColor = style.getPropertyValue('--text-primary').trim() || '#e5e5e5';
-    var bgColor = 'transparent';
-
-    try {
-      var m = generateQR(text);
-      el.innerHTML = renderSVG(m, fgColor, bgColor);
-    } catch (err) {
-      console.warn('DK qr-code: generation failed', err);
-      el.textContent = 'QR Error';
-    }
-  });
-
-})(window.DK);
-
-
-/* --- components/tree-view.js --- */
-
-/**
- * DK Tree View Component
- * Hierarchical expandable tree with keyboard navigation and ARIA roles.
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  var CHEVRON_SVG =
-    '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">' +
-    '<path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '</svg>';
-
-  var FOLDER_SVG =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M2 4.5A1.5 1.5 0 0 1 3.5 3H6l1.5 1.5H12.5A1.5 1.5 0 0 1 14 6v6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4.5z" stroke="currentColor" stroke-width="1.2"/>' +
-    '</svg>';
-
-  var FILE_SVG =
-    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
-    '<path d="M4 2h5l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.2"/>' +
-    '<path d="M9 2v4h4" stroke="currentColor" stroke-width="1.2"/>' +
-    '</svg>';
-
-  DK.register('tree', function (el) {
-
-    el.classList.add('dk-tree');
-    el.setAttribute('role', 'tree');
-
-    var nodes = DK.$$('.dk-tree_node', el);
-    var allLabels = [];
-
-    /* ---------------------------------------------------------------- */
-    /*  Setup each node                                                  */
-    /* ---------------------------------------------------------------- */
-
-    nodes.forEach(function (node) {
-      var label = DK.$('.dk-tree_label', node);
-      if (!label) return;
-
-      var children = DK.$('.dk-tree_children', node);
-      var isLeaf = !children || children.children.length === 0;
-
-      // ARIA
-      node.setAttribute('role', 'treeitem');
-      if (children) children.setAttribute('role', 'group');
-
-      // Make label focusable
-      if (!label.hasAttribute('tabindex')) {
-        label.setAttribute('tabindex', '-1');
-      }
-
-      allLabels.push(label);
-
-      // Toggle icon
-      var toggle = DK.$('.dk-tree_toggle', node);
-      if (!toggle) {
-        toggle = document.createElement('span');
-        toggle.className = 'dk-tree_toggle' + (isLeaf ? ' dk-tree_toggle--leaf' : '');
-        toggle.innerHTML = CHEVRON_SVG;
-        label.insertBefore(toggle, label.firstChild);
-      }
-
-      // Node icon (folder/file)
-      var icon = DK.$('.dk-tree_icon', node);
-      if (!icon) {
-        icon = document.createElement('span');
-        icon.className = 'dk-tree_icon' + (isLeaf ? '' : ' dk-tree_icon--folder');
-        icon.innerHTML = isLeaf ? FILE_SVG : FOLDER_SVG;
-        // Insert after toggle
-        if (toggle.nextSibling) {
-          label.insertBefore(icon, toggle.nextSibling);
-        } else {
-          label.appendChild(icon);
-        }
-      }
-
-      // Default collapsed state
-      if (!node.classList.contains('is-collapsed') && !node.hasAttribute('data-dk-tree-open')) {
-        // Leave root-level nodes expanded, collapse deeper ones
-        var depth = getDepth(node);
-        if (depth >= 2) {
-          node.classList.add('is-collapsed');
-        }
-      }
-
-      // Update aria-expanded
-      if (!isLeaf) {
-        label.setAttribute('aria-expanded', node.classList.contains('is-collapsed') ? 'false' : 'true');
-      }
-    });
-
-    // First focusable label gets tabindex=0
-    if (allLabels.length) {
-      allLabels[0].setAttribute('tabindex', '0');
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Depth helper                                                     */
-    /* ---------------------------------------------------------------- */
-
-    function getDepth(node) {
-      var d = 0;
-      var parent = node.parentElement;
-      while (parent && parent !== el) {
-        if (parent.classList.contains('dk-tree_children')) d++;
-        parent = parent.parentElement;
-      }
-      return d;
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Toggle                                                           */
-    /* ---------------------------------------------------------------- */
-
-    function toggleNode(node) {
-      var children = DK.$('.dk-tree_children', node);
-      if (!children || children.children.length === 0) return;
-
-      var label = DK.$('.dk-tree_label', node);
-      var isCollapsed = node.classList.contains('is-collapsed');
-
-      node.classList.toggle('is-collapsed');
-
-      if (label) {
-        label.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
-      }
-    }
-
-    /* ---------------------------------------------------------------- */
-    /*  Click handler                                                    */
-    /* ---------------------------------------------------------------- */
-
-    DK.on(el, 'click', function (e) {
-      var label = e.target.closest('.dk-tree_label');
-      if (!label) return;
-
-      var node = label.closest('.dk-tree_node');
-      if (!node || !el.contains(node)) return;
-
-      e.preventDefault();
-
-      // Toggle expand/collapse
-      toggleNode(node);
-
-      // Set active state
-      allLabels.forEach(function (l) { l.classList.remove('is-active'); });
-      label.classList.add('is-active');
-
-      // Focus management
-      allLabels.forEach(function (l) { l.setAttribute('tabindex', '-1'); });
-      label.setAttribute('tabindex', '0');
-      label.focus();
-
-      DK.emit(el, 'dk:tree-select', { node: node, label: label });
-    });
-
-    /* ---------------------------------------------------------------- */
-    /*  Keyboard navigation                                              */
-    /* ---------------------------------------------------------------- */
-
-    function getVisibleLabels() {
-      return allLabels.filter(function (l) {
-        return l.offsetParent !== null;
-      });
-    }
-
-    DK.on(el, 'keydown', function (e) {
-      var focused = document.activeElement;
-      if (!focused || !focused.classList.contains('dk-tree_label')) return;
-
-      var visible = getVisibleLabels();
-      var idx = visible.indexOf(focused);
-      if (idx === -1) return;
-
-      var node = focused.closest('.dk-tree_node');
-      var children = node ? DK.$('.dk-tree_children', node) : null;
-      var isLeaf = !children || children.children.length === 0;
-      var isCollapsed = node && node.classList.contains('is-collapsed');
-
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault();
-          if (idx < visible.length - 1) focusLabel(visible[idx + 1]);
-          break;
-
-        case 'ArrowUp':
-          e.preventDefault();
-          if (idx > 0) focusLabel(visible[idx - 1]);
-          break;
-
-        case 'ArrowRight':
-          e.preventDefault();
-          if (!isLeaf && isCollapsed) {
-            toggleNode(node);
-          } else if (!isLeaf) {
-            // Focus first child
-            var childLabels = getVisibleLabels();
-            var nextIdx = childLabels.indexOf(focused);
-            if (nextIdx < childLabels.length - 1) focusLabel(childLabels[nextIdx + 1]);
-          }
-          break;
-
-        case 'ArrowLeft':
-          e.preventDefault();
-          if (!isLeaf && !isCollapsed) {
-            toggleNode(node);
-          } else {
-            // Focus parent
-            var parentChildren = node ? node.parentElement : null;
-            if (parentChildren && parentChildren.classList.contains('dk-tree_children')) {
-              var parentNode = parentChildren.closest('.dk-tree_node');
-              if (parentNode) {
-                var parentLabel = DK.$('.dk-tree_label', parentNode);
-                if (parentLabel) focusLabel(parentLabel);
-              }
-            }
-          }
-          break;
-
-        case 'Enter':
-        case ' ':
-          e.preventDefault();
-          toggleNode(node);
-
-          allLabels.forEach(function (l) { l.classList.remove('is-active'); });
-          focused.classList.add('is-active');
-
-          DK.emit(el, 'dk:tree-select', { node: node, label: focused });
-          break;
-
-        case 'Home':
-          e.preventDefault();
-          if (visible.length) focusLabel(visible[0]);
-          break;
-
-        case 'End':
-          e.preventDefault();
-          if (visible.length) focusLabel(visible[visible.length - 1]);
-          break;
-
-        default:
-          return;
-      }
-    });
-
-    function focusLabel(label) {
-      allLabels.forEach(function (l) { l.setAttribute('tabindex', '-1'); });
-      label.setAttribute('tabindex', '0');
-      label.focus();
-    }
   });
 
 })(window.DK);
@@ -8604,6 +5179,3026 @@
 })(window.DK);
 
 
+/* --- components/data-table.js --- */
+
+/**
+ * DK Data Table Component
+ * Adds sorting to table columns via sort buttons.
+ * Rearranges tbody rows on click, cycling through asc / desc / none.
+ * Emits `dk:table-sort` with `{ column, direction }` detail.
+ *
+ * Usage:
+ *   <div class="dk-data-table" data-dk-data-table>
+ *     <table class="dk-table">
+ *       <thead>
+ *         <tr>
+ *           <th><button class="dk-data-table_sort-btn" data-col="0">Name</button></th>
+ *           <th><button class="dk-data-table_sort-btn" data-col="1">Value</button></th>
+ *         </tr>
+ *       </thead>
+ *       <tbody>...</tbody>
+ *     </table>
+ *   </div>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  /** Sort direction cycle: none -> ascending -> descending -> none */
+  var CYCLE = { none: 'ascending', ascending: 'descending', descending: 'none' };
+
+  DK.register('data-table', function (el) {
+    var table   = DK.$('.dk-table', el) || el.querySelector('table');
+    if (!table) return;
+
+    var tbody   = table.querySelector('tbody');
+    if (!tbody) return;
+
+    var sortBtns = DK.$$('.dk-data-table_sort-btn', el);
+    if (!sortBtns.length) return;
+
+    /* -------------------------------------------------------------- */
+    /*  State                                                          */
+    /* -------------------------------------------------------------- */
+
+    var currentBtn   = null;
+    var currentDir   = 'none';
+    var originalRows = null; // snapshot for resetting to "none"
+
+    /* -------------------------------------------------------------- */
+    /*  Helpers                                                        */
+    /* -------------------------------------------------------------- */
+
+    /**
+     * Extract sortable text content from a cell.
+     * Strips whitespace and lowercases for natural comparison.
+     */
+    function getCellValue(row, colIndex) {
+      var cell = row.children[colIndex];
+      if (!cell) return '';
+
+      // Prefer data-sort-value attribute for custom sort keys
+      var explicit = cell.getAttribute('data-sort-value');
+      if (explicit !== null) return explicit;
+
+      return (cell.textContent || '').trim().toLowerCase();
+    }
+
+    /**
+     * Compare two values — tries numeric first, falls back to string.
+     */
+    function compare(a, b) {
+      var numA = parseFloat(a);
+      var numB = parseFloat(b);
+
+      // Both are valid numbers
+      if (!isNaN(numA) && !isNaN(numB)) {
+        return numA - numB;
+      }
+
+      // String comparison
+      if (a < b) return -1;
+      if (a > b) return 1;
+      return 0;
+    }
+
+    /**
+     * Sort and re-append rows into tbody.
+     */
+    function sortRows(colIndex, direction) {
+      if (!originalRows) {
+        // Snapshot the original DOM order on first sort
+        originalRows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+      }
+
+      var rows;
+
+      if (direction === 'none') {
+        // Restore original order
+        rows = originalRows.slice();
+      } else {
+        rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        rows.sort(function (rowA, rowB) {
+          var valA = getCellValue(rowA, colIndex);
+          var valB = getCellValue(rowB, colIndex);
+          var result = compare(valA, valB);
+          return direction === 'descending' ? -result : result;
+        });
+      }
+
+      // Re-append in new order (moves existing DOM nodes)
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < rows.length; i++) {
+        frag.appendChild(rows[i]);
+      }
+      tbody.appendChild(frag);
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Reset ARIA on all buttons                                      */
+    /* -------------------------------------------------------------- */
+
+    function resetAllButtons() {
+      for (var i = 0; i < sortBtns.length; i++) {
+        sortBtns[i].removeAttribute('aria-sort');
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Click handler                                                  */
+    /* -------------------------------------------------------------- */
+
+    function handleSort(e) {
+      var btn = e.currentTarget;
+      var colIndex = parseInt(btn.getAttribute('data-col'), 10);
+      if (isNaN(colIndex)) return;
+
+      // Determine new direction
+      var prevDir = btn === currentBtn ? currentDir : 'none';
+      var nextDir = CYCLE[prevDir];
+
+      // Reset all, then set active
+      resetAllButtons();
+
+      if (nextDir !== 'none') {
+        btn.setAttribute('aria-sort', nextDir);
+      }
+
+      currentBtn = btn;
+      currentDir = nextDir;
+
+      // Sort
+      sortRows(colIndex, nextDir);
+
+      // Emit event
+      DK.emit(el, 'dk:table-sort', {
+        column: colIndex,
+        direction: nextDir
+      });
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Bind                                                           */
+    /* -------------------------------------------------------------- */
+
+    for (var i = 0; i < sortBtns.length; i++) {
+      DK.on(sortBtns[i], 'click', handleSort);
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/accordion.js --- */
+
+/**
+ * DK Accordion Component
+ * Toggles accordion items open/closed with animated max-height.
+ * Supports single-open mode via data-dk-accordion="single".
+ * Keyboard accessible: Enter / Space to toggle.
+ * ARIA: aria-expanded on trigger, aria-controls linking to content panel.
+ *
+ * Usage:
+ *   <div class="dk-accordion" data-dk-accordion>              (multi-open)
+ *   <div class="dk-accordion" data-dk-accordion="single">     (single-open)
+ *     <div class="dk-accordion_item">
+ *       <button class="dk-accordion_trigger">
+ *         Section Title
+ *         <svg class="dk-accordion_icon">...</svg>
+ *       </button>
+ *       <div class="dk-accordion_content">
+ *         <div class="dk-accordion_body">Content here</div>
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('accordion', function (el) {
+
+    var mode     = el.getAttribute('data-dk-accordion'); // "single" or ""
+    var isSingle = mode === 'single';
+    var items    = DK.$$('.dk-accordion_item', el);
+
+    if (!items.length) return;
+
+    /* -------------------------------------------------------------- */
+    /*  Setup ARIA attributes                                          */
+    /* -------------------------------------------------------------- */
+
+    items.forEach(function (item) {
+      var trigger = DK.$('.dk-accordion_trigger', item);
+      var content = DK.$('.dk-accordion_content', item);
+      if (!trigger || !content) return;
+
+      // Generate unique IDs for ARIA linking
+      var panelId  = content.id || DK.uid('dk-acc-panel');
+      var triggerId = trigger.id || DK.uid('dk-acc-trigger');
+
+      content.id = panelId;
+      trigger.id = triggerId;
+
+      trigger.setAttribute('aria-controls', panelId);
+      content.setAttribute('role', 'region');
+      content.setAttribute('aria-labelledby', triggerId);
+
+      // Set initial ARIA state based on whether item is already open
+      var isOpen = item.classList.contains('is-open');
+      trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+      // If already open, set maxHeight so it displays correctly
+      if (isOpen) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Toggle logic                                                   */
+    /* -------------------------------------------------------------- */
+
+    function closeItem(item) {
+      var trigger = DK.$('.dk-accordion_trigger', item);
+      var content = DK.$('.dk-accordion_content', item);
+      if (!trigger || !content) return;
+
+      item.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      content.style.maxHeight = '0';
+    }
+
+    function openItem(item) {
+      var trigger = DK.$('.dk-accordion_trigger', item);
+      var content = DK.$('.dk-accordion_content', item);
+      if (!trigger || !content) return;
+
+      item.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+
+    function toggleItem(item) {
+      var isOpen = item.classList.contains('is-open');
+
+      // In single mode, close all others first
+      if (isSingle && !isOpen) {
+        items.forEach(function (other) {
+          if (other !== item && other.classList.contains('is-open')) {
+            closeItem(other);
+          }
+        });
+      }
+
+      if (isOpen) {
+        closeItem(item);
+      } else {
+        openItem(item);
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Event delegation                                               */
+    /* -------------------------------------------------------------- */
+
+    DK.on(el, 'click', function (e) {
+      var trigger = e.target.closest('.dk-accordion_trigger');
+      if (!trigger) return;
+
+      var item = trigger.closest('.dk-accordion_item');
+      if (!item || !el.contains(item)) return;
+
+      e.preventDefault();
+      toggleItem(item);
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Keyboard: Enter / Space                                        */
+    /* -------------------------------------------------------------- */
+
+    DK.on(el, 'keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+
+      var trigger = e.target.closest('.dk-accordion_trigger');
+      if (!trigger) return;
+
+      var item = trigger.closest('.dk-accordion_item');
+      if (!item || !el.contains(item)) return;
+
+      e.preventDefault();
+      toggleItem(item);
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Handle dynamic content height changes                          */
+    /* -------------------------------------------------------------- */
+
+    /** Recalculate max-height for all open items. */
+    el._dkRecalc = function () {
+      items.forEach(function (item) {
+        if (!item.classList.contains('is-open')) return;
+        var content = DK.$('.dk-accordion_content', item);
+        if (content) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    };
+  });
+
+})(window.DK);
+
+
+/* --- components/calendar.js --- */
+
+/**
+ * DK Calendar Component
+ * Interactive month grid with keyboard navigation and date selection.
+ * Emits dk:calendar-select on date pick.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var CHEVRON_LEFT =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  var CHEVRON_RIGHT =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  var WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  var MONTHS = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  /* ------------------------------------------------------------------ */
+  /*  Helpers                                                            */
+  /* ------------------------------------------------------------------ */
+
+  function parseISO(str) {
+    if (!str) return null;
+    var p = str.split('-');
+    if (p.length === 3) return new Date(+p[0], +p[1] - 1, +p[2]);
+    var d = new Date(str);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function toISO(d) {
+    var m = d.getMonth() + 1;
+    var day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
+  }
+
+  function sameDay(a, b) {
+    return a.getFullYear() === b.getFullYear() &&
+           a.getMonth() === b.getMonth() &&
+           a.getDate() === b.getDate();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component                                                          */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('calendar', function (el) {
+    var valueAttr = el.getAttribute('data-dk-calendar');
+    var minDate = parseISO(el.getAttribute('data-dk-calendar-min'));
+    var maxDate = parseISO(el.getAttribute('data-dk-calendar-max'));
+    var eventsAttr = el.getAttribute('data-dk-calendar-events');
+
+    var events = {};
+    if (eventsAttr) {
+      try {
+        var arr = JSON.parse(eventsAttr);
+        arr.forEach(function (iso) { events[iso] = true; });
+      } catch (e) { /* ignore */ }
+    }
+
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    var selected = (valueAttr && valueAttr !== 'true') ? parseISO(valueAttr) : new Date(today);
+    if (selected) selected.setHours(0, 0, 0, 0);
+
+    var viewMonth = selected ? selected.getMonth() : today.getMonth();
+    var viewYear = selected ? selected.getFullYear() : today.getFullYear();
+
+    var titleEl, gridEl, prevBtn, nextBtn;
+
+    /* ---------------------------------------------------------------- */
+    /*  Build scaffold                                                   */
+    /* ---------------------------------------------------------------- */
+
+    function build() {
+      el.innerHTML = '';
+      el.classList.add('dk-calendar');
+
+      var header = document.createElement('div');
+      header.className = 'dk-calendar_header';
+
+      titleEl = document.createElement('span');
+      titleEl.className = 'dk-calendar_title';
+
+      var nav = document.createElement('div');
+      nav.className = 'dk-calendar_nav';
+
+      prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.setAttribute('aria-label', 'Previous month');
+      prevBtn.innerHTML = CHEVRON_LEFT;
+
+      nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.setAttribute('aria-label', 'Next month');
+      nextBtn.innerHTML = CHEVRON_RIGHT;
+
+      nav.appendChild(prevBtn);
+      nav.appendChild(nextBtn);
+
+      header.appendChild(titleEl);
+      header.appendChild(nav);
+      el.appendChild(header);
+
+      var weekdays = document.createElement('div');
+      weekdays.className = 'dk-calendar_weekdays';
+      WEEKDAYS.forEach(function (d) {
+        var s = document.createElement('span');
+        s.textContent = d;
+        weekdays.appendChild(s);
+      });
+      el.appendChild(weekdays);
+
+      gridEl = document.createElement('div');
+      gridEl.className = 'dk-calendar_grid';
+      gridEl.setAttribute('role', 'grid');
+      el.appendChild(gridEl);
+    }
+
+    build();
+
+    /* ---------------------------------------------------------------- */
+    /*  Render                                                           */
+    /* ---------------------------------------------------------------- */
+
+    function isDisabled(d) {
+      if (minDate && d < minDate) return true;
+      if (maxDate && d > maxDate) return true;
+      return false;
+    }
+
+    function render() {
+      titleEl.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+      gridEl.innerHTML = '';
+
+      var first = new Date(viewYear, viewMonth, 1);
+      var startDow = first.getDay();
+      var lastDay = new Date(viewYear, viewMonth + 1, 0).getDate();
+      var prevLast = new Date(viewYear, viewMonth, 0).getDate();
+
+      for (var i = 0; i < 42; i++) {
+        var dayNum, cellDate, isOther = false;
+
+        if (i < startDow) {
+          dayNum = prevLast - startDow + 1 + i;
+          cellDate = new Date(viewYear, viewMonth - 1, dayNum);
+          isOther = true;
+        } else if (i - startDow >= lastDay) {
+          dayNum = i - startDow - lastDay + 1;
+          cellDate = new Date(viewYear, viewMonth + 1, dayNum);
+          isOther = true;
+        } else {
+          dayNum = i - startDow + 1;
+          cellDate = new Date(viewYear, viewMonth, dayNum);
+        }
+
+        cellDate.setHours(0, 0, 0, 0);
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'dk-calendar_day';
+        btn.textContent = cellDate.getDate();
+        btn.setAttribute('data-date', toISO(cellDate));
+
+        if (isOther) btn.classList.add('is-other-month');
+        if (sameDay(cellDate, today)) btn.classList.add('is-today');
+        if (selected && sameDay(cellDate, selected)) btn.classList.add('is-selected');
+        if (events[toISO(cellDate)]) btn.classList.add('has-event');
+
+        if (isDisabled(cellDate)) {
+          btn.classList.add('is-disabled');
+          btn.disabled = true;
+        }
+
+        gridEl.appendChild(btn);
+      }
+    }
+
+    render();
+
+    /* ---------------------------------------------------------------- */
+    /*  Navigation                                                       */
+    /* ---------------------------------------------------------------- */
+
+    function prevMonth() {
+      viewMonth--;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      render();
+    }
+
+    function nextMonth() {
+      viewMonth++;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      render();
+    }
+
+    DK.on(prevBtn, 'click', function (e) { e.preventDefault(); prevMonth(); });
+    DK.on(nextBtn, 'click', function (e) { e.preventDefault(); nextMonth(); });
+
+    /* ---------------------------------------------------------------- */
+    /*  Selection                                                        */
+    /* ---------------------------------------------------------------- */
+
+    function selectDate(d) {
+      selected = new Date(d);
+      selected.setHours(0, 0, 0, 0);
+      viewMonth = selected.getMonth();
+      viewYear = selected.getFullYear();
+      render();
+      DK.emit(el, 'dk:calendar-select', { date: new Date(selected), iso: toISO(selected) });
+    }
+
+    DK.on(gridEl, 'click', function (e) {
+      var btn = e.target.closest('.dk-calendar_day');
+      if (!btn || btn.disabled) return;
+      var d = parseISO(btn.getAttribute('data-date'));
+      if (d) selectDate(d);
+    });
+
+    /* ---------------------------------------------------------------- */
+    /*  Keyboard                                                         */
+    /* ---------------------------------------------------------------- */
+
+    DK.on(gridEl, 'keydown', function (e) {
+      var focused = document.activeElement;
+      if (!focused || !focused.classList.contains('dk-calendar_day')) return;
+
+      var d = parseISO(focused.getAttribute('data-date'));
+      if (!d) return;
+
+      var nd = null;
+      switch (e.key) {
+        case 'ArrowLeft':  e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() - 1); break;
+        case 'ArrowRight': e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() + 1); break;
+        case 'ArrowUp':    e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() - 7); break;
+        case 'ArrowDown':  e.preventDefault(); nd = new Date(d); nd.setDate(nd.getDate() + 7); break;
+        case 'Enter':      e.preventDefault(); if (!focused.disabled) selectDate(d); return;
+        default: return;
+      }
+
+      if (!nd || isDisabled(nd)) return;
+      nd.setHours(0, 0, 0, 0);
+
+      if (nd.getMonth() !== viewMonth || nd.getFullYear() !== viewYear) {
+        viewMonth = nd.getMonth();
+        viewYear = nd.getFullYear();
+        render();
+      }
+
+      var target = gridEl.querySelector('[data-date="' + toISO(nd) + '"]');
+      if (target) target.focus();
+    });
+  });
+
+})(window.DK);
+
+
+/* --- components/date-display.js --- */
+
+/**
+ * DK Date Display Component
+ * Renders formatted dates with relative time support and auto-updates.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var MONTH_LONG = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  var activeInstances = [];
+  var timerStarted = false;
+
+  /* ------------------------------------------------------------------ */
+  /*  Format helpers                                                     */
+  /* ------------------------------------------------------------------ */
+
+  function formatRelative(date) {
+    var now = Date.now();
+    var diff = now - date.getTime();
+    var absDiff = Math.abs(diff);
+    var seconds = Math.floor(absDiff / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+    var weeks = Math.floor(days / 7);
+    var months = Math.floor(days / 30);
+    var years = Math.floor(days / 365);
+
+    if (seconds < 60) return 'just now';
+    if (minutes < 60) return minutes + 'm ago';
+    if (hours < 24) return hours + 'h ago';
+    if (days < 7) return days + 'd ago';
+    if (weeks < 5) return weeks + 'w ago';
+    if (months < 12) return months + 'mo ago';
+    return years + 'y ago';
+  }
+
+  function formatShort(date) {
+    return MONTH_SHORT[date.getMonth()] + ' ' + date.getDate();
+  }
+
+  function formatLong(date) {
+    return MONTH_LONG[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+  }
+
+  function formatAbsolute(date) {
+    return MONTH_LONG[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() +
+      ' at ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Auto-update timer                                                  */
+  /* ------------------------------------------------------------------ */
+
+  function startTimer() {
+    if (timerStarted) return;
+    timerStarted = true;
+
+    setInterval(function () {
+      activeInstances.forEach(function (inst) {
+        inst.update();
+      });
+    }, 60000);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component                                                          */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('date', function (el) {
+    var timestamp = el.getAttribute('data-dk-date');
+    var format = el.getAttribute('data-dk-date-format') || 'relative';
+
+    if (!timestamp || timestamp === 'true') return;
+
+    var date = new Date(timestamp);
+    if (isNaN(date.getTime())) {
+      var parts = timestamp.split('-');
+      if (parts.length === 3) {
+        date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+      }
+      if (isNaN(date.getTime())) return;
+    }
+
+    el.classList.add('dk-date');
+
+    function update() {
+      var text;
+      switch (format) {
+        case 'short':
+          text = formatShort(date);
+          el.classList.add('dk-date--compact');
+          break;
+        case 'long':
+          text = formatLong(date);
+          el.classList.add('dk-date--long');
+          break;
+        case 'relative':
+        default:
+          text = formatRelative(date);
+          el.classList.add('dk-date--relative');
+
+          var diff = Date.now() - date.getTime();
+          if (diff < 300000) {
+            el.classList.add('dk-date--recent');
+          } else {
+            el.classList.remove('dk-date--recent');
+          }
+          break;
+      }
+
+      el.textContent = text;
+      el.setAttribute('title', formatAbsolute(date));
+    }
+
+    update();
+
+    if (format === 'relative') {
+      activeInstances.push({ update: update });
+      startTimer();
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/marquee.js --- */
+
+/**
+ * DK Marquee Component
+ * Clones track children for seamless looping. Supports pausable and speed options.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('marquee', function (el) {
+    var track = DK.$('.dk-marquee_track', el);
+    if (!track || track.dataset.dkCloned) return;
+
+    /* ---------------------------------------------------------------- */
+    /*  Read options                                                     */
+    /* ---------------------------------------------------------------- */
+
+    var attrVal = el.getAttribute('data-dk-marquee') || '';
+    var speed = el.getAttribute('data-dk-marquee-speed');
+
+    if (attrVal === 'pausable' || attrVal === 'pause') {
+      el.classList.add('is-pausable');
+    }
+
+    if (speed === 'slow') el.classList.add('dk-marquee--slow');
+    if (speed === 'fast') el.classList.add('dk-marquee--fast');
+
+    /* ---------------------------------------------------------------- */
+    /*  Clone children for seamless loop                                 */
+    /* ---------------------------------------------------------------- */
+
+    var items = Array.prototype.slice.call(track.children);
+    items.forEach(function (item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+
+    track.dataset.dkCloned = 'true';
+  });
+
+})(window.DK);
+
+
+/* --- components/json-viewer.js --- */
+
+/**
+ * DK JSON Viewer Component
+ * Collapsible JSON tree with syntax coloring and copy button.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var COPY_ICON =
+    '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>' +
+    '<path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.5"/>' +
+    '</svg>';
+
+  var CHECK_ICON =
+    '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M3 8.5l3.5 3.5 6.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  DK.register('json-viewer', function (el) {
+
+    /* ---------------------------------------------------------------- */
+    /*  Read JSON                                                        */
+    /* ---------------------------------------------------------------- */
+
+    var raw = el.getAttribute('data-dk-json-viewer');
+
+    if (!raw || raw === '' || raw === 'true') {
+      var scriptEl = DK.$('script[type="application/json"]', el);
+      if (scriptEl) {
+        raw = scriptEl.textContent;
+      } else {
+        raw = el.textContent.trim();
+      }
+    }
+
+    if (!raw) return;
+
+    var data;
+    try {
+      data = JSON.parse(raw);
+    } catch (err) {
+      console.warn('DK json-viewer: invalid JSON', err);
+      return;
+    }
+
+    var lineNumbers = el.hasAttribute('data-dk-json-lines');
+    var rawJSON = JSON.stringify(data, null, 2);
+
+    /* ---------------------------------------------------------------- */
+    /*  Build UI                                                         */
+    /* ---------------------------------------------------------------- */
+
+    el.innerHTML = '';
+    el.classList.add('dk-json');
+    if (lineNumbers) el.classList.add('dk-json--line-numbers');
+
+    // Copy button
+    var copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'dk-json_copy';
+    copyBtn.innerHTML = COPY_ICON + ' Copy';
+    copyBtn.setAttribute('aria-label', 'Copy JSON');
+    el.appendChild(copyBtn);
+
+    DK.on(copyBtn, 'click', function () {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(rawJSON).then(function () {
+          showCopied();
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = rawJSON;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopied();
+      }
+    });
+
+    function showCopied() {
+      copyBtn.innerHTML = CHECK_ICON + ' Copied!';
+      copyBtn.classList.add('is-copied');
+      setTimeout(function () {
+        copyBtn.innerHTML = COPY_ICON + ' Copy';
+        copyBtn.classList.remove('is-copied');
+      }, 2000);
+    }
+
+    // Build tree
+    var tree = buildNode(null, data, 0, false);
+    el.appendChild(tree);
+
+    /* ---------------------------------------------------------------- */
+    /*  Build a node                                                     */
+    /* ---------------------------------------------------------------- */
+
+    function buildNode(key, value, depth, isLast) {
+      var node = document.createElement('div');
+      node.className = 'dk-json_node';
+
+      var type = getType(value);
+
+      if (type === 'object' || type === 'array') {
+        buildCompound(node, key, value, type, depth, isLast);
+      } else {
+        buildPrimitive(node, key, value, type, isLast);
+      }
+
+      return node;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Compound node                                                    */
+    /* ---------------------------------------------------------------- */
+
+    function buildCompound(node, key, value, type, depth, isLast) {
+      var open = type === 'array' ? '[' : '{';
+      var close = type === 'array' ? ']' : '}';
+      var keys = Object.keys(value);
+      var count = keys.length;
+      var label = type === 'array'
+        ? count + ' item' + (count !== 1 ? 's' : '')
+        : count + ' key' + (count !== 1 ? 's' : '');
+
+      var collapsed = depth >= 2;
+
+      // Line
+      var line = document.createElement('div');
+      line.className = 'dk-json_line';
+
+      var toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'dk-json_toggle';
+      toggle.innerHTML = '<svg width="8" height="8" viewBox="0 0 8 8"><path d="M1 2l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';
+      if (collapsed) toggle.classList.add('is-collapsed');
+      line.appendChild(toggle);
+
+      if (key !== null) {
+        var keySpan = document.createElement('span');
+        keySpan.className = 'dk-json_key';
+        keySpan.textContent = '"' + key + '"';
+        line.appendChild(keySpan);
+
+        var colon = document.createElement('span');
+        colon.className = 'dk-json_colon';
+        colon.textContent = ': ';
+        line.appendChild(colon);
+      }
+
+      var bracket = document.createElement('span');
+      bracket.className = 'dk-json_bracket';
+      bracket.textContent = open;
+      line.appendChild(bracket);
+
+      var countSpan = document.createElement('span');
+      countSpan.className = 'dk-json_count';
+      countSpan.textContent = label;
+      if (!collapsed) countSpan.style.display = 'none';
+      line.appendChild(countSpan);
+
+      var closeInline = document.createElement('span');
+      closeInline.className = 'dk-json_bracket';
+      closeInline.textContent = close;
+      if (!collapsed) closeInline.style.display = 'none';
+      line.appendChild(closeInline);
+
+      var commaInline = null;
+      if (!isLast) {
+        commaInline = document.createElement('span');
+        commaInline.className = 'dk-json_comma';
+        commaInline.textContent = ',';
+        if (!collapsed) commaInline.style.display = 'none';
+        line.appendChild(commaInline);
+      }
+
+      node.appendChild(line);
+
+      // Children
+      var children = document.createElement('div');
+      children.className = 'dk-json_children';
+      if (collapsed) children.classList.add('is-collapsed');
+
+      for (var i = 0; i < keys.length; i++) {
+        var ck = type === 'array' ? null : keys[i];
+        children.appendChild(buildNode(ck, value[keys[i]], depth + 1, i === keys.length - 1));
+      }
+      node.appendChild(children);
+
+      // Closing line
+      var closingLine = document.createElement('div');
+      closingLine.className = 'dk-json_line dk-json_closing';
+
+      var closingBracket = document.createElement('span');
+      closingBracket.className = 'dk-json_bracket';
+      closingBracket.textContent = close;
+      closingLine.appendChild(closingBracket);
+
+      if (!isLast) {
+        var comma = document.createElement('span');
+        comma.className = 'dk-json_comma';
+        comma.textContent = ',';
+        closingLine.appendChild(comma);
+      }
+
+      if (collapsed) closingLine.style.display = 'none';
+      node.appendChild(closingLine);
+
+      // Toggle handler
+      DK.on(toggle, 'click', function () {
+        var nowCollapsed = !toggle.classList.contains('is-collapsed');
+        toggle.classList.toggle('is-collapsed', nowCollapsed);
+        children.classList.toggle('is-collapsed', nowCollapsed);
+        countSpan.style.display = nowCollapsed ? '' : 'none';
+        closeInline.style.display = nowCollapsed ? '' : 'none';
+        closingLine.style.display = nowCollapsed ? 'none' : '';
+        if (commaInline) commaInline.style.display = nowCollapsed ? '' : 'none';
+      });
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Primitive node                                                   */
+    /* ---------------------------------------------------------------- */
+
+    function buildPrimitive(node, key, value, type, isLast) {
+      var line = document.createElement('div');
+      line.className = 'dk-json_line';
+
+      if (key !== null) {
+        var keySpan = document.createElement('span');
+        keySpan.className = 'dk-json_key';
+        keySpan.textContent = '"' + key + '"';
+        line.appendChild(keySpan);
+
+        var colon = document.createElement('span');
+        colon.className = 'dk-json_colon';
+        colon.textContent = ': ';
+        line.appendChild(colon);
+      }
+
+      var valSpan = document.createElement('span');
+      valSpan.className = 'dk-json_value dk-json_value--' + type;
+
+      if (type === 'string') valSpan.textContent = '"' + value + '"';
+      else if (type === 'null') valSpan.textContent = 'null';
+      else valSpan.textContent = String(value);
+
+      line.appendChild(valSpan);
+
+      if (!isLast) {
+        var comma = document.createElement('span');
+        comma.className = 'dk-json_comma';
+        comma.textContent = ',';
+        line.appendChild(comma);
+      }
+
+      node.appendChild(line);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Type helper                                                      */
+    /* ---------------------------------------------------------------- */
+
+    function getType(v) {
+      if (v === null) return 'null';
+      if (Array.isArray(v)) return 'array';
+      return typeof v;
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/clipboard.js --- */
+
+/**
+ * DK Clipboard Component
+ * Copy-to-clipboard with visual feedback and icon swap.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var COPY_SVG =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>' +
+    '<path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.5"/>' +
+    '</svg>';
+
+  var CHECK_SVG =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M3 8.5l3.5 3.5 6.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  DK.register('clipboard', function (el) {
+    var target = el.getAttribute('data-dk-clipboard');
+    var iconEl = DK.$('.dk-clipboard_icon', el);
+
+    el.classList.add('dk-clipboard');
+
+    // Create tooltip
+    var tooltip = document.createElement('span');
+    tooltip.className = 'dk-clipboard_tooltip';
+    tooltip.textContent = 'Copied!';
+    el.appendChild(tooltip);
+
+    // Set initial icon if icon slot exists
+    if (iconEl) {
+      iconEl.innerHTML = COPY_SVG;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Get text to copy                                                 */
+    /* ---------------------------------------------------------------- */
+
+    function getTextToCopy() {
+      // If target is a selector, get text from that element
+      if (target && target !== 'true' && target !== '') {
+        var targetEl = document.querySelector(target);
+        if (targetEl) {
+          return targetEl.textContent || targetEl.value || '';
+        }
+      }
+
+      // Otherwise use data attribute text or button text
+      var text = el.getAttribute('data-dk-clipboard-text');
+      if (text) return text;
+
+      return el.textContent.replace('Copied!', '').trim();
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Copy action                                                      */
+    /* ---------------------------------------------------------------- */
+
+    function doCopy() {
+      var text = getTextToCopy();
+      if (!text) return;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(showFeedback);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showFeedback();
+      }
+    }
+
+    function showFeedback() {
+      el.classList.add('is-copied');
+      if (iconEl) iconEl.innerHTML = CHECK_SVG;
+
+      DK.emit(el, 'dk:clipboard-copy');
+
+      setTimeout(function () {
+        el.classList.remove('is-copied');
+        if (iconEl) iconEl.innerHTML = COPY_SVG;
+      }, 2000);
+    }
+
+    DK.on(el, 'click', function (e) {
+      e.preventDefault();
+      doCopy();
+    });
+  });
+
+})(window.DK);
+
+
+/* --- components/qr-code.js --- */
+
+/**
+ * DK QR Code Component
+ * Generates a QR code as an SVG element using a simple QR encoding algorithm.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  /* ================================================================== */
+  /*  Minimal QR encoder (Version 1-4, Mode Byte, ECC L)                */
+  /*  Simplified implementation for short text/URLs.                     */
+  /* ================================================================== */
+
+  var ALIGNMENT = { 2: [6, 18], 3: [6, 22], 4: [6, 26] };
+  var EC_CODEWORDS = { 1: 7, 2: 10, 3: 15, 4: 20 };
+  var DATA_CAPACITY = { 1: 17, 2: 32, 3: 53, 4: 78 };
+  var SIZES = { 1: 21, 2: 25, 3: 29, 4: 33 };
+
+  /* ---- Galois Field GF(256) tables ---- */
+
+  var EXP = new Array(256);
+  var LOG = new Array(256);
+
+  (function () {
+    var x = 1;
+    for (var i = 0; i < 256; i++) {
+      EXP[i] = x;
+      LOG[x] = i;
+      x <<= 1;
+      if (x >= 256) x ^= 0x11d;
+    }
+    LOG[0] = undefined;
+  })();
+
+  function gfMul(a, b) {
+    if (a === 0 || b === 0) return 0;
+    return EXP[(LOG[a] + LOG[b]) % 255];
+  }
+
+  /* ---- Reed-Solomon ECC ---- */
+
+  function rsGenPoly(n) {
+    var poly = [1];
+    for (var i = 0; i < n; i++) {
+      var next = new Array(poly.length + 1);
+      for (var j = 0; j < next.length; j++) next[j] = 0;
+      for (var j = 0; j < poly.length; j++) {
+        next[j] ^= poly[j];
+        next[j + 1] ^= gfMul(poly[j], EXP[i]);
+      }
+      poly = next;
+    }
+    return poly;
+  }
+
+  function rsEncode(data, ecLen) {
+    var gen = rsGenPoly(ecLen);
+    var msg = new Array(data.length + ecLen);
+    for (var i = 0; i < msg.length; i++) msg[i] = 0;
+    for (var i = 0; i < data.length; i++) msg[i] = data[i];
+
+    for (var i = 0; i < data.length; i++) {
+      var coef = msg[i];
+      if (coef === 0) continue;
+      for (var j = 0; j < gen.length; j++) {
+        msg[i + j] ^= gfMul(gen[j], coef);
+      }
+    }
+
+    return msg.slice(data.length);
+  }
+
+  /* ---- Bit stream helpers ---- */
+
+  function BitStream() {
+    this.bits = [];
+  }
+
+  BitStream.prototype.push = function (val, len) {
+    for (var i = len - 1; i >= 0; i--) {
+      this.bits.push((val >> i) & 1);
+    }
+  };
+
+  BitStream.prototype.toBytes = function () {
+    while (this.bits.length % 8 !== 0) this.bits.push(0);
+    var bytes = [];
+    for (var i = 0; i < this.bits.length; i += 8) {
+      var b = 0;
+      for (var j = 0; j < 8; j++) b = (b << 1) | this.bits[i + j];
+      bytes.push(b);
+    }
+    return bytes;
+  };
+
+  /* ---- Data encoding (byte mode) ---- */
+
+  function encodeData(text) {
+    var bytes = [];
+    for (var i = 0; i < text.length; i++) {
+      var c = text.charCodeAt(i);
+      if (c < 128) {
+        bytes.push(c);
+      } else if (c < 2048) {
+        bytes.push(0xc0 | (c >> 6));
+        bytes.push(0x80 | (c & 0x3f));
+      } else {
+        bytes.push(0xe0 | (c >> 12));
+        bytes.push(0x80 | ((c >> 6) & 0x3f));
+        bytes.push(0x80 | (c & 0x3f));
+      }
+    }
+
+    // Determine version
+    var version = 1;
+    for (var v = 1; v <= 4; v++) {
+      if (bytes.length <= DATA_CAPACITY[v]) { version = v; break; }
+      if (v === 4) version = 4;
+    }
+
+    var dataCapacity = DATA_CAPACITY[version];
+    var ecCount = EC_CODEWORDS[version];
+
+    var bs = new BitStream();
+    bs.push(0b0100, 4); // byte mode indicator
+    bs.push(bytes.length, version >= 1 ? 8 : 16); // character count
+
+    for (var i = 0; i < bytes.length; i++) {
+      bs.push(bytes[i], 8);
+    }
+
+    bs.push(0, 4); // terminator
+
+    var dataBytes = bs.toBytes();
+
+    // Pad to capacity
+    var padPatterns = [0xEC, 0x11];
+    var padIdx = 0;
+    while (dataBytes.length < dataCapacity) {
+      dataBytes.push(padPatterns[padIdx % 2]);
+      padIdx++;
+    }
+
+    dataBytes = dataBytes.slice(0, dataCapacity);
+
+    var ecBytes = rsEncode(dataBytes, ecCount);
+
+    return { version: version, data: dataBytes.concat(ecBytes) };
+  }
+
+  /* ---- Matrix construction ---- */
+
+  function createMatrix(version) {
+    var size = SIZES[version];
+    var matrix = [];
+    var reserved = [];
+    for (var r = 0; r < size; r++) {
+      matrix[r] = new Array(size);
+      reserved[r] = new Array(size);
+      for (var c = 0; c < size; c++) {
+        matrix[r][c] = 0;
+        reserved[r][c] = false;
+      }
+    }
+    return { matrix: matrix, reserved: reserved, size: size };
+  }
+
+  function placeFinderPattern(m, row, col) {
+    for (var r = -1; r <= 7; r++) {
+      for (var c = -1; c <= 7; c++) {
+        var rr = row + r, cc = col + c;
+        if (rr < 0 || rr >= m.size || cc < 0 || cc >= m.size) continue;
+        var v = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+        m.matrix[rr][cc] = v ? 1 : 0;
+        m.reserved[rr][cc] = true;
+      }
+    }
+  }
+
+  function placeTimingPatterns(m) {
+    for (var i = 8; i < m.size - 8; i++) {
+      m.matrix[6][i] = i % 2 === 0 ? 1 : 0;
+      m.reserved[6][i] = true;
+      m.matrix[i][6] = i % 2 === 0 ? 1 : 0;
+      m.reserved[i][6] = true;
+    }
+  }
+
+  function placeAlignmentPattern(m, version) {
+    var positions = ALIGNMENT[version];
+    if (!positions) return;
+    for (var i = 0; i < positions.length; i++) {
+      for (var j = 0; j < positions.length; j++) {
+        var r = positions[i], c = positions[j];
+        // Skip if overlaps with finder pattern
+        if ((r <= 8 && c <= 8) || (r <= 8 && c >= m.size - 8) || (r >= m.size - 8 && c <= 8)) continue;
+        for (var dr = -2; dr <= 2; dr++) {
+          for (var dc = -2; dc <= 2; dc++) {
+            var v = Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0);
+            m.matrix[r + dr][c + dc] = v ? 1 : 0;
+            m.reserved[r + dr][c + dc] = true;
+          }
+        }
+      }
+    }
+  }
+
+  function reserveFormatInfo(m) {
+    for (var i = 0; i <= 8; i++) {
+      if (i < m.size) { m.reserved[8][i] = true; m.reserved[i][8] = true; }
+    }
+    for (var i = 0; i < 8; i++) {
+      m.reserved[8][m.size - 1 - i] = true;
+      m.reserved[m.size - 1 - i][8] = true;
+    }
+    m.matrix[m.size - 8][8] = 1;
+    m.reserved[m.size - 8][8] = true;
+  }
+
+  function placeData(m, data) {
+    var bitIdx = 0;
+    var totalBits = data.length * 8;
+    var isUpward = true;
+
+    for (var col = m.size - 1; col >= 0; col -= 2) {
+      if (col === 6) col = 5; // skip timing column
+
+      var rows = isUpward
+        ? (function (s) { var a = []; for (var i = s - 1; i >= 0; i--) a.push(i); return a; })(m.size)
+        : (function (s) { var a = []; for (var i = 0; i < s; i++) a.push(i); return a; })(m.size);
+
+      for (var ri = 0; ri < rows.length; ri++) {
+        var r = rows[ri];
+        for (var dc = 0; dc <= 1; dc++) {
+          var c = col - dc;
+          if (c < 0) continue;
+          if (m.reserved[r][c]) continue;
+          if (bitIdx < totalBits) {
+            var byteIdx = Math.floor(bitIdx / 8);
+            var bitPos = 7 - (bitIdx % 8);
+            m.matrix[r][c] = (data[byteIdx] >> bitPos) & 1;
+            bitIdx++;
+          }
+        }
+      }
+
+      isUpward = !isUpward;
+    }
+  }
+
+  function applyMask0(m) {
+    for (var r = 0; r < m.size; r++) {
+      for (var c = 0; c < m.size; c++) {
+        if (!m.reserved[r][c] && (r + c) % 2 === 0) {
+          m.matrix[r][c] ^= 1;
+        }
+      }
+    }
+  }
+
+  function placeFormatInfo(m) {
+    // Format info for ECC L + mask 0: pre-computed
+    var FORMAT_BITS = 0x77c4;
+    var bits = [];
+    for (var i = 14; i >= 0; i--) bits.push((FORMAT_BITS >> i) & 1);
+
+    // Around top-left finder
+    for (var i = 0; i <= 5; i++) m.matrix[8][i] = bits[i];
+    m.matrix[8][7] = bits[6];
+    m.matrix[8][8] = bits[7];
+    m.matrix[7][8] = bits[8];
+    for (var i = 9; i <= 14; i++) m.matrix[14 - i][8] = bits[i];
+
+    // Around other finders
+    for (var i = 0; i <= 7; i++) m.matrix[8][m.size - 1 - i] = bits[i];
+    for (var i = 0; i <= 6; i++) m.matrix[m.size - 1 - i][8] = bits[14 - i];
+  }
+
+  /* ---- Generate full QR matrix ---- */
+
+  function generateQR(text) {
+    var encoded = encodeData(text);
+    var m = createMatrix(encoded.version);
+
+    placeFinderPattern(m, 0, 0);
+    placeFinderPattern(m, 0, m.size - 7);
+    placeFinderPattern(m, m.size - 7, 0);
+    placeTimingPatterns(m);
+    placeAlignmentPattern(m, encoded.version);
+    reserveFormatInfo(m);
+    placeData(m, encoded.data);
+    applyMask0(m);
+    placeFormatInfo(m);
+
+    return m;
+  }
+
+  /* ---- Render as SVG ---- */
+
+  function renderSVG(m, fgColor, bgColor) {
+    var size = m.size;
+    var q = 4; // quiet zone
+    var total = size + q * 2;
+
+    var paths = [];
+    for (var r = 0; r < size; r++) {
+      for (var c = 0; c < size; c++) {
+        if (m.matrix[r][c]) {
+          paths.push('M' + (c + q) + ',' + (r + q) + 'h1v1h-1z');
+        }
+      }
+    }
+
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + ' ' + total + '" shape-rendering="crispEdges">' +
+      '<rect width="' + total + '" height="' + total + '" fill="' + bgColor + '"/>' +
+      '<path d="' + paths.join('') + '" fill="' + fgColor + '"/>' +
+      '</svg>';
+  }
+
+  /* ================================================================== */
+  /*  Component                                                          */
+  /* ================================================================== */
+
+  DK.register('qr', function (el) {
+    var text = el.getAttribute('data-dk-qr');
+    if (!text || text === 'true') return;
+
+    el.classList.add('dk-qr');
+
+    var style = getComputedStyle(el);
+    var fgColor = style.getPropertyValue('--text-primary').trim() || '#e5e5e5';
+    var bgColor = 'transparent';
+
+    try {
+      var m = generateQR(text);
+      el.innerHTML = renderSVG(m, fgColor, bgColor);
+    } catch (err) {
+      console.warn('DK qr-code: generation failed', err);
+      el.textContent = 'QR Error';
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/tree-view.js --- */
+
+/**
+ * DK Tree View Component
+ * Hierarchical expandable tree with keyboard navigation and ARIA roles.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var CHEVRON_SVG =
+    '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">' +
+    '<path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  var FOLDER_SVG =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M2 4.5A1.5 1.5 0 0 1 3.5 3H6l1.5 1.5H12.5A1.5 1.5 0 0 1 14 6v6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4.5z" stroke="currentColor" stroke-width="1.2"/>' +
+    '</svg>';
+
+  var FILE_SVG =
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">' +
+    '<path d="M4 2h5l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.2"/>' +
+    '<path d="M9 2v4h4" stroke="currentColor" stroke-width="1.2"/>' +
+    '</svg>';
+
+  DK.register('tree', function (el) {
+
+    el.classList.add('dk-tree');
+    el.setAttribute('role', 'tree');
+
+    var nodes = DK.$$('.dk-tree_node', el);
+    var allLabels = [];
+
+    /* ---------------------------------------------------------------- */
+    /*  Setup each node                                                  */
+    /* ---------------------------------------------------------------- */
+
+    nodes.forEach(function (node) {
+      var label = DK.$('.dk-tree_label', node);
+      if (!label) return;
+
+      var children = DK.$('.dk-tree_children', node);
+      var isLeaf = !children || children.children.length === 0;
+
+      // ARIA
+      node.setAttribute('role', 'treeitem');
+      if (children) children.setAttribute('role', 'group');
+
+      // Make label focusable
+      if (!label.hasAttribute('tabindex')) {
+        label.setAttribute('tabindex', '-1');
+      }
+
+      allLabels.push(label);
+
+      // Toggle icon
+      var toggle = DK.$('.dk-tree_toggle', node);
+      if (!toggle) {
+        toggle = document.createElement('span');
+        toggle.className = 'dk-tree_toggle' + (isLeaf ? ' dk-tree_toggle--leaf' : '');
+        toggle.innerHTML = CHEVRON_SVG;
+        label.insertBefore(toggle, label.firstChild);
+      }
+
+      // Node icon (folder/file)
+      var icon = DK.$('.dk-tree_icon', node);
+      if (!icon) {
+        icon = document.createElement('span');
+        icon.className = 'dk-tree_icon' + (isLeaf ? '' : ' dk-tree_icon--folder');
+        icon.innerHTML = isLeaf ? FILE_SVG : FOLDER_SVG;
+        // Insert after toggle
+        if (toggle.nextSibling) {
+          label.insertBefore(icon, toggle.nextSibling);
+        } else {
+          label.appendChild(icon);
+        }
+      }
+
+      // Default collapsed state
+      if (!node.classList.contains('is-collapsed') && !node.hasAttribute('data-dk-tree-open')) {
+        // Leave root-level nodes expanded, collapse deeper ones
+        var depth = getDepth(node);
+        if (depth >= 2) {
+          node.classList.add('is-collapsed');
+        }
+      }
+
+      // Update aria-expanded
+      if (!isLeaf) {
+        label.setAttribute('aria-expanded', node.classList.contains('is-collapsed') ? 'false' : 'true');
+      }
+    });
+
+    // First focusable label gets tabindex=0
+    if (allLabels.length) {
+      allLabels[0].setAttribute('tabindex', '0');
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Depth helper                                                     */
+    /* ---------------------------------------------------------------- */
+
+    function getDepth(node) {
+      var d = 0;
+      var parent = node.parentElement;
+      while (parent && parent !== el) {
+        if (parent.classList.contains('dk-tree_children')) d++;
+        parent = parent.parentElement;
+      }
+      return d;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Toggle                                                           */
+    /* ---------------------------------------------------------------- */
+
+    function toggleNode(node) {
+      var children = DK.$('.dk-tree_children', node);
+      if (!children || children.children.length === 0) return;
+
+      var label = DK.$('.dk-tree_label', node);
+      var isCollapsed = node.classList.contains('is-collapsed');
+
+      node.classList.toggle('is-collapsed');
+
+      if (label) {
+        label.setAttribute('aria-expanded', isCollapsed ? 'true' : 'false');
+      }
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Click handler                                                    */
+    /* ---------------------------------------------------------------- */
+
+    DK.on(el, 'click', function (e) {
+      var label = e.target.closest('.dk-tree_label');
+      if (!label) return;
+
+      var node = label.closest('.dk-tree_node');
+      if (!node || !el.contains(node)) return;
+
+      e.preventDefault();
+
+      // Toggle expand/collapse
+      toggleNode(node);
+
+      // Set active state
+      allLabels.forEach(function (l) { l.classList.remove('is-active'); });
+      label.classList.add('is-active');
+
+      // Focus management
+      allLabels.forEach(function (l) { l.setAttribute('tabindex', '-1'); });
+      label.setAttribute('tabindex', '0');
+      label.focus();
+
+      DK.emit(el, 'dk:tree-select', { node: node, label: label });
+    });
+
+    /* ---------------------------------------------------------------- */
+    /*  Keyboard navigation                                              */
+    /* ---------------------------------------------------------------- */
+
+    function getVisibleLabels() {
+      return allLabels.filter(function (l) {
+        return l.offsetParent !== null;
+      });
+    }
+
+    DK.on(el, 'keydown', function (e) {
+      var focused = document.activeElement;
+      if (!focused || !focused.classList.contains('dk-tree_label')) return;
+
+      var visible = getVisibleLabels();
+      var idx = visible.indexOf(focused);
+      if (idx === -1) return;
+
+      var node = focused.closest('.dk-tree_node');
+      var children = node ? DK.$('.dk-tree_children', node) : null;
+      var isLeaf = !children || children.children.length === 0;
+      var isCollapsed = node && node.classList.contains('is-collapsed');
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (idx < visible.length - 1) focusLabel(visible[idx + 1]);
+          break;
+
+        case 'ArrowUp':
+          e.preventDefault();
+          if (idx > 0) focusLabel(visible[idx - 1]);
+          break;
+
+        case 'ArrowRight':
+          e.preventDefault();
+          if (!isLeaf && isCollapsed) {
+            toggleNode(node);
+          } else if (!isLeaf) {
+            // Focus first child
+            var childLabels = getVisibleLabels();
+            var nextIdx = childLabels.indexOf(focused);
+            if (nextIdx < childLabels.length - 1) focusLabel(childLabels[nextIdx + 1]);
+          }
+          break;
+
+        case 'ArrowLeft':
+          e.preventDefault();
+          if (!isLeaf && !isCollapsed) {
+            toggleNode(node);
+          } else {
+            // Focus parent
+            var parentChildren = node ? node.parentElement : null;
+            if (parentChildren && parentChildren.classList.contains('dk-tree_children')) {
+              var parentNode = parentChildren.closest('.dk-tree_node');
+              if (parentNode) {
+                var parentLabel = DK.$('.dk-tree_label', parentNode);
+                if (parentLabel) focusLabel(parentLabel);
+              }
+            }
+          }
+          break;
+
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          toggleNode(node);
+
+          allLabels.forEach(function (l) { l.classList.remove('is-active'); });
+          focused.classList.add('is-active');
+
+          DK.emit(el, 'dk:tree-select', { node: node, label: focused });
+          break;
+
+        case 'Home':
+          e.preventDefault();
+          if (visible.length) focusLabel(visible[0]);
+          break;
+
+        case 'End':
+          e.preventDefault();
+          if (visible.length) focusLabel(visible[visible.length - 1]);
+          break;
+
+        default:
+          return;
+      }
+    });
+
+    function focusLabel(label) {
+      allLabels.forEach(function (l) { l.setAttribute('tabindex', '-1'); });
+      label.setAttribute('tabindex', '0');
+      label.focus();
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/code-block.js --- */
+
+/**
+ * DK Code Block Component
+ * Copy-to-clipboard functionality for code blocks.
+ * Optionally integrates with Prism.js for syntax highlighting.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('code-block', function (el) {
+    var copyBtn = DK.$('.dk-code-block__copy', el);
+    var codeEl = DK.$('code', el);
+
+    if (!copyBtn || !codeEl) return;
+
+    DK.on(copyBtn, 'click', function (e) {
+      e.preventDefault();
+
+      var text = codeEl.textContent;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          showCopied();
+        });
+      } else {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          showCopied();
+        } catch (err) {
+          console.warn('DK code-block: copy failed', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    });
+
+    function showCopied() {
+      var original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('is-copied');
+
+      setTimeout(function () {
+        copyBtn.textContent = original;
+        copyBtn.classList.remove('is-copied');
+      }, 2000);
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/kv-editor.js --- */
+
+/**
+ * DK Key-Value Editor Component
+ * Editable key-value pair rows for headers, query params, etc.
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var REMOVE_SVG =
+    '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">' +
+    '<line x1="2" y1="2" x2="8" y2="8"/>' +
+    '<line x1="8" y1="2" x2="2" y2="8"/>' +
+    '</svg>';
+
+  DK.kvEditor = {};
+
+  DK.kvEditor.getData = function (el) {
+    if (typeof el === 'string') {
+      el = document.getElementById(el);
+    }
+    if (!el) return [];
+    return getEntries(el);
+  };
+
+  function getEntries(root) {
+    var rows = DK.$$('.dk-kv-editor__row', root);
+    var entries = [];
+
+    rows.forEach(function (row) {
+      var keyInput = DK.$('.dk-kv-editor__key', row);
+      var valInput = DK.$('.dk-kv-editor__value', row);
+      if (!keyInput || !valInput) return;
+
+      var k = keyInput.value.trim();
+      var v = valInput.value.trim();
+      if (k || v) {
+        entries.push({ key: k, value: v });
+      }
+    });
+
+    return entries;
+  }
+
+  DK.register('kv-editor', function (el) {
+    var body = DK.$('.dk-kv-editor__body', el);
+    if (!body) {
+      body = document.createElement('div');
+      body.className = 'dk-kv-editor__body';
+    }
+
+    var initialData = [];
+    var dataAttr = el.getAttribute('data-dk-kv-editor-data');
+    if (dataAttr) {
+      try {
+        initialData = JSON.parse(dataAttr);
+      } catch (err) {
+        console.warn('DK kv-editor: invalid JSON in data-dk-kv-editor-data', err);
+      }
+    }
+
+    var existingRows = DK.$$('.dk-kv-editor__row', el);
+    var hasExistingRows = existingRows.length > 0;
+
+    el.innerHTML = '';
+    el.classList.add('dk-kv-editor');
+
+    var header = document.createElement('div');
+    header.className = 'dk-kv-editor__header';
+
+    var headerKey = document.createElement('span');
+    headerKey.className = 'dk-kv-editor__header-cell';
+    headerKey.textContent = 'Key';
+    header.appendChild(headerKey);
+
+    var headerVal = document.createElement('span');
+    headerVal.className = 'dk-kv-editor__header-cell';
+    headerVal.textContent = 'Value';
+    header.appendChild(headerVal);
+
+    var headerDel = document.createElement('span');
+    headerDel.className = 'dk-kv-editor__header-cell dk-kv-editor__header-cell--action';
+    header.appendChild(headerDel);
+
+    el.appendChild(header);
+    el.appendChild(body);
+
+    if (initialData.length) {
+      initialData.forEach(function (pair) {
+        body.appendChild(createRow(pair.key || '', pair.value || ''));
+      });
+    } else if (hasExistingRows) {
+      existingRows.forEach(function (row) {
+        wireRow(row);
+        body.appendChild(row);
+      });
+    }
+
+    var addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'dk-kv-editor__add';
+    addBtn.textContent = '+ Add';
+    el.appendChild(addBtn);
+
+    DK.on(addBtn, 'click', function () {
+      var row = createRow('', '');
+      body.appendChild(row);
+      var keyInput = DK.$('.dk-kv-editor__key', row);
+      if (keyInput) keyInput.focus();
+    });
+
+    function createRow(key, value) {
+      var row = document.createElement('div');
+      row.className = 'dk-kv-editor__row';
+
+      var keyInput = document.createElement('input');
+      keyInput.type = 'text';
+      keyInput.className = 'dk-kv-editor__key';
+      keyInput.placeholder = 'Key';
+      keyInput.value = key;
+
+      var valInput = document.createElement('input');
+      valInput.type = 'text';
+      valInput.className = 'dk-kv-editor__value';
+      valInput.placeholder = 'Value';
+      valInput.value = value;
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'dk-kv-editor__remove';
+      removeBtn.setAttribute('aria-label', 'Remove row');
+      removeBtn.innerHTML = REMOVE_SVG;
+
+      row.appendChild(keyInput);
+      row.appendChild(valInput);
+      row.appendChild(removeBtn);
+
+      wireRow(row);
+      return row;
+    }
+
+    function wireRow(row) {
+      var keyInput = DK.$('.dk-kv-editor__key', row);
+      var valInput = DK.$('.dk-kv-editor__value', row);
+      var removeBtn = DK.$('.dk-kv-editor__remove', row);
+
+      if (keyInput) {
+        DK.on(keyInput, 'input', function () { emitChange(); });
+        DK.on(keyInput, 'keydown', function (e) {
+          if (e.key === 'Backspace' && keyInput.value === '' && valInput && valInput.value === '') {
+            e.preventDefault();
+            removeRow(row);
+          }
+        });
+      }
+
+      if (valInput) {
+        DK.on(valInput, 'input', function () { emitChange(); });
+      }
+
+      if (removeBtn) {
+        DK.on(removeBtn, 'click', function () { removeRow(row); });
+      }
+    }
+
+    function removeRow(row) {
+      if (row.parentNode) row.parentNode.removeChild(row);
+      emitChange();
+    }
+
+    function emitChange() {
+      DK.emit(el, 'dk:kv-change', { entries: getEntries(el) });
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/alert-dismiss.js --- */
+
+/**
+ * DK Alert Dismiss Component
+ * Handles dismissing alerts with a fade-out animation and DOM removal.
+ *
+ * Usage:
+ *   <div class="dk-alert dk-alert--info" data-dk-alert>
+ *     <span class="dk-alert_icon">...</span>
+ *     <div class="dk-alert_content">
+ *       <div class="dk-alert_title">Title</div>
+ *       Message text
+ *     </div>
+ *     <button class="dk-alert_close" data-dk-alert-dismiss>
+ *       &times;
+ *     </button>
+ *   </div>
+ *
+ * Events:
+ *   dk:alert-dismiss — on the alert element, before removal
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /*  Dismiss handler                                                    */
+  /* ------------------------------------------------------------------ */
+
+  function dismissAlert(alertEl) {
+    if (!alertEl || alertEl._dkDismissed) return;
+    alertEl._dkDismissed = true;
+
+    DK.emit(alertEl, 'dk:alert-dismiss');
+
+    /* Fade out */
+    alertEl.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+    alertEl.style.opacity = '0';
+    alertEl.style.transform = 'translateY(-4px)';
+
+    /* Remove from DOM after transition */
+    setTimeout(function () {
+      if (alertEl.parentNode) {
+        alertEl.parentNode.removeChild(alertEl);
+      }
+    }, 160);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('alert', function (el) {
+    var closeBtn = el.querySelector('[data-dk-alert-dismiss]');
+    if (!closeBtn) return;
+
+    DK.on(closeBtn, 'click', function () {
+      dismissAlert(el);
+    });
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Delegated click handler for dismiss buttons                        */
+  /* ------------------------------------------------------------------ */
+
+  DK.on(document, 'click', function (e) {
+    var btn = e.target.closest('[data-dk-alert-dismiss]');
+    if (!btn) return;
+
+    var alert = btn.closest('.dk-alert');
+    if (alert) {
+      dismissAlert(alert);
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/modal.js --- */
+
+/**
+ * DK Modal Component
+ * Manages modal open/close, backdrop click, Escape key, focus trap,
+ * and body scroll lock.
+ *
+ * Usage:
+ *   <div class="dk-modal-backdrop" id="my-modal" data-dk-modal>
+ *     <div class="dk-modal">
+ *       <div class="dk-modal_header">
+ *         <h3 class="dk-modal_title">Title</h3>
+ *         <button class="dk-modal_close">&times;</button>
+ *       </div>
+ *       <div class="dk-modal_body">Content</div>
+ *       <div class="dk-modal_footer">Actions</div>
+ *     </div>
+ *   </div>
+ *
+ *   <button data-dk-modal-open="my-modal">Open</button>
+ *
+ * API:
+ *   DK.modal.open(id)
+ *   DK.modal.close(id)
+ *   DK.modal.closeAll()
+ *
+ * Events:
+ *   dk:modal-open   — detail: { id }
+ *   dk:modal-close  — detail: { id }
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var openModals = [];
+  var scrollbarWidth = 0;
+
+  /* ------------------------------------------------------------------ */
+  /*  Scrollbar width measurement                                        */
+  /* ------------------------------------------------------------------ */
+
+  function measureScrollbar() {
+    var outer = document.createElement('div');
+    outer.style.cssText =
+      'position:fixed;top:0;left:0;width:50px;height:50px;overflow:scroll;visibility:hidden;';
+    document.body.appendChild(outer);
+    scrollbarWidth = outer.offsetWidth - outer.clientWidth;
+    document.body.removeChild(outer);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Scroll lock                                                        */
+  /* ------------------------------------------------------------------ */
+
+  function lockBody() {
+    if (openModals.length > 0) return; // already locked
+    if (!scrollbarWidth) measureScrollbar();
+    document.body.style.overflow = 'hidden';
+    if (scrollbarWidth) {
+      document.body.style.paddingRight = scrollbarWidth + 'px';
+    }
+  }
+
+  function unlockBody() {
+    if (openModals.length > 0) return; // other modals still open
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Open / Close                                                       */
+  /* ------------------------------------------------------------------ */
+
+  function openModal(id) {
+    var backdrop = document.getElementById(id);
+    if (!backdrop || backdrop.classList.contains('is-open')) return;
+
+    lockBody();
+    backdrop.classList.add('is-open');
+    backdrop.setAttribute('aria-hidden', 'false');
+
+    var modal = backdrop.querySelector('.dk-modal');
+    if (modal) {
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+    }
+
+    // Store release function for focus trap
+    backdrop._dkReleaseFocus = DK.trapFocus(modal || backdrop);
+    openModals.push(id);
+
+    DK.emit(backdrop, 'dk:modal-open', { id: id });
+  }
+
+  function closeModal(id) {
+    var backdrop = document.getElementById(id);
+    if (!backdrop || !backdrop.classList.contains('is-open')) return;
+
+    backdrop.classList.remove('is-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    // Release focus trap
+    if (backdrop._dkReleaseFocus) {
+      backdrop._dkReleaseFocus();
+      backdrop._dkReleaseFocus = null;
+    }
+
+    // Remove from open list
+    var idx = openModals.indexOf(id);
+    if (idx !== -1) openModals.splice(idx, 1);
+
+    unlockBody();
+    DK.emit(backdrop, 'dk:modal-close', { id: id });
+  }
+
+  function closeAll() {
+    var ids = openModals.slice();
+    for (var i = 0; i < ids.length; i++) {
+      closeModal(ids[i]);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('modal', function (backdrop) {
+    var id = backdrop.id;
+    if (!id) {
+      id = DK.uid('modal');
+      backdrop.id = id;
+    }
+
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    /* Close button */
+    var closeBtn = backdrop.querySelector('.dk-modal_close');
+    if (closeBtn) {
+      DK.on(closeBtn, 'click', function () {
+        closeModal(id);
+      });
+    }
+
+    /* Backdrop click */
+    DK.on(backdrop, 'click', function (e) {
+      if (e.target === backdrop) {
+        closeModal(id);
+      }
+    });
+
+    /* Escape key */
+    DK.on(backdrop, 'keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeModal(id);
+      }
+    });
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Open triggers — delegated                                          */
+  /* ------------------------------------------------------------------ */
+
+  function handleOpenTrigger(e) {
+    var trigger = e.target.closest('[data-dk-modal-open]');
+    if (trigger) {
+      var targetId = trigger.getAttribute('data-dk-modal-open');
+      if (targetId) openModal(targetId);
+    }
+  }
+
+  DK.on(document, 'click', handleOpenTrigger);
+
+  /** Remove the delegated open-trigger listener (called by DK.destroy). */
+  DK._addCleanup(document, function () {
+    DK.off(document, 'click', handleOpenTrigger);
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Public API                                                         */
+  /* ------------------------------------------------------------------ */
+
+  DK.modal = {
+    open: openModal,
+    close: closeModal,
+    closeAll: closeAll,
+  };
+
+})(window.DK);
+
+
+/* --- components/drawer.js --- */
+
+/**
+ * DK Drawer Component
+ * Slide-in panel from right, left, or bottom with backdrop, Escape key,
+ * and focus trap.
+ *
+ * Usage:
+ *   <div class="dk-drawer-backdrop" data-dk-drawer>
+ *     <div class="dk-drawer dk-drawer--right" id="my-drawer">
+ *       <div class="dk-drawer_header">
+ *         <h3 class="dk-drawer_title">Title</h3>
+ *         <button class="dk-drawer_close">&times;</button>
+ *       </div>
+ *       <div class="dk-drawer_body">Content</div>
+ *     </div>
+ *   </div>
+ *
+ *   <button data-dk-drawer-open="my-drawer">Open</button>
+ *
+ * API:
+ *   DK.drawer.open(id)
+ *   DK.drawer.close(id)
+ *
+ * Events:
+ *   dk:drawer-open   — detail: { id }
+ *   dk:drawer-close  — detail: { id }
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var openDrawers = [];
+
+  /* ------------------------------------------------------------------ */
+  /*  Scroll lock                                                        */
+  /* ------------------------------------------------------------------ */
+
+  function lockBody() {
+    if (openDrawers.length > 0) return;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function unlockBody() {
+    if (openDrawers.length > 0) return;
+    document.body.style.overflow = '';
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Open / Close                                                       */
+  /* ------------------------------------------------------------------ */
+
+  function openDrawer(id) {
+    var drawer = document.getElementById(id);
+    if (!drawer) return;
+
+    /* Determine if the target is the drawer itself or a backdrop wrapper */
+    var backdrop = drawer.closest('.dk-drawer-backdrop');
+    var panel = drawer.classList.contains('dk-drawer') ? drawer : drawer.querySelector('.dk-drawer');
+
+    if (!panel || panel.classList.contains('is-open')) return;
+
+    lockBody();
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+
+    if (backdrop) {
+      backdrop.classList.add('is-open');
+    }
+
+    panel._dkReleaseFocus = DK.trapFocus(panel);
+    openDrawers.push(id);
+
+    DK.emit(panel, 'dk:drawer-open', { id: id });
+  }
+
+  function closeDrawer(id) {
+    var drawer = document.getElementById(id);
+    if (!drawer) return;
+
+    var backdrop = drawer.closest('.dk-drawer-backdrop');
+    var panel = drawer.classList.contains('dk-drawer') ? drawer : drawer.querySelector('.dk-drawer');
+
+    if (!panel || !panel.classList.contains('is-open')) return;
+
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+
+    if (backdrop) {
+      backdrop.classList.remove('is-open');
+    }
+
+    if (panel._dkReleaseFocus) {
+      panel._dkReleaseFocus();
+      panel._dkReleaseFocus = null;
+    }
+
+    var idx = openDrawers.indexOf(id);
+    if (idx !== -1) openDrawers.splice(idx, 1);
+
+    unlockBody();
+    DK.emit(panel, 'dk:drawer-close', { id: id });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('drawer', function (el) {
+    /* el may be the backdrop or the drawer panel itself */
+    var backdrop = el.classList.contains('dk-drawer-backdrop') ? el : null;
+    var drawers = backdrop
+      ? DK.$$('.dk-drawer', backdrop)
+      : [el];
+
+    drawers.forEach(function (panel) {
+      var id = panel.id;
+      if (!id) {
+        id = DK.uid('drawer');
+        panel.id = id;
+      }
+
+      panel.setAttribute('aria-hidden', 'true');
+
+      /* Close button */
+      var closeBtn = panel.querySelector('.dk-drawer_close');
+      if (closeBtn) {
+        DK.on(closeBtn, 'click', function () {
+          closeDrawer(id);
+        });
+      }
+
+      /* Escape key */
+      DK.on(panel, 'keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeDrawer(id);
+        }
+      });
+    });
+
+    /* Backdrop click */
+    if (backdrop) {
+      DK.on(backdrop, 'click', function (e) {
+        if (e.target === backdrop) {
+          /* Close the first open drawer in this backdrop */
+          drawers.forEach(function (panel) {
+            if (panel.classList.contains('is-open') && panel.id) {
+              closeDrawer(panel.id);
+            }
+          });
+        }
+      });
+    }
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Open triggers — delegated                                          */
+  /* ------------------------------------------------------------------ */
+
+  function handleOpenTrigger(e) {
+    var trigger = e.target.closest('[data-dk-drawer-open]');
+    if (trigger) {
+      var targetId = trigger.getAttribute('data-dk-drawer-open');
+      if (targetId) openDrawer(targetId);
+    }
+  }
+
+  DK.on(document, 'click', handleOpenTrigger);
+
+  /** Remove the delegated open-trigger listener (called by DK.destroy). */
+  DK._addCleanup(document, function () {
+    DK.off(document, 'click', handleOpenTrigger);
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Public API                                                         */
+  /* ------------------------------------------------------------------ */
+
+  DK.drawer = {
+    open: openDrawer,
+    close: closeDrawer,
+  };
+
+})(window.DK);
+
+
+/* --- components/tooltip.js --- */
+
+/**
+ * DK Tooltip Component
+ * Shows tooltip content on mouseenter/focus, hides on mouseleave/blur.
+ * Adds `is-visible` class with a slight delay for smoother UX.
+ *
+ * Usage:
+ *   <span class="dk-tooltip dk-tooltip--top" data-dk-tooltip>
+ *     Hover me
+ *     <span class="dk-tooltip_content">Tooltip text</span>
+ *   </span>
+ *
+ * Options (via data attributes):
+ *   data-dk-tooltip-delay="200"  — show delay in ms (default: 100)
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('tooltip', function (el) {
+    var content = el.querySelector('.dk-tooltip_content');
+    if (!content) return;
+
+    var delay = parseInt(el.getAttribute('data-dk-tooltip-delay'), 10) || 100;
+    var showTimer = null;
+    var hideTimer = null;
+
+    /* Ensure ARIA */
+    var tooltipId = content.id || DK.uid('tooltip');
+    content.id = tooltipId;
+    content.setAttribute('role', 'tooltip');
+
+    /* Find the trigger — first child that is not the content */
+    var trigger = el.firstElementChild;
+    if (trigger === content) trigger = el;
+    trigger.setAttribute('aria-describedby', tooltipId);
+
+    /* ---------------------------------------------------------------- */
+    /*  Show / Hide                                                      */
+    /* ---------------------------------------------------------------- */
+
+    function show() {
+      clearTimeout(hideTimer);
+      showTimer = setTimeout(function () {
+        el.classList.add('is-visible');
+      }, delay);
+    }
+
+    function hide() {
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(function () {
+        el.classList.remove('is-visible');
+      }, 50);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Event binding                                                     */
+    /* ---------------------------------------------------------------- */
+
+    DK.on(el, 'mouseenter', show);
+    DK.on(el, 'mouseleave', hide);
+    DK.on(el, 'focusin', show);
+    DK.on(el, 'focusout', hide);
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  });
+
+})(window.DK);
+
+
+/* --- components/toast.js --- */
+
+/**
+ * DK Toast Component
+ * Programmatic toast notifications with auto-dismiss and hover pause.
+ *
+ * Usage:
+ *   <!-- Container (place once in your page) -->
+ *   <div class="dk-toast-container dk-toast-container--top-right"
+ *        data-dk-toast-container></div>
+ *
+ * API:
+ *   DK.toast({ title, message, type, duration, closable })
+ *   DK.toast.success(message, options?)
+ *   DK.toast.danger(message, options?)
+ *   DK.toast.warning(message, options?)
+ *   DK.toast.info(message, options?)
+ *
+ * Options:
+ *   title    — string (optional heading)
+ *   message  — string (required body text)
+ *   type     — 'success' | 'danger' | 'warning' | 'info' (default: none)
+ *   duration — ms before auto-dismiss (default: 5000, 0 = no auto)
+ *   closable — show close button (default: true)
+ *
+ * Events:
+ *   dk:toast-dismiss — on the toast element, detail: { type }
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var container = null;
+  var DEFAULT_DURATION = 5000;
+
+  /* ------------------------------------------------------------------ */
+  /*  SVG icons by type                                                  */
+  /* ------------------------------------------------------------------ */
+
+  var ICONS = {
+    success:
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    danger:
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    warning:
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    info:
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+  };
+
+  var CLOSE_ICON =
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+  /* ------------------------------------------------------------------ */
+  /*  Find or create container                                           */
+  /* ------------------------------------------------------------------ */
+
+  function getContainer() {
+    if (container && document.body.contains(container)) return container;
+
+    container = document.querySelector('[data-dk-toast-container]');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'dk-toast-container dk-toast-container--top-right';
+      container.setAttribute('data-dk-toast-container', '');
+      container.setAttribute('aria-live', 'polite');
+      container.setAttribute('aria-relevant', 'additions');
+      document.body.appendChild(container);
+    }
+    return container;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Dismiss a toast                                                    */
+  /* ------------------------------------------------------------------ */
+
+  function dismiss(toastEl) {
+    if (toastEl._dkDismissed) return;
+    toastEl._dkDismissed = true;
+
+    toastEl.classList.add('is-exiting');
+    DK.emit(toastEl, 'dk:toast-dismiss', {
+      type: toastEl._dkType || null,
+    });
+
+    /* Remove after animation */
+    setTimeout(function () {
+      if (toastEl.parentNode) {
+        toastEl.parentNode.removeChild(toastEl);
+      }
+    }, 220);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Create & show toast                                                */
+  /* ------------------------------------------------------------------ */
+
+  function createToast(opts) {
+    if (typeof opts === 'string') {
+      opts = { message: opts };
+    }
+
+    var type = opts.type || '';
+    var title = opts.title || '';
+    var message = opts.message || '';
+    var duration = opts.duration !== undefined ? opts.duration : DEFAULT_DURATION;
+    var closable = opts.closable !== undefined ? opts.closable : true;
+
+    /* Build element */
+    var toast = document.createElement('div');
+    toast.className = 'dk-toast' + (type ? ' dk-toast--' + type : '');
+    toast.setAttribute('role', 'alert');
+    toast._dkType = type;
+
+    var html = '';
+
+    /* Icon */
+    if (type && ICONS[type]) {
+      html += '<span class="dk-toast_icon">' + ICONS[type] + '</span>';
+    }
+
+    /* Content */
+    html += '<div class="dk-toast_content">';
+    if (title) {
+      html += '<div class="dk-toast_title">' + escapeHtml(title) + '</div>';
+    }
+    if (message) {
+      html += '<div class="dk-toast_message">' + escapeHtml(message) + '</div>';
+    }
+    html += '</div>';
+
+    /* Close */
+    if (closable) {
+      html +=
+        '<button class="dk-toast_close" aria-label="Dismiss">' +
+        CLOSE_ICON +
+        '</button>';
+    }
+
+    toast.innerHTML = html;
+
+    /* Close button handler */
+    if (closable) {
+      var closeBtn = toast.querySelector('.dk-toast_close');
+      DK.on(closeBtn, 'click', function () {
+        dismiss(toast);
+      });
+    }
+
+    /* Auto-dismiss timer */
+    var timer = null;
+
+    function startTimer() {
+      if (duration > 0) {
+        timer = setTimeout(function () {
+          dismiss(toast);
+        }, duration);
+      }
+    }
+
+    function pauseTimer() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }
+
+    /* Pause on hover */
+    DK.on(toast, 'mouseenter', pauseTimer);
+    DK.on(toast, 'mouseleave', startTimer);
+
+    /* Append and start */
+    getContainer().appendChild(toast);
+    startTimer();
+
+    return toast;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  HTML escape                                                        */
+  /* ------------------------------------------------------------------ */
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Shortcut methods                                                   */
+  /* ------------------------------------------------------------------ */
+
+  createToast.success = function (message, opts) {
+    return createToast(Object.assign({ type: 'success', message: message }, opts || {}));
+  };
+
+  createToast.danger = function (message, opts) {
+    return createToast(Object.assign({ type: 'danger', message: message }, opts || {}));
+  };
+
+  createToast.warning = function (message, opts) {
+    return createToast(Object.assign({ type: 'warning', message: message }, opts || {}));
+  };
+
+  createToast.info = function (message, opts) {
+    return createToast(Object.assign({ type: 'info', message: message }, opts || {}));
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Register container element (for ARIA)                              */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('toast-container', function (el) {
+    container = el;
+    if (!el.getAttribute('aria-live')) {
+      el.setAttribute('aria-live', 'polite');
+      el.setAttribute('aria-relevant', 'additions');
+    }
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Public API                                                         */
+  /* ------------------------------------------------------------------ */
+
+  DK.toast = createToast;
+
+})(window.DK);
+
+
+/* --- components/popover.js --- */
+
+/**
+ * DK Popover Component
+ * Toggle popover content on trigger click. Closes on outside click
+ * or Escape key. Manages ARIA attributes.
+ *
+ * Usage:
+ *   <div class="dk-popover dk-popover--bottom" data-dk-popover>
+ *     <button class="dk-popover_trigger">Click me</button>
+ *     <div class="dk-popover_content">
+ *       <div class="dk-popover_arrow"></div>
+ *       Popover content
+ *     </div>
+ *   </div>
+ *
+ * Events:
+ *   dk:popover-open  — detail: { id }
+ *   dk:popover-close — detail: { id }
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var openPopovers = [];
+
+  /* ------------------------------------------------------------------ */
+  /*  Close a specific popover                                           */
+  /* ------------------------------------------------------------------ */
+
+  function closePopover(el) {
+    if (!el.classList.contains('is-open')) return;
+
+    el.classList.remove('is-open');
+
+    var content = el.querySelector('.dk-popover_content');
+    if (content) {
+      content.setAttribute('aria-hidden', 'true');
+    }
+
+    var trigger = el.querySelector('.dk-popover_trigger');
+    if (trigger) {
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    var idx = openPopovers.indexOf(el);
+    if (idx !== -1) openPopovers.splice(idx, 1);
+
+    DK.emit(el, 'dk:popover-close', { id: el.id || null });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Open a specific popover                                            */
+  /* ------------------------------------------------------------------ */
+
+  function openPopover(el) {
+    if (el.classList.contains('is-open')) return;
+
+    /* Close all other open popovers */
+    var others = openPopovers.slice();
+    for (var i = 0; i < others.length; i++) {
+      closePopover(others[i]);
+    }
+
+    el.classList.add('is-open');
+
+    var content = el.querySelector('.dk-popover_content');
+    if (content) {
+      content.setAttribute('aria-hidden', 'false');
+    }
+
+    var trigger = el.querySelector('.dk-popover_trigger');
+    if (trigger) {
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    openPopovers.push(el);
+    DK.emit(el, 'dk:popover-open', { id: el.id || null });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Component registration                                             */
+  /* ------------------------------------------------------------------ */
+
+  DK.register('popover', function (el) {
+    if (!el.id) {
+      el.id = DK.uid('popover');
+    }
+
+    var trigger = el.querySelector('.dk-popover_trigger');
+    var content = el.querySelector('.dk-popover_content');
+
+    if (!trigger || !content) return;
+
+    /* ARIA setup */
+    var contentId = content.id || DK.uid('popover-content');
+    content.id = contentId;
+    content.setAttribute('role', 'dialog');
+    content.setAttribute('aria-hidden', 'true');
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', contentId);
+
+    /* Toggle on trigger click */
+    DK.on(trigger, 'click', function (e) {
+      e.stopPropagation();
+      if (el.classList.contains('is-open')) {
+        closePopover(el);
+      } else {
+        openPopover(el);
+      }
+    });
+
+    /* Escape key */
+    DK.on(el, 'keydown', function (e) {
+      if (e.key === 'Escape' && el.classList.contains('is-open')) {
+        closePopover(el);
+        trigger.focus();
+      }
+    });
+  });
+
+  /* ------------------------------------------------------------------ */
+  /*  Close on outside click — delegated                                 */
+  /* ------------------------------------------------------------------ */
+
+  DK.on(document, 'click', function (e) {
+    if (!openPopovers.length) return;
+
+    var popovers = openPopovers.slice();
+    for (var i = 0; i < popovers.length; i++) {
+      if (!popovers[i].contains(e.target)) {
+        closePopover(popovers[i]);
+      }
+    }
+  });
+
+})(window.DK);
+
+
+/* --- components/hover-card.js --- */
+
+/**
+ * DK Hover Card Component
+ * Rich content card that appears on hover with show/hide delays.
+ *
+ * Usage:
+ *   <div class="dk-hover-card" data-dk-hover-card>
+ *     <a class="dk-hover-card_trigger" href="#">@username</a>
+ *     <div class="dk-hover-card_content">
+ *       <div class="dk-hover-card_header">
+ *         <img class="dk-hover-card_avatar" src="..." alt="" />
+ *         <div>
+ *           <div class="dk-hover-card_name">Name</div>
+ *           <div class="dk-hover-card_handle">@username</div>
+ *         </div>
+ *       </div>
+ *       <div class="dk-hover-card_body">Bio text here</div>
+ *     </div>
+ *   </div>
+ *
+ * Options:
+ *   data-dk-hover-show="300"   — show delay in ms (default 300)
+ *   data-dk-hover-hide="200"   — hide delay in ms (default 200)
+ *
+ * Events:
+ *   dk:hover-card-open  — detail: { id }
+ *   dk:hover-card-close — detail: { id }
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('hover-card', function (el) {
+
+    var trigger = DK.$('.dk-hover-card_trigger', el);
+    var content = DK.$('.dk-hover-card_content', el);
+    if (!trigger || !content) return;
+
+    var showDelay = parseInt(el.getAttribute('data-dk-hover-show'), 10) || 300;
+    var hideDelay = parseInt(el.getAttribute('data-dk-hover-hide'), 10) || 200;
+    var showTimer = null;
+    var hideTimer = null;
+
+    /* -------------------------------------------------------------- */
+    /*  ARIA setup                                                     */
+    /* -------------------------------------------------------------- */
+
+    var contentId = content.id || DK.uid('dk-hover-card');
+    content.id = contentId;
+    content.setAttribute('role', 'tooltip');
+    trigger.setAttribute('aria-describedby', contentId);
+
+    /* -------------------------------------------------------------- */
+    /*  Auto-position                                                  */
+    /* -------------------------------------------------------------- */
+
+    function autoPosition() {
+      var rect = el.getBoundingClientRect();
+      var spaceBelow = window.innerHeight - rect.bottom;
+      var spaceAbove = rect.top;
+
+      el.classList.remove('dk-hover-card--top', 'dk-hover-card--bottom');
+      if (spaceBelow < 200 && spaceAbove > spaceBelow) {
+        el.classList.add('dk-hover-card--top');
+      } else {
+        el.classList.add('dk-hover-card--bottom');
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Show / Hide                                                    */
+    /* -------------------------------------------------------------- */
+
+    function show() {
+      clearTimeout(hideTimer);
+      showTimer = setTimeout(function () {
+        autoPosition();
+        el.classList.add('is-open');
+        DK.emit(el, 'dk:hover-card-open', { id: contentId });
+      }, showDelay);
+    }
+
+    function hide() {
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(function () {
+        el.classList.remove('is-open');
+        DK.emit(el, 'dk:hover-card-close', { id: contentId });
+      }, hideDelay);
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Event handlers                                                 */
+    /* -------------------------------------------------------------- */
+
+    DK.on(trigger, 'mouseenter', show);
+    DK.on(trigger, 'mouseleave', hide);
+
+    DK.on(content, 'mouseenter', function () {
+      clearTimeout(hideTimer);
+    });
+
+    DK.on(content, 'mouseleave', hide);
+
+    /* Focus support */
+    DK.on(trigger, 'focus', show);
+    DK.on(trigger, 'blur', hide);
+
+  });
+})(window.DK);
+
+
 /* --- components/pricing-table.js --- */
 
 /**
@@ -10562,6 +10157,786 @@
 })(window.DK);
 
 
+/* --- components/navbar.js --- */
+
+/**
+ * DK Navbar Component
+ * Mobile hamburger toggle: show/hide nav on click.
+ * Closes on outside click and Escape key.
+ *
+ * Usage:
+ *   <nav data-dk-navbar class="dk-navbar">
+ *     <div class="dk-navbar_brand">...</div>
+ *     <button class="dk-navbar_mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+ *       <span class="dk-navbar_mobile-toggle-icon"></span>
+ *     </button>
+ *     <div class="dk-navbar_nav">...</div>
+ *     <div class="dk-navbar_actions">...</div>
+ *   </nav>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('navbar', function (el) {
+
+    var toggle = DK.$('.dk-navbar_mobile-toggle', el);
+    var nav = DK.$('.dk-navbar_nav', el);
+
+    if (!toggle || !nav) return;
+
+    /* -------------------------------------------------------------- */
+    /*  ARIA setup                                                     */
+    /* -------------------------------------------------------------- */
+
+    var navId = nav.id || DK.uid('dk-navbar-nav');
+    nav.id = navId;
+    toggle.setAttribute('aria-controls', navId);
+
+    function isOpen() {
+      return el.classList.contains('is-open');
+    }
+
+    function syncAria() {
+      toggle.setAttribute('aria-expanded', String(isOpen()));
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Toggle                                                         */
+    /* -------------------------------------------------------------- */
+
+    function open() {
+      el.classList.add('is-open');
+      syncAria();
+      DK.emit(el, 'dk:navbar-open');
+    }
+
+    function close() {
+      if (!isOpen()) return;
+      el.classList.remove('is-open');
+      syncAria();
+      DK.emit(el, 'dk:navbar-close');
+    }
+
+    function handleToggle(e) {
+      e.stopPropagation();
+      if (isOpen()) {
+        close();
+      } else {
+        open();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Outside click                                                   */
+    /* -------------------------------------------------------------- */
+
+    function handleOutsideClick(e) {
+      if (!isOpen()) return;
+      if (!el.contains(e.target)) {
+        close();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Escape key                                                     */
+    /* -------------------------------------------------------------- */
+
+    function handleKeydown(e) {
+      if (e.key === 'Escape' && isOpen()) {
+        close();
+        toggle.focus();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Bind events                                                    */
+    /* -------------------------------------------------------------- */
+
+    DK.on(toggle, 'click', handleToggle);
+    DK.on(document, 'click', handleOutsideClick);
+    DK.on(document, 'keydown', handleKeydown);
+
+    // Ensure initial ARIA state
+    syncAria();
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'click', handleOutsideClick);
+      DK.off(document, 'keydown', handleKeydown);
+    };
+  });
+
+})(window.DK);
+
+
+/* --- components/sidebar.js --- */
+
+/**
+ * DK Sidebar Component
+ * Toggles `is-collapsed` on desktop. Shows/hides with backdrop on mobile.
+ * Handles window resize to clean up mobile state when returning to desktop.
+ *
+ * Usage:
+ *   <aside data-dk-sidebar class="dk-sidebar">
+ *     <div class="dk-sidebar_header">
+ *       <div class="dk-sidebar_logo">...</div>
+ *       <button data-dk-sidebar-toggle aria-label="Toggle sidebar">...</button>
+ *     </div>
+ *     ...
+ *   </aside>
+ *   <div class="dk-sidebar_backdrop"></div>
+ *
+ * External trigger (e.g. in a navbar):
+ *   <button data-dk-sidebar-open aria-label="Open sidebar">...</button>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var MOBILE_BREAKPOINT = 768;
+
+  DK.register('sidebar', function (el) {
+
+    var toggleBtn = DK.$('[data-dk-sidebar-toggle]', el);
+    var backdrop = el.nextElementSibling;
+
+    // Validate backdrop
+    if (!backdrop || !backdrop.classList.contains('dk-sidebar_backdrop')) {
+      backdrop = null;
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Desktop: collapse / expand                                     */
+    /* -------------------------------------------------------------- */
+
+    function isMobile() {
+      return window.innerWidth <= MOBILE_BREAKPOINT;
+    }
+
+    function toggleCollapse() {
+      if (isMobile()) {
+        toggleMobile();
+        return;
+      }
+      el.classList.toggle('is-collapsed');
+      DK.emit(el, 'dk:sidebar-toggle', {
+        collapsed: el.classList.contains('is-collapsed'),
+      });
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Mobile: overlay sidebar                                        */
+    /* -------------------------------------------------------------- */
+
+    function openMobile() {
+      el.classList.add('is-mobile-open');
+      if (backdrop) backdrop.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      DK.emit(el, 'dk:sidebar-open');
+    }
+
+    function closeMobile() {
+      el.classList.remove('is-mobile-open');
+      if (backdrop) backdrop.style.display = '';
+      document.body.style.overflow = '';
+      DK.emit(el, 'dk:sidebar-close');
+    }
+
+    function toggleMobile() {
+      if (el.classList.contains('is-mobile-open')) {
+        closeMobile();
+      } else {
+        openMobile();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Handle resize: clean up mobile state on breakpoint cross       */
+    /* -------------------------------------------------------------- */
+
+    var resizeTimer;
+
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (!isMobile() && el.classList.contains('is-mobile-open')) {
+          closeMobile();
+        }
+      }, 100);
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Escape key                                                     */
+    /* -------------------------------------------------------------- */
+
+    function handleKeydown(e) {
+      if (e.key === 'Escape' && isMobile() && el.classList.contains('is-mobile-open')) {
+        closeMobile();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  External open triggers                                         */
+    /* -------------------------------------------------------------- */
+
+    var externalOpeners = DK.$$('[data-dk-sidebar-open]');
+    externalOpeners.forEach(function (btn) {
+      DK.on(btn, 'click', function () {
+        if (isMobile()) {
+          openMobile();
+        } else {
+          if (el.classList.contains('is-collapsed')) {
+            el.classList.remove('is-collapsed');
+            DK.emit(el, 'dk:sidebar-toggle', { collapsed: false });
+          }
+        }
+      });
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Bind events                                                    */
+    /* -------------------------------------------------------------- */
+
+    if (toggleBtn) {
+      DK.on(toggleBtn, 'click', toggleCollapse);
+    }
+
+    if (backdrop) {
+      DK.on(backdrop, 'click', closeMobile);
+    }
+
+    DK.on(window, 'resize', handleResize);
+    DK.on(document, 'keydown', handleKeydown);
+
+    /* Return cleanup for DK.destroy() */
+    DK._addCleanup(el, function () {
+      DK.off(window, 'resize', handleResize);
+      DK.off(document, 'keydown', handleKeydown);
+      clearTimeout(resizeTimer);
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Public API                                                     */
+    /* -------------------------------------------------------------- */
+
+    DK.sidebar = DK.sidebar || {};
+    DK.sidebar.collapse = function () {
+      el.classList.add('is-collapsed');
+      DK.emit(el, 'dk:sidebar-toggle', { collapsed: true });
+    };
+    DK.sidebar.expand = function () {
+      el.classList.remove('is-collapsed');
+      DK.emit(el, 'dk:sidebar-toggle', { collapsed: false });
+    };
+    DK.sidebar.openMobile = openMobile;
+    DK.sidebar.closeMobile = closeMobile;
+  });
+
+})(window.DK);
+
+
+/* --- components/tabs.js --- */
+
+/**
+ * DK Tabs Component
+ * Click to activate tab + panel. Arrow keys for navigation.
+ * Full ARIA: role=tablist, role=tab, role=tabpanel, aria-selected.
+ *
+ * Usage:
+ *   <div data-dk-tabs class="dk-tabs">
+ *     <div class="dk-tabs_list" role="tablist">
+ *       <button class="dk-tabs_tab is-active" data-dk-tab="panel-1">Tab 1</button>
+ *       <button class="dk-tabs_tab" data-dk-tab="panel-2">Tab 2</button>
+ *     </div>
+ *     <div class="dk-tabs_panel is-active" id="panel-1">Content 1</div>
+ *     <div class="dk-tabs_panel" id="panel-2">Content 2</div>
+ *   </div>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('tabs', function (el) {
+
+    var tablist = DK.$('.dk-tabs_list', el);
+    var tabs = DK.$$('.dk-tabs_tab', el);
+    var panels = DK.$$('.dk-tabs_panel', el);
+
+    if (!tablist || !tabs.length) return;
+
+    /* -------------------------------------------------------------- */
+    /*  ARIA setup                                                     */
+    /* -------------------------------------------------------------- */
+
+    tablist.setAttribute('role', 'tablist');
+
+    tabs.forEach(function (tab, i) {
+      var panelId = tab.getAttribute('data-dk-tab');
+      var tabId = tab.id || DK.uid('dk-tab');
+      tab.id = tabId;
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('tabindex', tab.classList.contains('is-active') ? '0' : '-1');
+      tab.setAttribute('aria-selected', String(tab.classList.contains('is-active')));
+
+      if (panelId) {
+        tab.setAttribute('aria-controls', panelId);
+        var panel = document.getElementById(panelId);
+        if (panel) {
+          panel.setAttribute('role', 'tabpanel');
+          panel.setAttribute('aria-labelledby', tabId);
+          panel.setAttribute('tabindex', '0');
+        }
+      }
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Activate tab                                                   */
+    /* -------------------------------------------------------------- */
+
+    function activate(tab) {
+      // Deactivate all
+      tabs.forEach(function (t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+
+      panels.forEach(function (p) {
+        p.classList.remove('is-active');
+      });
+
+      // Activate selected
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tab.focus();
+
+      var panelId = tab.getAttribute('data-dk-tab');
+      if (panelId) {
+        var panel = document.getElementById(panelId);
+        if (panel) {
+          panel.classList.add('is-active');
+        }
+      }
+
+      DK.emit(el, 'dk:tab-change', { tab: tab, panelId: panelId });
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Click handler                                                  */
+    /* -------------------------------------------------------------- */
+
+    tabs.forEach(function (tab) {
+      DK.on(tab, 'click', function () {
+        activate(tab);
+      });
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Keyboard navigation                                            */
+    /* -------------------------------------------------------------- */
+
+    DK.on(tablist, 'keydown', function (e) {
+      var currentIndex = tabs.indexOf(document.activeElement);
+      if (currentIndex === -1) return;
+
+      var nextIndex;
+
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          e.preventDefault();
+          nextIndex = (currentIndex + 1) % tabs.length;
+          activate(tabs[nextIndex]);
+          break;
+
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          e.preventDefault();
+          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          activate(tabs[nextIndex]);
+          break;
+
+        case 'Home':
+          e.preventDefault();
+          activate(tabs[0]);
+          break;
+
+        case 'End':
+          e.preventDefault();
+          activate(tabs[tabs.length - 1]);
+          break;
+      }
+    });
+  });
+
+})(window.DK);
+
+
+/* --- components/stepper.js --- */
+
+/**
+ * DK Stepper Component
+ * Manages multi-step indicator state. Exposes API for next/prev/goTo.
+ * Updates is-active and is-complete classes on steps.
+ *
+ * Usage:
+ *   <div data-dk-stepper class="dk-stepper">
+ *     <div class="dk-stepper_step is-complete">
+ *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">1</span></div>
+ *       <span class="dk-stepper_label">Account</span>
+ *     </div>
+ *     <div class="dk-stepper_connector"></div>
+ *     <div class="dk-stepper_step is-active">
+ *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">2</span></div>
+ *       <span class="dk-stepper_label">Profile</span>
+ *     </div>
+ *     <div class="dk-stepper_connector"></div>
+ *     <div class="dk-stepper_step">
+ *       <div class="dk-stepper_indicator"><span class="dk-stepper_indicator-text">3</span></div>
+ *       <span class="dk-stepper_label">Review</span>
+ *     </div>
+ *   </div>
+ *
+ * JS API:
+ *   DK.stepper.next()   — advance to next step
+ *   DK.stepper.prev()   — go back one step
+ *   DK.stepper.goTo(n)  — jump to step n (0-indexed)
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('stepper', function (el) {
+
+    var steps = DK.$$('.dk-stepper_step', el);
+    if (!steps.length) return;
+
+    /* -------------------------------------------------------------- */
+    /*  Determine current step from markup                             */
+    /* -------------------------------------------------------------- */
+
+    var currentIndex = 0;
+
+    steps.forEach(function (step, i) {
+      if (step.classList.contains('is-active')) {
+        currentIndex = i;
+      }
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Update step states                                             */
+    /* -------------------------------------------------------------- */
+
+    function updateSteps() {
+      steps.forEach(function (step, i) {
+        step.classList.remove('is-active', 'is-complete');
+
+        if (i < currentIndex) {
+          step.classList.add('is-complete');
+        } else if (i === currentIndex) {
+          step.classList.add('is-active');
+        }
+      });
+
+      // Update connector states: connectors follow the step that precedes them
+      var connectors = DK.$$('.dk-stepper_connector', el);
+      connectors.forEach(function (conn, i) {
+        if (i < currentIndex) {
+          conn.style.background = 'var(--accent)';
+        } else {
+          conn.style.background = '';
+        }
+      });
+
+      DK.emit(el, 'dk:stepper-change', {
+        step: currentIndex,
+        total: steps.length,
+      });
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Navigation methods                                             */
+    /* -------------------------------------------------------------- */
+
+    function next() {
+      if (currentIndex < steps.length - 1) {
+        currentIndex++;
+        updateSteps();
+      }
+    }
+
+    function prev() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSteps();
+      }
+    }
+
+    function goTo(n) {
+      if (typeof n !== 'number') return;
+      var index = Math.max(0, Math.min(n, steps.length - 1));
+      currentIndex = index;
+      updateSteps();
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Public API                                                     */
+    /* -------------------------------------------------------------- */
+
+    DK.stepper = DK.stepper || {};
+    DK.stepper.next = next;
+    DK.stepper.prev = prev;
+    DK.stepper.goTo = goTo;
+
+    DK.stepper.getCurrent = function () {
+      return currentIndex;
+    };
+
+    DK.stepper.getTotal = function () {
+      return steps.length;
+    };
+
+    // Initialize from markup state
+    updateSteps();
+  });
+
+})(window.DK);
+
+
+/* --- components/dropdown.js --- */
+
+/**
+ * DK Dropdown Component
+ * Toggle menu on trigger click. Close on outside click / Escape.
+ * Arrow key navigation of items. Full ARIA: menu, menuitem, haspopup, expanded.
+ *
+ * Usage:
+ *   <div data-dk-dropdown class="dk-dropdown">
+ *     <button class="dk-dropdown_trigger">Options</button>
+ *     <div class="dk-dropdown_menu">
+ *       <div class="dk-dropdown_header">Section</div>
+ *       <button class="dk-dropdown_item">Edit</button>
+ *       <button class="dk-dropdown_item">Duplicate</button>
+ *       <div class="dk-dropdown_divider"></div>
+ *       <button class="dk-dropdown_item">Delete</button>
+ *     </div>
+ *   </div>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  DK.register('dropdown', function (el) {
+
+    var trigger = DK.$('.dk-dropdown_trigger', el);
+    var menu = DK.$('.dk-dropdown_menu', el);
+
+    if (!trigger || !menu) return;
+
+    var items = DK.$$('.dk-dropdown_item', menu);
+    var focusedIndex = -1;
+
+    /* -------------------------------------------------------------- */
+    /*  ARIA setup                                                     */
+    /* -------------------------------------------------------------- */
+
+    var menuId = menu.id || DK.uid('dk-dropdown-menu');
+    menu.id = menuId;
+    menu.setAttribute('role', 'menu');
+
+    trigger.setAttribute('aria-haspopup', 'true');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', menuId);
+
+    items.forEach(function (item) {
+      item.setAttribute('role', 'menuitem');
+      item.setAttribute('tabindex', '-1');
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  State helpers                                                   */
+    /* -------------------------------------------------------------- */
+
+    function isOpen() {
+      return el.classList.contains('is-open');
+    }
+
+    function clearFocus() {
+      items.forEach(function (item) {
+        item.classList.remove('is-focused');
+      });
+      focusedIndex = -1;
+    }
+
+    function focusItem(index) {
+      clearFocus();
+      if (index < 0 || index >= items.length) return;
+      focusedIndex = index;
+      items[focusedIndex].classList.add('is-focused');
+      items[focusedIndex].focus();
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Open / close                                                   */
+    /* -------------------------------------------------------------- */
+
+    function open() {
+      el.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      DK.emit(el, 'dk:dropdown-open');
+
+      // Focus first item
+      if (items.length) {
+        focusItem(0);
+      }
+    }
+
+    function close() {
+      if (!isOpen()) return;
+      el.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      clearFocus();
+      DK.emit(el, 'dk:dropdown-close');
+    }
+
+    function toggle(e) {
+      e.stopPropagation();
+      if (isOpen()) {
+        close();
+        trigger.focus();
+      } else {
+        open();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Item selection                                                  */
+    /* -------------------------------------------------------------- */
+
+    function selectItem(item) {
+      DK.emit(el, 'dk:dropdown-select', {
+        value: item.textContent.trim(),
+        item: item,
+      });
+      close();
+      trigger.focus();
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Outside click                                                   */
+    /* -------------------------------------------------------------- */
+
+    function handleOutsideClick(e) {
+      if (!isOpen()) return;
+      if (!el.contains(e.target)) {
+        close();
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Keyboard navigation                                            */
+    /* -------------------------------------------------------------- */
+
+    function handleKeydown(e) {
+      if (!isOpen() && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) {
+        if (el.contains(document.activeElement)) {
+          e.preventDefault();
+          open();
+          return;
+        }
+      }
+
+      if (!isOpen()) return;
+
+      switch (e.key) {
+        case 'Escape':
+          e.preventDefault();
+          close();
+          trigger.focus();
+          break;
+
+        case 'ArrowDown':
+          e.preventDefault();
+          if (focusedIndex < items.length - 1) {
+            focusItem(focusedIndex + 1);
+          } else {
+            focusItem(0);
+          }
+          break;
+
+        case 'ArrowUp':
+          e.preventDefault();
+          if (focusedIndex > 0) {
+            focusItem(focusedIndex - 1);
+          } else {
+            focusItem(items.length - 1);
+          }
+          break;
+
+        case 'Home':
+          e.preventDefault();
+          focusItem(0);
+          break;
+
+        case 'End':
+          e.preventDefault();
+          focusItem(items.length - 1);
+          break;
+
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (focusedIndex >= 0 && focusedIndex < items.length) {
+            selectItem(items[focusedIndex]);
+          }
+          break;
+
+        case 'Tab':
+          close();
+          break;
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Item click                                                     */
+    /* -------------------------------------------------------------- */
+
+    items.forEach(function (item) {
+      DK.on(item, 'click', function (e) {
+        e.stopPropagation();
+        selectItem(item);
+      });
+
+      // Hover focus
+      DK.on(item, 'mouseenter', function () {
+        focusItem(items.indexOf(item));
+      });
+    });
+
+    /* -------------------------------------------------------------- */
+    /*  Bind events                                                    */
+    /* -------------------------------------------------------------- */
+
+    DK.on(trigger, 'click', toggle);
+    DK.on(document, 'click', handleOutsideClick);
+    DK.on(el, 'keydown', handleKeydown);
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'click', handleOutsideClick);
+    };
+  });
+
+})(window.DK);
+
+
 /* --- components/vertical-tabs.js --- */
 
 /**
@@ -10808,7 +11183,7 @@
   /*  Global listeners                                                   */
   /* ------------------------------------------------------------------ */
 
-  DK.on(document, 'contextmenu', function (e) {
+  function handleContextMenu(e) {
     var trigger = e.target.closest('[data-dk-context-menu]');
     if (!trigger) return;
 
@@ -10816,13 +11191,22 @@
     var menuId = trigger.getAttribute('data-dk-context-menu');
     var menu = document.getElementById(menuId);
     if (menu) openMenu(menu, e.clientX, e.clientY);
-  });
+  }
 
-  DK.on(document, 'click', function () {
+  function handleClick() {
     closeActive();
-  });
+  }
 
+  DK.on(document, 'contextmenu', handleContextMenu);
+  DK.on(document, 'click', handleClick);
   DK.on(document, 'keydown', handleKeydown);
+
+  /** Remove all global listeners (called by DK.destroy). */
+  DK._addCleanup(document, function () {
+    DK.off(document, 'contextmenu', handleContextMenu);
+    DK.off(document, 'click', handleClick);
+    DK.off(document, 'keydown', handleKeydown);
+  });
 
   /* Expose API */
   DK.contextMenu = {
@@ -11265,6 +11649,7 @@
   var allItems = [];
   var visibleItems = [];
   var activeIndex = -1;
+  var releaseFocusTrap = null;
 
   /* ------------------------------------------------------------------ */
   /*  Fuzzy match                                                        */
@@ -11308,6 +11693,10 @@
     el.classList.add('is-open');
     el.setAttribute('aria-hidden', 'false');
 
+    /* Trap focus inside the dialog */
+    var dialog = DK.$('.dk-command_dialog', el) || el;
+    releaseFocusTrap = DK.trapFocus(dialog);
+
     var input = DK.$('.dk-command_input', el);
     if (input) {
       input.value = '';
@@ -11323,6 +11712,13 @@
 
     activePalette.classList.remove('is-open');
     activePalette.setAttribute('aria-hidden', 'true');
+
+    /* Release focus trap */
+    if (releaseFocusTrap) {
+      releaseFocusTrap();
+      releaseFocusTrap = null;
+    }
+
     unlockScroll();
 
     DK.emit(activePalette, 'dk:command-close');
@@ -11407,7 +11803,7 @@
   /*  Global Cmd+K / Ctrl+K                                              */
   /* ------------------------------------------------------------------ */
 
-  DK.on(document, 'keydown', function (e) {
+  function handleGlobalKeydown(e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       if (activePalette) {
@@ -11416,7 +11812,9 @@
         openPalette();
       }
     }
-  });
+  }
+
+  DK.on(document, 'keydown', handleGlobalKeydown);
 
   /* ------------------------------------------------------------------ */
   /*  Component registration                                             */
@@ -11475,6 +11873,15 @@
           break;
       }
     });
+
+    /* Return cleanup for DK.destroy() */
+    return function () {
+      DK.off(document, 'keydown', handleGlobalKeydown);
+      if (releaseFocusTrap) {
+        releaseFocusTrap();
+        releaseFocusTrap = null;
+      }
+    };
   });
 
   /* Expose API */
@@ -11670,6 +12077,73 @@
     });
 
   });
+})(window.DK);
+
+
+/* --- components/theme-toggle.js --- */
+
+/**
+ * DK Theme Toggle Component
+ * Toggles `data-theme` between 'dark' and 'light' on <html>.
+ * Persists the selection to localStorage and restores it on init.
+ * Emits a `dk:theme-change` CustomEvent with `{ theme }` detail.
+ *
+ * Usage:
+ *   <button data-dk-theme-toggle>Toggle theme</button>
+ *
+ * @requires dk-core.js
+ */
+;(function (DK) {
+  'use strict';
+
+  var STORAGE_KEY = 'dk-theme';
+  var root = document.documentElement;
+
+  DK.register('theme-toggle', function (el) {
+
+    /* ---------------------------------------------------------------- */
+    /*  Restore saved theme on init                                      */
+    /* ---------------------------------------------------------------- */
+
+    var saved = null;
+    try {
+      saved = localStorage.getItem(STORAGE_KEY);
+    } catch (e) {
+      // localStorage may be unavailable (private browsing, etc.)
+    }
+
+    if (saved === 'dark' || saved === 'light') {
+      root.setAttribute('data-theme', saved);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Toggle handler                                                   */
+    /* ---------------------------------------------------------------- */
+
+    function toggle() {
+      var current = root.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+
+      root.setAttribute('data-theme', next);
+
+      // Persist preference
+      try {
+        localStorage.setItem(STORAGE_KEY, next);
+      } catch (e) {
+        // Silently fail if storage is unavailable
+      }
+
+      // Notify listeners
+      DK.emit(el, 'dk:theme-change', { theme: next });
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Bind click                                                       */
+    /* ---------------------------------------------------------------- */
+
+    DK.on(el, 'click', toggle);
+  });
+
 })(window.DK);
 
 
@@ -12026,115 +12500,4 @@
 
 })(window.DK);
 
-
-/* --- components/hover-card.js --- */
-
-/**
- * DK Hover Card Component
- * Rich content card that appears on hover with show/hide delays.
- *
- * Usage:
- *   <div class="dk-hover-card" data-dk-hover-card>
- *     <a class="dk-hover-card_trigger" href="#">@username</a>
- *     <div class="dk-hover-card_content">
- *       <div class="dk-hover-card_header">
- *         <img class="dk-hover-card_avatar" src="..." alt="" />
- *         <div>
- *           <div class="dk-hover-card_name">Name</div>
- *           <div class="dk-hover-card_handle">@username</div>
- *         </div>
- *       </div>
- *       <div class="dk-hover-card_body">Bio text here</div>
- *     </div>
- *   </div>
- *
- * Options:
- *   data-dk-hover-show="300"   — show delay in ms (default 300)
- *   data-dk-hover-hide="200"   — hide delay in ms (default 200)
- *
- * Events:
- *   dk:hover-card-open  — detail: { id }
- *   dk:hover-card-close — detail: { id }
- *
- * @requires dk-core.js
- */
-;(function (DK) {
-  'use strict';
-
-  DK.register('hover-card', function (el) {
-
-    var trigger = DK.$('.dk-hover-card_trigger', el);
-    var content = DK.$('.dk-hover-card_content', el);
-    if (!trigger || !content) return;
-
-    var showDelay = parseInt(el.getAttribute('data-dk-hover-show'), 10) || 300;
-    var hideDelay = parseInt(el.getAttribute('data-dk-hover-hide'), 10) || 200;
-    var showTimer = null;
-    var hideTimer = null;
-
-    /* -------------------------------------------------------------- */
-    /*  ARIA setup                                                     */
-    /* -------------------------------------------------------------- */
-
-    var contentId = content.id || DK.uid('dk-hover-card');
-    content.id = contentId;
-    content.setAttribute('role', 'tooltip');
-    trigger.setAttribute('aria-describedby', contentId);
-
-    /* -------------------------------------------------------------- */
-    /*  Auto-position                                                  */
-    /* -------------------------------------------------------------- */
-
-    function autoPosition() {
-      var rect = el.getBoundingClientRect();
-      var spaceBelow = window.innerHeight - rect.bottom;
-      var spaceAbove = rect.top;
-
-      el.classList.remove('dk-hover-card--top', 'dk-hover-card--bottom');
-      if (spaceBelow < 200 && spaceAbove > spaceBelow) {
-        el.classList.add('dk-hover-card--top');
-      } else {
-        el.classList.add('dk-hover-card--bottom');
-      }
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Show / Hide                                                    */
-    /* -------------------------------------------------------------- */
-
-    function show() {
-      clearTimeout(hideTimer);
-      showTimer = setTimeout(function () {
-        autoPosition();
-        el.classList.add('is-open');
-        DK.emit(el, 'dk:hover-card-open', { id: contentId });
-      }, showDelay);
-    }
-
-    function hide() {
-      clearTimeout(showTimer);
-      hideTimer = setTimeout(function () {
-        el.classList.remove('is-open');
-        DK.emit(el, 'dk:hover-card-close', { id: contentId });
-      }, hideDelay);
-    }
-
-    /* -------------------------------------------------------------- */
-    /*  Event handlers                                                 */
-    /* -------------------------------------------------------------- */
-
-    DK.on(trigger, 'mouseenter', show);
-    DK.on(trigger, 'mouseleave', hide);
-
-    DK.on(content, 'mouseenter', function () {
-      clearTimeout(hideTimer);
-    });
-
-    DK.on(content, 'mouseleave', hide);
-
-    /* Focus support */
-    DK.on(trigger, 'focus', show);
-    DK.on(trigger, 'blur', hide);
-
-  });
-})(window.DK);
+//# sourceMappingURL=devkit.js.map

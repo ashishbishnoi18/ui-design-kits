@@ -33,7 +33,7 @@
     cursor: pointer;
   }
 
-  .dk-date-range_input:focus {
+  .dk-date-range_input:focus-visible {
     border-color: var(--accent);
   }
 
@@ -57,7 +57,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
     padding: 12px;
     display: flex;
     gap: 12px;
@@ -224,7 +224,7 @@
   .dk-date-range_day.is-start,
   .dk-date-range_day.is-end {
     background: var(--accent);
-    color: #fff;
+    color: var(--text-on-accent);
     font-weight: 600;
   }
 

@@ -5,38 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Building a Zero-Dependency UI Library — DevKit Blog</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit blog post template — long-form content with code blocks">
+  <meta property="og:title" content="Building a Zero-Dependency UI Library — DevKit Blog">
+  <meta property="og:description" content="DevKit blog post template — long-form content with code blocks">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-    }
-    .btn-sm {
-      padding: 5px 14px;
-      font-size: var(--text-xs);
-    }
-
     /* Article layout */
     .article-container {
       max-width: 740px;
@@ -166,42 +140,43 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <!-- Navbar -->
   <nav class="dk-navbar" data-dk-navbar>
-    <div class="dk-navbar_brand">
+    <div class="dk-navbar_brand" data-slot="brand">
       <div class="dk-navbar_brand-icon">dk</div>
       <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
     </div>
-    <div class="dk-navbar_nav">
-      <a href="landing.html" class="dk-navbar_link">Home</a>
-      <a href="docs.html" class="dk-navbar_link">Docs</a>
-      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
-      <a href="blog.html" class="dk-navbar_link is-active">Blog</a>
+    <div class="dk-navbar_nav" data-slot="nav">
+      <a href="landing.html" class="dk-navbar_link" data-slot="link">Home</a>
+      <a href="docs.html" class="dk-navbar_link" data-slot="link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link" data-slot="link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link is-active" data-slot="link">Blog</a>
     </div>
-    <div class="dk-navbar_actions">
+    <div class="dk-navbar_actions" data-slot="actions">
       <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
     </div>
-    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+    <button class="dk-navbar_mobile-toggle" data-slot="toggle" aria-label="Toggle menu">
       <span class="dk-navbar_mobile-toggle-icon"></span>
     </button>
   </nav>
 
   <!-- Article -->
-  <article class="article-container">
+  <article class="article-container" id="main-content">
 
     <!-- Breadcrumb -->
     <nav class="dk-breadcrumb" style="margin-bottom:24px;">
-      <span class="dk-breadcrumb_item">
-        <a href="blog.html" class="dk-breadcrumb_link">Blog</a>
-        <span class="dk-breadcrumb_separator">/</span>
+      <span class="dk-breadcrumb_item" data-slot="item">
+        <a href="blog.html" class="dk-breadcrumb_link" data-slot="link">Blog</a>
+        <span class="dk-breadcrumb_separator" data-slot="separator">/</span>
       </span>
-      <span class="dk-breadcrumb_item">
-        <a href="#" class="dk-breadcrumb_link">Engineering</a>
-        <span class="dk-breadcrumb_separator">/</span>
+      <span class="dk-breadcrumb_item" data-slot="item">
+        <a href="#" class="dk-breadcrumb_link" data-slot="link">Engineering</a>
+        <span class="dk-breadcrumb_separator" data-slot="separator">/</span>
       </span>
-      <span class="dk-breadcrumb_item">
-        <span class="dk-breadcrumb_current">Building a Zero-Dependency UI Library</span>
+      <span class="dk-breadcrumb_item" data-slot="item">
+        <span class="dk-breadcrumb_current" data-slot="current">Building a Zero-Dependency UI Library</span>
       </span>
     </nav>
 
@@ -211,7 +186,7 @@
       <h1 class="article-header_title">Building a Zero-Dependency UI Library</h1>
       <div class="article-header_meta">
         <div class="article-header_author">
-          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">SL</span></div>
+          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">SL</span></div>
           <div>
             <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">Sarah Lin</div>
             <div style="font-size: var(--text-xs); color: var(--text-muted);">March 28, 2026</div>
@@ -251,9 +226,9 @@
       </p>
 
       <div class="dk-code-block">
-        <div class="dk-code-block_header">
+        <div class="dk-code-block_header" data-slot="header">
           <span class="dk-code-block_lang">css</span>
-          <button class="dk-code-block_copy-btn">Copy</button>
+          <button class="dk-code-block_copy-btn" data-slot="copy-btn">Copy</button>
         </div>
         <pre class="dk-code-block_body"><code><span class="syn-comment">/* Layer order determines specificity */</span>
 <span class="syn-keyword">@layer</span> reset, tokens, base, layout, components, utilities;
@@ -275,9 +250,9 @@
       </p>
 
       <div class="dk-code-block">
-        <div class="dk-code-block_header">
+        <div class="dk-code-block_header" data-slot="header">
           <span class="dk-code-block_lang">javascript</span>
-          <button class="dk-code-block_copy-btn">Copy</button>
+          <button class="dk-code-block_copy-btn" data-slot="copy-btn">Copy</button>
         </div>
         <pre class="dk-code-block_body"><code><span class="syn-comment">// Register a component</span>
 <span class="syn-type">DK</span>.<span class="syn-function">register</span>(<span class="syn-string">'accordion'</span>, <span class="syn-keyword">function</span>(<span class="syn-attr">el</span>) {
@@ -306,9 +281,9 @@
       </ul>
 
       <div class="dk-alert dk-alert--info" style="margin: 24px 0;">
-        <svg class="dk-alert_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        <div class="dk-alert_content">
-          <div class="dk-alert_title">Note</div>
+        <svg class="dk-alert_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div class="dk-alert_content" data-slot="content">
+          <div class="dk-alert_title" data-slot="title">Note</div>
           Zero dependencies does not mean zero tooling. We still use development tools like linters and test runners -- they just do not ship to your browser.
         </div>
       </div>
@@ -335,9 +310,9 @@
 
     <!-- Author bio -->
     <div class="dk-card" style="margin-bottom:48px;">
-      <div class="dk-card_body">
+      <div class="dk-card_body" data-slot="body">
         <div class="author-bio">
-          <div class="dk-avatar dk-avatar--xl"><span class="dk-avatar_fallback">SL</span></div>
+          <div class="dk-avatar dk-avatar--xl"><span class="dk-avatar_fallback" data-slot="fallback">SL</span></div>
           <div>
             <div style="font-weight:600; color:var(--text-heading); margin-bottom:4px;">Sarah Lin</div>
             <p style="font-size:var(--text-sm); color:var(--text-tertiary); line-height:1.6; margin-bottom:8px;">
@@ -360,7 +335,7 @@
     <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-3 dk-gap-6">
       <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
         <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <span class="dk-badge dk-badge--success dk-badge--sm">Engineering</span>
           <div class="related-card_title">CSS Layers: The Architecture Behind DevKit</div>
           <div class="related-card_date">Mar 5, 2026</div>
@@ -368,7 +343,7 @@
       </a>
       <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
         <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <span class="dk-badge dk-badge--info dk-badge--sm">Design</span>
           <div class="related-card_title">Why Dark-First Design Makes Sense for Dev Tools</div>
           <div class="related-card_date">Mar 22, 2026</div>
@@ -376,7 +351,7 @@
       </a>
       <a href="#" class="dk-card dk-card--hover" style="text-decoration:none;">
         <div style="height:140px; background:var(--bg-raised); border-bottom:1px solid var(--border-subtle);"></div>
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <span class="dk-badge dk-badge--warning dk-badge--sm">Release</span>
           <div class="related-card_title">DevKit v0.1.0: The First Public Release</div>
           <div class="related-card_date">Mar 10, 2026</div>

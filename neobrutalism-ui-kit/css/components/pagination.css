@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Pagination — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Page navigation with active, disabled, hover/pressed states, ellipsis,
+   and small-size variant.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Pagination Container
+     -------------------------------------------------------------------------- */
+  .nb-pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    font-family: var(--nb-font-sans);
+  }
+
+  /* --------------------------------------------------------------------------
+     Pagination Item (page number, prev/next)
+     -------------------------------------------------------------------------- */
+  .nb-pagination__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 var(--nb-space-2);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-semibold);
+    line-height: var(--nb-leading-none);
+    color: var(--nb-black);
+    background-color: var(--nb-white);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast),
+      background-color var(--nb-transition-fast);
+  }
+
+  .nb-pagination__item:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-pagination__item:active {
+    transform: translate(1px, 1px);
+    box-shadow: none;
+  }
+
+  .nb-pagination__item:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Active State (current page)
+     -------------------------------------------------------------------------- */
+  .nb-pagination__item.is-active {
+    background-color: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  .nb-pagination__item.is-active:hover {
+    transform: none;
+    box-shadow: none;
+    cursor: default;
+  }
+
+  /* --------------------------------------------------------------------------
+     Disabled State
+     -------------------------------------------------------------------------- */
+  .nb-pagination__item.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  /* --------------------------------------------------------------------------
+     Ellipsis (non-interactive gap indicator)
+     -------------------------------------------------------------------------- */
+  .nb-pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: auto;
+    padding: 0 var(--nb-space-1);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-semibold);
+    color: var(--nb-gray-500);
+    background: none;
+    border: none;
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Small Variant
+     -------------------------------------------------------------------------- */
+  .nb-pagination--sm .nb-pagination__item {
+    min-width: 32px;
+    height: 32px;
+    font-size: var(--nb-text-xs);
+    padding: 0 var(--nb-space-1);
+  }
+
+  .nb-pagination--sm .nb-pagination__ellipsis {
+    font-size: var(--nb-text-xs);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-pagination__item {
+    color: var(--nb-gray-100);
+    background-color: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-pagination__item.is-active {
+    background-color: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+}

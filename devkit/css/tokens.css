@@ -133,5 +133,90 @@
     --text-xl:  1.25rem;    /* 20px */
     --text-2xl: 1.5rem;     /* 24px */
     --text-3xl: 1.875rem;   /* 30px */
+
+    /* Font weight scale */
+    --font-weight-normal:   400;
+    --font-weight-medium:   500;
+    --font-weight-semibold: 600;
+    --font-weight-bold:     700;
+
+    /* Line height scale */
+    --leading-tight:    1.25;
+    --leading-snug:     1.375;
+    --leading-normal:   1.5;
+    --leading-relaxed:  1.625;
+    --leading-loose:    1.75;
+
+    /* Letter spacing */
+    --tracking-tighter: -0.02em;
+    --tracking-tight:   -0.01em;
+    --tracking-normal:  0;
+    --tracking-wide:    0.02em;
+    --tracking-wider:   0.04em;
+    --tracking-widest:  0.06em;
+
+    /* Shadows — dark theme */
+    --shadow-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --shadow-lg:  0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+    --shadow-xl:  0 20px 40px -8px rgba(0, 0, 0, 0.6);
+
+    /* Status semantic colors — dark theme */
+    --color-success:      var(--dk-emerald-400);
+    --color-success-muted: rgba(52, 211, 153, 0.12);
+    --color-danger:       var(--dk-red-400);
+    --color-danger-muted:  rgba(248, 113, 113, 0.12);
+    --color-warning:      var(--dk-yellow-400);
+    --color-warning-muted: rgba(250, 204, 21, 0.12);
+    --color-info:         var(--dk-blue-400);
+    --color-info-muted:    rgba(96, 165, 250, 0.12);
+
+    /* Inverted text (for use on accent/status backgrounds) */
+    --text-on-accent: #ffffff;
+    --text-on-inverted: #000000;
+
+    /* Breakpoints (reference — use in @media manually) */
+    /* --breakpoint-sm:  640px;  */
+    /* --breakpoint-md:  768px;  */
+    /* --breakpoint-lg:  1024px; */
+    /* --breakpoint-xl:  1280px; */
+
+
+    /* --------------------------------------------------------
+       CANONICAL SEMANTIC LAYER  (prefixed --dk-)
+       Standardized token names shared across all kits.
+       An agent can swap --dk- for --nb- and hit the same categories.
+       -------------------------------------------------------- */
+
+    /* Colors — semantic */
+    --dk-color-primary:        var(--accent);
+    --dk-color-primary-hover:  var(--accent-hover);
+    --dk-color-surface:        var(--bg-surface);
+    --dk-color-surface-alt:    var(--bg-raised);
+    --dk-color-border:         var(--border-default);
+    --dk-color-border-strong:  var(--border-active);
+    --dk-color-text-primary:   var(--text-primary);
+    --dk-color-text-secondary: var(--text-secondary);
+    --dk-color-text-muted:     var(--text-muted);
+
+    /* Spacing — semantic aliases */
+    --dk-spacing-xs:  var(--dk-space-1);   /*  4px */
+    --dk-spacing-sm:  var(--dk-space-2);   /*  8px */
+    --dk-spacing-md:  var(--dk-space-4);   /* 16px */
+    --dk-spacing-lg:  var(--dk-space-6);   /* 24px */
+    --dk-spacing-xl:  var(--dk-space-8);   /* 32px */
+    --dk-spacing-2xl: var(--dk-space-12);  /* 48px */
+
+    /* Radius — already prefixed: --dk-radius-sm / md / lg / full */
+
+    /* Shadows — semantic aliases (existing are unprefixed) */
+    --dk-shadow-sm: var(--shadow-sm);
+    --dk-shadow-md: var(--shadow-md);
+    --dk-shadow-lg: var(--shadow-lg);
+
+    /* Fonts — semantic aliases */
+    --dk-font-heading: var(--font-sans);   /* DK uses Inter for everything */
+    --dk-font-body:    var(--font-sans);
+    --dk-font-mono:    var(--font-mono);
   }
 }

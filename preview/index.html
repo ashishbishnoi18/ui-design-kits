@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components — DevKit</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Page-specific: category filter pills */
+    .filter-pills { display: flex; gap: 6px; margin-bottom: 32px; flex-wrap: wrap; }
+    .filter-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.12s var(--ease);
+      background: transparent;
+    }
+    .filter-pill:hover { border-color: var(--border-hover); color: var(--text-secondary); }
+    .filter-pill.active { border-color: var(--accent); color: var(--accent-text); background: var(--accent-muted); }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">&lt;/&gt;</div>
+        <span class="sidebar-logo-text">devkit</span>
+        <span class="sidebar-logo-version">v0.1</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="text" class="sidebar-search-input" placeholder="Search components..." id="searchInput">
+      <span class="sidebar-search-hint">&#8984;K</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Getting Started</div>
+        <a class="sidebar-link" href="#">Introduction</a>
+        <a class="sidebar-link" href="#">Installation</a>
+        <a class="sidebar-link" href="#">Theming</a>
+        <a class="sidebar-link" href="#">CLI</a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Forms</div>
+        <a class="sidebar-link active" href="#">Button</a>
+        <a class="sidebar-link" href="#">Input</a>
+        <a class="sidebar-link" href="#">Select</a>
+        <a class="sidebar-link" href="#">Checkbox</a>
+        <a class="sidebar-link" href="#">Toggle</a>
+        <a class="sidebar-link" href="#">Slider</a>
+        <a class="sidebar-link" href="#">File Upload <span class="sidebar-link-new">new</span></a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Data Display</div>
+        <a class="sidebar-link" href="#">Card</a>
+        <a class="sidebar-link" href="#">Table</a>
+        <a class="sidebar-link" href="#">Badge</a>
+        <a class="sidebar-link" href="#">Avatar</a>
+        <a class="sidebar-link" href="#">Code Block</a>
+        <a class="sidebar-link" href="#">Calendar</a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <a class="sidebar-link" href="#">Tabs</a>
+        <a class="sidebar-link" href="#">Breadcrumb</a>
+        <a class="sidebar-link" href="#">Sidebar</a>
+        <a class="sidebar-link" href="#">Pagination</a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Feedback</div>
+        <a class="sidebar-link" href="#">Alert</a>
+        <a class="sidebar-link" href="#">Toast</a>
+        <a class="sidebar-link" href="#">Modal</a>
+        <a class="sidebar-link" href="#">Tooltip</a>
+        <a class="sidebar-link" href="#">Progress</a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Layout</div>
+        <a class="sidebar-link" href="#">Accordion</a>
+        <a class="sidebar-link" href="#">Separator</a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="sidebar-footer-link" href="#">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a class="sidebar-footer-link" href="#">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3.5a.5.5 0 01.5.5v3a.5.5 0 01-.5.5H5.5a.5.5 0 010-1H7V5a.5.5 0 01.5-.5h.5zM8 11a1 1 0 100 2 1 1 0 000-2z"/></svg>
+        Documentation
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile toggle -->
+  <button class="mobile-toggle" id="mobileToggle">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="sidebar-backdrop" id="backdrop"></div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="main-content">
+
+      <div class="page-header">
+        <h1 class="page-title">Components</h1>
+        <p class="page-description">Beautifully crafted UI components built with HTML, CSS, and vanilla JavaScript. Copy, paste, and customize.</p>
+        <div class="page-meta">
+          <span class="page-meta-item"><span class="page-meta-count">18</span> components</span>
+          <span class="page-meta-item"><span class="page-meta-count">0</span> dependencies</span>
+          <span class="page-meta-item">pure HTML/CSS/JS</span>
+        </div>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="filter-pills">
+        <button class="filter-pill active">All</button>
+        <button class="filter-pill">Forms</button>
+        <button class="filter-pill">Data Display</button>
+        <button class="filter-pill">Navigation</button>
+        <button class="filter-pill">Feedback</button>
+        <button class="filter-pill">Layout</button>
+      </div>
+
+      <!-- Forms Section -->
+      <div class="grid-section">
+        <div class="grid-section-title">Forms <span class="grid-section-count">— 6 components</span></div>
+        <div class="component-grid">
+
+          <!-- Button -->
+          <a class="component-card" href="button.html">
+            <div class="card-preview">
+              <div class="mini-buttons">
+                <span class="mini-btn mini-btn-primary">Button</span>
+                <span class="mini-btn mini-btn-secondary">Secondary</span>
+                <span class="mini-btn mini-btn-outline">Outline</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Button</div>
+              <div class="card-desc">Trigger actions and events</div>
+            </div>
+          </a>
+
+          <!-- Input -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-input-group">
+                <span class="mini-label">Email address</span>
+                <div class="mini-input">you@example.com</div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Input</div>
+              <div class="card-desc">Single-line text field with label</div>
+            </div>
+          </a>
+
+          <!-- Select -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-select-wrap">
+                <span class="mini-label">Framework</span>
+                <select class="mini-select" disabled>
+                  <option>Select an option...</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Select</div>
+              <div class="card-desc">Dropdown selection control</div>
+            </div>
+          </a>
+
+          <!-- Checkbox -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-checks">
+                <label class="mini-check"><span class="mini-check-box checked"></span> Accept terms</label>
+                <label class="mini-check"><span class="mini-check-box checked"></span> Send updates</label>
+                <label class="mini-check"><span class="mini-check-box"></span> Share analytics</label>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Checkbox</div>
+              <div class="card-desc">Boolean selection control</div>
+            </div>
+          </a>
+
+          <!-- Toggle -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-toggles">
+                <div class="mini-toggle-wrap">
+                  <span class="mini-toggle on"></span>
+                  <span class="mini-toggle-label">Active</span>
+                </div>
+                <div class="mini-toggle-wrap">
+                  <span class="mini-toggle"></span>
+                  <span class="mini-toggle-label">Inactive</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Toggle</div>
+              <div class="card-desc">Binary on/off switch control</div>
+            </div>
+          </a>
+
+          <!-- Slider -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-progress-group">
+                <div class="mini-progress-label"><span>Volume</span><span>72%</span></div>
+                <div class="mini-progress-track"><div class="mini-progress-fill" style="width:72%"></div></div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Slider</div>
+              <div class="card-desc">Range value input control</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Data Display Section -->
+      <div class="grid-section">
+        <div class="grid-section-title">Data Display <span class="grid-section-count">— 6 components</span></div>
+        <div class="component-grid">
+
+          <!-- Card -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-card-demo">
+                <div class="mini-card-img"></div>
+                <div class="mini-card-body">
+                  <div class="mini-card-title"></div>
+                  <div class="mini-card-text"></div>
+                  <div class="mini-card-text"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Card</div>
+              <div class="card-desc">Grouped content container</div>
+            </div>
+          </a>
+
+          <!-- Table -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-table">
+                <div class="mini-table-row header">
+                  <div class="mini-table-cell">Name</div>
+                  <div class="mini-table-cell">Role</div>
+                  <div class="mini-table-cell">Status</div>
+                </div>
+                <div class="mini-table-row">
+                  <div class="mini-table-cell">Alice</div>
+                  <div class="mini-table-cell">Admin</div>
+                  <div class="mini-table-cell">Active</div>
+                </div>
+                <div class="mini-table-row">
+                  <div class="mini-table-cell">Bob</div>
+                  <div class="mini-table-cell">User</div>
+                  <div class="mini-table-cell">Away</div>
+                </div>
+                <div class="mini-table-row">
+                  <div class="mini-table-cell">Eve</div>
+                  <div class="mini-table-cell">Mod</div>
+                  <div class="mini-table-cell">Active</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Table</div>
+              <div class="card-desc">Data rows with sorting and selection</div>
+            </div>
+          </a>
+
+          <!-- Badge -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-badges">
+                <span class="mini-badge mini-badge-default">Default</span>
+                <span class="mini-badge mini-badge-green">Success</span>
+                <span class="mini-badge mini-badge-red">Error</span>
+                <span class="mini-badge mini-badge-blue">Info</span>
+                <span class="mini-badge mini-badge-yellow">Warning</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Badge</div>
+              <div class="card-desc">Status and category labels</div>
+            </div>
+          </a>
+
+          <!-- Avatar -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-avatars">
+                <div class="mini-avatar mini-avatar-1">AK</div>
+                <div class="mini-avatar mini-avatar-2">SL</div>
+                <div class="mini-avatar mini-avatar-3">MR</div>
+                <div class="mini-avatar mini-avatar-4">JD</div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Avatar</div>
+              <div class="card-desc">User profile image with fallback</div>
+            </div>
+          </a>
+
+          <!-- Code Block -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-code">
+                <div class="mini-code-line"><span class="mini-code-num">1</span><span class="mini-code-keyword">const</span> <span class="mini-code-fn">greet</span> <span class="mini-code-text">= () =&gt; {</span></div>
+                <div class="mini-code-line"><span class="mini-code-num">2</span><span class="mini-code-text">  </span><span class="mini-code-keyword">return</span> <span class="mini-code-string">"hello"</span></div>
+                <div class="mini-code-line"><span class="mini-code-num">3</span><span class="mini-code-text">}</span></div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Code Block</div>
+              <div class="card-desc">Syntax highlighted code display</div>
+            </div>
+          </a>
+
+          <!-- Calendar -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-calendar">
+                <div class="mini-cal-header">
+                  <span class="mini-cal-nav">&lsaquo;</span>
+                  <span>Mar 2026</span>
+                  <span class="mini-cal-nav">&rsaquo;</span>
+                </div>
+                <div class="mini-cal-grid">
+                  <span class="mini-cal-day header">Mo</span><span class="mini-cal-day header">Tu</span><span class="mini-cal-day header">We</span><span class="mini-cal-day header">Th</span><span class="mini-cal-day header">Fr</span><span class="mini-cal-day header">Sa</span><span class="mini-cal-day header">Su</span>
+                  <span class="mini-cal-day other">23</span><span class="mini-cal-day other">24</span><span class="mini-cal-day other">25</span><span class="mini-cal-day other">26</span><span class="mini-cal-day other">27</span><span class="mini-cal-day other">28</span>
+                  <span class="mini-cal-day">1</span><span class="mini-cal-day">2</span><span class="mini-cal-day">3</span><span class="mini-cal-day">4</span><span class="mini-cal-day">5</span><span class="mini-cal-day">6</span><span class="mini-cal-day">7</span>
+                  <span class="mini-cal-day">8</span><span class="mini-cal-day">9</span><span class="mini-cal-day">10</span><span class="mini-cal-day">11</span><span class="mini-cal-day">12</span><span class="mini-cal-day">13</span><span class="mini-cal-day">14</span>
+                  <span class="mini-cal-day">15</span><span class="mini-cal-day">16</span><span class="mini-cal-day">17</span><span class="mini-cal-day">18</span><span class="mini-cal-day">19</span><span class="mini-cal-day">20</span><span class="mini-cal-day">21</span>
+                  <span class="mini-cal-day">22</span><span class="mini-cal-day">23</span><span class="mini-cal-day">24</span><span class="mini-cal-day">25</span><span class="mini-cal-day">26</span><span class="mini-cal-day">27</span><span class="mini-cal-day">28</span>
+                  <span class="mini-cal-day">29</span><span class="mini-cal-day">30</span><span class="mini-cal-day today">31</span><span class="mini-cal-day other">1</span><span class="mini-cal-day other">2</span><span class="mini-cal-day other">3</span><span class="mini-cal-day other">4</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Calendar</div>
+              <div class="card-desc">Date picker with month navigation</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Navigation Section -->
+      <div class="grid-section">
+        <div class="grid-section-title">Navigation <span class="grid-section-count">— 3 components</span></div>
+        <div class="component-grid">
+
+          <!-- Tabs -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-tabs">
+                <span class="mini-tab active">Preview</span>
+                <span class="mini-tab">Code</span>
+                <span class="mini-tab">API</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Tabs</div>
+              <div class="card-desc">Horizontal content switcher</div>
+            </div>
+          </a>
+
+          <!-- Breadcrumb -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
+                <span style="color:var(--text-muted)">Home</span>
+                <span style="color:var(--text-muted);opacity:0.4">/</span>
+                <span style="color:var(--text-muted)">Docs</span>
+                <span style="color:var(--text-muted);opacity:0.4">/</span>
+                <span style="color:var(--text-secondary)">Button</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Breadcrumb</div>
+              <div class="card-desc">Navigation path hierarchy</div>
+            </div>
+          </a>
+
+          <!-- Pagination -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div style="display:flex;gap:4px;font-size:11px;font-family:var(--font-mono);">
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted);border:1px solid var(--border)">&lsaquo;</span>
+                <span style="padding:4px 8px;border-radius:4px;background:var(--accent);color:#000;font-weight:600">1</span>
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted);border:1px solid var(--border)">2</span>
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted);border:1px solid var(--border)">3</span>
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted)">...</span>
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted);border:1px solid var(--border)">12</span>
+                <span style="padding:4px 8px;border-radius:4px;color:var(--text-muted);border:1px solid var(--border)">&rsaquo;</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Pagination</div>
+              <div class="card-desc">Page-by-page navigation controls</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Feedback Section -->
+      <div class="grid-section">
+        <div class="grid-section-title">Feedback <span class="grid-section-count">— 3 components</span></div>
+        <div class="component-grid">
+
+          <!-- Alert -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-alert mini-alert-success">
+                <span class="mini-alert-icon">&#10003;</span>
+                <span>Changes saved successfully</span>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Alert</div>
+              <div class="card-desc">Contextual feedback messages</div>
+            </div>
+          </a>
+
+          <!-- Toast -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-toast">
+                <div class="mini-toast-title">Notification</div>
+                <div class="mini-toast-msg">Your API key has been created.</div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Toast</div>
+              <div class="card-desc">Temporary auto-dismissing alerts</div>
+            </div>
+          </a>
+
+          <!-- Tooltip -->
+          <a class="component-card" href="#">
+            <div class="card-preview">
+              <div class="mini-tooltip-demo">
+                <div class="mini-tooltip-box">Copy to clipboard</div>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:8px;">
+                  <span class="mini-btn mini-btn-secondary" style="font-size:10px;padding:4px 10px;">Hover me</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-name">Tooltip</div>
+              <div class="card-desc">Text hint on hover or focus</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Mobile sidebar toggle
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('mobileToggle');
+  const backdrop = document.getElementById('backdrop');
+
+  toggle?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('active');
+  });
+
+  backdrop?.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('active');
+  });
+
+  // Cmd+K search shortcut
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      document.getElementById('searchInput')?.focus();
+    }
+  });
+
+  // Filter pills
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // Search filtering
+  const searchInput = document.getElementById('searchInput');
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    document.querySelectorAll('.component-card').forEach(card => {
+      const name = card.querySelector('.card-name')?.textContent.toLowerCase() || '';
+      card.style.display = name.includes(query) ? '' : 'none';
+    });
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('devkit-theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+  themeToggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('devkit-theme', next);
+  });
+</script>
+
+</body>
+</html>

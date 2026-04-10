@@ -41,7 +41,7 @@
   .dk-checkbox-card.is-checked,
   .dk-checkbox-card:has(.dk-checkbox-card_input:checked) {
     border-color: var(--accent);
-    background: rgba(16, 185, 129, 0.04);
+    background: var(--color-success-muted);
   }
 
   .dk-checkbox-card.is-checked:hover,
@@ -75,7 +75,7 @@
   .dk-checkbox-card_indicator-icon {
     width: 12px;
     height: 12px;
-    color: #fff;
+    color: var(--text-on-accent);
     opacity: 0;
     transition: opacity var(--dk-transition-fast);
   }

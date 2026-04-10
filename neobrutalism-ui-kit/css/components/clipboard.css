@@ -1,0 +1,130 @@
+/* ==========================================================================
+   Clipboard — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Copy-to-clipboard button with tooltip feedback.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base Clipboard
+     -------------------------------------------------------------------------- */
+
+  .nb-clipboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-gray-700);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    cursor: pointer;
+    box-shadow: var(--nb-shadow-sm);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    position: relative;
+  }
+
+  .nb-clipboard:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+    color: var(--nb-black);
+  }
+
+  .nb-clipboard:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 2px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Icon
+     -------------------------------------------------------------------------- */
+
+  .nb-clipboard__icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--nb-gray-400);
+    transition: color 0.1s ease;
+  }
+
+  .nb-clipboard:hover .nb-clipboard__icon {
+    color: var(--nb-gray-700);
+  }
+
+  /* --------------------------------------------------------------------------
+     Copied State
+     -------------------------------------------------------------------------- */
+
+  .nb-clipboard.is-copied {
+    background: var(--nb-green-500);
+    color: var(--nb-black);
+  }
+
+  .nb-clipboard.is-copied .nb-clipboard__icon {
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Tooltip Feedback
+     -------------------------------------------------------------------------- */
+
+  .nb-clipboard__tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 8px;
+    background: var(--nb-black);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    font-size: 10px;
+    color: var(--nb-white);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
+
+  .nb-clipboard.is-copied .nb-clipboard__tooltip {
+    opacity: 1;
+  }
+
+  /* --------------------------------------------------------------------------
+     Ghost Variant (icon-only)
+     -------------------------------------------------------------------------- */
+
+  .nb-clipboard--ghost {
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 4px;
+    box-shadow: none;
+  }
+
+  .nb-clipboard--ghost:hover {
+    background: var(--nb-gray-100);
+    border-color: var(--nb-black);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-clipboard {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-clipboard:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-clipboard.is-copied .nb-clipboard__icon {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-clipboard__tooltip {
+    background: var(--nb-gray-800);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-clipboard--ghost:hover {
+    border-color: var(--nb-gray-700);
+  }
+}

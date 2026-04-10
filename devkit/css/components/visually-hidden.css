@@ -18,7 +18,7 @@
   }
 
   /* Allow element to become visible when focused (skip-links, etc.) */
-  .dk-sr-only--focusable:focus,
+  .dk-sr-only--focusable:focus-visible,
   .dk-sr-only--focusable:active {
     position: static;
     width: auto;

@@ -1,0 +1,117 @@
+/*
+ * NB Newsletter Card — Article preview cards
+ * Inspired by Snowball's newsletter grid.
+ */
+@layer components {
+
+  .nb-newsletter-card {
+    display: flex;
+    flex-direction: column;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    box-shadow: var(--nb-shadow-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--nb-transition-fast), box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-newsletter-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-lg);
+  }
+
+  .nb-newsletter-card__img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: var(--nb-border);
+    display: block;
+  }
+
+  .nb-newsletter-card__body {
+    padding: var(--nb-space-5);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .nb-newsletter-card__category {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-semibold);
+    color: var(--nb-gray-600);
+    background: var(--nb-gray-100);
+    border-radius: var(--nb-radius-full);
+    padding: 2px 10px;
+    width: fit-content;
+    margin-bottom: var(--nb-space-3);
+  }
+
+  .nb-newsletter-card__title {
+    font-family: var(--nb-font-heading);
+    font-weight: var(--nb-font-bold);
+    font-size: var(--nb-text-base);
+    line-height: var(--nb-leading-snug);
+    margin-bottom: var(--nb-space-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .nb-newsletter-card__excerpt {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-600);
+    line-height: var(--nb-leading-relaxed);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .nb-newsletter-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-3);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    border-top: 1px solid var(--nb-gray-200);
+    padding-top: var(--nb-space-3);
+    margin-top: var(--nb-space-4);
+  }
+
+  .nb-newsletter-card__meta span + span::before {
+    content: "\00B7";
+    margin-right: var(--nb-space-3);
+  }
+
+  /* ── Featured: larger image ── */
+  .nb-newsletter-card--featured .nb-newsletter-card__img {
+    height: 280px;
+  }
+
+  /* ── Horizontal: side-by-side at md ── */
+  @media (min-width: 768px) {
+    .nb-newsletter-card--horizontal {
+      flex-direction: row;
+    }
+
+    .nb-newsletter-card--horizontal .nb-newsletter-card__img {
+      width: 260px;
+      height: auto;
+      min-height: 180px;
+      border-bottom: none;
+      border-right: var(--nb-border);
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-newsletter-card {
+    background: var(--nb-gray-900);
+  }
+}

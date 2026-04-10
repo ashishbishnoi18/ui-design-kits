@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Code — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Inline code spans with monospace font and bold border.
+   ========================================================================== */
+
+@layer components {
+
+  .nb-code {
+    font-family: var(--nb-font-mono);
+    font-size: 0.875em;
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 2px 6px;
+    color: var(--nb-black);
+    word-break: break-word;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-code {
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+}

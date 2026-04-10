@@ -5,47 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Playground — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit API playground — test endpoints and view responses">
+  <meta property="og:title" content="API Playground — DevKit">
+  <meta property="og:description" content="DevKit API playground — test endpoints and view responses">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 7px 16px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-    }
-    .btn-sm {
-      padding: 5px 12px;
-      font-size: var(--text-xs);
-    }
-
     /* API playground layout */
     .api-layout {
       display: flex;
@@ -251,6 +216,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <div class="api-layout">
 
@@ -288,13 +254,13 @@
     </aside>
 
     <!-- Main content -->
-    <main class="api-main">
+    <main class="api-main" id="main-content">
 
       <h1 style="font-size:var(--text-2xl); margin-bottom:24px;">API Playground</h1>
 
       <!-- Request builder -->
       <div class="dk-card" style="margin-bottom:24px;">
-        <div class="dk-card_body">
+        <div class="dk-card_body" data-slot="body">
           <div class="request-builder">
             <select class="method-select">
               <option value="GET">GET</option>
@@ -312,14 +278,14 @@
 
           <!-- Request tabs -->
           <div class="dk-tabs" data-dk-tabs>
-            <div class="dk-tabs_list">
-              <button class="dk-tabs_tab is-active" data-tab="params">Params</button>
-              <button class="dk-tabs_tab" data-tab="headers">Headers</button>
-              <button class="dk-tabs_tab" data-tab="body">Body</button>
+            <div class="dk-tabs_list" data-slot="list">
+              <button class="dk-tabs_tab is-active" data-slot="tab" data-tab="params">Params</button>
+              <button class="dk-tabs_tab" data-slot="tab" data-tab="headers">Headers</button>
+              <button class="dk-tabs_tab" data-slot="tab" data-tab="body">Body</button>
             </div>
 
             <!-- Params panel -->
-            <div class="dk-tabs_panel is-active" data-tab-panel="params">
+            <div class="dk-tabs_panel is-active" data-slot="panel" data-tab-panel="params">
               <div class="param-row">
                 <input type="text" class="dk-input dk-input--sm" placeholder="Key" value="page">
                 <input type="text" class="dk-input dk-input--sm" placeholder="Value" value="1">
@@ -345,7 +311,7 @@
             </div>
 
             <!-- Headers panel -->
-            <div class="dk-tabs_panel" data-tab-panel="headers">
+            <div class="dk-tabs_panel" data-slot="panel" data-tab-panel="headers">
               <div class="param-row">
                 <input type="text" class="dk-input dk-input--sm" placeholder="Key" value="Authorization">
                 <input type="text" class="dk-input dk-input--sm" placeholder="Value" value="Bearer sk-xxxx...xxxx">
@@ -364,8 +330,8 @@
             </div>
 
             <!-- Body panel -->
-            <div class="dk-tabs_panel" data-tab-panel="body">
-              <textarea class="dk-textarea" style="font-family:var(--font-mono); min-height:120px;" placeholder='{"key": "value"}'>{
+            <div class="dk-tabs_panel" data-slot="panel" data-tab-panel="body">
+              <textarea class="dk-textarea" data-slot="control" style="font-family:var(--font-mono); min-height:120px;" placeholder='{"key": "value"}'>{
   "name": "Jane Doe",
   "email": "jane@company.com",
   "role": "admin"
@@ -377,15 +343,15 @@
 
       <!-- Response area -->
       <div class="dk-card">
-        <div class="dk-card_header">
-          <div class="dk-card_title">Response</div>
+        <div class="dk-card_header" data-slot="header">
+          <div class="dk-card_title" data-slot="title">Response</div>
           <div class="response-header">
             <span class="dk-badge dk-badge--success">200 OK</span>
             <span class="response-meta">142ms</span>
             <span class="response-meta">1.2 KB</span>
           </div>
         </div>
-        <div class="dk-card_body" style="padding:0;">
+        <div class="dk-card_body" data-slot="body" style="padding:0;">
           <div class="json-viewer"><span class="json-bracket">{</span>
   <span class="json-key">"data"</span>: <span class="json-bracket">[</span>
     <span class="json-bracket">{</span>

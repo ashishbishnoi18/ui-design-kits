@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Auth Layout — DevKit
+   ==========================================================================
+   Split-screen authentication layout with form side and decorative brand
+   side. Collapses to single-column on mobile (<1024px).
+   ========================================================================== */
+
+@layer layout {
+
+  /* ---- Root Layout ---- */
+  .dk-auth-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ---- Form Side ---- */
+  .dk-auth-layout__form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--dk-space-8);
+    background-color: var(--bg-surface);
+  }
+
+  .dk-auth-layout__form-inner {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .dk-auth-layout__form-inner h1,
+  .dk-auth-layout__form-inner h2 {
+    font-family: var(--dk-font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: var(--dk-space-2);
+  }
+
+  .dk-auth-layout__form-inner p {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--dk-space-8);
+  }
+
+  .dk-auth-layout__form-inner form > * + * {
+    margin-top: var(--dk-space-5);
+  }
+
+  .dk-auth-layout__form-footer {
+    margin-top: var(--dk-space-6);
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .dk-auth-layout__form-footer a {
+    color: var(--accent-text);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--dk-transition-fast);
+  }
+
+  .dk-auth-layout__form-footer a:hover {
+    color: var(--dk-color-primary-hover);
+    text-decoration: underline;
+  }
+
+  /* ---- Brand Side ---- */
+  .dk-auth-layout__brand {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--dk-color-surface-alt);
+    color: var(--text-primary);
+    border-left: 1px solid var(--border-default);
+  }
+
+  .dk-auth-layout__brand-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: var(--dk-space-12);
+  }
+
+  .dk-auth-layout__brand-inner h2 {
+    font-family: var(--dk-font-heading);
+    font-size: var(--text-4xl, 2.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: var(--dk-space-4);
+  }
+
+  .dk-auth-layout__brand-inner p {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ---- Decorative Shapes ---- */
+  .dk-auth-layout__brand::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background-color: var(--dk-color-primary);
+    border-radius: var(--dk-radius-lg);
+    transform: rotate(15deg);
+    opacity: 0.08;
+  }
+
+  .dk-auth-layout__brand::after {
+    content: "";
+    position: absolute;
+    bottom: -60px;
+    left: -30px;
+    width: 160px;
+    height: 160px;
+    background-color: var(--dk-color-primary);
+    border-radius: 50%;
+    opacity: 0.06;
+  }
+
+  .dk-auth-layout__shape {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .dk-auth-layout__shape--triangle {
+    width: 0;
+    height: 0;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    border-bottom: 100px solid var(--dk-color-primary);
+    opacity: 0.05;
+    top: 30%;
+    right: 10%;
+  }
+
+  .dk-auth-layout__shape--square {
+    width: 80px;
+    height: 80px;
+    background-color: var(--dk-color-primary);
+    border-radius: var(--dk-radius-md);
+    opacity: 0.04;
+    bottom: 20%;
+    right: 25%;
+    transform: rotate(-12deg);
+  }
+
+  .dk-auth-layout__shape--circle {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--dk-color-primary);
+    border-radius: 50%;
+    opacity: 0.08;
+    top: 10%;
+    left: 15%;
+  }
+
+  /* ---- Testimonial Card ---- */
+  .dk-auth-layout__testimonial {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-lg);
+    padding: var(--dk-space-6);
+    margin-top: var(--dk-space-8);
+    transition: border-color var(--dk-transition-base);
+  }
+
+  .dk-auth-layout__testimonial:hover {
+    border-color: var(--border-strong);
+  }
+
+  .dk-auth-layout__testimonial-quote {
+    font-size: var(--text-base);
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--dk-space-4);
+  }
+
+  .dk-auth-layout__testimonial-quote::before {
+    content: "\201C";
+    font-size: var(--text-2xl, 1.5rem);
+    font-weight: 700;
+    color: var(--dk-color-primary);
+    margin-right: var(--dk-space-1);
+    line-height: 0;
+    vertical-align: -0.2em;
+  }
+
+  .dk-auth-layout__testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--dk-space-3);
+  }
+
+  .dk-auth-layout__testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-default);
+    object-fit: cover;
+  }
+
+  .dk-auth-layout__testimonial-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .dk-auth-layout__testimonial-role {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* ---- Stat Items ---- */
+  .dk-auth-layout__stats {
+    display: flex;
+    gap: var(--dk-space-8);
+    margin-top: var(--dk-space-10);
+    flex-wrap: wrap;
+  }
+
+  .dk-auth-layout__stat-number {
+    font-family: var(--dk-font-heading);
+    font-size: var(--text-3xl, 1.875rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .dk-auth-layout__stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-top: var(--dk-space-1);
+  }
+
+  .dk-auth-layout__stat--accent .dk-auth-layout__stat-number::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--dk-color-primary);
+    margin-bottom: var(--dk-space-2);
+    border-radius: var(--dk-radius-full);
+  }
+
+  /* ---- Feature Highlights ---- */
+  .dk-auth-layout__features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dk-space-3);
+    margin-top: var(--dk-space-10);
+  }
+
+  .dk-auth-layout__feature {
+    display: flex;
+    align-items: center;
+    gap: var(--dk-space-3);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .dk-auth-layout__feature svg {
+    flex-shrink: 0;
+    color: var(--dk-color-primary);
+  }
+
+  /* ---- Decorative Shape Positions ---- */
+  .dk-auth-layout__shape--top {
+    top: var(--dk-space-8);
+    right: var(--dk-space-8);
+    width: 60px;
+    height: 60px;
+    background-color: var(--dk-color-primary);
+    opacity: 0.06;
+    border-radius: var(--dk-radius-md);
+    transform: rotate(12deg);
+  }
+
+  .dk-auth-layout__shape--bottom {
+    bottom: var(--dk-space-8);
+    left: var(--dk-space-8);
+    width: 40px;
+    height: 40px;
+    background-color: var(--dk-color-primary);
+    opacity: 0.06;
+    border-radius: 50%;
+  }
+
+  /* ---- Responsive — Mobile (<1024px) ---- */
+  @media (max-width: 1023px) {
+    .dk-auth-layout {
+      flex-direction: column;
+    }
+
+    .dk-auth-layout__brand {
+      display: none;
+    }
+
+    .dk-auth-layout__form {
+      min-height: 100vh;
+      padding: var(--dk-space-6);
+    }
+  }
+
+  /* ---- Large screens (>=1280px) ---- */
+  @media (min-width: 1280px) {
+    .dk-auth-layout__brand-inner {
+      max-width: 540px;
+      padding: var(--dk-space-16, 4rem);
+    }
+
+    .dk-auth-layout__form {
+      padding: var(--dk-space-12);
+    }
+  }
+}

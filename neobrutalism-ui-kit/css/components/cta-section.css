@@ -1,0 +1,125 @@
+/* ==========================================================================
+   CTA Section — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-cta {
+    width: 100%;
+    padding: 64px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--nb-white);
+    border-top: 2px solid var(--nb-black);
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-cta__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nb-cta__title {
+    font-size: var(--nb-text-3xl);
+    font-weight: 700;
+    color: var(--nb-black);
+    margin: 0 0 16px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .nb-cta__desc {
+    font-size: var(--nb-text-base);
+    color: var(--nb-gray-700);
+    line-height: 1.6;
+    margin: 0 0 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nb-cta__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Glow variant (adapted to NB style with color block)                */
+  /* ------------------------------------------------------------------ */
+
+  .nb-cta-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--nb-green-500) 0%, transparent 70%);
+    opacity: 0.1;
+    pointer-events: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Card variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .nb-cta-card {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    padding: 48px 32px;
+    border-top: 2px solid var(--nb-black);
+    border-bottom: 2px solid var(--nb-black);
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accent border variant                                              */
+  /* ------------------------------------------------------------------ */
+
+  .nb-cta-accent {
+    border-top: 4px solid var(--nb-green-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Responsive                                                         */
+  /* ------------------------------------------------------------------ */
+
+  @media (max-width: 640px) {
+    .nb-cta {
+      padding: 48px 16px;
+    }
+
+    .nb-cta__title {
+      font-size: var(--nb-text-2xl);
+    }
+
+    .nb-cta__actions {
+      flex-direction: column;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-cta {
+    background: var(--nb-gray-900);
+    border-top: 2px solid var(--nb-gray-700);
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-cta__title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-cta-card {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    border-top: 2px solid var(--nb-gray-700);
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+}

@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Highlight Text — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Highlighted/rotated text spans for hero headings. Adds bold background
+   strips, borders, shadows, and optional rotation for a brutalist feel.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Highlight
+     -------------------------------------------------------------------------- */
+  .nb-highlight {
+    display: inline-block;
+    padding: var(--nb-space-1) var(--nb-space-2);
+    font-family: var(--nb-font-heading);
+    font-weight: var(--nb-font-extrabold);
+    color: var(--nb-black);
+    background-color: var(--nb-yellow-500);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    transform: rotate(0deg);
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-highlight:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* --------------------------------------------------------------------------
+     Color Variants
+     -------------------------------------------------------------------------- */
+  .nb-highlight--yellow {
+    background-color: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-highlight--pink {
+    background-color: var(--nb-pink-500, #EC4899);
+    color: var(--nb-black);
+  }
+
+  .nb-highlight--green {
+    background-color: var(--nb-green-500);
+    color: var(--nb-black);
+  }
+
+  .nb-highlight--blue {
+    background-color: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+
+  .nb-highlight--orange {
+    background-color: var(--nb-orange-500);
+    color: var(--nb-black);
+  }
+
+  /* --------------------------------------------------------------------------
+     Rotation Modifiers
+     -------------------------------------------------------------------------- */
+  .nb-highlight--rotate-left {
+    transform: rotate(-1deg);
+  }
+
+  .nb-highlight--rotate-left:hover {
+    transform: rotate(-1deg) translate(-2px, -2px);
+  }
+
+  .nb-highlight--rotate-right {
+    transform: rotate(1deg);
+  }
+
+  .nb-highlight--rotate-right:hover {
+    transform: rotate(1deg) translate(-2px, -2px);
+  }
+
+  /* --------------------------------------------------------------------------
+     Large Size - for big hero headings
+     -------------------------------------------------------------------------- */
+  .nb-highlight--lg {
+    padding: var(--nb-space-2) var(--nb-space-4);
+    font-size: var(--nb-text-2xl);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-highlight--lg:hover {
+    box-shadow: var(--nb-shadow-lg);
+  }
+}

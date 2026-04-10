@@ -1,0 +1,317 @@
+@layer components {
+
+  /* ------------------------------------------------------------------ */
+  /*  Button — Base                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dk-space-2);
+    padding: 8px 16px;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--dk-radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+    transition:
+      background-color var(--dk-transition-fast),
+      border-color var(--dk-transition-fast),
+      color var(--dk-transition-fast),
+      opacity var(--dk-transition-fast);
+  }
+
+  .dk-btn:hover {
+    background-color: var(--bg-overlay);
+    border-color: var(--border-hover);
+  }
+
+  .dk-btn:active {
+    background-color: var(--bg-active);
+  }
+
+  .dk-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Color Variants                                                     */
+  /* ------------------------------------------------------------------ */
+
+  /* Primary — emerald */
+  .dk-btn--primary {
+    background-color: var(--accent);
+    color: var(--text-on-accent);
+    border-color: var(--accent);
+  }
+
+  .dk-btn--primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .dk-btn--primary:active {
+    background-color: var(--dk-emerald-700);
+    border-color: var(--dk-emerald-700);
+  }
+
+  /* Secondary — subtle surface */
+  .dk-btn--secondary {
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    border-color: var(--border-default);
+  }
+
+  .dk-btn--secondary:hover {
+    background-color: var(--bg-raised);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+  }
+
+  .dk-btn--secondary:active {
+    background-color: var(--bg-active);
+  }
+
+  /* Danger — red */
+  .dk-btn--danger {
+    background-color: var(--color-danger);
+    color: var(--text-on-accent);
+    border-color: var(--color-danger);
+  }
+
+  .dk-btn--danger:hover {
+    background-color: var(--dk-red-600);
+    border-color: var(--dk-red-600);
+  }
+
+  .dk-btn--danger:active {
+    background-color: var(--dk-red-500);
+    border-color: var(--dk-red-500);
+  }
+
+  /* Ghost — transparent, text only */
+  .dk-btn--ghost {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--text-secondary);
+  }
+
+  .dk-btn--ghost:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .dk-btn--ghost:active {
+    background-color: var(--bg-active);
+  }
+
+  /* Outline — bordered, transparent bg */
+  .dk-btn--outline {
+    background-color: transparent;
+    border-color: var(--border-default);
+    color: var(--text-primary);
+  }
+
+  .dk-btn--outline:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  .dk-btn--outline:active {
+    background-color: var(--bg-active);
+    border-color: var(--border-active);
+  }
+
+  /* Dark — inverted */
+  .dk-btn--dark {
+    background-color: var(--dk-gray-200);
+    color: var(--text-on-inverted);
+    border-color: var(--dk-gray-200);
+  }
+
+  .dk-btn--dark:hover {
+    background-color: var(--dk-gray-300);
+    border-color: var(--dk-gray-300);
+  }
+
+  .dk-btn--dark:active {
+    background-color: var(--dk-gray-400);
+    border-color: var(--dk-gray-400);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size Variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn--sm {
+    padding: 4px 10px;
+    font-size: var(--text-xs);
+    gap: var(--dk-space-1);
+  }
+
+  .dk-btn--lg {
+    padding: 12px 24px;
+    font-size: var(--text-base);
+  }
+
+  .dk-btn--xl {
+    padding: 16px 32px;
+    font-size: var(--text-lg);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Full-Width                                                         */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn--full {
+    width: 100%;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Icon-Only                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn--icon {
+    padding: 8px;
+    aspect-ratio: 1;
+  }
+
+  .dk-btn--icon.dk-btn--sm {
+    padding: 4px;
+  }
+
+  .dk-btn--icon.dk-btn--lg {
+    padding: 12px;
+  }
+
+  .dk-btn--icon.dk-btn--xl {
+    padding: 16px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Disabled State                                                     */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn[disabled],
+  .dk-btn.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Loading State                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn.is-loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+  }
+
+  .dk-btn.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    margin-left: -7px;
+    border: 2px solid var(--border-hover);
+    border-top-color: var(--text-primary);
+    border-radius: var(--dk-radius-full);
+    animation: dk-btn-spin 0.6s linear infinite;
+  }
+
+  /* Spinner contrast overrides for filled variants */
+  .dk-btn--primary.is-loading::after {
+    border-color: rgba(255, 255, 255, 0.3);
+    border-top-color: var(--text-on-accent);
+  }
+
+  .dk-btn--danger.is-loading::after {
+    border-color: rgba(255, 255, 255, 0.3);
+    border-top-color: var(--text-on-accent);
+  }
+
+  .dk-btn--dark.is-loading::after {
+    border-color: rgba(0, 0, 0, 0.2);
+    border-top-color: var(--text-on-inverted);
+  }
+
+  @keyframes dk-btn-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Button Group                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .dk-btn-group {
+    display: inline-flex;
+  }
+
+  .dk-btn-group > .dk-btn {
+    border-radius: 0;
+  }
+
+  .dk-btn-group > .dk-btn + .dk-btn {
+    margin-left: -1px;
+  }
+
+  .dk-btn-group > .dk-btn:first-child {
+    border-top-left-radius: var(--dk-radius-md);
+    border-bottom-left-radius: var(--dk-radius-md);
+  }
+
+  .dk-btn-group > .dk-btn:last-child {
+    border-top-right-radius: var(--dk-radius-md);
+    border-bottom-right-radius: var(--dk-radius-md);
+  }
+
+  .dk-btn-group > .dk-btn:hover,
+  .dk-btn-group > .dk-btn:focus-visible {
+    z-index: 1;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Accessibility                                                      */
+  /* ------------------------------------------------------------------ */
+
+  @media (prefers-contrast: more) {
+    .dk-btn {
+      --border-default: #555;
+    }
+    .dk-btn--primary,
+    .dk-btn--danger {
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .dk-btn {
+      border: 1px solid ButtonText;
+    }
+    .dk-btn:focus-visible {
+      outline: 2px solid Highlight;
+    }
+    .dk-btn[disabled],
+    .dk-btn.is-disabled {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}

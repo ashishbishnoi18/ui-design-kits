@@ -47,7 +47,7 @@
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 700;
-    color: #000;
+    color: var(--text-on-inverted);
     line-height: 1;
     flex-shrink: 0;
   }
@@ -83,7 +83,7 @@
     color: var(--text-muted);
   }
 
-  .dk-sidebar_search-input:focus {
+  .dk-sidebar_search-input:focus-visible {
     border-color: var(--accent);
   }
 

@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Radio Card — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  /* Radio Card Group */
+
+  .nb-radio-card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nb-radio-card-group-horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nb-radio-card-group-horizontal .nb-radio-card {
+    flex: 1 1 0;
+    min-width: 140px;
+  }
+
+  /* Radio Card */
+
+  .nb-radio-card {
+    position: relative;
+    display: block;
+    padding: 16px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    cursor: pointer;
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast),
+      background var(--nb-transition-fast);
+    user-select: none;
+  }
+
+  .nb-radio-card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-sm);
+    background: var(--nb-gray-50);
+  }
+
+  /* Hidden native radio */
+  .nb-radio-card_input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Checked state */
+  .nb-radio-card.is-active,
+  .nb-radio-card:has(.nb-radio-card_input:checked) {
+    background: var(--nb-yellow-100, #fef9c3);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-radio-card.is-active:hover,
+  .nb-radio-card:has(.nb-radio-card_input:checked):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-lg);
+  }
+
+  /* Visual indicator (radio dot) */
+  .nb-radio-card_indicator {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--nb-black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color var(--nb-transition-fast),
+      background var(--nb-transition-fast);
+  }
+
+  .nb-radio-card.is-active .nb-radio-card_indicator,
+  .nb-radio-card:has(.nb-radio-card_input:checked) .nb-radio-card_indicator {
+    border-color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-radio-card_indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nb-black);
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity var(--nb-transition-fast),
+      transform var(--nb-transition-fast);
+  }
+
+  .nb-radio-card.is-active .nb-radio-card_indicator-dot,
+  .nb-radio-card:has(.nb-radio-card_input:checked) .nb-radio-card_indicator-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Content */
+  .nb-radio-card_title {
+    font-family: inherit;
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-black);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    padding-right: 28px;
+  }
+
+  .nb-radio-card_description,
+  .nb-radio-card_desc {
+    font-family: inherit;
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-700);
+    line-height: 1.5;
+  }
+
+  .nb-radio-card_price {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-green-500);
+    margin-top: 8px;
+  }
+
+  /* Focus ring */
+  .nb-radio-card:has(.nb-radio-card_input:focus-visible) {
+    box-shadow:
+      0 0 0 2px var(--nb-white),
+      0 0 0 4px var(--nb-black);
+  }
+
+  /* Disabled */
+  .nb-radio-card.is-disabled,
+  .nb-radio-card:has(.nb-radio-card_input:disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-radio-card {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-radio-card_indicator {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-radio-card.is-active .nb-radio-card_indicator,
+  .nb-radio-card:has(.nb-radio-card_input:checked) .nb-radio-card_indicator {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-radio-card_indicator-dot {
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-radio-card_title {
+    color: var(--nb-gray-100);
+  }
+}

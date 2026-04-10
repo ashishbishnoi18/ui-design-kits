@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Blockquote — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Styled pull quotes with bold left border.
+   ========================================================================== */
+
+@layer components {
+
+  .nb-blockquote {
+    border-left: 4px solid var(--nb-black);
+    padding-left: 16px;
+    color: var(--nb-gray-700);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .nb-blockquote__cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    color: var(--nb-gray-400);
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-blockquote {
+    border-left: 4px solid var(--nb-gray-700);
+  }
+}

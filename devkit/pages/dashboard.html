@@ -5,54 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit dashboard template — analytics, metrics, and team overview">
+  <meta property="og:title" content="Dashboard — DevKit">
+  <meta property="og:description" content="DevKit dashboard template — analytics, metrics, and team overview">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 6px 14px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-      color: var(--text-heading);
-    }
-    .btn-icon {
-      padding: 6px;
-      width: 34px;
-      height: 34px;
-    }
-    .btn-icon svg {
-      width: 16px;
-      height: 16px;
-    }
-
     /* Top bar */
     .topbar {
       display: flex;
@@ -122,6 +80,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <div class="dk-sidebar-layout">
 
@@ -159,7 +118,7 @@
 
       <div class="dk-sidebar-footer">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">JD</span></div>
+          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">JD</span></div>
           <div>
             <div style="font-size:var(--text-sm); font-weight:500; color:var(--text-heading);">Jane Doe</div>
             <div style="font-size:var(--text-xs); color:var(--text-muted);">jane@company.com</div>
@@ -171,17 +130,17 @@
     <div class="dk-sidebar_backdrop"></div>
 
     <!-- Main content -->
-    <main class="dk-main">
+    <main class="dk-main" id="main-content">
       <div class="dk-main-content">
 
         <!-- Top bar -->
         <div class="topbar">
           <div class="topbar_left">
             <div class="dk-search dk-search--no-shortcut" data-dk-search>
-              <span class="dk-search_icon">
+              <span class="dk-search_icon" data-slot="icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
               </span>
-              <input type="text" class="dk-search_input" placeholder="Search...">
+              <input type="text" class="dk-search_input" data-slot="input" placeholder="Search...">
             </div>
           </div>
           <div class="topbar_right">
@@ -189,15 +148,15 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             </button>
             <div class="dk-dropdown dk-dropdown--right" data-dk-dropdown>
-              <button class="dk-dropdown_trigger">
-                <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">JD</span></div>
+              <button class="dk-dropdown_trigger" data-slot="trigger">
+                <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">JD</span></div>
               </button>
-              <div class="dk-dropdown_menu">
-                <div class="dk-dropdown_header">Account</div>
-                <a href="settings.html" class="dk-dropdown_item">Profile</a>
-                <a href="settings.html" class="dk-dropdown_item">Settings</a>
-                <div class="dk-dropdown_divider"></div>
-                <a href="login.html" class="dk-dropdown_item">Sign out</a>
+              <div class="dk-dropdown_menu" data-slot="menu">
+                <div class="dk-dropdown_header" data-slot="header">Account</div>
+                <a href="settings.html" class="dk-dropdown_item" data-slot="item">Profile</a>
+                <a href="settings.html" class="dk-dropdown_item" data-slot="item">Settings</a>
+                <div class="dk-dropdown_divider" data-slot="divider"></div>
+                <a href="login.html" class="dk-dropdown_item" data-slot="item">Sign out</a>
               </div>
             </div>
           </div>
@@ -213,53 +172,53 @@
         <div class="dk-grid dk-grid-cols-1 sm:dk-grid-cols-2 lg:dk-grid-cols-4 dk-gap-4" style="margin-bottom:24px;">
           <div class="dk-stat-card">
             <div class="dk-stat-card_top">
-              <div class="dk-stat-card_label">Revenue</div>
-              <div class="dk-stat-card_icon">
+              <div class="dk-stat-card_label" data-slot="label">Revenue</div>
+              <div class="dk-stat-card_icon" data-slot="icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
             </div>
-            <div class="dk-stat-card_value">$48,290</div>
-            <span class="dk-stat-card_trend dk-stat-card_trend--up">+12.5% from last month</span>
+            <div class="dk-stat-card_value" data-slot="value">$48,290</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up" data-slot="trend">+12.5% from last month</span>
           </div>
 
           <div class="dk-stat-card">
             <div class="dk-stat-card_top">
-              <div class="dk-stat-card_label">Users</div>
-              <div class="dk-stat-card_icon">
+              <div class="dk-stat-card_label" data-slot="label">Users</div>
+              <div class="dk-stat-card_icon" data-slot="icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
               </div>
             </div>
-            <div class="dk-stat-card_value">2,847</div>
-            <span class="dk-stat-card_trend dk-stat-card_trend--up">+8.2% from last month</span>
+            <div class="dk-stat-card_value" data-slot="value">2,847</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up" data-slot="trend">+8.2% from last month</span>
           </div>
 
           <div class="dk-stat-card">
             <div class="dk-stat-card_top">
-              <div class="dk-stat-card_label">Projects</div>
-              <div class="dk-stat-card_icon">
+              <div class="dk-stat-card_label" data-slot="label">Projects</div>
+              <div class="dk-stat-card_icon" data-slot="icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               </div>
             </div>
-            <div class="dk-stat-card_value">142</div>
-            <span class="dk-stat-card_trend dk-stat-card_trend--up">+3.1% from last month</span>
+            <div class="dk-stat-card_value" data-slot="value">142</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--up" data-slot="trend">+3.1% from last month</span>
           </div>
 
           <div class="dk-stat-card">
             <div class="dk-stat-card_top">
-              <div class="dk-stat-card_label">Uptime</div>
-              <div class="dk-stat-card_icon">
+              <div class="dk-stat-card_label" data-slot="label">Uptime</div>
+              <div class="dk-stat-card_icon" data-slot="icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               </div>
             </div>
-            <div class="dk-stat-card_value">99.98%</div>
-            <span class="dk-stat-card_trend dk-stat-card_trend--down">-0.01% from last month</span>
+            <div class="dk-stat-card_value" data-slot="value">99.98%</div>
+            <span class="dk-stat-card_trend dk-stat-card_trend--down" data-slot="trend">-0.01% from last month</span>
           </div>
         </div>
 
         <!-- Activity table -->
         <div class="dk-card" style="margin-bottom:24px;">
-          <div class="dk-card_header">
-            <div class="dk-card_title">Recent Activity</div>
+          <div class="dk-card_header" data-slot="header">
+            <div class="dk-card_title" data-slot="title">Recent Activity</div>
             <a href="#" style="font-size:var(--text-xs); color:var(--accent-text);">View all</a>
           </div>
           <div style="overflow-x:auto;">
@@ -277,7 +236,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">SL</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">SL</span></div>
                       Sarah Lin
                     </div>
                   </td>
@@ -289,7 +248,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">MK</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">MK</span></div>
                       Marcus Kim
                     </div>
                   </td>
@@ -301,7 +260,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">AJ</span></div>
                       Aisha Johnson
                     </div>
                   </td>
@@ -313,7 +272,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">RP</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">RP</span></div>
                       Raj Patel
                     </div>
                   </td>
@@ -325,7 +284,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">EC</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">EC</span></div>
                       Elena Cruz
                     </div>
                   </td>
@@ -337,7 +296,7 @@
                 <tr>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">JD</span></div>
+                      <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">JD</span></div>
                       Jane Doe
                     </div>
                   </td>
@@ -355,11 +314,11 @@
         <div class="dk-grid dk-grid-cols-1 md:dk-grid-cols-2 dk-gap-4">
           <!-- Chart -->
           <div class="dk-card">
-            <div class="dk-card_header">
-              <div class="dk-card_title">Revenue Overview</div>
+            <div class="dk-card_header" data-slot="header">
+              <div class="dk-card_title" data-slot="title">Revenue Overview</div>
               <div class="dk-badge">Last 30 days</div>
             </div>
-            <div class="dk-card_body">
+            <div class="dk-card_body" data-slot="body">
               <div class="chart-placeholder">
                 <span>Chart visualization placeholder</span>
               </div>
@@ -368,47 +327,47 @@
 
           <!-- Tasks -->
           <div class="dk-card">
-            <div class="dk-card_header">
-              <div class="dk-card_title">Recent Tasks</div>
+            <div class="dk-card_header" data-slot="header">
+              <div class="dk-card_title" data-slot="title">Recent Tasks</div>
               <button class="btn btn-outline" style="padding:4px 10px; font-size:var(--text-xs);">Add task</button>
             </div>
-            <div class="dk-card_body">
+            <div class="dk-card_body" data-slot="body">
               <div class="task-item">
                 <label class="dk-checkbox">
-                  <input type="checkbox" class="dk-checkbox_input" checked>
-                  <span class="dk-checkbox_box"></span>
+                  <input type="checkbox" class="dk-checkbox_input" data-slot="input" checked>
+                  <span class="dk-checkbox_box" data-slot="indicator"></span>
                 </label>
                 <span class="task-item_text is-done">Review pull request #842</span>
                 <span class="dk-badge dk-badge--sm">Done</span>
               </div>
               <div class="task-item">
                 <label class="dk-checkbox">
-                  <input type="checkbox" class="dk-checkbox_input" checked>
-                  <span class="dk-checkbox_box"></span>
+                  <input type="checkbox" class="dk-checkbox_input" data-slot="input" checked>
+                  <span class="dk-checkbox_box" data-slot="indicator"></span>
                 </label>
                 <span class="task-item_text is-done">Update API documentation</span>
                 <span class="dk-badge dk-badge--sm">Done</span>
               </div>
               <div class="task-item">
                 <label class="dk-checkbox">
-                  <input type="checkbox" class="dk-checkbox_input">
-                  <span class="dk-checkbox_box"></span>
+                  <input type="checkbox" class="dk-checkbox_input" data-slot="input">
+                  <span class="dk-checkbox_box" data-slot="indicator"></span>
                 </label>
                 <span class="task-item_text">Deploy staging environment</span>
                 <span class="dk-badge dk-badge--sm dk-badge--warning">In Progress</span>
               </div>
               <div class="task-item">
                 <label class="dk-checkbox">
-                  <input type="checkbox" class="dk-checkbox_input">
-                  <span class="dk-checkbox_box"></span>
+                  <input type="checkbox" class="dk-checkbox_input" data-slot="input">
+                  <span class="dk-checkbox_box" data-slot="indicator"></span>
                 </label>
                 <span class="task-item_text">Write migration script</span>
                 <span class="dk-badge dk-badge--sm dk-badge--info">To Do</span>
               </div>
               <div class="task-item">
                 <label class="dk-checkbox">
-                  <input type="checkbox" class="dk-checkbox_input">
-                  <span class="dk-checkbox_box"></span>
+                  <input type="checkbox" class="dk-checkbox_input" data-slot="input">
+                  <span class="dk-checkbox_box" data-slot="indicator"></span>
                 </label>
                 <span class="task-item_text">Set up monitoring alerts</span>
                 <span class="dk-badge dk-badge--sm dk-badge--info">To Do</span>

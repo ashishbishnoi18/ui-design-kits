@@ -1,0 +1,162 @@
+/* ==========================================================================
+   Sidebar Layout — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Two-panel sidebar + main content layout. Bold borders, hard shadows.
+   ========================================================================== */
+
+@layer layout {
+
+  /* ---- Two-panel sidebar + main layout ---- */
+  .nb-sidebar-layout {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* ---- Sidebar ---- */
+  .nb-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    background: var(--nb-white);
+    border-right: var(--nb-border);
+    overflow-y: auto;
+    z-index: var(--nb-z-sticky, 100);
+    display: flex;
+    flex-direction: column;
+    padding: var(--nb-space-4);
+  }
+
+  .nb-sidebar-header {
+    padding-bottom: var(--nb-space-4);
+    border-bottom: var(--nb-border);
+    margin-bottom: var(--nb-space-4);
+  }
+
+  .nb-sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nb-space-1);
+  }
+
+  .nb-sidebar-nav a,
+  .nb-sidebar-nav button {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-2);
+    padding: var(--nb-space-2) var(--nb-space-3);
+    border-radius: var(--nb-radius);
+    font-size: var(--nb-text-sm);
+    font-family: var(--nb-font-sans);
+    color: var(--nb-gray-700);
+    border: 2px solid transparent;
+    transition: all var(--nb-transition-fast);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nb-sidebar-nav a:hover,
+  .nb-sidebar-nav button:hover {
+    background: var(--nb-gray-100);
+    color: var(--nb-black);
+    border-color: var(--nb-black);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-sidebar-nav a.active,
+  .nb-sidebar-nav a[aria-current="page"],
+  .nb-sidebar-nav button.active {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    border-color: var(--nb-black);
+    font-weight: var(--nb-font-bold);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-sidebar-footer {
+    padding-top: var(--nb-space-4);
+    border-top: var(--nb-border);
+    margin-top: auto;
+  }
+
+  /* ---- Main content area ---- */
+  .nb-main {
+    flex: 1;
+    margin-left: 260px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .nb-main-content {
+    padding: var(--nb-space-8);
+    max-width: 1200px;
+  }
+
+  /* ---- Sidebar toggle (hidden by default, shown on mobile) ---- */
+  .nb-sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: var(--nb-space-3);
+    left: var(--nb-space-3);
+    z-index: calc(var(--nb-z-sticky, 100) + 1);
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: var(--nb-white);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    color: var(--nb-black);
+    cursor: pointer;
+  }
+
+  .nb-sidebar-toggle:hover {
+    box-shadow: var(--nb-shadow-md);
+    transform: translate(-1px, -1px);
+  }
+
+  /* ---- Mobile overlay ---- */
+  .nb-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--nb-z-sticky, 100) - 1);
+  }
+
+  /* ---- Responsive collapse at 768px ---- */
+  @media (max-width: 767px) {
+    .nb-sidebar {
+      transform: translateX(-100%);
+      transition: transform var(--nb-transition-base);
+      z-index: var(--nb-z-overlay, 200);
+    }
+
+    .nb-sidebar.is-open {
+      transform: translateX(0);
+    }
+
+    .nb-sidebar-overlay.is-open {
+      display: block;
+    }
+
+    .nb-sidebar-toggle {
+      display: flex;
+    }
+
+    .nb-main {
+      margin-left: 0;
+    }
+
+    .nb-main-content {
+      padding: var(--nb-space-4);
+      padding-top: calc(var(--nb-space-4) + 52px);
+    }
+  }
+}

@@ -30,4 +30,13 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+
+  @media (forced-colors: active) {
+    .dk-link {
+      border: 1px solid ButtonText;
+    }
+    .dk-link:focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
 }

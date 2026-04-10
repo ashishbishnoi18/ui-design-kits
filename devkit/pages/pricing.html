@@ -5,55 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit pricing plans — free, pro, and enterprise tiers">
+  <meta property="og:title" content="Pricing — DevKit">
+  <meta property="og:description" content="DevKit pricing plans — free, pro, and enterprise tiers">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-      width: 100%;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-      color: var(--text-heading);
-    }
-    .btn-sm {
-      padding: 5px 14px;
-      font-size: var(--text-xs);
-      width: auto;
-    }
-    .btn-lg {
-      padding: 10px 28px;
-      font-size: var(--text-base);
-      width: auto;
-    }
+    /* Pricing card buttons full-width */
+    .dk-pricing-card .btn { width: 100%; }
+    .btn-sm { width: auto; }
+    .btn-lg { width: auto; }
 
     /* Billing toggle */
     .billing-toggle {
@@ -129,32 +90,33 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <!-- Navbar -->
   <nav class="dk-navbar" data-dk-navbar>
-    <div class="dk-navbar_brand">
+    <div class="dk-navbar_brand" data-slot="brand">
       <div class="dk-navbar_brand-icon">dk</div>
       <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
     </div>
-    <div class="dk-navbar_nav">
-      <a href="landing.html" class="dk-navbar_link">Home</a>
-      <a href="docs.html" class="dk-navbar_link">Docs</a>
-      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
-      <a href="blog.html" class="dk-navbar_link">Blog</a>
+    <div class="dk-navbar_nav" data-slot="nav">
+      <a href="landing.html" class="dk-navbar_link" data-slot="link">Home</a>
+      <a href="docs.html" class="dk-navbar_link" data-slot="link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link" data-slot="link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link" data-slot="link">Blog</a>
     </div>
-    <div class="dk-navbar_actions">
+    <div class="dk-navbar_actions" data-slot="actions">
       <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
     </div>
-    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+    <button class="dk-navbar_mobile-toggle" data-slot="toggle" aria-label="Toggle menu">
       <span class="dk-navbar_mobile-toggle-icon"></span>
     </button>
   </nav>
 
   <!-- Hero -->
-  <section class="dk-hero dk-hero-centered">
-    <div class="dk-hero_inner">
-      <h1 class="dk-hero_title">Simple, transparent pricing</h1>
-      <p class="dk-hero_subtitle">
+  <section class="dk-hero dk-hero-centered" id="main-content">
+    <div class="dk-hero_inner" data-slot="container">
+      <h1 class="dk-hero_title" data-slot="title">Simple, transparent pricing</h1>
+      <p class="dk-hero_subtitle" data-slot="subtitle">
         Start free. Upgrade when you need more. No hidden fees, no surprises.
       </p>
     </div>
@@ -164,8 +126,8 @@
   <div class="billing-toggle">
     <span class="billing-toggle_label is-active">Monthly</span>
     <label class="dk-toggle">
-      <input type="checkbox" class="dk-toggle_input" id="billing-toggle">
-      <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+      <input type="checkbox" class="dk-toggle_input" data-slot="input" id="billing-toggle">
+      <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
     </label>
     <span class="billing-toggle_label">Annual <span class="billing-toggle_save">SAVE 20%</span></span>
   </div>
@@ -317,56 +279,56 @@
   <section class="faq-section">
     <h2 style="text-align:center; margin-bottom:32px;">Frequently asked questions</h2>
     <div class="dk-accordion" data-dk-accordion>
-      <div class="dk-accordion_item">
-        <button class="dk-accordion_trigger">
+      <div class="dk-accordion_item" data-slot="item">
+        <button class="dk-accordion_trigger" data-slot="trigger">
           Can I use DevKit in commercial projects?
-          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dk-accordion_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-        <div class="dk-accordion_content">
+        <div class="dk-accordion_content" data-slot="content">
           <div class="dk-accordion_body">
             Yes. The Free tier is MIT licensed, meaning you can use it in any project -- personal, commercial, or open source. Pro and Enterprise licenses add premium assets and support.
           </div>
         </div>
       </div>
-      <div class="dk-accordion_item">
-        <button class="dk-accordion_trigger">
+      <div class="dk-accordion_item" data-slot="item">
+        <button class="dk-accordion_trigger" data-slot="trigger">
           Do I need a build tool or framework?
-          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dk-accordion_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-        <div class="dk-accordion_content">
+        <div class="dk-accordion_content" data-slot="content">
           <div class="dk-accordion_body">
             No. DevKit is a plain CSS + vanilla JS library. Include the stylesheet and script tags, then use the component classes. No bundler, compiler, or framework required.
           </div>
         </div>
       </div>
-      <div class="dk-accordion_item">
-        <button class="dk-accordion_trigger">
+      <div class="dk-accordion_item" data-slot="item">
+        <button class="dk-accordion_trigger" data-slot="trigger">
           Can I switch between monthly and annual billing?
-          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dk-accordion_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-        <div class="dk-accordion_content">
+        <div class="dk-accordion_content" data-slot="content">
           <div class="dk-accordion_body">
             Yes. You can switch billing cycles at any time from your account settings. When switching from monthly to annual, you receive a prorated credit for the current period.
           </div>
         </div>
       </div>
-      <div class="dk-accordion_item">
-        <button class="dk-accordion_trigger">
+      <div class="dk-accordion_item" data-slot="item">
+        <button class="dk-accordion_trigger" data-slot="trigger">
           What happens when my trial ends?
-          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dk-accordion_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-        <div class="dk-accordion_content">
+        <div class="dk-accordion_content" data-slot="content">
           <div class="dk-accordion_body">
             Your Pro trial lasts 14 days. When it ends you can continue on the Free tier with no loss of work, or upgrade to keep access to premium templates and priority support.
           </div>
         </div>
       </div>
-      <div class="dk-accordion_item">
-        <button class="dk-accordion_trigger">
+      <div class="dk-accordion_item" data-slot="item">
+        <button class="dk-accordion_trigger" data-slot="trigger">
           Do you offer refunds?
-          <svg class="dk-accordion_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="dk-accordion_icon" data-slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-        <div class="dk-accordion_content">
+        <div class="dk-accordion_content" data-slot="content">
           <div class="dk-accordion_body">
             Yes, we offer a full refund within 30 days of purchase if you are not satisfied. Contact support and we will process it immediately -- no questions asked.
           </div>

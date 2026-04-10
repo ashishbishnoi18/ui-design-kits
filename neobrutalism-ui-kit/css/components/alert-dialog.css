@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Alert Dialog — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Modal confirmation dialogs with danger/warning variants.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Backdrop
+     -------------------------------------------------------------------------- */
+
+  .nb-alert-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+  }
+
+  .nb-alert-dialog-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* --------------------------------------------------------------------------
+     Dialog
+     -------------------------------------------------------------------------- */
+
+  .nb-alert-dialog {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: var(--nb-shadow-lg);
+    transform: scale(0.96) translateY(8px);
+    transition: transform 0.15s ease;
+  }
+
+  .nb-alert-dialog-backdrop.is-open .nb-alert-dialog {
+    transform: scale(1) translateY(0);
+  }
+
+  /* --------------------------------------------------------------------------
+     Sub-elements
+     -------------------------------------------------------------------------- */
+
+  .nb-alert-dialog_icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .nb-alert-dialog_icon--danger {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+  }
+
+  .nb-alert-dialog_icon--warning {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-alert-dialog_title {
+    font-weight: 700;
+    color: var(--nb-black);
+    font-size: var(--nb-text-base);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .nb-alert-dialog_description {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .nb-alert-dialog_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-alert-dialog {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-alert-dialog_icon {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-alert-dialog_title {
+    color: var(--nb-gray-100);
+  }
+}

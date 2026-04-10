@@ -46,48 +46,48 @@
 
   /* Info */
   .dk-callout--info {
-    background: rgba(59, 130, 246, 0.06);
-    border-color: rgba(59, 130, 246, 0.15);
+    background: var(--color-info-muted);
+    border-color: var(--color-info-muted);
   }
 
   .dk-callout--info .dk-callout_icon {
-    color: #3b82f6;
+    color: var(--color-info);
   }
 
   /* Success */
   .dk-callout--success {
-    background: var(--accent-muted, rgba(16, 185, 129, 0.06));
-    border-color: rgba(16, 185, 129, 0.15);
+    background: var(--color-success-muted);
+    border-color: var(--color-success-muted);
   }
 
   .dk-callout--success .dk-callout_icon {
-    color: var(--accent);
+    color: var(--color-success);
   }
 
   /* Warning */
   .dk-callout--warning {
-    background: rgba(234, 179, 8, 0.06);
-    border-color: rgba(234, 179, 8, 0.15);
+    background: var(--color-warning-muted);
+    border-color: var(--color-warning-muted);
   }
 
   .dk-callout--warning .dk-callout_icon {
-    color: #eab308;
+    color: var(--color-warning);
   }
 
   /* Danger */
   .dk-callout--danger {
-    background: rgba(239, 68, 68, 0.06);
-    border-color: rgba(239, 68, 68, 0.15);
+    background: var(--color-danger-muted);
+    border-color: var(--color-danger-muted);
   }
 
   .dk-callout--danger .dk-callout_icon {
-    color: #ef4444;
+    color: var(--color-danger);
   }
 
   /* Accent */
   .dk-callout--accent {
-    background: var(--accent-muted, rgba(16, 185, 129, 0.06));
-    border-color: rgba(16, 185, 129, 0.15);
+    background: var(--color-success-muted);
+    border-color: var(--color-success-muted);
   }
 
   .dk-callout--accent .dk-callout_icon {

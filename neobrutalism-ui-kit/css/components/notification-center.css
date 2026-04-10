@@ -1,0 +1,269 @@
+/* ==========================================================================
+   Notification Center — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-notifications {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Trigger button --------------------------------------------------- */
+
+  .nb-notifications__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .nb-notifications__trigger:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+    color: var(--nb-black);
+  }
+
+  .nb-notifications__trigger svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Badge count ------------------------------------------------------ */
+
+  .nb-notifications__badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--nb-font-mono);
+    border-radius: 999px;
+    border: 2px solid var(--nb-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .nb-notifications__badge:empty,
+  .nb-notifications__badge[data-count="0"] {
+    display: none;
+  }
+
+  /* Panel ------------------------------------------------------------ */
+
+  .nb-notifications__panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 360px;
+    max-height: 480px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    box-shadow: var(--nb-shadow-lg);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity 0.15s ease,
+      visibility 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .nb-notifications__panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Panel header ----------------------------------------------------- */
+
+  .nb-notifications__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-notifications__title {
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-black);
+    margin: 0;
+  }
+
+  .nb-notifications__mark-all {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-green-500);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--nb-font-sans);
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+
+  .nb-notifications__mark-all:hover {
+    color: var(--nb-black);
+  }
+
+  /* Scrollable list -------------------------------------------------- */
+
+  .nb-notifications__list {
+    overflow-y: auto;
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Notification item ------------------------------------------------ */
+
+  .nb-notification__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--nb-gray-200);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    position: relative;
+  }
+
+  .nb-notification__item:last-child {
+    border-bottom: none;
+  }
+
+  .nb-notification__item:hover {
+    background: var(--nb-yellow-500);
+  }
+
+  /* Unread indicator (dot) ------------------------------------------- */
+
+  .nb-notification__item.is-unread::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--nb-black);
+  }
+
+  .nb-notification__item.is-unread {
+    padding-left: 20px;
+  }
+
+  /* Icon ------------------------------------------------------------- */
+
+  .nb-notification__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 2px solid var(--nb-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .nb-notification__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nb-notification__icon--info    { background: var(--nb-blue-500);   color: var(--nb-white); }
+  .nb-notification__icon--warning { background: var(--nb-yellow-500); color: var(--nb-black); }
+  .nb-notification__icon--error   { background: var(--nb-red-500);    color: var(--nb-white); }
+  .nb-notification__icon--success { background: var(--nb-green-500);  color: var(--nb-white); }
+
+  /* Content ---------------------------------------------------------- */
+
+  .nb-notification__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nb-notification__text {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .nb-notification__text strong {
+    font-weight: 500;
+  }
+
+  .nb-notification__time {
+    font-size: 10px;
+    color: var(--nb-gray-400);
+    font-family: var(--nb-font-mono);
+    margin-top: 4px;
+  }
+
+  /* Empty state ------------------------------------------------------ */
+
+  .nb-notifications__empty {
+    padding: 40px 16px;
+    text-align: center;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-400);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-notifications__trigger {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-notifications__trigger:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-notifications__panel {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-notifications__header {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-notifications__title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-notifications__mark-all:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-notification__item.is-unread::before {
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-notification__icon {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-notification__text {
+    color: var(--nb-gray-100);
+  }
+}

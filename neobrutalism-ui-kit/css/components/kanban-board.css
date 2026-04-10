@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Kanban Board — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-kanban {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    min-height: 400px;
+    align-items: flex-start;
+  }
+
+  /* Column ----------------------------------------------------------- */
+
+  .nb-kanban__column {
+    flex: 0 0 280px;
+    min-width: 280px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    box-shadow: var(--nb-shadow-md);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    transition: border-color 0.15s ease;
+  }
+
+  .nb-kanban__column.is-drag-over {
+    border-color: var(--nb-green-500);
+    background: var(--nb-green-100, #dcfce7);
+  }
+
+  /* Column header ---------------------------------------------------- */
+
+  .nb-kanban__column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-kanban__column-title {
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-black);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nb-kanban__column-count {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--nb-gray-400);
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: 999px;
+    padding: 1px 6px;
+    font-family: var(--nb-font-mono);
+  }
+
+  .nb-kanban__column-actions {
+    display: flex;
+    gap: 2px;
+  }
+
+  .nb-kanban__column-action {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--nb-gray-400);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nb-kanban__column-action:hover {
+    color: var(--nb-gray-700);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-kanban__column-action svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Card list -------------------------------------------------------- */
+
+  .nb-kanban__cards {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 60px;
+  }
+
+  /* Card ------------------------------------------------------------ */
+
+  .nb-kanban__card {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 12px;
+    cursor: grab;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .nb-kanban__card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-kanban__card.is-dragging {
+    opacity: 0.5;
+    box-shadow: var(--nb-shadow-lg);
+    cursor: grabbing;
+  }
+
+  .nb-kanban__card-title {
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-black);
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+
+  .nb-kanban__card-desc {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+  }
+
+  /* Card labels ------------------------------------------------------ */
+
+  .nb-kanban__card-labels {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .nb-kanban__card-label {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 500;
+    border: 2px solid var(--nb-black);
+  }
+
+  .nb-kanban__card-label--red    { background: var(--nb-red-500);    color: var(--nb-white); }
+  .nb-kanban__card-label--blue   { background: var(--nb-blue-500);   color: var(--nb-white); }
+  .nb-kanban__card-label--green  { background: var(--nb-green-500);  color: var(--nb-white); }
+  .nb-kanban__card-label--yellow { background: var(--nb-yellow-500); color: var(--nb-black); }
+  .nb-kanban__card-label--purple { background: var(--nb-purple-500, #a855f7); color: var(--nb-white); }
+
+  /* Card footer (avatar + meta) -------------------------------------- */
+
+  .nb-kanban__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nb-kanban__card-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid var(--nb-black);
+  }
+
+  .nb-kanban__card-meta {
+    font-size: 10px;
+    color: var(--nb-gray-400);
+    font-family: var(--nb-font-mono);
+  }
+
+  /* Add card button -------------------------------------------------- */
+
+  .nb-kanban__add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: 2px dashed var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-gray-400);
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-sans);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nb-kanban__add-card:hover {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+    border-style: solid;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-kanban__column {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__column-header {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__column-title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-kanban__column-count {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__card {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__card-title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-kanban__card-label {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__card-avatar {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-kanban__add-card {
+    border: 2px dashed var(--nb-gray-700);
+  }
+}

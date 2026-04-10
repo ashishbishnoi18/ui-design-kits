@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Your Email — DevKit</title>
+  <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="dk-auth-layout">
+
+    <!-- ============================================================
+         LEFT SIDE — CONFIRMATION
+         ============================================================ -->
+    <div class="dk-auth-layout__form">
+      <div class="dk-auth-layout__form-inner">
+
+        <!-- Mail Icon -->
+        <div class="dk-mb-6">
+          <div class="dk-inline-flex dk-items-center dk-justify-center" style="width: 56px; height: 56px; background: var(--accent); border: 1px solid var(--border-default); border-radius: 50%;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22 6 12 13 2 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="dk-text-3xl dk-font-extrabold dk-mb-2">Check your email</h1>
+        <p class="dk-text-base dk-text-gray-500 dk-mb-8">We sent a magic link to your email address. Click the link to sign in to your account.</p>
+
+        <!-- Info card -->
+        <div class="dk-card dk-mb-8" style="background: var(--bg-elevated);">
+          <div class="dk-card_body dk-p-4" data-slot="body">
+            <p class="dk-text-sm dk-text-gray-600">
+              The link will expire in <strong>15 minutes</strong>. If you don't see the email, check your spam folder.
+            </p>
+          </div>
+        </div>
+
+        <!-- Resend -->
+        <p class="dk-text-sm dk-text-gray-500 dk-mb-6">
+          Didn't receive the email?
+          <a href="#" class="dk-font-semibold" style="color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px;">Resend magic link</a>
+        </p>
+
+        <!-- Back to sign in -->
+        <div>
+          <a href="login.html" class="dk-inline-flex dk-items-center dk-gap-2 dk-text-sm dk-font-medium" style="text-decoration: none; color: var(--text-secondary);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Back to sign in
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         RIGHT SIDE — BRAND
+         ============================================================ -->
+    <div class="dk-auth-layout__brand">
+      <div class="dk-auth-layout__brand-inner">
+
+        <!-- Decorative shape top -->
+        <div class="dk-auth-layout__shape dk-auth-layout__shape--top" aria-hidden="true"></div>
+
+        <!-- Testimonial Card -->
+        <div class="dk-auth-layout__testimonial">
+          <blockquote>
+            <p class="dk-text-xl dk-font-bold dk-mb-4" style="font-family: var(--font-sans); line-height: 1.4; color: var(--text-heading);">
+              "Passwordless login is the future. DevKit makes it dead simple to implement."
+            </p>
+            <footer class="dk-flex dk-items-center dk-gap-3">
+              <div class="dk-avatar dk-avatar--sm" style="background: var(--accent); border: 1px solid var(--border-default);">
+                <span class="dk-avatar__initials" style="color: #000;" data-slot="fallback">LP</span>
+              </div>
+              <div>
+                <cite class="dk-font-semibold dk-text-sm" style="font-style: normal; color: var(--text-heading);">Lisa Park</cite>
+                <p class="dk-text-xs" style="color: var(--text-muted);">Security Engineer at SafeNet</p>
+              </div>
+            </footer>
+          </blockquote>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="dk-auth-layout__stats">
+          <div class="dk-auth-layout__stat">
+            <span class="dk-auth-layout__stat-number">10,000+</span>
+            <span class="dk-auth-layout__stat-label">developers</span>
+          </div>
+          <div class="dk-auth-layout__stat">
+            <span class="dk-auth-layout__stat-number">50+</span>
+            <span class="dk-auth-layout__stat-label">components</span>
+          </div>
+          <div class="dk-auth-layout__stat">
+            <span class="dk-auth-layout__stat-number">99.9%</span>
+            <span class="dk-auth-layout__stat-label">uptime</span>
+          </div>
+        </div>
+
+        <!-- Decorative shape bottom -->
+        <div class="dk-auth-layout__shape dk-auth-layout__shape--bottom" aria-hidden="true"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/dk-all.js"></script>
+  <script src="shared.js"></script>
+</body>
+</html>

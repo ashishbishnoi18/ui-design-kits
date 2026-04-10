@@ -60,7 +60,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
     padding: 12px;
     width: 240px;
     opacity: 0;
@@ -110,7 +110,7 @@
     height: 14px;
     border: 2px solid #fff;
     border-radius: 50%;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-sm);
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
@@ -143,7 +143,7 @@
     height: 14px;
     border: 2px solid #fff;
     border-radius: 50%;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-sm);
     transform: translate(-50%, -50%);
     pointer-events: none;
     background: transparent;
@@ -179,7 +179,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-color-picker_hex-input:focus {
+  .dk-color-picker_hex-input:focus-visible {
     border-color: var(--accent);
   }
 

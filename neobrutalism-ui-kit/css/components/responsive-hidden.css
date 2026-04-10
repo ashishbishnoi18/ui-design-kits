@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Responsive Hidden / Show — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  /* Hide at breakpoint and above */
+
+  @media (min-width: 640px) {
+    .nb-hide-sm { display: none !important; }
+  }
+
+  @media (min-width: 768px) {
+    .nb-hide-md { display: none !important; }
+  }
+
+  @media (min-width: 1024px) {
+    .nb-hide-lg { display: none !important; }
+  }
+
+  @media (min-width: 1280px) {
+    .nb-hide-xl { display: none !important; }
+  }
+
+  /* Hide below breakpoint */
+
+  @media (max-width: 639px) {
+    .nb-hide-below-sm { display: none !important; }
+  }
+
+  @media (max-width: 767px) {
+    .nb-hide-below-md { display: none !important; }
+  }
+
+  @media (max-width: 1023px) {
+    .nb-hide-below-lg { display: none !important; }
+  }
+
+  @media (max-width: 1279px) {
+    .nb-hide-below-xl { display: none !important; }
+  }
+
+  /* Show only at breakpoint and above (hidden by default) */
+
+  .nb-show-sm,
+  .nb-show-md,
+  .nb-show-lg,
+  .nb-show-xl {
+    display: none !important;
+  }
+
+  @media (min-width: 640px) {
+    .nb-show-sm { display: revert !important; }
+  }
+
+  @media (min-width: 768px) {
+    .nb-show-md { display: revert !important; }
+  }
+
+  @media (min-width: 1024px) {
+    .nb-show-lg { display: revert !important; }
+  }
+
+  @media (min-width: 1280px) {
+    .nb-show-xl { display: revert !important; }
+  }
+}

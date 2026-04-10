@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Promo Banner — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-promo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    position: relative;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Text */
+
+  .nb-promo__content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nb-promo__badge {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: 600;
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+    padding: 3px 8px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .nb-promo__text {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .nb-promo__text strong {
+    color: var(--nb-black);
+    font-weight: 600;
+  }
+
+  /* CTA */
+
+  .nb-promo__cta {
+    font-size: var(--nb-text-sm);
+    font-weight: 500;
+    color: var(--nb-green-500);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color var(--nb-transition-fast);
+    flex-shrink: 0;
+    border-bottom: 2px solid var(--nb-green-500);
+  }
+
+  .nb-promo__cta:hover {
+    color: var(--nb-black);
+    border-bottom-color: var(--nb-black);
+  }
+
+  .nb-promo__cta svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Dismiss */
+
+  .nb-promo__dismiss {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid transparent;
+    color: var(--nb-gray-500);
+    cursor: pointer;
+    border-radius: var(--nb-radius);
+    transition:
+      color var(--nb-transition-fast),
+      background var(--nb-transition-fast),
+      border-color var(--nb-transition-fast);
+    padding: 0;
+  }
+
+  .nb-promo__dismiss:hover {
+    color: var(--nb-black);
+    background: var(--nb-gray-50);
+    border-color: var(--nb-black);
+  }
+
+  .nb-promo__dismiss svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Countdown inline */
+
+  .nb-promo__countdown {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-green-500);
+    white-space: nowrap;
+  }
+
+  /* Full-width variant */
+
+  .nb-promo-full {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  /* Accent variant */
+
+  .nb-promo-accent {
+    background: var(--nb-yellow-100, #fef9c3);
+    border-color: var(--nb-black);
+  }
+
+  /* Dismissal animation */
+
+  .nb-promo.is-dismissing {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--nb-transition-fast),
+      transform var(--nb-transition-fast);
+  }
+
+  /* Responsive */
+
+  @media (max-width: 640px) {
+    .nb-promo {
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px 20px;
+      padding-right: 44px;
+    }
+
+    .nb-promo__content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-promo {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-promo__badge {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-promo__text {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-promo__text strong {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-promo__cta:hover {
+    color: var(--nb-gray-100);
+    border-bottom-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-promo__dismiss:hover {
+    color: var(--nb-gray-100);
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-promo-accent {
+    border-color: var(--nb-gray-700);
+  }
+}

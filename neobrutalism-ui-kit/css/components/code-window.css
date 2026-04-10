@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Code Window — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Terminal-style code display window with colored dots, title bar, and
+   syntax-highlighted body. A full browser/terminal window component,
+   distinct from nb-code-block which is a simpler code snippet display.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Base Code Window
+     -------------------------------------------------------------------------- */
+  .nb-code-window {
+    position: relative;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    background-color: var(--nb-gray-900);
+    overflow: hidden;
+    box-shadow: var(--nb-shadow-lg);
+    transform: rotate(0deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Rotation Modifier
+     -------------------------------------------------------------------------- */
+  .nb-code-window--rotate {
+    transform: rotate(2deg);
+  }
+
+  .nb-code-window--no-rotate {
+    transform: rotate(0deg);
+  }
+
+  /* --------------------------------------------------------------------------
+     Header - title bar with dots
+     -------------------------------------------------------------------------- */
+  .nb-code-window__header {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-2);
+    padding: var(--nb-space-3) var(--nb-space-4);
+    background-color: var(--nb-black);
+    border-bottom: var(--nb-border);
+  }
+
+  /* --------------------------------------------------------------------------
+     Dot - colored circle dots
+     -------------------------------------------------------------------------- */
+  .nb-code-window__dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: var(--nb-radius-full);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+  }
+
+  .nb-code-window__dot--red {
+    background-color: var(--nb-red-500);
+  }
+
+  .nb-code-window__dot--yellow {
+    background-color: var(--nb-yellow-500);
+  }
+
+  .nb-code-window__dot--green {
+    background-color: var(--nb-green-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Title - window title text
+     -------------------------------------------------------------------------- */
+  .nb-code-window__title {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-semibold);
+    color: var(--nb-gray-400);
+    margin-left: auto;
+    letter-spacing: var(--nb-tracking-wide);
+  }
+
+  /* --------------------------------------------------------------------------
+     Body - code content area
+     -------------------------------------------------------------------------- */
+  .nb-code-window__body {
+    padding: var(--nb-space-5) var(--nb-space-6);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    line-height: var(--nb-leading-relaxed);
+    color: var(--nb-gray-300);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* --------------------------------------------------------------------------
+     Syntax Highlighting Classes
+     -------------------------------------------------------------------------- */
+  .nb-code-window .kw {
+    color: var(--nb-pink-500, #EC4899);
+    font-weight: var(--nb-font-bold);
+  }
+
+  .nb-code-window .str {
+    color: var(--nb-green-400);
+  }
+
+  .nb-code-window .cmt {
+    color: var(--nb-gray-500);
+    font-style: italic;
+  }
+
+  .nb-code-window .fn {
+    color: var(--nb-blue-500);
+  }
+
+  .nb-code-window .var {
+    color: var(--nb-orange-500);
+  }
+
+  .nb-code-window .prop {
+    color: var(--nb-purple-500, #A855F7);
+  }
+}

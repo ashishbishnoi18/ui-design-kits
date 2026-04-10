@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NB UI Kit — Build Faster with Bold Components</title>
+  <link rel="stylesheet" href="css/nb-all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================================
+     SVG ICON SPRITE
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="nb-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="nb-icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="nb-icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+    <symbol id="nb-icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+    </symbol>
+    <symbol id="nb-icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="nb-icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </symbol>
+    <symbol id="nb-icon-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </symbol>
+    <symbol id="nb-icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </symbol>
+    <symbol id="nb-icon-github" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    </symbol>
+    <symbol id="nb-icon-twitter" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     1. NAVBAR
+     ============================================================ -->
+<nav class="nb-navbar" data-nb-navbar>
+  <a href="#" class="nb-navbar__brand" data-slot="brand">
+    <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1; font-size: var(--nb-text-sm);">NB</span>
+  </a>
+
+  <div class="nb-navbar__nav" data-slot="nav">
+    <a href="pages/components.html" class="nb-navbar__link" data-slot="link">Components</a>
+    <a href="pages/dashboard.html" class="nb-navbar__link" data-slot="link">Dashboards</a>
+    <a href="pages/pricing.html" class="nb-navbar__link" data-slot="link">Pricing</a>
+    <a href="pages/docs.html" class="nb-navbar__link" data-slot="link">Docs</a>
+    <a href="pages/blog.html" class="nb-navbar__link" data-slot="link">Blog</a>
+  </div>
+
+  <div class="nb-navbar__actions" data-slot="actions">
+    <a href="pages/login.html" class="nb-btn nb-btn--ghost nb-btn--sm">Sign in</a>
+    <a href="pages/signup.html" class="nb-btn nb-btn--primary nb-btn--sm">Get Started</a>
+  </div>
+
+  <button class="nb-navbar__toggle" data-nb-navbar-toggle aria-label="Toggle menu" data-slot="toggle">
+    <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
+  </button>
+</nav>
+
+
+<!-- ============================================================
+     2. HERO (split layout with signup form card)
+     ============================================================ -->
+<section class="nb-hero nb-hero--split">
+  <!-- Floating decorations -->
+  <span class="nb-decor nb-decor--float nb-decor--md" style="top:10%;right:8%" aria-hidden="true">&#9733;</span>
+  <span class="nb-decor nb-decor--float nb-decor--sm nb-decor--delay-1" style="top:25%;left:5%" aria-hidden="true">&#9733;</span>
+  <span class="nb-decor nb-decor--pulse nb-decor--lg nb-decor--delay-2" style="bottom:15%;right:12%" aria-hidden="true">&#9679;</span>
+
+  <div class="nb-hero__container" data-slot="container">
+    <!-- Text Column -->
+    <div class="nb-hero__content" data-slot="content">
+      <span class="nb-hero__badge">v1.0 just launched</span>
+      <h1 class="nb-hero__title" data-slot="title">
+        Build faster with clean, bold components
+      </h1>
+      <p class="nb-hero__subtitle" data-slot="subtitle">
+        A free, open-source Neo Brutalism UI kit with 50+ production-ready components. Zero dependencies. Just copy, paste, and ship.
+      </p>
+      <div class="nb-hero__actions" data-slot="actions">
+        <a href="pages/signup.html" class="nb-btn nb-btn--primary nb-btn--lg">
+          Get Started Free
+          <svg width="18" height="18"><use href="#nb-icon-arrow-right"/></svg>
+        </a>
+        <a href="pages/components.html" class="nb-btn nb-btn--outline nb-btn--lg">View Components</a>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="nb-hero__media" data-slot="media">
+      <div class="nb-card" style="width:100%;max-width:400px;">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <h3 class="nb-text-lg nb-font-bold nb-mb-1">Start building today</h3>
+          <p class="nb-text-sm nb-text-gray-600 nb-mb-4">Create a free account in seconds.</p>
+          <form onsubmit="return false;">
+            <div class="nb-mb-3">
+              <input type="text" class="nb-input" placeholder="Full name" data-slot="control">
+            </div>
+            <div class="nb-mb-3">
+              <input type="email" class="nb-input" placeholder="Email address" data-slot="control">
+            </div>
+            <div class="nb-mb-4">
+              <input type="password" class="nb-input" placeholder="Password" data-slot="control">
+            </div>
+            <button type="submit" class="nb-btn nb-btn--primary nb-btn--full">Create Account</button>
+          </form>
+          <p class="nb-text-xs nb-text-gray-500 nb-mt-3 nb-text-center">Free forever. No credit card required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3. SCROLLING LOGO MARQUEE
+     ============================================================ -->
+<div class="nb-marquee nb-marquee--bordered nb-marquee--pause-on-hover" data-nb-marquee>
+  <div class="nb-marquee__track">
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Vercel</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Stripe</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Notion</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Linear</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Supabase</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Resend</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Raycast</span></div>
+    <div class="nb-marquee__item"><span class="nb-logo-cloud__item" style="border:var(--nb-border);border-radius:var(--nb-radius-full);padding:6px 20px;background:var(--nb-white);box-shadow:var(--nb-shadow-sm);font-weight:700;font-size:var(--nb-text-sm);">Planetscale</span></div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     3b. TRUST BAR
+     ============================================================ -->
+<div class="nb-trust-bar nb-trust-bar--bordered nb-trust-bar--centered">
+  <div class="nb-trust-bar__items">
+    <div class="nb-trust-bar__item">
+      <div class="nb-trust-bar__stars">
+        <svg class="nb-trust-bar__star nb-trust-bar__star--filled" viewBox="0 0 24 24"><use href="#nb-icon-star"/></svg>
+        <svg class="nb-trust-bar__star nb-trust-bar__star--filled" viewBox="0 0 24 24"><use href="#nb-icon-star"/></svg>
+        <svg class="nb-trust-bar__star nb-trust-bar__star--filled" viewBox="0 0 24 24"><use href="#nb-icon-star"/></svg>
+        <svg class="nb-trust-bar__star nb-trust-bar__star--filled" viewBox="0 0 24 24"><use href="#nb-icon-star"/></svg>
+        <svg class="nb-trust-bar__star nb-trust-bar__star--filled" viewBox="0 0 24 24"><use href="#nb-icon-star"/></svg>
+      </div>
+      <span class="nb-trust-bar__label">4.9/5 rating</span>
+    </div>
+    <div class="nb-trust-bar__divider"></div>
+    <div class="nb-trust-bar__item">
+      <span class="nb-trust-bar__count">10,000+</span>
+      <span class="nb-trust-bar__label">developers</span>
+    </div>
+    <div class="nb-trust-bar__divider"></div>
+    <div class="nb-trust-bar__item">
+      <span class="nb-trust-bar__count">50+</span>
+      <span class="nb-trust-bar__label">components</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     4. FEATURES
+     ============================================================ -->
+<section id="features" class="nb-section">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-12">
+      <h2 class="nb-text-3xl md:nb-text-4xl nb-font-extrabold nb-mb-3">Everything you need to build fast</h2>
+      <p class="nb-text-lg nb-text-gray-600 nb-mx-auto" style="max-width: 560px;">
+        A complete design system with the bold, unapologetic aesthetic your product deserves.
+      </p>
+    </div>
+
+    <div class="nb-grid nb-grid-cols-1 sm:nb-grid-cols-2 lg:nb-grid-cols-3 nb-gap-6">
+
+      <!-- Feature 1 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-yellow-300 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;">
+            <svg width="24" height="24"><use href="#nb-icon-layers"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Hard Shadows</h3>
+          <p class="nb-text-sm nb-text-gray-600">Signature offset shadows on every interactive element. No blur, no subtlety -- just bold, clean depth.</p>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-green-400 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;">
+            <svg width="24" height="24"><use href="#nb-icon-zap"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Zero Dependencies</h3>
+          <p class="nb-text-sm nb-text-gray-600">Pure CSS and vanilla JavaScript. No frameworks, no build tools, no package managers required.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-blue-500 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;color:var(--nb-white);">
+            <svg width="24" height="24"><use href="#nb-icon-shield"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Accessible</h3>
+          <p class="nb-text-sm nb-text-gray-600">Built with ARIA attributes, focus-visible outlines, and semantic HTML from the ground up.</p>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-orange-500 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;">
+            <svg width="24" height="24"><use href="#nb-icon-smartphone"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Responsive</h3>
+          <p class="nb-text-sm nb-text-gray-600">Mobile-first responsive grid and utility classes with sm, md, lg, and xl breakpoints.</p>
+        </div>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-gray-900 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;color:var(--nb-white);">
+            <svg width="24" height="24"><use href="#nb-icon-moon"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Dark Mode Ready</h3>
+          <p class="nb-text-sm nb-text-gray-600">CSS custom properties make it trivial to implement dark mode with a single token override.</p>
+        </div>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="nb-card nb-card--hover">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-bg-red-500 nb-border nb-rounded nb-inline-flex nb-items-center nb-justify-center nb-mb-4" style="width:48px;height:48px;color:var(--nb-white);">
+            <svg width="24" height="24"><use href="#nb-icon-copy"/></svg>
+          </div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Copy &amp; Paste</h3>
+          <p class="nb-text-sm nb-text-gray-600">Every component is a self-contained snippet. Just copy the HTML into your project and go.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5. HOW IT WORKS
+     ============================================================ -->
+<section class="nb-section nb-bg-gray-50 nb-border-t nb-border-b">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-12">
+      <h2 class="nb-text-3xl md:nb-text-4xl nb-font-extrabold nb-mb-3">Up and running in three steps</h2>
+      <p class="nb-text-lg nb-text-gray-600 nb-mx-auto" style="max-width: 480px;">
+        No npm install. No config files. Just grab the source and start building.
+      </p>
+    </div>
+
+    <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-3 nb-gap-8">
+
+      <!-- Step 1 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6 nb-text-center" data-slot="body">
+          <div class="nb-bg-yellow-300 nb-border nb-border-thick nb-rounded-full nb-inline-flex nb-items-center nb-justify-center nb-mb-4 nb-font-extrabold nb-text-2xl" style="width:56px;height:56px;">1</div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Copy the files</h3>
+          <p class="nb-text-sm nb-text-gray-600">Download the CSS and JS bundles, or clone the repo directly into your project.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6 nb-text-center" data-slot="body">
+          <div class="nb-bg-green-400 nb-border nb-border-thick nb-rounded-full nb-inline-flex nb-items-center nb-justify-center nb-mb-4 nb-font-extrabold nb-text-2xl" style="width:56px;height:56px;">2</div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Add to your project</h3>
+          <p class="nb-text-sm nb-text-gray-600">Link <code style="font-family:var(--nb-font-mono);font-size:var(--nb-text-xs);background:var(--nb-gray-100);padding:2px 4px;border-radius:var(--nb-radius);">nb-all.css</code> and <code style="font-family:var(--nb-font-mono);font-size:var(--nb-text-xs);background:var(--nb-gray-100);padding:2px 4px;border-radius:var(--nb-radius);">nb-all.js</code> in your HTML head.</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6 nb-text-center" data-slot="body">
+          <div class="nb-bg-blue-500 nb-border nb-border-thick nb-rounded-full nb-inline-flex nb-items-center nb-justify-center nb-mb-4 nb-font-extrabold nb-text-2xl nb-text-white" style="width:56px;height:56px;">3</div>
+          <h3 class="nb-text-lg nb-font-bold nb-mb-2">Customize tokens</h3>
+          <p class="nb-text-sm nb-text-gray-600">Override CSS custom properties to match your brand colors, fonts, spacing, and shadows.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. TESTIMONIALS
+     ============================================================ -->
+<section class="nb-section">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-12">
+      <h2 class="nb-text-3xl md:nb-text-4xl nb-font-extrabold nb-mb-3">Loved by developers</h2>
+      <p class="nb-text-lg nb-text-gray-600">Don't take our word for it -- hear from the people who build with NB every day.</p>
+    </div>
+
+    <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-3 nb-gap-6">
+
+      <!-- Testimonial 1 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-gap-1 nb-mb-4">
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-6">"NB UI Kit cut our prototyping time in half. The components look incredible out of the box and the hard shadow aesthetic gives our product a personality that users remember."</p>
+          <div class="nb-flex nb-items-center nb-gap-3">
+            <div class="nb-avatar nb-bg-yellow-300">
+              <span class="nb-avatar__initials" data-slot="fallback">SR</span>
+            </div>
+            <div>
+              <p class="nb-text-sm nb-font-bold">Sarah Rodriguez</p>
+              <p class="nb-text-xs nb-text-gray-500">Lead Designer, Stackflow</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-gap-1 nb-mb-4">
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-6">"Finally, a UI kit that doesn't look like everything else. Zero dependencies means I can drop it into any project. The accessibility work they've done is seriously impressive."</p>
+          <div class="nb-flex nb-items-center nb-gap-3">
+            <div class="nb-avatar nb-bg-green-400">
+              <span class="nb-avatar__initials" data-slot="fallback">JC</span>
+            </div>
+            <div>
+              <p class="nb-text-sm nb-font-bold">James Chen</p>
+              <p class="nb-text-xs nb-text-gray-500">Frontend Engineer, Raycast</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-gap-1 nb-mb-4">
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+            <svg width="18" height="18" style="color:var(--nb-yellow-300);fill:var(--nb-yellow-300);"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-6">"We rebuilt our entire SaaS dashboard with NB in a weekend. The token system is so well thought-out that matching our brand took less than an hour. Highly recommended."</p>
+          <div class="nb-flex nb-items-center nb-gap-3">
+            <div class="nb-avatar nb-bg-blue-500 nb-text-white">
+              <span class="nb-avatar__initials" data-slot="fallback">AP</span>
+            </div>
+            <div>
+              <p class="nb-text-sm nb-font-bold">Anika Patel</p>
+              <p class="nb-text-xs nb-text-gray-500">CTO, Launchpad Labs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. STATS
+     ============================================================ -->
+<section class="nb-section nb-bg-yellow-300 nb-border-t nb-border-b">
+  <div class="nb-container-xl">
+    <div class="nb-grid nb-grid-cols-2 md:nb-grid-cols-4 nb-gap-8 nb-text-center">
+      <div>
+        <p class="nb-text-4xl md:nb-text-5xl nb-font-extrabold nb-mb-1">25+</p>
+        <p class="nb-text-sm nb-font-semibold">Components</p>
+      </div>
+      <div>
+        <p class="nb-text-4xl md:nb-text-5xl nb-font-extrabold nb-mb-1">11</p>
+        <p class="nb-text-sm nb-font-semibold">Page Templates</p>
+      </div>
+      <div>
+        <p class="nb-text-4xl md:nb-text-5xl nb-font-extrabold nb-mb-1">0</p>
+        <p class="nb-text-sm nb-font-semibold">Dependencies</p>
+      </div>
+      <div>
+        <p class="nb-text-4xl md:nb-text-5xl nb-font-extrabold nb-mb-1">100%</p>
+        <p class="nb-text-sm nb-font-semibold">Accessible</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     8. CTA
+     ============================================================ -->
+<section class="nb-section nb-section--lg nb-bg-black nb-text-white">
+  <div class="nb-container-xl nb-text-center">
+    <h2 class="nb-text-3xl md:nb-text-5xl nb-font-extrabold nb-mb-4" style="line-height:var(--nb-leading-tight);">Ready to build something bold?</h2>
+    <p class="nb-text-lg nb-mx-auto nb-mb-8" style="max-width:520px;color:var(--nb-gray-400);">
+      Join thousands of developers who ship faster with NB UI Kit. Open source, free forever.
+    </p>
+    <a href="pages/signup.html" class="nb-btn nb-btn--secondary nb-btn--xl">
+      Get Started Free
+      <svg width="20" height="20"><use href="#nb-icon-arrow-right"/></svg>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     9. FOOTER
+     ============================================================ -->
+<footer class="nb-footer">
+  <div class="nb-container-xl">
+    <div class="nb-footer__grid">
+
+      <!-- Brand Column -->
+      <div class="nb-footer__section" data-slot="section">
+        <div class="nb-flex nb-items-center nb-gap-2 nb-mb-4">
+          <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1;font-size:var(--nb-text-xs);">NB</span>
+          <span class="nb-font-bold">NB UI Kit</span>
+        </div>
+        <p class="nb-text-sm nb-text-gray-600" style="max-width:240px;">
+          A clean Neo Brutalism design system for the modern web. Open source and free to use.
+        </p>
+      </div>
+
+      <!-- Product -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Product</h4>
+        <a href="pages/components.html" class="nb-footer__link" data-slot="link">Components</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Templates</a>
+        <a href="pages/pricing.html" class="nb-footer__link" data-slot="link">Pricing</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Changelog</a>
+      </div>
+
+      <!-- Resources -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Resources</h4>
+        <a href="#" class="nb-footer__link" data-slot="link">Documentation</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Getting Started</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Design Tokens</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Examples</a>
+      </div>
+
+      <!-- Company -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Company</h4>
+        <a href="#" class="nb-footer__link" data-slot="link">About</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Blog</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Careers</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Contact</a>
+      </div>
+
+    </div>
+
+    <div class="nb-footer__bottom">
+      <p>&copy; 2026 NB UI Kit. All rights reserved.</p>
+      <div class="nb-flex nb-gap-4">
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="GitHub" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-github"/></svg>
+        </a>
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="Twitter" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-twitter"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/nb-all.js"></script>
+</body>
+</html>

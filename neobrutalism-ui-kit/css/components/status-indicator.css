@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Status Indicator — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1;
+  }
+
+  /* Dot */
+
+  .nb-status::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nb-gray-400);
+    flex-shrink: 0;
+    border: 1px solid var(--nb-black);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Status states                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-status--online::before {
+    background: var(--nb-green-500);
+  }
+
+  .nb-status--offline::before {
+    background: var(--nb-gray-400);
+  }
+
+  .nb-status--busy::before {
+    background: var(--nb-red-500);
+  }
+
+  .nb-status--away::before {
+    background: var(--nb-orange-500);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Pulse animation                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .nb-status--pulse::before {
+    animation: nb-status-pulse 2s infinite;
+  }
+
+  @keyframes nb-status-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Size variants                                                      */
+  /* ------------------------------------------------------------------ */
+
+  .nb-status--sm {
+    font-size: var(--nb-text-xs);
+    gap: 4px;
+  }
+
+  .nb-status--sm::before {
+    width: 6px;
+    height: 6px;
+  }
+
+  .nb-status--lg::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nb-status,
+    .nb-status * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-status::before {
+    border: 1px solid var(--nb-gray-700);
+  }
+}

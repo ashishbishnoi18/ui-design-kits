@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Image — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--nb-radius);
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    display: block;
+  }
+
+  .nb-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Aspect ratios ---------------------------------------------------- */
+
+  .nb-image--16x9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  .nb-image--4x3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .nb-image--1x1 {
+    aspect-ratio: 1;
+  }
+
+  .nb-image--21x9 {
+    aspect-ratio: 21 / 9;
+  }
+
+  /* Shape variants --------------------------------------------------- */
+
+  .nb-image-rounded {
+    border-radius: var(--nb-radius-lg);
+  }
+
+  .nb-image-circle {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  /* Skeleton loading placeholder ------------------------------------- */
+
+  @keyframes nb-image-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .nb-image.is-loading {
+    background: linear-gradient(
+      90deg,
+      var(--nb-gray-50) 25%,
+      var(--nb-gray-200) 37%,
+      var(--nb-gray-50) 63%
+    );
+    background-size: 200% 100%;
+    animation: nb-image-shimmer 1.8s ease infinite;
+    min-height: 120px;
+  }
+
+  .nb-image.is-loading img {
+    opacity: 0;
+  }
+
+  /* When image loads, fade in */
+
+  .nb-image img {
+    transition: opacity 0.2s ease;
+  }
+
+  /* Caption ---------------------------------------------------------- */
+
+  .nb-image__caption {
+    padding: 8px 0 0;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-500);
+    line-height: 1.4;
+  }
+
+  /* Border variant --------------------------------------------------- */
+
+  .nb-image--bordered {
+    border: 2px solid var(--nb-black);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nb-image,
+    .nb-image * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-image {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-image--bordered {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

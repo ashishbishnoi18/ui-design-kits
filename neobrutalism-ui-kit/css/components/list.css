@@ -1,0 +1,55 @@
+/* ==========================================================================
+   List — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-list {
+    padding-left: 1.5em;
+    line-height: 1.6;
+    color: var(--nb-black);
+  }
+
+  .nb-list__item {
+    margin-bottom: 4px;
+  }
+
+  /* Ordered */
+  .nb-list-ordered {
+    list-style: decimal;
+  }
+
+  /* Unordered */
+  .nb-list-unordered {
+    list-style: disc;
+  }
+
+  .nb-list-unordered .nb-list__item::marker,
+  .nb-list-unordered::marker {
+    color: var(--nb-green-500);
+  }
+
+  /* No markers */
+  .nb-list-none {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  /* Inline */
+  .nb-list-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nb-space-4);
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .nb-list-inline .nb-list__item {
+    margin-bottom: 0;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-list {
+    color: var(--nb-gray-100);
+  }
+}

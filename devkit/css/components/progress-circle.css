@@ -93,14 +93,14 @@
   }
 
   .dk-progress-circle--danger .dk-progress-circle_bar {
-    stroke: #ef4444;
+    stroke: var(--color-danger);
   }
 
   .dk-progress-circle--warning .dk-progress-circle_bar {
-    stroke: #eab308;
+    stroke: var(--color-warning);
   }
 
   .dk-progress-circle--info .dk-progress-circle_bar {
-    stroke: #3b82f6;
+    stroke: var(--color-info);
   }
 }

@@ -97,7 +97,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-settings_control input:focus {
+  .dk-settings_control input:focus-visible {
     outline: none;
     border-color: var(--accent);
   }
@@ -116,7 +116,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-settings_control select:focus {
+  .dk-settings_control select:focus-visible {
     outline: none;
     border-color: var(--accent);
   }
@@ -124,7 +124,7 @@
   /* Danger zone ------------------------------------------------------ */
 
   .dk-settings_section--danger {
-    border: 1px solid rgba(239, 68, 68, 0.15);
+    border: 1px solid var(--color-danger-muted);
     border-radius: var(--dk-radius-md);
     padding: 20px;
     margin-top: 12px;

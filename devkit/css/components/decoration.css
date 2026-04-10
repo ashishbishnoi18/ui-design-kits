@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Decoration — DevKit
+   ==========================================================================
+   Floating animated positioned elements for visual flair.
+   ========================================================================== */
+
+@layer components {
+
+  /* ---- Keyframes ---- */
+
+  @keyframes dk-decor-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-20px) rotate(3deg); }
+  }
+
+  @keyframes dk-decor-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes dk-decor-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.15); opacity: 0.8; }
+  }
+
+  @keyframes dk-decor-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-30px); }
+  }
+
+  /* ---- Base ---- */
+
+  .dk-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+  }
+
+  /* ---- Animations ---- */
+
+  .dk-decor--float {
+    animation: dk-decor-float 6s ease-in-out infinite;
+  }
+
+  .dk-decor--spin {
+    animation: dk-decor-spin 20s linear infinite;
+  }
+
+  .dk-decor--pulse {
+    animation: dk-decor-pulse 3s ease-in-out infinite;
+  }
+
+  .dk-decor--bounce {
+    animation: dk-decor-bounce 4s ease-in-out infinite;
+  }
+
+  /* ---- Sizes ---- */
+
+  .dk-decor--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+
+  .dk-decor--md {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+  }
+
+  .dk-decor--lg {
+    width: 64px;
+    height: 64px;
+    font-size: 64px;
+  }
+
+  .dk-decor--xl {
+    width: 96px;
+    height: 96px;
+    font-size: 96px;
+  }
+
+  /* ---- Delays ---- */
+
+  .dk-decor--delay-1 {
+    animation-delay: 1s;
+  }
+
+  .dk-decor--delay-2 {
+    animation-delay: 2s;
+  }
+
+  .dk-decor--delay-3 {
+    animation-delay: 3s;
+  }
+
+  /* ---- Accessibility: respect reduced motion ---- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .dk-decor--float,
+    .dk-decor--spin,
+    .dk-decor--pulse,
+    .dk-decor--bounce {
+      animation: none;
+    }
+  }
+}

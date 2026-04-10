@@ -65,42 +65,42 @@
 
   /* Info */
   .dk-alert--info {
-    background: rgba(59, 130, 246, 0.06);
-    border-color: rgba(59, 130, 246, 0.15);
+    background: var(--color-info-muted);
+    border-color: var(--color-info-muted);
   }
 
   .dk-alert--info .dk-alert_icon {
-    color: #3b82f6;
+    color: var(--color-info);
   }
 
   /* Success */
   .dk-alert--success {
-    background: var(--accent-muted, rgba(16, 185, 129, 0.06));
-    border-color: rgba(16, 185, 129, 0.15);
+    background: var(--color-success-muted);
+    border-color: var(--color-success-muted);
   }
 
   .dk-alert--success .dk-alert_icon {
-    color: var(--accent);
+    color: var(--color-success);
   }
 
   /* Warning */
   .dk-alert--warning {
-    background: rgba(234, 179, 8, 0.06);
-    border-color: rgba(234, 179, 8, 0.15);
+    background: var(--color-warning-muted);
+    border-color: var(--color-warning-muted);
   }
 
   .dk-alert--warning .dk-alert_icon {
-    color: #eab308;
+    color: var(--color-warning);
   }
 
   /* Danger */
   .dk-alert--danger {
-    background: rgba(239, 68, 68, 0.06);
-    border-color: rgba(239, 68, 68, 0.15);
+    background: var(--color-danger-muted);
+    border-color: var(--color-danger-muted);
   }
 
   .dk-alert--danger .dk-alert_icon {
-    color: #ef4444;
+    color: var(--color-danger);
   }
 
   /* ------------------------------------------------------------------ */

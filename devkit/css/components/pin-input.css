@@ -35,8 +35,8 @@
     color: var(--text-muted);
   }
 
-  .dk-pin-input_field:focus,
-  .dk-pin-input_cell:focus {
+  .dk-pin-input_field:focus-visible,
+  .dk-pin-input_cell:focus-visible {
     border-color: var(--accent);
     box-shadow:
       0 0 0 2px var(--bg-root),
@@ -70,14 +70,14 @@
   /* Error state */
   .dk-pin-input.is-error .dk-pin-input_field,
   .dk-pin-input.is-error .dk-pin-input_cell {
-    border-color: #ef4444;
+    border-color: var(--color-danger);
   }
 
-  .dk-pin-input.is-error .dk-pin-input_field:focus,
-  .dk-pin-input.is-error .dk-pin-input_cell:focus {
+  .dk-pin-input.is-error .dk-pin-input_field:focus-visible,
+  .dk-pin-input.is-error .dk-pin-input_cell:focus-visible {
     box-shadow:
       0 0 0 2px var(--bg-root),
-      0 0 0 4px #ef4444;
+      0 0 0 4px var(--color-danger);
   }
 
   /* Complete state */

@@ -36,7 +36,7 @@
   /* Dragover state */
   .dk-file-upload.is-dragover .dk-file-upload_zone {
     border-color: var(--accent);
-    background: rgba(16, 185, 129, 0.05);
+    background: var(--color-success-muted);
   }
 
   /* Disabled */

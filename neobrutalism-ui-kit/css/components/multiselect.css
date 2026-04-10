@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Multi-select — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-multiselect {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  /* Trigger / display area */
+  .nb-multiselect__trigger {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    min-height: 36px;
+    padding: 4px 32px 4px 8px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    position: relative;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .nb-multiselect__trigger:focus-visible {
+    outline: none;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-multiselect.is-open .nb-multiselect__trigger {
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* Placeholder */
+  .nb-multiselect__placeholder {
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-400);
+    padding: 2px 4px;
+    line-height: 1.5;
+  }
+
+  /* Chips container (alias for trigger's flex-wrap area) */
+  .nb-multiselect__chips {
+    display: contents;
+  }
+
+  /* Selected chips */
+  .nb-multiselect__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 4px 1px 8px;
+    background: var(--nb-yellow-500);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-black);
+    line-height: 1.5;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .nb-multiselect__chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: transparent;
+    color: var(--nb-black);
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nb-multiselect__chip-remove:hover {
+    color: var(--nb-white);
+    background: var(--nb-black);
+  }
+
+  /* Chevron */
+  .nb-multiselect__chevron {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    color: var(--nb-gray-400);
+    pointer-events: none;
+    transition: transform 0.15s ease;
+  }
+
+  .nb-multiselect.is-open .nb-multiselect__chevron {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* Dropdown panel */
+  .nb-multiselect__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 50;
+    padding: 4px;
+    display: none;
+  }
+
+  .nb-multiselect.is-open .nb-multiselect__dropdown {
+    display: block;
+  }
+
+  /* Search inside dropdown */
+  .nb-multiselect__search {
+    display: block;
+    width: 100%;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 5px 10px;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-black);
+    outline: none;
+    margin-bottom: 4px;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .nb-multiselect__search:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-multiselect__search::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  /* Option items */
+  .nb-multiselect__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-family: var(--nb-font-sans);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    border-radius: var(--nb-radius);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+    line-height: 1.5;
+  }
+
+  .nb-multiselect__option:hover {
+    background: var(--nb-gray-50);
+    color: var(--nb-black);
+  }
+
+  .nb-multiselect__option.is-checked,
+  .nb-multiselect__option.is-selected {
+    color: var(--nb-green-500);
+    font-weight: 500;
+  }
+
+  .nb-multiselect__option.is-hidden {
+    display: none;
+  }
+
+  /* Checkbox indicator */
+  .nb-multiselect__check {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--nb-black);
+    border-radius: 3px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .nb-multiselect__option.is-checked .nb-multiselect__check,
+  .nb-multiselect__option.is-selected .nb-multiselect__check {
+    background: var(--nb-black);
+    border-color: var(--nb-black);
+  }
+
+  .nb-multiselect__check-icon {
+    width: 10px;
+    height: 10px;
+    color: var(--nb-white);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .nb-multiselect__option.is-checked .nb-multiselect__check-icon,
+  .nb-multiselect__option.is-selected .nb-multiselect__check-icon {
+    opacity: 1;
+  }
+
+  /* Disabled */
+  .nb-multiselect.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-multiselect__trigger {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-multiselect__chip {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-multiselect__chip-remove {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-multiselect__chip-remove:hover {
+    color: var(--nb-gray-100);
+    background: var(--nb-gray-800);
+  }
+  [data-theme="dark"] .nb-multiselect__dropdown {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-multiselect__search {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-multiselect__option:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-multiselect__check {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-multiselect__option.is-checked .nb-multiselect__check,
+  .nb-multiselect__option.is-selected .nb-multiselect__check {
+    background: var(--nb-gray-800);
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-multiselect__check-icon {
+    color: var(--nb-gray-100);
+  }
+}

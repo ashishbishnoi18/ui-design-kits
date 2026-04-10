@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Number Input — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-number-input {
+    display: inline-flex;
+    align-items: stretch;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    overflow: hidden;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .nb-number-input:focus-within {
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-number-input.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* +/- buttons */
+  .nb-number-input_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    border: none;
+    background: var(--nb-gray-50);
+    color: var(--nb-gray-700);
+    cursor: pointer;
+    font-family: var(--nb-font-sans);
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+    user-select: none;
+  }
+
+  .nb-number-input_btn:hover {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-number-input_btn:active {
+    background: var(--nb-black);
+    color: var(--nb-white);
+  }
+
+  .nb-number-input_btn:first-child {
+    border-right: 2px solid var(--nb-black);
+  }
+
+  .nb-number-input_btn:last-child {
+    border-left: 2px solid var(--nb-black);
+  }
+
+  /* The number input field */
+  .nb-number-input_field,
+  .nb-number-input_input {
+    flex: 1;
+    min-width: 48px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    text-align: center;
+    padding: 7px 8px;
+    line-height: 1.5;
+    /* Hide native spinners */
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .nb-number-input_field::-webkit-inner-spin-button,
+  .nb-number-input_field::-webkit-outer-spin-button,
+  .nb-number-input_input::-webkit-inner-spin-button,
+  .nb-number-input_input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .nb-number-input_field::placeholder,
+  .nb-number-input_input::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-number-input {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-number-input_btn:active {
+    background: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-number-input_btn:first-child {
+    border-right: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-number-input_btn:last-child {
+    border-left: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-number-input_field,
+  .nb-number-input_input {
+    color: var(--nb-gray-100);
+  }
+}

@@ -49,7 +49,7 @@
   /* Active state */
   .dk-toggle-group_btn.is-active {
     color: var(--accent-text);
-    background: rgba(16, 185, 129, 0.08);
+    background: var(--color-success-muted);
   }
 
   /* Focus */

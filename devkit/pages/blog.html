@@ -5,47 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit blog — engineering updates and component library news">
+  <meta property="og:title" content="Blog — DevKit">
+  <meta property="og:description" content="DevKit blog — engineering updates and component library news">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-    }
-    .btn-sm {
-      padding: 5px 14px;
-      font-size: var(--text-xs);
-    }
-
     /* Blog layout */
     .blog-layout {
       max-width: 1200px;
@@ -180,29 +145,30 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <!-- Navbar -->
   <nav class="dk-navbar" data-dk-navbar>
-    <div class="dk-navbar_brand">
+    <div class="dk-navbar_brand" data-slot="brand">
       <div class="dk-navbar_brand-icon">dk</div>
       <a href="landing.html" class="dk-navbar_brand-text">DevKit</a>
     </div>
-    <div class="dk-navbar_nav">
-      <a href="landing.html" class="dk-navbar_link">Home</a>
-      <a href="docs.html" class="dk-navbar_link">Docs</a>
-      <a href="pricing.html" class="dk-navbar_link">Pricing</a>
-      <a href="blog.html" class="dk-navbar_link">Blog</a>
+    <div class="dk-navbar_nav" data-slot="nav">
+      <a href="landing.html" class="dk-navbar_link" data-slot="link">Home</a>
+      <a href="docs.html" class="dk-navbar_link" data-slot="link">Docs</a>
+      <a href="pricing.html" class="dk-navbar_link" data-slot="link">Pricing</a>
+      <a href="blog.html" class="dk-navbar_link" data-slot="link">Blog</a>
     </div>
-    <div class="dk-navbar_actions">
+    <div class="dk-navbar_actions" data-slot="actions">
       <a href="login.html" class="btn btn-outline btn-sm">Sign in</a>
     </div>
-    <button class="dk-navbar_mobile-toggle" aria-label="Toggle menu">
+    <button class="dk-navbar_mobile-toggle" data-slot="toggle" aria-label="Toggle menu">
       <span class="dk-navbar_mobile-toggle-icon"></span>
     </button>
   </nav>
 
   <!-- Blog header -->
-  <div class="blog-header">
+  <div class="blog-header" id="main-content">
     <h1 style="font-size:var(--text-3xl);">Blog</h1>
     <p style="margin-top:8px; max-width:560px;">Insights on UI development, component design, and building better developer tools.</p>
   </div>
@@ -221,7 +187,7 @@
             <div class="blog-card_title">Building a Zero-Dependency UI Library</div>
             <p class="blog-card_excerpt">How we built DevKit without pulling in a single npm package. The constraints that shaped our architecture.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">SL</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">SL</span></div>
               <span>Sarah Lin</span>
               <span>Mar 28, 2026</span>
             </div>
@@ -235,7 +201,7 @@
             <div class="blog-card_title">Why Dark-First Design Makes Sense for Dev Tools</div>
             <p class="blog-card_excerpt">Developers spend hours staring at screens. Here's why we chose dark as the default and how it influenced every decision.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">AJ</span></div>
               <span>Aisha Johnson</span>
               <span>Mar 22, 2026</span>
             </div>
@@ -249,7 +215,7 @@
             <div class="blog-card_title">Building a Dashboard in 30 Minutes with DevKit</div>
             <p class="blog-card_excerpt">A step-by-step guide to creating a production-ready analytics dashboard using DevKit's component library.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">MK</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">MK</span></div>
               <span>Marcus Kim</span>
               <span>Mar 15, 2026</span>
             </div>
@@ -263,7 +229,7 @@
             <div class="blog-card_title">DevKit v0.1.0: The First Public Release</div>
             <p class="blog-card_excerpt">156 components, 12 sample pages, zero dependencies. What's included and what's coming next.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">RP</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">RP</span></div>
               <span>Raj Patel</span>
               <span>Mar 10, 2026</span>
             </div>
@@ -277,7 +243,7 @@
             <div class="blog-card_title">CSS Layers: The Architecture Behind DevKit</div>
             <p class="blog-card_excerpt">How we use @layer to manage specificity across tokens, base styles, layouts, and components without conflicts.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">EC</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">EC</span></div>
               <span>Elena Cruz</span>
               <span>Mar 5, 2026</span>
             </div>
@@ -291,7 +257,7 @@
             <div class="blog-card_title">Designing Accessible Components That Look Good</div>
             <p class="blog-card_excerpt">Accessibility should never be an afterthought. How we bake a11y into every component without compromising aesthetics.</p>
             <div class="blog-card_meta">
-              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback">AJ</span></div>
+              <div class="dk-avatar dk-avatar--xs"><span class="dk-avatar_fallback" data-slot="fallback">AJ</span></div>
               <span>Aisha Johnson</span>
               <span>Feb 28, 2026</span>
             </div>
@@ -303,13 +269,13 @@
       <!-- Pagination -->
       <div style="margin-top:40px; display:flex; justify-content:center;">
         <nav class="dk-pagination">
-          <button class="dk-pagination_prev" disabled>&laquo;</button>
-          <a href="#" class="dk-pagination_item is-active">1</a>
-          <a href="#" class="dk-pagination_item">2</a>
-          <a href="#" class="dk-pagination_item">3</a>
-          <span class="dk-pagination_ellipsis">&hellip;</span>
-          <a href="#" class="dk-pagination_item">8</a>
-          <button class="dk-pagination_next">&raquo;</button>
+          <button class="dk-pagination_prev" data-slot="prev" disabled>&laquo;</button>
+          <a href="#" class="dk-pagination_item is-active" data-slot="item">1</a>
+          <a href="#" class="dk-pagination_item" data-slot="item">2</a>
+          <a href="#" class="dk-pagination_item" data-slot="item">3</a>
+          <span class="dk-pagination_ellipsis" data-slot="ellipsis">&hellip;</span>
+          <a href="#" class="dk-pagination_item" data-slot="item">8</a>
+          <button class="dk-pagination_next" data-slot="next">&raquo;</button>
         </nav>
       </div>
     </div>
@@ -381,12 +347,12 @@
       <!-- Newsletter -->
       <div class="sidebar-widget">
         <div class="dk-card">
-          <div class="dk-card_body">
+          <div class="dk-card_body" data-slot="body">
             <div class="sidebar-widget_title">Newsletter</div>
             <p style="font-size:var(--text-sm); color:var(--text-tertiary); margin-bottom:12px;">Get the latest posts delivered to your inbox.</p>
             <form onsubmit="return false;">
-              <div class="dk-field">
-                <input type="email" class="dk-input" placeholder="you@email.com">
+              <div class="dk-field" data-slot="field">
+                <input type="email" class="dk-input" data-slot="control" placeholder="you@email.com">
               </div>
               <button class="btn btn-primary" style="width:100%;">Subscribe</button>
             </form>

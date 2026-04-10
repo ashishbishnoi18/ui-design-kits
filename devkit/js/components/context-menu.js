@@ -116,7 +116,7 @@
   /*  Global listeners                                                   */
   /* ------------------------------------------------------------------ */
 
-  DK.on(document, 'contextmenu', function (e) {
+  function handleContextMenu(e) {
     var trigger = e.target.closest('[data-dk-context-menu]');
     if (!trigger) return;
 
@@ -124,13 +124,22 @@
     var menuId = trigger.getAttribute('data-dk-context-menu');
     var menu = document.getElementById(menuId);
     if (menu) openMenu(menu, e.clientX, e.clientY);
-  });
+  }
 
-  DK.on(document, 'click', function () {
+  function handleClick() {
     closeActive();
-  });
+  }
 
+  DK.on(document, 'contextmenu', handleContextMenu);
+  DK.on(document, 'click', handleClick);
   DK.on(document, 'keydown', handleKeydown);
+
+  /** Remove all global listeners (called by DK.destroy). */
+  DK._addCleanup(document, function () {
+    DK.off(document, 'contextmenu', handleContextMenu);
+    DK.off(document, 'click', handleClick);
+    DK.off(document, 'keydown', handleKeydown);
+  });
 
   /* Expose API */
   DK.contextMenu = {

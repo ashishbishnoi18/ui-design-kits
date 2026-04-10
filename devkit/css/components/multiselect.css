@@ -26,7 +26,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-multiselect_trigger:focus {
+  .dk-multiselect_trigger:focus-visible {
     outline: none;
     border-color: var(--accent);
   }
@@ -115,9 +115,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-md);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.3),
-      0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     max-height: 220px;
     overflow-y: auto;
     z-index: 50;
@@ -145,7 +143,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-multiselect_search:focus {
+  .dk-multiselect_search:focus-visible {
     border-color: var(--accent);
   }
 
@@ -208,7 +206,7 @@
   .dk-multiselect_check-icon {
     width: 10px;
     height: 10px;
-    color: #fff;
+    color: var(--text-on-accent);
     opacity: 0;
     transition: opacity var(--dk-transition-fast);
   }

@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Scroll Area — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-scroll-area {
+    position: relative;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--nb-black) transparent;
+  }
+
+  /* Webkit scrollbar ------------------------------------------------- */
+
+  .nb-scroll-area::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .nb-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .nb-scroll-area::-webkit-scrollbar-thumb {
+    background: var(--nb-black);
+    border-radius: 3px;
+  }
+
+  .nb-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: var(--nb-gray-700);
+  }
+
+  .nb-scroll-area::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Auto-hide state -------------------------------------------------- */
+
+  .nb-scroll-area.is-idle::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .nb-scroll-area.is-idle {
+    scrollbar-color: transparent transparent;
+  }
+
+  /* Horizontal-only variant ------------------------------------------ */
+
+  .nb-scroll-area--x {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  /* Vertical-only variant -------------------------------------------- */
+
+  .nb-scroll-area--y {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-scroll-area::-webkit-scrollbar-thumb {
+    background: var(--nb-gray-800);
+  }
+}

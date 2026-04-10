@@ -1,0 +1,412 @@
+/* ==========================================================================
+   File Browser — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-file-browser {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* Toolbar ---------------------------------------------------------- */
+
+  .nb-file-browser_toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--nb-black);
+    background: var(--nb-gray-50);
+  }
+
+  /* Breadcrumb path -------------------------------------------------- */
+
+  .nb-file-browser_breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .nb-file-browser_breadcrumb-item {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    white-space: nowrap;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--nb-font-mono);
+    padding: 2px 4px;
+    border-radius: var(--nb-radius);
+    transition:
+      color 0.1s ease,
+      background 0.1s ease;
+  }
+
+  .nb-file-browser_breadcrumb-item:hover {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-file-browser_breadcrumb-item:last-child {
+    color: var(--nb-black);
+    font-weight: 600;
+    cursor: default;
+  }
+
+  .nb-file-browser_breadcrumb-sep {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-400);
+  }
+
+  /* View toggle ------------------------------------------------------ */
+
+  .nb-file-browser_view-toggle {
+    display: flex;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+  }
+
+  .nb-file-browser_view-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--nb-gray-400);
+    cursor: pointer;
+    transition:
+      color 0.1s ease,
+      background 0.1s ease;
+  }
+
+  .nb-file-browser_view-btn + .nb-file-browser_view-btn {
+    border-left: 2px solid var(--nb-black);
+  }
+
+  .nb-file-browser_view-btn.is-active {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-file-browser_view-btn:hover {
+    color: var(--nb-gray-700);
+  }
+
+  .nb-file-browser_view-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  List View                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .nb-file-browser_list {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .nb-file-browser_list-header {
+    display: grid;
+    grid-template-columns: 1fr 90px 130px 40px;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 2px solid var(--nb-black);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--nb-gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--nb-gray-50);
+  }
+
+  /* File/folder row -------------------------------------------------- */
+
+  .nb-file-browser_row {
+    display: grid;
+    grid-template-columns: 1fr 90px 130px 40px;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 2px solid var(--nb-gray-200);
+    font-size: var(--nb-text-sm);
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+
+  .nb-file-browser_row:hover {
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-file-browser_row.is-selected {
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-file-browser_name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .nb-file-browser_icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--nb-gray-400);
+  }
+
+  .nb-file-browser_icon--folder { color: var(--nb-orange-500); }
+  .nb-file-browser_icon--file   { color: var(--nb-gray-500); }
+  .nb-file-browser_icon--image  { color: var(--nb-purple-500, #8b5cf6); }
+  .nb-file-browser_icon--code   { color: var(--nb-green-500); }
+
+  .nb-file-browser_name-text {
+    color: var(--nb-black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nb-file-browser_size {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-family: var(--nb-font-mono);
+    text-align: right;
+  }
+
+  .nb-file-browser_modified {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    font-family: var(--nb-font-mono);
+  }
+
+  .nb-file-browser_row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nb-file-browser_row-action {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: var(--nb-gray-400);
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity 0.1s ease,
+      color 0.1s ease,
+      background 0.1s ease;
+  }
+
+  .nb-file-browser_row:hover .nb-file-browser_row-action {
+    opacity: 1;
+  }
+
+  .nb-file-browser_row-action:hover {
+    color: var(--nb-gray-700);
+    background: var(--nb-gray-100);
+  }
+
+  .nb-file-browser_row-action svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Grid View                                                          */
+  /* ------------------------------------------------------------------ */
+
+  .nb-file-browser_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .nb-file-browser_grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 8px;
+    border: 2px solid transparent;
+    border-radius: var(--nb-radius);
+    cursor: pointer;
+    text-align: center;
+    transition:
+      background 0.1s ease,
+      border-color 0.1s ease;
+  }
+
+  .nb-file-browser_grid-item:hover {
+    background: var(--nb-yellow-500);
+    border-color: var(--nb-black);
+  }
+
+  .nb-file-browser_grid-item.is-selected {
+    background: var(--nb-yellow-500);
+    border-color: var(--nb-black);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-file-browser_grid-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--nb-gray-500);
+  }
+
+  .nb-file-browser_grid-icon--folder { color: var(--nb-orange-500); }
+
+  .nb-file-browser_grid-name {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-black);
+    word-break: break-all;
+    line-height: 1.4;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Context Menu (file-browser-specific)                               */
+  /* ------------------------------------------------------------------ */
+
+  .nb-file-browser_context-menu {
+    position: fixed;
+    min-width: 160px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-md);
+    z-index: 9999;
+    padding: 4px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    transform-origin: top left;
+    transition:
+      opacity 0.1s ease,
+      visibility 0.1s ease,
+      transform 0.1s ease;
+  }
+
+  .nb-file-browser_context-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  .nb-file-browser_context-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition:
+      color 0.1s ease,
+      background 0.1s ease;
+  }
+
+  .nb-file-browser_context-item:hover {
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+  }
+
+  .nb-file-browser_context-item svg {
+    width: 14px;
+    height: 14px;
+    color: var(--nb-gray-500);
+  }
+
+  .nb-file-browser_context-divider {
+    height: 2px;
+    background: var(--nb-black);
+    margin: 4px 0;
+  }
+
+  .nb-file-browser_context-item--danger {
+    color: var(--nb-red-500);
+  }
+
+  .nb-file-browser_context-item--danger:hover {
+    color: var(--nb-white);
+    background: var(--nb-red-500);
+  }
+
+  /* Empty state ------------------------------------------------------ */
+
+  .nb-file-browser_empty {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--nb-gray-400);
+    font-size: var(--nb-text-sm);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-file-browser {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_toolbar {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_breadcrumb-item:last-child {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-file-browser_view-toggle {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_view-btn + .nb-file-browser_view-btn {
+    border-left: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_list-header {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_name-text {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-file-browser_grid-item:hover {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_grid-item.is-selected {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_grid-name {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-file-browser_context-menu {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-file-browser_context-divider {
+    background: var(--nb-gray-800);
+  }
+}

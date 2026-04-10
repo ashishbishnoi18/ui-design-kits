@@ -1,0 +1,78 @@
+/* ==========================================================================
+   QR Code — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-qr {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    padding: 16px;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-qr svg {
+    display: block;
+  }
+
+  /* Size variants */
+
+  .nb-qr-sm {
+    padding: 8px;
+  }
+
+  .nb-qr-sm svg {
+    width: 96px;
+    height: 96px;
+  }
+
+  .nb-qr-md svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  .nb-qr-lg {
+    padding: 20px;
+  }
+
+  .nb-qr-lg svg {
+    width: 240px;
+    height: 240px;
+  }
+
+  /* Default (no variant) */
+
+  .nb-qr:not(.nb-qr-sm):not(.nb-qr-md):not(.nb-qr-lg) svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* With label */
+
+  .nb-qr__label {
+    display: block;
+    text-align: center;
+    font-family: var(--nb-font-mono);
+    font-size: 10px;
+    color: var(--nb-gray-400);
+    margin-top: 8px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nb-qr--with-label {
+    flex-direction: column;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-qr {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

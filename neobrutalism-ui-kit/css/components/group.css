@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Group — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .nb-group-gap-sm {
+    gap: var(--nb-space-2);
+  }
+
+  .nb-group-gap-md {
+    gap: var(--nb-space-4);
+  }
+
+  .nb-group-gap-lg {
+    gap: var(--nb-space-6);
+  }
+
+  .nb-group-apart {
+    justify-content: space-between;
+  }
+
+  .nb-group-center {
+    justify-content: center;
+  }
+}

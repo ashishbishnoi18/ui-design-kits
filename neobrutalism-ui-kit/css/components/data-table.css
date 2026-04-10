@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Data Table — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  /* Extends .nb-table with sort + filter controls */
+
+  .nb-data-table .nb-table th {
+    position: relative;
+  }
+
+  /* Sort button inside th */
+
+  .nb-data-table_sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--nb-gray-400);
+    transition: color 0.1s ease;
+    white-space: nowrap;
+  }
+
+  .nb-data-table_sort-btn:hover {
+    color: var(--nb-gray-700);
+  }
+
+  /* Sort arrow indicator */
+
+  .nb-data-table_sort-btn::after {
+    content: '\2195';
+    font-size: 10px;
+    opacity: 0.4;
+    transition: opacity 0.1s ease;
+  }
+
+  .nb-data-table_sort-btn[aria-sort="ascending"]::after {
+    content: '\2191';
+    opacity: 1;
+    color: var(--nb-green-500);
+  }
+
+  .nb-data-table_sort-btn[aria-sort="descending"]::after {
+    content: '\2193';
+    opacity: 1;
+    color: var(--nb-green-500);
+  }
+
+  /* Filter input */
+
+  .nb-data-table_filter {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    color: var(--nb-black);
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    outline: none;
+    transition: box-shadow 0.1s ease;
+  }
+
+  .nb-data-table_filter::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-data-table_filter:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Empty state row shown when filter yields no results */
+
+  .nb-data-table_empty-row td {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--nb-gray-400);
+    font-size: var(--nb-text-sm);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-data-table_filter {
+    color: var(--nb-gray-100);
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

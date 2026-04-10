@@ -1,0 +1,155 @@
+/* ==========================================================================
+   FAQ — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-faq {
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .nb-faq__heading {
+    font-size: var(--nb-text-2xl);
+    font-weight: 700;
+    color: var(--nb-black);
+    margin: 0 0 32px;
+    letter-spacing: -0.02em;
+  }
+
+  /* Item */
+
+  .nb-faq__item {
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-faq__item:first-child {
+    border-top: 2px solid var(--nb-black);
+  }
+
+  /* Question (trigger button) */
+
+  .nb-faq__question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: var(--nb-text-base);
+    color: var(--nb-black);
+    cursor: pointer;
+    transition: color 0.1s ease;
+    line-height: 1.4;
+    gap: 16px;
+  }
+
+  .nb-faq__question:hover {
+    color: var(--nb-black);
+  }
+
+  .nb-faq__question:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 2px;
+    border-radius: var(--nb-radius);
+  }
+
+  /* Chevron icon */
+
+  .nb-faq__icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--nb-gray-500);
+    transition: transform 0.15s ease,
+                color 0.1s ease;
+  }
+
+  .nb-faq__item.is-open .nb-faq__icon {
+    transform: rotate(45deg);
+    color: var(--nb-green-500);
+  }
+
+  /* Answer (collapsible) */
+
+  .nb-faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.15s ease;
+  }
+
+  .nb-faq__answer-body {
+    padding: 0 0 20px;
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-700);
+    line-height: 1.7;
+  }
+
+  .nb-faq__answer-body a {
+    color: var(--nb-green-500);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  .nb-faq__answer-body a:hover {
+    text-decoration-color: var(--nb-black);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Card variant                                                       */
+  /* ------------------------------------------------------------------ */
+
+  .nb-faq-card {
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    padding: 0 24px;
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-faq-card .nb-faq__item:first-child {
+    border-top: none;
+  }
+
+  .nb-faq-card .nb-faq__item:last-child {
+    border-bottom: none;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Centered layout                                                    */
+  /* ------------------------------------------------------------------ */
+
+  .nb-faq-centered {
+    margin: 0 auto;
+  }
+
+  .nb-faq-centered .nb-faq__heading {
+    text-align: center;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-faq__heading {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-faq__item {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-faq__item:first-child {
+    border-top: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-faq__question {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-faq__question:hover {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-faq-card {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+}

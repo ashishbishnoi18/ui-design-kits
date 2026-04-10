@@ -34,7 +34,7 @@
     min-width: 120px;
   }
 
-  .dk-time-picker_input:focus {
+  .dk-time-picker_input:focus-visible {
     border-color: var(--accent);
   }
 
@@ -63,7 +63,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
     padding: 8px;
     display: flex;
     gap: 4px;
@@ -156,7 +156,7 @@
 
   .dk-time-picker_item.is-selected {
     background: var(--accent);
-    color: #fff;
+    color: var(--text-on-accent);
     font-weight: 600;
   }
 

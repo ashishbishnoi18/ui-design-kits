@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Mark — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-mark {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .nb-mark-warning {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-mark-info {
+    background: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+}

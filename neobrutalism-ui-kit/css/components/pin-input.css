@@ -1,0 +1,103 @@
+/* ==========================================================================
+   PIN / OTP Input — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-pin-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nb-pin-input_field,
+  .nb-pin-input_cell {
+    width: 40px;
+    height: 44px;
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    background: var(--nb-white);
+    font-family: var(--nb-font-mono);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--nb-black);
+    text-align: center;
+    outline: none;
+    padding: 0;
+    caret-color: var(--nb-blue-500);
+    transition:
+      border-color var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-pin-input_field::placeholder,
+  .nb-pin-input_cell::placeholder {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-pin-input_field:focus-visible,
+  .nb-pin-input_cell:focus-visible {
+    border-color: var(--nb-black);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* Filled state */
+  .nb-pin-input_field.is-filled,
+  .nb-pin-input_cell.is-filled {
+    border-color: var(--nb-black);
+    background: var(--nb-gray-50);
+  }
+
+  /* Disabled */
+  .nb-pin-input.is-disabled .nb-pin-input_field,
+  .nb-pin-input.is-disabled .nb-pin-input_cell {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Separator dot between groups */
+  .nb-pin-input_separator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--nb-gray-400);
+    flex-shrink: 0;
+  }
+
+  /* Error state */
+  .nb-pin-input.is-error .nb-pin-input_field,
+  .nb-pin-input.is-error .nb-pin-input_cell {
+    border-color: var(--nb-red-500);
+  }
+
+  .nb-pin-input.is-error .nb-pin-input_field:focus-visible,
+  .nb-pin-input.is-error .nb-pin-input_cell:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--nb-white),
+      0 0 0 4px var(--nb-red-500);
+  }
+
+  /* Complete state */
+  .nb-pin-input.is-complete .nb-pin-input_field,
+  .nb-pin-input.is-complete .nb-pin-input_cell {
+    border-color: var(--nb-green-500);
+    background: var(--nb-green-50, #f0fdf4);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-pin-input_field,
+  .nb-pin-input_cell {
+    border: 2px solid var(--nb-gray-700);
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-pin-input_field:focus-visible,
+  .nb-pin-input_cell:focus-visible {
+    border-color: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-pin-input_field.is-filled,
+  .nb-pin-input_cell.is-filled {
+    border-color: var(--nb-gray-700);
+  }
+}

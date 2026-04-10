@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Text — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-text {
+    color: var(--nb-black);
+    line-height: 1.6;
+  }
+
+  /* Sizes */
+
+  .nb-text-xs {
+    font-size: var(--nb-text-xs);
+  }
+
+  .nb-text-sm {
+    font-size: var(--nb-text-sm);
+  }
+
+  .nb-text-base {
+    font-size: var(--nb-text-base);
+  }
+
+  .nb-text-lg {
+    font-size: var(--nb-text-lg);
+  }
+
+  .nb-text-xl {
+    font-size: var(--nb-text-xl);
+  }
+
+  /* Colors */
+
+  .nb-text-muted {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-text-secondary {
+    color: var(--nb-gray-700);
+  }
+
+  .nb-text-accent {
+    color: var(--nb-green-500);
+  }
+
+  /* Mono */
+
+  .nb-text-mono {
+    font-family: var(--nb-font-mono);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-text {
+    color: var(--nb-gray-100);
+  }
+}

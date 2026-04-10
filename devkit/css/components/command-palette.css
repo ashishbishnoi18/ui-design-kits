@@ -34,9 +34,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.45),
-      0 4px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-xl);
     overflow: hidden;
     transform: scale(0.96) translateY(-8px);
     transition: transform var(--dk-transition-base);

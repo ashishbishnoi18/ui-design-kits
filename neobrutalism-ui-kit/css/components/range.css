@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Range Slider — Neo Brutalism UI Kit
+   ==========================================================================
+   Native range input with filled track (green-500), value badge, tick marks.
+   Green-500 fill — raw digital green, unprocessed.
+
+   To sync the value display and filled track:
+     input.addEventListener('input', e => {
+       valueEl.textContent = e.target.value;
+       e.target.style.setProperty('--range-fill',
+         ((e.target.value - e.target.min) / (e.target.max - e.target.min)) * 100 + '%');
+     })
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Container
+     -------------------------------------------------------------------------- */
+  .nb-range {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nb-space-2);
+  }
+
+  /* --------------------------------------------------------------------------
+     Range Track
+     -------------------------------------------------------------------------- */
+  .nb-range__input {
+    --range-fill: 50%;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    background: linear-gradient(
+      to right,
+      var(--nb-green-500) var(--range-fill),
+      var(--nb-gray-200) var(--range-fill)
+    );
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-full);
+    outline: none;
+    cursor: pointer;
+    transition:
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-range__input:hover {
+    background: linear-gradient(
+      to right,
+      var(--nb-green-500) var(--range-fill),
+      var(--nb-gray-300) var(--range-fill)
+    );
+  }
+
+  .nb-range__input:focus-visible {
+    outline: 2px solid var(--nb-blue-500);
+    outline-offset: 2px;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* --------------------------------------------------------------------------
+     Thumb — WebKit
+     -------------------------------------------------------------------------- */
+  .nb-range__input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--nb-white);
+    border: var(--nb-border);
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-range__input::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-range__input::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    background: var(--nb-yellow-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Thumb — Firefox
+     -------------------------------------------------------------------------- */
+  .nb-range__input::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: var(--nb-white);
+    border: var(--nb-border);
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: var(--nb-shadow-sm);
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-range__input::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-range__input::-moz-range-thumb:active {
+    cursor: grabbing;
+    background: var(--nb-yellow-500);
+  }
+
+  /* --------------------------------------------------------------------------
+     Track — Firefox
+     -------------------------------------------------------------------------- */
+  .nb-range__input::-moz-range-track {
+    width: 100%;
+    height: 12px;
+    background: var(--nb-gray-200);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-full);
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* Firefox filled portion */
+  .nb-range__input::-moz-range-progress {
+    background: var(--nb-green-500);
+    border-radius: var(--nb-radius-full);
+    height: 12px;
+    border: var(--nb-border);
+  }
+
+  /* --------------------------------------------------------------------------
+     Label Row
+     -------------------------------------------------------------------------- */
+  .nb-range__label {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--nb-text-sm);
+  }
+
+  .nb-range__label-text {
+    font-weight: var(--nb-font-medium);
+    color: var(--nb-gray-700);
+  }
+
+  /* --------------------------------------------------------------------------
+     Value Badge — yellow-500, bold, punchy
+     -------------------------------------------------------------------------- */
+  .nb-range__value {
+    font-family: var(--nb-font-mono);
+    font-weight: var(--nb-font-bold);
+    color: var(--nb-black);
+    background: var(--nb-yellow-500);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    padding: 0 var(--nb-space-2);
+    font-size: var(--nb-text-xs);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* --------------------------------------------------------------------------
+     Tick Marks
+     -------------------------------------------------------------------------- */
+  .nb-range__ticks {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: var(--nb-space-3);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-gray-600);
+  }
+
+  /* --------------------------------------------------------------------------
+     Small Size Variant
+     -------------------------------------------------------------------------- */
+  .nb-range--sm .nb-range__input {
+    height: 8px;
+  }
+
+  .nb-range--sm .nb-range__input::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nb-range--sm .nb-range__input::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* --------------------------------------------------------------------------
+     Disabled
+     -------------------------------------------------------------------------- */
+  .nb-range__input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-range__input::-webkit-slider-thumb {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-range__input::-moz-range-thumb {
+    background: var(--nb-gray-900);
+  }
+}

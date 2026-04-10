@@ -5,44 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings — DevKit</title>
   <link rel="stylesheet" href="../css/dk-all.css">
+  <link rel="stylesheet" href="shared.css">
+  <meta name="description" content="DevKit settings page — profile, notifications, and account management">
+  <meta property="og:title" content="Settings — DevKit">
+  <meta property="og:description" content="DevKit settings page — profile, notifications, and account management">
+  <meta property="og:type" content="website">
   <style>
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 20px;
-      font-family: var(--font-sans);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      border-radius: var(--dk-radius-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all var(--dk-transition-fast);
-      text-decoration: none;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #000;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text-primary);
-      border-color: var(--border-default);
-    }
-    .btn-outline:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-hover);
-      color: var(--text-heading);
-    }
     .btn-danger {
       background: transparent;
       color: var(--dk-red-400);
@@ -143,6 +111,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="dk-skip-nav">Skip to content</a>
 
   <div class="dk-sidebar-layout">
 
@@ -176,7 +145,7 @@
 
       <div class="dk-sidebar-footer">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback">JD</span></div>
+          <div class="dk-avatar dk-avatar--sm"><span class="dk-avatar_fallback" data-slot="fallback">JD</span></div>
           <div>
             <div style="font-size:var(--text-sm); font-weight:500; color:var(--text-heading);">Jane Doe</div>
             <div style="font-size:var(--text-xs); color:var(--text-muted);">jane@company.com</div>
@@ -188,7 +157,7 @@
     <div class="dk-sidebar_backdrop"></div>
 
     <!-- Main content -->
-    <main class="dk-main">
+    <main class="dk-main" id="main-content">
       <div class="dk-main-content" style="max-width:720px;">
 
         <!-- Page heading -->
@@ -199,15 +168,15 @@
 
         <!-- Tabs -->
         <div class="dk-tabs" data-dk-tabs>
-          <div class="dk-tabs_list">
-            <button class="dk-tabs_tab is-active" data-tab="profile">Profile</button>
-            <button class="dk-tabs_tab" data-tab="security">Security</button>
-            <button class="dk-tabs_tab" data-tab="notifications">Notifications</button>
-            <button class="dk-tabs_tab" data-tab="billing">Billing</button>
+          <div class="dk-tabs_list" data-slot="list">
+            <button class="dk-tabs_tab is-active" data-slot="tab" data-tab="profile">Profile</button>
+            <button class="dk-tabs_tab" data-slot="tab" data-tab="security">Security</button>
+            <button class="dk-tabs_tab" data-slot="tab" data-tab="notifications">Notifications</button>
+            <button class="dk-tabs_tab" data-slot="tab" data-tab="billing">Billing</button>
           </div>
 
           <!-- Profile tab -->
-          <div class="dk-tabs_panel is-active" data-tab-panel="profile">
+          <div class="dk-tabs_panel is-active" data-slot="panel" data-tab-panel="profile">
             <form onsubmit="return false;">
 
               <!-- Avatar -->
@@ -233,22 +202,22 @@
                 <div class="settings-section_title">Personal information</div>
                 <div class="settings-section_desc">Update your name and contact details.</div>
                 <div class="form-grid">
-                  <div class="dk-field">
-                    <label class="dk-label" for="first-name">First name</label>
-                    <input type="text" id="first-name" class="dk-input" value="Jane">
+                  <div class="dk-field" data-slot="field">
+                    <label class="dk-label" data-slot="label" for="first-name">First name</label>
+                    <input type="text" id="first-name" class="dk-input" data-slot="control" value="Jane">
                   </div>
-                  <div class="dk-field">
-                    <label class="dk-label" for="last-name">Last name</label>
-                    <input type="text" id="last-name" class="dk-input" value="Doe">
+                  <div class="dk-field" data-slot="field">
+                    <label class="dk-label" data-slot="label" for="last-name">Last name</label>
+                    <input type="text" id="last-name" class="dk-input" data-slot="control" value="Doe">
                   </div>
                 </div>
-                <div class="dk-field">
-                  <label class="dk-label" for="settings-email">Email address</label>
-                  <input type="email" id="settings-email" class="dk-input" value="jane@company.com">
+                <div class="dk-field" data-slot="field">
+                  <label class="dk-label" data-slot="label" for="settings-email">Email address</label>
+                  <input type="email" id="settings-email" class="dk-input" data-slot="control" value="jane@company.com">
                 </div>
-                <div class="dk-field">
-                  <label class="dk-label" for="bio">Bio</label>
-                  <textarea id="bio" class="dk-textarea" placeholder="Tell us a bit about yourself...">Staff engineer working on developer tooling and infrastructure. Based in San Francisco.</textarea>
+                <div class="dk-field" data-slot="field">
+                  <label class="dk-label" data-slot="label" for="bio">Bio</label>
+                  <textarea id="bio" class="dk-textarea" data-slot="control" placeholder="Tell us a bit about yourself...">Staff engineer working on developer tooling and infrastructure. Based in San Francisco.</textarea>
                 </div>
               </div>
 
@@ -261,12 +230,12 @@
           </div>
 
           <!-- Security tab -->
-          <div class="dk-tabs_panel" data-tab-panel="security">
+          <div class="dk-tabs_panel" data-slot="panel" data-tab-panel="security">
             <div class="settings-section">
               <div class="settings-section_title">Change password</div>
               <div class="settings-section_desc">Ensure your account stays secure by using a strong password.</div>
-              <div class="dk-field">
-                <label class="dk-label" for="current-pw">Current password</label>
+              <div class="dk-field" data-slot="field">
+                <label class="dk-label" data-slot="label" for="current-pw">Current password</label>
                 <div class="dk-password" data-dk-password>
                   <input type="password" id="current-pw" class="dk-password_input" placeholder="Enter current password">
                   <button type="button" class="dk-password_toggle" aria-label="Toggle password visibility">
@@ -274,8 +243,8 @@
                   </button>
                 </div>
               </div>
-              <div class="dk-field">
-                <label class="dk-label" for="new-pw">New password</label>
+              <div class="dk-field" data-slot="field">
+                <label class="dk-label" data-slot="label" for="new-pw">New password</label>
                 <div class="dk-password" data-dk-password>
                   <input type="password" id="new-pw" class="dk-password_input" placeholder="Enter new password">
                   <button type="button" class="dk-password_toggle" aria-label="Toggle password visibility">
@@ -308,7 +277,7 @@
           </div>
 
           <!-- Notifications tab -->
-          <div class="dk-tabs_panel" data-tab-panel="notifications">
+          <div class="dk-tabs_panel" data-slot="panel" data-tab-panel="notifications">
             <div class="settings-section">
               <div class="settings-section_title">Email notifications</div>
               <div class="settings-section_desc">Choose what emails you receive from us.</div>
@@ -319,8 +288,8 @@
                   <div class="notification-row_desc">New features, improvements, and releases.</div>
                 </div>
                 <label class="dk-toggle">
-                  <input type="checkbox" class="dk-toggle_input" checked>
-                  <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+                  <input type="checkbox" class="dk-toggle_input" data-slot="input" checked>
+                  <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
                 </label>
               </div>
 
@@ -330,8 +299,8 @@
                   <div class="notification-row_desc">Login attempts and security-related notifications.</div>
                 </div>
                 <label class="dk-toggle">
-                  <input type="checkbox" class="dk-toggle_input" checked>
-                  <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+                  <input type="checkbox" class="dk-toggle_input" data-slot="input" checked>
+                  <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
                 </label>
               </div>
 
@@ -341,8 +310,8 @@
                   <div class="notification-row_desc">When team members make changes to shared projects.</div>
                 </div>
                 <label class="dk-toggle">
-                  <input type="checkbox" class="dk-toggle_input" checked>
-                  <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+                  <input type="checkbox" class="dk-toggle_input" data-slot="input" checked>
+                  <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
                 </label>
               </div>
 
@@ -352,8 +321,8 @@
                   <div class="notification-row_desc">Tips, best practices, and promotional offers.</div>
                 </div>
                 <label class="dk-toggle">
-                  <input type="checkbox" class="dk-toggle_input">
-                  <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+                  <input type="checkbox" class="dk-toggle_input" data-slot="input">
+                  <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
                 </label>
               </div>
 
@@ -363,20 +332,20 @@
                   <div class="notification-row_desc">A summary of your projects and activity each week.</div>
                 </div>
                 <label class="dk-toggle">
-                  <input type="checkbox" class="dk-toggle_input">
-                  <div class="dk-toggle_track"><div class="dk-toggle_thumb"></div></div>
+                  <input type="checkbox" class="dk-toggle_input" data-slot="input">
+                  <div class="dk-toggle_track" data-slot="track"><div class="dk-toggle_thumb" data-slot="thumb"></div></div>
                 </label>
               </div>
             </div>
           </div>
 
           <!-- Billing tab -->
-          <div class="dk-tabs_panel" data-tab-panel="billing">
+          <div class="dk-tabs_panel" data-slot="panel" data-tab-panel="billing">
             <div class="settings-section">
               <div class="settings-section_title">Current plan</div>
               <div class="settings-section_desc">You are currently on the Pro plan.</div>
               <div class="dk-card" style="margin-bottom:16px;">
-                <div class="dk-card_body" style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="dk-card_body" data-slot="body" style="display:flex; justify-content:space-between; align-items:center;">
                   <div>
                     <div style="font-weight:600; color:var(--text-heading);">Pro Plan</div>
                     <div style="font-size:var(--text-sm); color:var(--text-tertiary); margin-top:2px;">$29/month -- billed monthly</div>
@@ -394,7 +363,7 @@
               <div class="settings-section_title">Payment method</div>
               <div class="settings-section_desc">Manage your payment information.</div>
               <div class="dk-card">
-                <div class="dk-card_body" style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="dk-card_body" data-slot="body" style="display:flex; justify-content:space-between; align-items:center;">
                   <div style="display:flex; align-items:center; gap:12px;">
                     <div style="width:40px; height:28px; background:var(--bg-raised); border:1px solid var(--border-default); border-radius:var(--dk-radius-sm); display:flex; align-items:center; justify-content:center; font-size:var(--text-xs); font-weight:600; color:var(--text-muted);">VISA</div>
                     <div>

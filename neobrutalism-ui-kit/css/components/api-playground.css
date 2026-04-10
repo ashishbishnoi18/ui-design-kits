@@ -1,0 +1,362 @@
+/* ==========================================================================
+   API Playground — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Full suite of API playground UI components.
+   Rewritten for Neo Brutalist consistency.
+   ========================================================================== */
+
+@layer components {
+  /* ==========================================================================
+     Method Badge — colored pill for HTTP methods
+     ========================================================================== */
+  .nb-method-badge {
+    display: inline-flex;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    text-transform: uppercase;
+    padding: var(--nb-space-1) var(--nb-space-2);
+    border-radius: var(--nb-radius);
+    border: var(--nb-border);
+    letter-spacing: 0.05em;
+  }
+
+  .nb-method-badge--get {
+    background: var(--nb-green-400);
+    color: var(--nb-black);
+  }
+
+  .nb-method-badge--post {
+    background: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+
+  .nb-method-badge--put {
+    background: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-method-badge--patch {
+    background: var(--nb-orange-500);
+    color: var(--nb-black);
+  }
+
+  .nb-method-badge--delete {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+  }
+
+  /* ==========================================================================
+     URL Bar — method + URL input + send button
+     ========================================================================== */
+  .nb-url-bar {
+    display: flex;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+    background: var(--nb-white);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-url-bar__method {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--nb-space-4);
+    border-right: var(--nb-border);
+    background: var(--nb-gray-100);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-bold);
+    cursor: pointer;
+    gap: var(--nb-space-2);
+    min-width: 100px;
+    transition: background var(--nb-transition-fast);
+  }
+
+  .nb-url-bar__method:hover {
+    background: var(--nb-gray-200);
+  }
+
+  .nb-url-bar__input {
+    flex: 1;
+    border: none;
+    padding: var(--nb-space-3) var(--nb-space-4);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    outline: none;
+    min-width: 0;
+  }
+
+  .nb-url-bar__send {
+    flex-shrink: 0;
+    padding: var(--nb-space-3) var(--nb-space-6);
+    background: var(--nb-green-500);
+    color: var(--nb-black);
+    border: none;
+    border-left: var(--nb-border);
+    font-weight: var(--nb-font-bold);
+    font-size: var(--nb-text-sm);
+    cursor: pointer;
+    transition: background var(--nb-transition-fast), transform var(--nb-transition-fast);
+  }
+
+  .nb-url-bar__send:hover {
+    background: var(--nb-green-400);
+  }
+
+  .nb-url-bar__send:active {
+    background: var(--nb-green-600);
+  }
+
+  /* ==========================================================================
+     Key-Value Editor — editable rows for headers/params
+     ========================================================================== */
+  .nb-kv-editor {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    overflow: hidden;
+    background: var(--nb-white);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-kv-editor__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 48px;
+    background: var(--nb-black);
+    border-bottom: var(--nb-border);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    text-transform: uppercase;
+    color: var(--nb-white);
+    letter-spacing: 0.1em;
+  }
+
+  .nb-kv-editor__header span {
+    padding: var(--nb-space-3) var(--nb-space-4);
+  }
+
+  .nb-kv-editor__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 48px;
+    border-bottom: var(--nb-border);
+    transition: background var(--nb-transition-fast);
+  }
+
+  .nb-kv-editor__row:last-of-type {
+    border-bottom: none;
+  }
+
+  .nb-kv-editor__row:hover {
+    background: var(--nb-gray-50);
+  }
+
+  .nb-kv-editor__input {
+    border: none;
+    padding: var(--nb-space-3) var(--nb-space-4);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-medium);
+    outline: none;
+    background: transparent;
+    color: var(--nb-black);
+  }
+
+  .nb-kv-editor__input:first-child {
+    border-right: var(--nb-border);
+    color: var(--nb-blue-600);
+    font-weight: var(--nb-font-bold);
+  }
+
+  .nb-kv-editor__remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-left: var(--nb-border);
+    background: none;
+    color: var(--nb-gray-400);
+    cursor: pointer;
+    transition: color var(--nb-transition-fast), background var(--nb-transition-fast);
+  }
+
+  .nb-kv-editor__remove:hover {
+    color: var(--nb-white);
+    background: var(--nb-red-500);
+  }
+
+  .nb-kv-editor__add {
+    display: flex;
+    align-items: center;
+    gap: var(--nb-space-2);
+    padding: var(--nb-space-3) var(--nb-space-4);
+    border: none;
+    background: var(--nb-gray-50);
+    color: var(--nb-black);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    cursor: pointer;
+    width: 100%;
+    border-top: var(--nb-border);
+    transition: background var(--nb-transition-fast);
+  }
+
+  .nb-kv-editor__add:hover {
+    background: var(--nb-yellow-300);
+  }
+
+  /* ==========================================================================
+     Request/Response Pane — tabbed split view
+     ========================================================================== */
+  .nb-api-pane {
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--nb-shadow-md);
+    background: var(--nb-white);
+  }
+
+  .nb-api-pane__tabs {
+    display: flex;
+    background: var(--nb-gray-100);
+    border-bottom: var(--nb-border);
+  }
+
+  .nb-api-pane__tab {
+    padding: var(--nb-space-2) var(--nb-space-5);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    text-transform: uppercase;
+    color: var(--nb-gray-600);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-right: var(--nb-border);
+    transition: all var(--nb-transition-fast);
+  }
+
+  .nb-api-pane__tab:hover {
+    background: var(--nb-white);
+    color: var(--nb-black);
+  }
+
+  .nb-api-pane__tab.is-active {
+    background: var(--nb-white);
+    color: var(--nb-black);
+  }
+
+  .nb-api-pane__body {
+    flex: 1;
+    overflow: auto;
+    padding: var(--nb-space-4);
+  }
+
+  /* ==========================================================================
+     Status Badge — colored by HTTP status code range
+     ========================================================================== */
+  .nb-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    font-weight: var(--nb-font-bold);
+    padding: var(--nb-space-1) var(--nb-space-3);
+    border-radius: var(--nb-radius-full);
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-status-badge--2xx {
+    background: var(--nb-green-400);
+    color: var(--nb-black);
+  }
+
+  .nb-status-badge--3xx {
+    background: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+
+  .nb-status-badge--4xx {
+    background: var(--nb-yellow-300);
+    color: var(--nb-black);
+  }
+
+  .nb-status-badge--5xx {
+    background: var(--nb-red-500);
+    color: var(--nb-white);
+  }
+
+  /* ==========================================================================
+     Console / Log Output
+     ========================================================================== */
+  .nb-console {
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-medium);
+    line-height: 1.6;
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius-lg);
+    padding: var(--nb-space-4);
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: var(--nb-shadow-lg);
+  }
+
+  .nb-console__line {
+    display: flex;
+    gap: var(--nb-space-4);
+    padding: var(--nb-space-1) 0;
+    border-bottom: 1px solid var(--nb-gray-800);
+  }
+
+  .nb-console__line:last-child {
+    border-bottom: none;
+  }
+
+  .nb-console__time {
+    color: var(--nb-gray-500);
+    flex-shrink: 0;
+    font-size: var(--nb-text-xs);
+  }
+
+  .nb-console__level--info { color: var(--nb-blue-500); }
+  .nb-console__level--warn { color: var(--nb-yellow-500); }
+  .nb-console__level--error { color: var(--nb-red-500); }
+  .nb-console__level--success { color: var(--nb-green-400); }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-url-bar {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-kv-editor {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-kv-editor__header {
+    background: var(--nb-gray-800);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-kv-editor__input {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-kv-editor__add {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-api-pane {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-api-pane__tab:hover {
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-api-pane__tab.is-active {
+    background: var(--nb-gray-900);
+    color: var(--nb-gray-100);
+  }
+}

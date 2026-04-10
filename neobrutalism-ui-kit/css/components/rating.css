@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Rating — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  /* Star button */
+
+  .nb-rating__star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--nb-gray-400);
+    transition:
+      color var(--nb-transition-fast),
+      transform var(--nb-transition-fast);
+    position: relative;
+  }
+
+  .nb-rating__star svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: fill var(--nb-transition-fast);
+  }
+
+  .nb-rating__star:hover {
+    transform: scale(1.1);
+  }
+
+  .nb-rating__star:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 1px;
+    border-radius: var(--nb-radius);
+  }
+
+  /* Filled state */
+  .nb-rating__star.is-filled {
+    color: var(--nb-yellow-500);
+  }
+
+  /* Hover preview */
+  .nb-rating__star.is-hover {
+    color: var(--nb-yellow-500);
+  }
+
+  /* Half star */
+  .nb-rating__star.is-half {
+    color: var(--nb-gray-400);
+  }
+
+  .nb-rating__star.is-half .nb-rating__star-fill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nb-yellow-500);
+    clip-path: inset(0 50% 0 0);
+  }
+
+  .nb-rating__star.is-half .nb-rating__star-fill svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  /* Read-only */
+
+  .nb-rating.is-readonly .nb-rating__star {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .nb-rating.is-readonly .nb-rating__star:hover {
+    transform: none;
+  }
+
+  /* Size variants */
+
+  .nb-rating-sm .nb-rating__star {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nb-rating-sm .nb-rating__star svg,
+  .nb-rating-sm .nb-rating__star .nb-rating__star-fill svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nb-rating-lg .nb-rating__star {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nb-rating-lg .nb-rating__star svg,
+  .nb-rating-lg .nb-rating__star .nb-rating__star-fill svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Value display */
+
+  .nb-rating__value {
+    font-size: var(--nb-text-sm);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-700);
+    margin-left: 6px;
+  }
+}

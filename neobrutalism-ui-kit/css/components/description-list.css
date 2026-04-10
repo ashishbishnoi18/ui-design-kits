@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Description List — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-dl {
+    color: var(--nb-black);
+  }
+
+  .nb-dl__term {
+    font-weight: 700;
+    color: var(--nb-gray-700);
+    font-size: var(--nb-text-sm);
+    line-height: 1.4;
+  }
+
+  .nb-dl__detail {
+    color: var(--nb-black);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  /* Horizontal layout */
+  .nb-dl-horizontal {
+    display: grid;
+    grid-template-columns: minmax(120px, auto) 1fr;
+    gap: 8px 16px;
+    align-items: baseline;
+  }
+
+  .nb-dl-horizontal .nb-dl__detail {
+    margin-bottom: 0;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-dl {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-dl__detail {
+    color: var(--nb-gray-100);
+  }
+}

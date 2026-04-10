@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Settings Panel — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-settings {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* Section ---------------------------------------------------------- */
+
+  .nb-settings__section {
+    padding: 24px 0;
+    border-bottom: 2px solid var(--nb-black);
+  }
+
+  .nb-settings__section:first-child {
+    padding-top: 0;
+  }
+
+  .nb-settings__section:last-child {
+    border-bottom: none;
+  }
+
+  .nb-settings__section-title {
+    font-size: var(--nb-text-sm);
+    font-weight: 600;
+    color: var(--nb-black);
+    margin: 0 0 4px 0;
+  }
+
+  .nb-settings__section-desc {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+  }
+
+  /* Item ------------------------------------------------------------- */
+
+  .nb-settings__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 12px 0;
+  }
+
+  .nb-settings__item + .nb-settings__item {
+    border-top: 2px solid var(--nb-gray-200);
+  }
+
+  .nb-settings__label-group {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nb-settings__label {
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .nb-settings__desc {
+    font-size: var(--nb-text-xs);
+    color: var(--nb-gray-500);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  /* Control slot ----------------------------------------------------- */
+
+  .nb-settings__control {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+  }
+
+  /* Inline input variant --------------------------------------------- */
+
+  .nb-settings__control input[type="text"],
+  .nb-settings__control input[type="email"],
+  .nb-settings__control input[type="number"] {
+    height: 32px;
+    padding: 0 10px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-black);
+    font-size: var(--nb-text-sm);
+    min-width: 180px;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .nb-settings__control input:focus-visible {
+    outline: none;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-settings__control select {
+    height: 32px;
+    padding: 0 28px 0 10px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    color: var(--nb-black);
+    font-size: var(--nb-text-sm);
+    appearance: none;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease;
+  }
+
+  .nb-settings__control select:focus-visible {
+    outline: none;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  /* Danger zone ------------------------------------------------------ */
+
+  .nb-settings__section--danger {
+    border: 2px solid var(--nb-red-500);
+    border-radius: var(--nb-radius);
+    padding: 20px;
+    margin-top: 12px;
+  }
+
+  .nb-settings__section--danger .nb-settings__section-title {
+    color: var(--nb-red-500);
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-settings__section {
+    border-bottom: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-settings__section-title {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-settings__label {
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-settings__control input[type="text"],
+  .nb-settings__control input[type="email"],
+  .nb-settings__control input[type="number"] {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-settings__control select {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+}

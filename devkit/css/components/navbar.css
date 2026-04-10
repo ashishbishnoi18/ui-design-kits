@@ -37,7 +37,7 @@
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 700;
-    color: #000;
+    color: var(--text-on-inverted);
     line-height: 1;
     flex-shrink: 0;
   }

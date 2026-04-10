@@ -57,7 +57,7 @@
   .dk-checkout_step.is-active .dk-checkout_step-number {
     background: var(--accent);
     border-color: var(--accent);
-    color: #000;
+    color: var(--text-on-inverted);
   }
 
   .dk-checkout_step.is-active .dk-checkout_step-label {
@@ -68,7 +68,7 @@
   .dk-checkout_step.is-complete .dk-checkout_step-number {
     background: var(--accent);
     border-color: var(--accent);
-    color: #000;
+    color: var(--text-on-inverted);
   }
 
   .dk-checkout_step.is-complete .dk-checkout_step-label {
@@ -149,7 +149,7 @@
     transition: border-color var(--dk-transition-fast);
   }
 
-  .dk-checkout_field input:focus {
+  .dk-checkout_field input:focus-visible {
     outline: none;
     border-color: var(--accent);
   }
@@ -194,7 +194,7 @@
 
   .dk-checkout_btn--next {
     background: var(--accent);
-    color: #000;
+    color: var(--text-on-inverted);
     border: 1px solid var(--accent);
   }
 

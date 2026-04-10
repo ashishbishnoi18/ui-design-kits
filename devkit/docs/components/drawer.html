@@ -28,14 +28,14 @@
         <div style="position:relative;min-height:300px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-drawer-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-drawer dk-drawer--right is-open" style="position:absolute;right:0;top:0;bottom:0;width:320px;">
-            <div class="dk-drawer_header">
-              <h3 class="dk-drawer_title">Settings</h3>
-              <button class="dk-drawer_close">&times;</button>
+            <div class="dk-drawer_header" data-slot="header">
+              <h3 class="dk-drawer_title" data-slot="title">Settings</h3>
+              <button class="dk-drawer_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-drawer_body">
+            <div class="dk-drawer_body" data-slot="body">
               <p>Drawer content goes here. Supports scrollable content with a fixed header and footer.</p>
             </div>
-            <div class="dk-drawer_footer">
+            <div class="dk-drawer_footer" data-slot="footer">
               <button class="dk-btn dk-btn--ghost">Cancel</button>
               <button class="dk-btn dk-btn--primary">Save</button>
             </div>
@@ -71,11 +71,11 @@
         <div style="position:relative;min-height:280px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-drawer-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-drawer dk-drawer--left is-open" style="position:absolute;left:0;top:0;bottom:0;width:280px;">
-            <div class="dk-drawer_header">
-              <h3 class="dk-drawer_title">Navigation</h3>
-              <button class="dk-drawer_close">&times;</button>
+            <div class="dk-drawer_header" data-slot="header">
+              <h3 class="dk-drawer_title" data-slot="title">Navigation</h3>
+              <button class="dk-drawer_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-drawer_body">
+            <div class="dk-drawer_body" data-slot="body">
               <p>Left-side drawer, commonly used for mobile navigation menus.</p>
             </div>
           </div>
@@ -103,11 +103,11 @@
         <div style="position:relative;min-height:300px;background:var(--bg-surface);border-radius:var(--dk-radius-lg);overflow:hidden;">
           <div class="dk-drawer-backdrop is-open" style="position:absolute;"></div>
           <div class="dk-drawer dk-drawer--bottom is-open" style="position:absolute;left:0;right:0;bottom:0;height:180px;">
-            <div class="dk-drawer_header">
-              <h3 class="dk-drawer_title">Share</h3>
-              <button class="dk-drawer_close">&times;</button>
+            <div class="dk-drawer_header" data-slot="header">
+              <h3 class="dk-drawer_title" data-slot="title">Share</h3>
+              <button class="dk-drawer_close" data-slot="close">&times;</button>
             </div>
-            <div class="dk-drawer_body">
+            <div class="dk-drawer_body" data-slot="body">
               <p>Bottom drawer for mobile-friendly actions and sheets.</p>
             </div>
           </div>

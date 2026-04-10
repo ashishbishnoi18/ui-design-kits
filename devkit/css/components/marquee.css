@@ -97,8 +97,11 @@
   /* ------------------------------------------------------------------ */
 
   @media (prefers-reduced-motion: reduce) {
-    .dk-marquee_track {
-      animation: none;
+    .dk-marquee,
+    .dk-marquee * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }

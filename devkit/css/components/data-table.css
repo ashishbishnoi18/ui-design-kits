@@ -76,7 +76,7 @@
     color: var(--text-muted);
   }
 
-  .dk-data-table_filter:focus {
+  .dk-data-table_filter:focus-visible {
     border-color: var(--border-hover);
   }
 

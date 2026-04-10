@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Kbd — Clean Neo Brutalism UI Kit
+   ========================================================================== */
+
+@layer components {
+
+  .nb-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-xs);
+    background: var(--nb-gray-50);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 2px 6px;
+    min-width: 24px;
+    line-height: 1.4;
+    color: var(--nb-gray-700);
+    box-shadow: var(--nb-shadow-sm);
+    white-space: nowrap;
+  }
+
+  .nb-kbd-sm {
+    font-size: 0.625rem;
+    padding: 1px 4px;
+    min-width: 18px;
+  }
+
+  .nb-kbd-lg {
+    font-size: var(--nb-text-sm);
+    padding: 4px 10px;
+    min-width: 32px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-kbd {
+    border: 2px solid var(--nb-gray-700);
+  }
+}

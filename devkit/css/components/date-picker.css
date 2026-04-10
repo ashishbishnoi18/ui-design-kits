@@ -33,7 +33,7 @@
     cursor: pointer;
   }
 
-  .dk-date-picker_input:focus {
+  .dk-date-picker_input:focus-visible {
     border-color: var(--accent);
   }
 
@@ -62,7 +62,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--border-default);
     border-radius: var(--dk-radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
     padding: 12px;
     min-width: 280px;
     opacity: 0;
@@ -185,7 +185,7 @@
 
   .dk-date-picker_day.is-selected {
     background: var(--accent);
-    color: #fff;
+    color: var(--text-on-accent);
     font-weight: 600;
   }
 

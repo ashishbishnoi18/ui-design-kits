@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Floating Badge — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Animated floating label badges that hover over content. Like the
+   "200 OK" and "JSON Output" badges in hero sections. Distinct from
+   nb-decor because they carry text content, borders, shadows, and
+   look interactive.
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     Keyframes
+     -------------------------------------------------------------------------- */
+  @keyframes nb-float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+  }
+
+  @keyframes nb-float-alt {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(-2deg);
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Base Floating Badge
+     -------------------------------------------------------------------------- */
+  .nb-floating-badge {
+    position: absolute;
+    z-index: var(--nb-z-sticky);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nb-space-1);
+    padding: var(--nb-space-2) var(--nb-space-3);
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    font-weight: var(--nb-font-bold);
+    color: var(--nb-black);
+    background-color: var(--nb-yellow-500);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    white-space: nowrap;
+    pointer-events: auto;
+    transition:
+      transform var(--nb-transition-fast),
+      box-shadow var(--nb-transition-fast);
+  }
+
+  .nb-floating-badge:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  /* --------------------------------------------------------------------------
+     Color Variants
+     -------------------------------------------------------------------------- */
+  .nb-floating-badge--green {
+    background-color: var(--nb-green-500);
+    color: var(--nb-black);
+  }
+
+  .nb-floating-badge--yellow {
+    background-color: var(--nb-yellow-500);
+    color: var(--nb-black);
+  }
+
+  .nb-floating-badge--orange {
+    background-color: var(--nb-orange-500);
+    color: var(--nb-black);
+  }
+
+  .nb-floating-badge--pink {
+    background-color: var(--nb-pink-500, #EC4899);
+    color: var(--nb-black);
+  }
+
+  .nb-floating-badge--blue {
+    background-color: var(--nb-blue-500);
+    color: var(--nb-white);
+  }
+
+  /* --------------------------------------------------------------------------
+     Float Animation
+     -------------------------------------------------------------------------- */
+  .nb-floating-badge--float {
+    animation: nb-float 4s ease-in-out infinite;
+  }
+
+  .nb-floating-badge--float-alt {
+    animation: nb-float-alt 5s ease-in-out infinite;
+  }
+
+  /* --------------------------------------------------------------------------
+     Position Modifiers
+     -------------------------------------------------------------------------- */
+  .nb-floating-badge--top-right {
+    top: var(--nb-space-4);
+    right: var(--nb-space-4);
+  }
+
+  .nb-floating-badge--top-left {
+    top: var(--nb-space-4);
+    left: var(--nb-space-4);
+  }
+
+  .nb-floating-badge--bottom-right {
+    bottom: var(--nb-space-4);
+    right: var(--nb-space-4);
+  }
+
+  .nb-floating-badge--bottom-left {
+    bottom: var(--nb-space-4);
+    left: var(--nb-space-4);
+  }
+
+  /* --------------------------------------------------------------------------
+     Accessibility: respect reduced motion
+     -------------------------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .nb-floating-badge--float,
+    .nb-floating-badge--float-alt {
+      animation: none;
+    }
+  }
+}

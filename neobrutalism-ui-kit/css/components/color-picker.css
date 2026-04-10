@@ -1,0 +1,288 @@
+/* ==========================================================================
+   Color Picker — Clean Neo Brutalism UI Kit
+   ==========================================================================
+   Color selection widget with saturation area, hue slider, and presets.
+   Bold borders, hard shadows, and token-based colors.
+   ========================================================================== */
+
+@layer components {
+
+  /* --------------------------------------------------------------------------
+     Base
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* --------------------------------------------------------------------------
+     Trigger Swatch
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: var(--nb-shadow-sm);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .nb-color-picker_trigger:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
+  }
+
+  .nb-color-picker_trigger:focus-visible {
+    box-shadow: 0 0 0 2px var(--nb-white), 0 0 0 4px var(--nb-black);
+    outline: none;
+  }
+
+  .nb-color-picker_swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    flex-shrink: 0;
+  }
+
+  .nb-color-picker_value {
+    font-size: var(--nb-text-sm);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-700);
+    text-transform: uppercase;
+  }
+
+  /* --------------------------------------------------------------------------
+     Dropdown
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 50;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius-lg);
+    box-shadow: var(--nb-shadow-lg);
+    padding: 12px;
+    width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.1s ease, visibility 0.1s ease, transform 0.1s ease;
+  }
+
+  .nb-color-picker.is-open .nb-color-picker_dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* --------------------------------------------------------------------------
+     Saturation / Brightness Area
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_area {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    cursor: crosshair;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .nb-color-picker_area-gradient {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--nb-radius);
+  }
+
+  .nb-color-picker_area-white {
+    background: linear-gradient(to right, #fff, transparent);
+  }
+
+  .nb-color-picker_area-black {
+    background: linear-gradient(to top, #000, transparent);
+  }
+
+  .nb-color-picker_area-cursor {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: var(--nb-shadow-sm);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Hue Slider
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_hue {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    border-radius: 50px;
+    border: 2px solid var(--nb-black);
+    background: linear-gradient(
+      to right,
+      #f00 0%,
+      #ff0 17%,
+      #0f0 33%,
+      #0ff 50%,
+      #00f 67%,
+      #f0f 83%,
+      #f00 100%
+    );
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .nb-color-picker_hue-thumb {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: var(--nb-shadow-sm);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    background: transparent;
+  }
+
+  /* --------------------------------------------------------------------------
+     Hex Input
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_hex-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .nb-color-picker_hex-label {
+    font-size: var(--nb-text-xs);
+    font-family: var(--nb-font-mono);
+    color: var(--nb-gray-400);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .nb-color-picker_hex-input {
+    flex: 1;
+    background: var(--nb-white);
+    border: 2px solid var(--nb-black);
+    border-radius: var(--nb-radius);
+    padding: 4px 8px;
+    font-family: var(--nb-font-mono);
+    font-size: var(--nb-text-sm);
+    color: var(--nb-black);
+    outline: none;
+    transition: box-shadow 0.1s ease;
+  }
+
+  .nb-color-picker_hex-input:focus-visible {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .nb-color-picker_preview {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    flex-shrink: 0;
+  }
+
+  /* --------------------------------------------------------------------------
+     Preset Swatches
+     -------------------------------------------------------------------------- */
+
+  .nb-color-picker_swatches {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+  }
+
+  .nb-color-picker_preset {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--nb-radius);
+    border: 2px solid var(--nb-black);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  .nb-color-picker_preset:hover {
+    transform: scale(1.15);
+  }
+
+  .nb-color-picker_preset.is-active {
+    box-shadow: 0 0 0 2px var(--nb-black);
+  }
+
+  .nb-color-picker_preset:focus-visible {
+    outline: 2px solid var(--nb-black);
+    outline-offset: 1px;
+  }
+
+  /* Dark theme */
+  [data-theme="dark"] .nb-color-picker_trigger {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_trigger:focus-visible {
+    box-shadow: 0 0 0 2px var(--nb-white), 0 0 0 4px var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_swatch {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_dropdown {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_area {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_area-white {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-color-picker_area-black {
+    background: var(--nb-gray-900);
+  }
+  [data-theme="dark"] .nb-color-picker_area-cursor {
+    border: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_hue {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_hue-thumb {
+    border: var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_hex-input {
+    background: var(--nb-gray-900);
+    border: 2px solid var(--nb-gray-700);
+    color: var(--nb-gray-100);
+  }
+  [data-theme="dark"] .nb-color-picker_preview {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_preset {
+    border: 2px solid var(--nb-gray-700);
+  }
+  [data-theme="dark"] .nb-color-picker_preset.is-active {
+    box-shadow: 0 0 0 2px var(--nb-gray-700);
+  }
+}

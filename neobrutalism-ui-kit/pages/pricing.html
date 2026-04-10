@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — NB UI Kit</title>
+  <link rel="stylesheet" href="../css/nb-all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .pricing-card--featured {
+      border-color: var(--nb-yellow-500);
+      border-width: 3px;
+      box-shadow: var(--nb-shadow-lg);
+      position: relative;
+    }
+    @media (min-width: 1024px) {
+      .pricing-card--featured {
+        transform: scale(1.05);
+        z-index: 1;
+      }
+    }
+    .pricing-toggle-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--nb-space-3);
+      padding: var(--nb-space-2) var(--nb-space-4);
+      border: var(--nb-border);
+      border-radius: var(--nb-radius-full);
+      background: var(--nb-white);
+    }
+    .feature-check {
+      display: flex;
+      align-items: center;
+      gap: var(--nb-space-2);
+      padding: var(--nb-space-1) 0;
+      font-size: var(--nb-text-sm);
+      color: var(--nb-gray-700);
+    }
+    .feature-check svg {
+      flex-shrink: 0;
+    }
+    .feature-check--disabled {
+      color: var(--nb-gray-400);
+      text-decoration: line-through;
+    }
+    /* Price animation */
+    .price-amount {
+      transition: opacity var(--nb-transition-fast);
+    }
+    .price-amount.is-hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG ICON SPRITE
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <defs>
+    <symbol id="nb-icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="nb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="nb-icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </symbol>
+    <symbol id="nb-icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="nb-icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </symbol>
+    <symbol id="nb-icon-github" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    </symbol>
+    <symbol id="nb-icon-twitter" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </symbol>
+    <symbol id="nb-icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ============================================================
+     1. NAVBAR
+     ============================================================ -->
+<nav class="nb-navbar" data-nb-navbar>
+  <a href="landing.html" class="nb-navbar__brand" data-slot="brand">
+    <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1; font-size: var(--nb-text-sm);">NB</span>
+  </a>
+
+  <div class="nb-navbar__nav" data-slot="nav">
+    <a href="landing.html#features" class="nb-navbar__link" data-slot="link">Features</a>
+    <a href="#" class="nb-navbar__link is-active" data-slot="link">Pricing</a>
+    <a href="#" class="nb-navbar__link" data-slot="link">Docs</a>
+    <a href="#" class="nb-navbar__link" data-slot="link">Blog</a>
+  </div>
+
+  <div class="nb-navbar__actions" data-slot="actions">
+    <a href="login.html" class="nb-btn nb-btn--ghost nb-btn--sm">Sign in</a>
+    <a href="signup.html" class="nb-btn nb-btn--primary nb-btn--sm">Get Started</a>
+  </div>
+
+  <button class="nb-navbar__toggle" data-nb-navbar-toggle aria-label="Toggle menu" data-slot="toggle">
+    <svg width="20" height="20"><use href="#nb-icon-menu"/></svg>
+  </button>
+</nav>
+
+
+<!-- ============================================================
+     2. PRICING HEADER
+     ============================================================ -->
+<section class="nb-section">
+  <div class="nb-container-xl nb-text-center">
+    <h1 class="nb-text-4xl md:nb-text-5xl nb-font-extrabold nb-mb-3" style="letter-spacing:var(--nb-tracking-tight);">Simple, transparent pricing</h1>
+    <p class="nb-text-lg nb-text-gray-600 nb-mb-8">No hidden fees. Cancel anytime.</p>
+
+    <!-- Monthly / Annual Toggle -->
+    <div class="pricing-toggle-wrapper">
+      <span class="nb-text-sm nb-font-semibold" id="toggle-label-monthly">Monthly</span>
+      <label class="nb-toggle" id="billing-toggle">
+        <input type="checkbox" class="nb-toggle__input" id="billing-input" aria-label="Toggle annual billing" data-slot="input">
+        <span class="nb-toggle__track" data-slot="track">
+          <span class="nb-toggle__thumb" data-slot="thumb"></span>
+        </span>
+      </label>
+      <span class="nb-text-sm nb-font-semibold" id="toggle-label-annual">
+        Annual
+        <span class="nb-badge nb-badge--secondary nb-badge--pill nb-ml-1" style="vertical-align: middle;">Save 20%</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3. PRICING CARDS
+     ============================================================ -->
+<section class="nb-section--sm nb-pb-12">
+  <div class="nb-container-xl">
+    <div class="nb-grid nb-grid-cols-1 lg:nb-grid-cols-3 nb-gap-6 lg:nb-gap-0 nb-items-stretch" style="max-width:1100px;margin:0 auto;">
+
+      <!-- Starter — Free -->
+      <div class="nb-card nb-flex nb-flex-col" style="border-radius: var(--nb-radius) 0 0 var(--nb-radius);">
+        <div class="nb-card__body nb-p-6 md:nb-p-8 nb-flex nb-flex-col nb-flex-1" data-slot="body">
+          <h3 class="nb-text-lg nb-font-bold nb-mb-1">Starter</h3>
+          <p class="nb-text-sm nb-text-gray-500 nb-mb-6">Perfect for personal projects and learning.</p>
+
+          <div class="nb-mb-6">
+            <span class="nb-text-5xl nb-font-extrabold">$0</span>
+            <span class="nb-text-sm nb-text-gray-500">/forever</span>
+          </div>
+
+          <div class="nb-flex nb-flex-col nb-gap-1 nb-mb-8 nb-flex-1">
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>25+ components</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>3 page templates</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>CSS custom properties</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Community support</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>MIT license</span>
+            </div>
+          </div>
+
+          <a href="signup.html" class="nb-btn nb-btn--outline nb-btn--lg nb-btn--full">Get Started</a>
+        </div>
+      </div>
+
+      <!-- Pro — $29/mo -->
+      <div class="nb-card nb-flex nb-flex-col pricing-card--featured" style="border-radius: 0;">
+        <div class="nb-card__body nb-p-6 md:nb-p-8 nb-flex nb-flex-col nb-flex-1" data-slot="body">
+          <div class="nb-flex nb-items-center nb-justify-between nb-mb-1">
+            <h3 class="nb-text-lg nb-font-bold">Pro</h3>
+            <span class="nb-badge nb-badge--secondary nb-badge--pill">Most Popular</span>
+          </div>
+          <p class="nb-text-sm nb-text-gray-500 nb-mb-6">For professional developers and small teams.</p>
+
+          <div class="nb-mb-6">
+            <span class="nb-text-5xl nb-font-extrabold price-amount" data-monthly="$29" data-annual="$23">$29</span>
+            <span class="nb-text-sm nb-text-gray-500">/month</span>
+          </div>
+
+          <div class="nb-flex nb-flex-col nb-gap-1 nb-mb-8 nb-flex-1">
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Everything in Starter</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>11 page templates</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Custom design tokens</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Figma source files</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Priority email support</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Dark mode variants</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Lifetime updates</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Up to 5 team members</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Commercial license</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>API access</span>
+            </div>
+          </div>
+
+          <a href="signup.html" class="nb-btn nb-btn--primary nb-btn--lg nb-btn--full">
+            Start Free Trial
+            <svg width="18" height="18"><use href="#nb-icon-arrow-right"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Enterprise — $99/mo -->
+      <div class="nb-card nb-flex nb-flex-col" style="border-radius: 0 var(--nb-radius) var(--nb-radius) 0;">
+        <div class="nb-card__body nb-p-6 md:nb-p-8 nb-flex nb-flex-col nb-flex-1" data-slot="body">
+          <h3 class="nb-text-lg nb-font-bold nb-mb-1">Enterprise</h3>
+          <p class="nb-text-sm nb-text-gray-500 nb-mb-6">For organizations that need everything.</p>
+
+          <div class="nb-mb-6">
+            <span class="nb-text-5xl nb-font-extrabold price-amount" data-monthly="$99" data-annual="$79">$99</span>
+            <span class="nb-text-sm nb-text-gray-500">/month</span>
+          </div>
+
+          <div class="nb-flex nb-flex-col nb-gap-1 nb-mb-8 nb-flex-1">
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Everything in Pro</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Custom branding</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>White-label license</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Unlimited team members</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Dedicated account manager</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Custom component development</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>SLA &amp; uptime guarantee</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Priority Slack support</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>SSO / SAML integration</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Onboarding &amp; training</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Invoice billing</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Advanced API access</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Security review &amp; compliance</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Custom integrations</span>
+            </div>
+            <div class="feature-check">
+              <svg width="18" height="18" style="color:var(--nb-green-600)"><use href="#nb-icon-check"/></svg>
+              <span>Multi-project license</span>
+            </div>
+          </div>
+
+          <a href="#" class="nb-btn nb-btn--dark nb-btn--lg nb-btn--full">Contact Sales</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4. COMPARISON TABLE
+     ============================================================ -->
+<section class="nb-section nb-bg-gray-50 nb-border-t nb-border-b">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-10">
+      <h2 class="nb-text-3xl nb-font-extrabold nb-mb-3">Compare plans</h2>
+      <p class="nb-text-base nb-text-gray-600">See exactly what you get at every tier.</p>
+    </div>
+
+    <div class="nb-table-wrapper" data-slot="wrapper">
+      <table class="nb-table nb-table--striped nb-table--hover">
+        <thead>
+          <tr>
+            <th style="width:40%;">Feature</th>
+            <th class="nb-text-center">Starter</th>
+            <th class="nb-text-center" style="background-color: var(--nb-yellow-300);">Pro</th>
+            <th class="nb-text-center">Enterprise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nb-font-medium">Components</td>
+            <td class="nb-text-center">25+</td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">25+</td>
+            <td class="nb-text-center">25+ custom</td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Page Templates</td>
+            <td class="nb-text-center">3</td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">11</td>
+            <td class="nb-text-center">11 + custom</td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Custom Tokens</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Figma Source Files</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Priority Support</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Custom Branding</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">Team Members</td>
+            <td class="nb-text-center">1</td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">Up to 5</td>
+            <td class="nb-text-center">Unlimited</td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">API Access</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+            <td class="nb-text-center">Advanced</td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">SSO / SAML</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-green-600);display:inline"><use href="#nb-icon-check"/></svg>
+            </td>
+          </tr>
+          <tr>
+            <td class="nb-font-medium">SLA Guarantee</td>
+            <td class="nb-text-center">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center" style="background-color: rgba(250,255,0,0.05);">
+              <svg width="18" height="18" style="color:var(--nb-gray-300);display:inline"><use href="#nb-icon-minus"/></svg>
+            </td>
+            <td class="nb-text-center">99.9%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5. FAQ
+     ============================================================ -->
+<section class="nb-section">
+  <div class="nb-container-lg">
+    <div class="nb-text-center nb-mb-10">
+      <h2 class="nb-text-3xl nb-font-extrabold nb-mb-3">Frequently asked questions</h2>
+      <p class="nb-text-base nb-text-gray-600">Can't find what you're looking for? Reach out to our support team.</p>
+    </div>
+
+    <div class="nb-accordion" data-nb-accordion>
+
+      <!-- FAQ 1 -->
+      <div class="nb-accordion__item is-open" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="true" data-slot="trigger">
+          Can I use NB UI Kit for commercial projects?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            Absolutely. The Starter plan includes an MIT license, so you can use all 25+ components in personal and commercial projects. For premium templates, Figma files, and priority support, the Pro and Enterprise plans include a full commercial license.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="nb-accordion__item" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="false" data-slot="trigger">
+          What happens after my free trial ends?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            After the 14-day free trial, you'll be charged at your selected plan's rate. You can cancel anytime before the trial ends and you won't be billed. If you cancel a paid plan, you keep access until the end of your current billing period.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="nb-accordion__item" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="false" data-slot="trigger">
+          Can I switch between monthly and annual billing?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            Yes. You can switch from monthly to annual at any time, and the remaining balance from your monthly plan will be prorated toward your annual subscription. Switching from annual to monthly takes effect at your next renewal date.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="nb-accordion__item" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="false" data-slot="trigger">
+          Do you offer refunds?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            We offer a 30-day money-back guarantee on all paid plans. If NB UI Kit isn't the right fit for your project, contact support within 30 days of purchase and we'll issue a full refund -- no questions asked.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="nb-accordion__item" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="false" data-slot="trigger">
+          How many projects can I use the kit on?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            Starter and Pro plans allow usage on unlimited personal or client projects -- there's no per-project licensing. The Enterprise plan adds a multi-project organizational license with dedicated support for each deployment.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 6 -->
+      <div class="nb-accordion__item" data-slot="item">
+        <button class="nb-accordion__trigger" aria-expanded="false" data-slot="trigger">
+          What support channels are available?
+          <svg class="nb-accordion__icon" width="20" height="20" data-slot="icon"><use href="#nb-icon-chevron-down"/></svg>
+        </button>
+        <div class="nb-accordion__content" data-slot="content">
+          <div class="nb-accordion__body">
+            Starter users get access to our community Discord and GitHub Discussions. Pro users receive priority email support with a 24-hour response time. Enterprise customers get a dedicated Slack channel with their account manager and 4-hour response SLA.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. SOCIAL PROOF
+     ============================================================ -->
+<section class="nb-section">
+  <div class="nb-container-xl">
+    <div class="nb-text-center nb-mb-10">
+      <h2 class="nb-text-3xl nb-font-extrabold nb-mb-3">Trusted by developers worldwide</h2>
+      <p class="nb-text-base nb-text-gray-600">Join thousands of teams building with NB UI Kit.</p>
+    </div>
+
+    <div class="nb-grid nb-grid-cols-1 md:nb-grid-cols-3 nb-gap-6" style="max-width:900px;margin:0 auto;">
+      <!-- Testimonial 1 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"Saved us weeks of frontend work. The components are polished and the design tokens make customization a breeze."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-yellow-500 nb-border"><span class="nb-avatar__initials" style="color:var(--nb-black);" data-slot="fallback">JC</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">James Chen</p>
+              <p class="nb-text-xs nb-text-gray-500">Frontend Lead, TechFlow</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"The neo-brutalist style sets our product apart. Clients love the bold, unique aesthetic. Worth every penny."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-green-500 nb-border"><span class="nb-avatar__initials" style="color:var(--nb-black);" data-slot="fallback">EM</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">Elena Martinez</p>
+              <p class="nb-text-xs nb-text-gray-500">Designer, PixelAgency</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="nb-card">
+        <div class="nb-card__body nb-p-6" data-slot="body">
+          <div class="nb-flex nb-items-center nb-gap-1 nb-mb-3">
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+            <svg width="16" height="16" fill="var(--nb-yellow-500)" stroke="var(--nb-black)" stroke-width="1"><use href="#nb-icon-star"/></svg>
+          </div>
+          <p class="nb-text-sm nb-text-gray-700 nb-mb-4">"Enterprise support is fantastic. They helped us build custom components and the turnaround was incredibly fast."</p>
+          <div class="nb-flex nb-items-center nb-gap-2">
+            <div class="nb-avatar nb-avatar--sm nb-bg-blue-500 nb-border" style="border-color:var(--nb-blue-500);"><span class="nb-avatar__initials" style="color:var(--nb-white);" data-slot="fallback">RK</span></div>
+            <div>
+              <p class="nb-text-xs nb-font-bold">Raj Kumar</p>
+              <p class="nb-text-xs nb-text-gray-500">VP Engineering, ScaleUp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Money-back guarantee -->
+    <div class="nb-text-center nb-mt-10">
+      <div class="nb-inline-flex nb-items-center nb-gap-3 nb-px-6 nb-py-3 nb-border nb-rounded" style="background: var(--nb-gray-50);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--nb-green-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="nb-text-left">
+          <p class="nb-text-sm nb-font-bold">30-day money-back guarantee</p>
+          <p class="nb-text-xs nb-text-gray-500">Not satisfied? Get a full refund, no questions asked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. CTA
+     ============================================================ -->
+<section class="nb-section nb-bg-black nb-text-white nb-border-t">
+  <div class="nb-container-xl nb-text-center">
+    <h2 class="nb-text-3xl md:nb-text-4xl nb-font-extrabold nb-mb-4" style="line-height:var(--nb-leading-tight);">Ready to get started?</h2>
+    <p class="nb-text-base nb-mx-auto nb-mb-6" style="max-width:460px;color:var(--nb-gray-400);">
+      Start building for free today. Upgrade when you need more templates, support, and features.
+    </p>
+
+    <!-- CTA Testimonial -->
+    <p class="nb-text-sm nb-mx-auto nb-mb-8" style="max-width:400px; color:var(--nb-gray-300); font-style:italic;">
+      "Switching to NB UI Kit was the best decision we made this year." — <strong style="color:var(--nb-white);">Sarah Kim, Acme Corp</strong>
+    </p>
+
+    <div class="nb-flex nb-justify-center nb-gap-3 nb-flex-wrap">
+      <a href="signup.html" class="nb-btn nb-btn--secondary nb-btn--lg">
+        Start Free Trial
+        <svg width="18" height="18"><use href="#nb-icon-arrow-right"/></svg>
+      </a>
+      <a href="#" class="nb-btn nb-btn--outline nb-btn--lg" style="border-color:var(--nb-gray-600);color:var(--nb-white);">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. FOOTER
+     ============================================================ -->
+<footer class="nb-footer">
+  <div class="nb-container-xl">
+    <div class="nb-footer__grid">
+
+      <!-- Brand Column -->
+      <div class="nb-footer__section" data-slot="section">
+        <div class="nb-flex nb-items-center nb-gap-2 nb-mb-4">
+          <span class="nb-bg-green-500 nb-border nb-rounded nb-px-2 nb-py-1 nb-font-extrabold" style="line-height:1;font-size:var(--nb-text-xs);">NB</span>
+          <span class="nb-font-bold">NB UI Kit</span>
+        </div>
+        <p class="nb-text-sm nb-text-gray-600" style="max-width:240px;">
+          A clean Neo Brutalism design system for the modern web. Open source and free to use.
+        </p>
+      </div>
+
+      <!-- Product -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Product</h4>
+        <a href="../index.html" class="nb-footer__link" data-slot="link">Components</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Templates</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Pricing</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Changelog</a>
+      </div>
+
+      <!-- Resources -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Resources</h4>
+        <a href="#" class="nb-footer__link" data-slot="link">Documentation</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Getting Started</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Design Tokens</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Examples</a>
+      </div>
+
+      <!-- Company -->
+      <div class="nb-footer__section" data-slot="section">
+        <h4 class="nb-footer__title">Company</h4>
+        <a href="#" class="nb-footer__link" data-slot="link">About</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Blog</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Careers</a>
+        <a href="#" class="nb-footer__link" data-slot="link">Contact</a>
+      </div>
+
+    </div>
+
+    <div class="nb-footer__bottom">
+      <p>&copy; 2026 NB UI Kit. All rights reserved.</p>
+      <div class="nb-flex nb-gap-4">
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="GitHub" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-github"/></svg>
+        </a>
+        <a href="#" class="nb-footer__link nb-inline-flex" aria-label="Twitter" data-slot="link">
+          <svg width="20" height="20"><use href="#nb-icon-twitter"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/nb-all.js"></script>
+
+<!-- Pricing toggle script -->
+<script>
+  (function () {
+    'use strict';
+
+    var toggle = document.getElementById('billing-input');
+    var priceEls = document.querySelectorAll('.price-amount');
+
+    if (!toggle) return;
+
+    toggle.addEventListener('change', function () {
+      var isAnnual = toggle.checked;
+      priceEls.forEach(function (el) {
+        var monthly = el.getAttribute('data-monthly');
+        var annual = el.getAttribute('data-annual');
+        if (monthly && annual) {
+          el.textContent = isAnnual ? annual : monthly;
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
