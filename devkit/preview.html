@@ -57,6 +57,36 @@
 
     /* Tooltip always visible in preview */
     .preview-tooltip-demo .dk-tooltip_content { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+
+    /* Minimal styling for components that ship without a CSS file yet.
+       Scoped to this preview so the component library is unchanged. */
+    .dk-newsletter-card { display: flex; flex-direction: column; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--dk-radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 160ms, border-color 160ms; }
+    .dk-newsletter-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .dk-newsletter-card__img { display: block; width: 100%; height: 180px; object-fit: cover; }
+    .dk-newsletter-card__body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; }
+    .dk-newsletter-card__category { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-text); font-weight: 600; }
+    .dk-newsletter-card__title { font-size: 16px; line-height: 1.35; margin: 0; color: var(--text-heading); font-family: var(--font-sans); }
+    .dk-newsletter-card__excerpt { font-size: 13px; line-height: 1.5; color: var(--text-tertiary); margin: 0; }
+    .dk-newsletter-card__meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin-top: auto; padding-top: 4px; }
+    .dk-newsletter-card--featured { flex-direction: row; }
+    .dk-newsletter-card--featured .dk-newsletter-card__img { width: 45%; height: auto; min-height: 200px; }
+    .dk-newsletter-card--featured .dk-newsletter-card__body { flex: 1; }
+
+    .dk-url-bar { display: flex; align-items: stretch; border: 1px solid var(--border-default); border-radius: var(--dk-radius-md); background: var(--bg-surface); overflow: hidden; }
+    .dk-url-bar__method { display: flex; align-items: center; padding: 0 12px; border-right: 1px solid var(--border-default); background: var(--bg-raised); }
+    .dk-url-bar__input { flex: 1; border: 0; outline: 0; padding: 8px 12px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 13px; min-width: 0; }
+    .dk-url-bar__send { border: 0; border-left: 1px solid var(--border-default); padding: 0 18px; background: var(--accent); color: var(--text-on-accent); font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; }
+    .dk-url-bar__send:hover { filter: brightness(1.08); }
+
+    .dk-kv-editor { display: flex; flex-direction: column; gap: 6px; }
+    .dk-kv-editor__header { display: grid; grid-template-columns: 1fr 1fr 32px; gap: 8px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); padding: 0 4px 4px; border-bottom: 1px solid var(--border-default); }
+    .dk-kv-editor__row { display: grid; grid-template-columns: 1fr 1fr 32px; gap: 8px; align-items: center; }
+    .dk-kv-editor__input { border: 1px solid var(--border-default); border-radius: var(--dk-radius-sm); background: var(--bg-surface); color: var(--text-primary); padding: 6px 10px; font-family: var(--font-mono); font-size: 13px; outline: 0; min-width: 0; }
+    .dk-kv-editor__input:focus { border-color: var(--accent); }
+    .dk-kv-editor__remove { width: 32px; height: 32px; border: 1px solid var(--border-default); border-radius: var(--dk-radius-sm); background: transparent; color: var(--text-muted); cursor: pointer; font-size: 16px; line-height: 1; }
+    .dk-kv-editor__remove:hover { color: var(--danger, #dc2626); border-color: var(--danger, #dc2626); }
+    .dk-kv-editor__add { align-self: flex-start; margin-top: 4px; border: 1px dashed var(--border-default); background: transparent; color: var(--text-secondary); padding: 6px 12px; border-radius: var(--dk-radius-sm); font-family: var(--font-mono); font-size: 12px; cursor: pointer; }
+    .dk-kv-editor__add:hover { color: var(--text-primary); border-color: var(--border-hover); }
   </style>
 </head>
 <body>
@@ -1979,11 +2009,11 @@ app.listen(3000, () =&gt; {
         <div class="preview-card">
           <div class="dk-marquee" data-dk-marquee>
             <div class="dk-marquee_track">
-              <span class="dk-marquee__item" style="font-weight:700; font-size: var(--dk-text-lg);">Neobrutalism</span>
-              <span class="dk-marquee__item" style="font-weight:700; font-size: var(--dk-text-lg);">Bold Borders</span>
-              <span class="dk-marquee__item" style="font-weight:700; font-size: var(--dk-text-lg);">Hard Shadows</span>
-              <span class="dk-marquee__item" style="font-weight:700; font-size: var(--dk-text-lg);">Raw Colors</span>
-              <span class="dk-marquee__item" style="font-weight:700; font-size: var(--dk-text-lg);">Mono Fonts</span>
+              <span class="dk-marquee_item" style="font-weight:700; font-size: var(--dk-text-lg);">Neobrutalism</span>
+              <span class="dk-marquee_item" style="font-weight:700; font-size: var(--dk-text-lg);">Bold Borders</span>
+              <span class="dk-marquee_item" style="font-weight:700; font-size: var(--dk-text-lg);">Hard Shadows</span>
+              <span class="dk-marquee_item" style="font-weight:700; font-size: var(--dk-text-lg);">Raw Colors</span>
+              <span class="dk-marquee_item" style="font-weight:700; font-size: var(--dk-text-lg);">Mono Fonts</span>
             </div>
           </div>
         </div>
@@ -1993,12 +2023,12 @@ app.listen(3000, () =&gt; {
         <div class="preview-card">
           <div class="dk-marquee dk-marquee--bordered dk-marquee--pause-on-hover" data-dk-marquee data-dk-marquee-speed="fast">
             <div class="dk-marquee_track">
-              <span class="dk-marquee__item"><span class="dk-badge">React</span></span>
-              <span class="dk-marquee__item"><span class="dk-badge dk-badge--green">Vue</span></span>
-              <span class="dk-marquee__item"><span class="dk-badge dk-badge--blue">Svelte</span></span>
-              <span class="dk-marquee__item"><span class="dk-badge dk-badge--yellow">Angular</span></span>
-              <span class="dk-marquee__item"><span class="dk-badge dk-badge--red">Solid</span></span>
-              <span class="dk-marquee__item"><span class="dk-badge">Astro</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge">React</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge dk-badge--green">Vue</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge dk-badge--blue">Svelte</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge dk-badge--yellow">Angular</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge dk-badge--red">Solid</span></span>
+              <span class="dk-marquee_item"><span class="dk-badge">Astro</span></span>
             </div>
           </div>
         </div>
@@ -2008,12 +2038,12 @@ app.listen(3000, () =&gt; {
         <div class="preview-card">
           <div class="dk-marquee dk-marquee--slow dk-marquee--reverse" data-dk-marquee>
             <div class="dk-marquee_track">
-              <span class="dk-marquee__item">PostgreSQL</span>
-              <span class="dk-marquee__item">Redis</span>
-              <span class="dk-marquee__item">MongoDB</span>
-              <span class="dk-marquee__item">SQLite</span>
-              <span class="dk-marquee__item">DynamoDB</span>
-              <span class="dk-marquee__item">Cassandra</span>
+              <span class="dk-marquee_item">PostgreSQL</span>
+              <span class="dk-marquee_item">Redis</span>
+              <span class="dk-marquee_item">MongoDB</span>
+              <span class="dk-marquee_item">SQLite</span>
+              <span class="dk-marquee_item">DynamoDB</span>
+              <span class="dk-marquee_item">Cassandra</span>
             </div>
           </div>
         </div>
@@ -2243,18 +2273,18 @@ app.listen(3000, () =&gt; {
 
         <div class="preview-label">Grid Layout</div>
         <div class="preview-card">
-          <div class="dk-media-gallery">
-            <div class="dk-media-gallery__item">
-              <img class="dk-media-gallery__img" src="https://picsum.photos/seed/nb1/400/300" alt="Gallery image 1" style="height:160px;">
+          <div class="dk-gallery">
+            <div class="dk-gallery_item">
+              <img src="https://picsum.photos/seed/nb1/400/300" alt="Gallery image 1">
             </div>
-            <div class="dk-media-gallery__item">
-              <img class="dk-media-gallery__img" src="https://picsum.photos/seed/nb2/400/300" alt="Gallery image 2" style="height:160px;">
+            <div class="dk-gallery_item">
+              <img src="https://picsum.photos/seed/nb2/400/300" alt="Gallery image 2">
             </div>
-            <div class="dk-media-gallery__item">
-              <img class="dk-media-gallery__img" src="https://picsum.photos/seed/nb3/400/300" alt="Gallery image 3" style="height:160px;">
+            <div class="dk-gallery_item">
+              <img src="https://picsum.photos/seed/nb3/400/300" alt="Gallery image 3">
             </div>
-            <div class="dk-media-gallery__item">
-              <img class="dk-media-gallery__img" src="https://picsum.photos/seed/nb4/400/300" alt="Gallery image 4" style="height:160px;">
+            <div class="dk-gallery_item">
+              <img src="https://picsum.photos/seed/nb4/400/300" alt="Gallery image 4">
             </div>
           </div>
         </div>
@@ -2280,13 +2310,13 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Default (Horizontal)</div>
         <div class="preview-card">
           <a href="#" class="dk-link-preview" style="max-width: 480px;">
-            <div class="dk-link-preview__thumbnail">
+            <div class="dk-link-preview_thumbnail">
               <img src="https://picsum.photos/seed/lp1/240/180" alt="Preview thumbnail">
             </div>
-            <div class="dk-link-preview__content">
-              <div class="dk-link-preview__title">Neobrutalism UI Kit Documentation</div>
-              <div class="dk-link-preview__description">A comprehensive component library with bold borders, hard shadows, and raw digital aesthetics for modern web interfaces.</div>
-              <div class="dk-link-preview__url">dk-ui-kit.dev/docs</div>
+            <div class="dk-link-preview_content">
+              <div class="dk-link-preview_title">Neobrutalism UI Kit Documentation</div>
+              <div class="dk-link-preview_description">A comprehensive component library with bold borders, hard shadows, and raw digital aesthetics for modern web interfaces.</div>
+              <div class="dk-link-preview_url">dk-ui-kit.dev/docs</div>
             </div>
           </a>
         </div>
@@ -2294,14 +2324,14 @@ app.listen(3000, () =&gt; {
         <div class="preview-spacer"></div>
         <div class="preview-label">Compact Variant</div>
         <div class="preview-card">
-          <a href="#" class="dk-link-preview dk-link-preview--compact" style="max-width: 360px;">
-            <div class="dk-link-preview__thumbnail">
+          <a href="#" class="dk-link-preview dk-link-preview-compact" style="max-width: 360px;">
+            <div class="dk-link-preview_thumbnail">
               <img src="https://picsum.photos/seed/lp2/120/120" alt="Preview thumbnail">
             </div>
-            <div class="dk-link-preview__content">
-              <div class="dk-link-preview__title">GitHub - dk-ui-kit</div>
-              <div class="dk-link-preview__description">Open-source neobrutalist component library.</div>
-              <div class="dk-link-preview__url">github.com/dk-ui-kit</div>
+            <div class="dk-link-preview_content">
+              <div class="dk-link-preview_title">GitHub - dk-ui-kit</div>
+              <div class="dk-link-preview_description">Open-source neobrutalist component library.</div>
+              <div class="dk-link-preview_url">github.com/dk-ui-kit</div>
             </div>
           </a>
         </div>
@@ -2309,14 +2339,14 @@ app.listen(3000, () =&gt; {
         <div class="preview-spacer"></div>
         <div class="preview-label">Vertical Variant</div>
         <div class="preview-row">
-          <a href="#" class="dk-link-preview dk-link-preview--vertical" style="max-width: 260px;">
-            <div class="dk-link-preview__thumbnail">
+          <a href="#" class="dk-link-preview" style="max-width: 260px;">
+            <div class="dk-link-preview_thumbnail">
               <img src="https://picsum.photos/seed/lp3/520/320" alt="Preview thumbnail">
             </div>
-            <div class="dk-link-preview__content">
-              <div class="dk-link-preview__title">Getting Started with Neobrutalism</div>
-              <div class="dk-link-preview__description">Learn the design principles behind bold borders, hard shadows, and raw color palettes.</div>
-              <div class="dk-link-preview__url">blog.dk-ui-kit.dev</div>
+            <div class="dk-link-preview_content">
+              <div class="dk-link-preview_title">Getting Started with Neobrutalism</div>
+              <div class="dk-link-preview_description">Learn the design principles behind bold borders, hard shadows, and raw color palettes.</div>
+              <div class="dk-link-preview_url">blog.dk-ui-kit.dev</div>
             </div>
           </a>
         </div>
@@ -3411,14 +3441,14 @@ app.listen(3000, () =&gt; {
 
             <!-- Right drawer (static preview, open by default for visibility) -->
             <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 260px; background: var(--bg-surface); border-left: 3px solid var(--border-default); box-shadow: var(--dk-shadow-xl); display: flex; flex-direction: column;">
-              <div class="dk-drawer__header">
-                <span class="dk-drawer__title">Drawer Title</span>
-                <button class="dk-drawer__close" aria-label="Close">&times;</button>
+              <div class="dk-drawer_header">
+                <span class="dk-drawer_title">Drawer Title</span>
+                <button class="dk-drawer_close" aria-label="Close">&times;</button>
               </div>
-              <div class="dk-drawer__body">
+              <div class="dk-drawer_body">
                 <p class="dk-text dk-text-sm dk-text-secondary">This is a contained preview of the drawer panel. In production it slides in from the edge of the viewport.</p>
               </div>
-              <div class="dk-drawer__footer">
+              <div class="dk-drawer_footer">
                 <button class="dk-btn dk-btn-sm dk-btn-secondary">Cancel</button>
                 <button class="dk-btn dk-btn-sm dk-btn-primary">Save</button>
               </div>
@@ -3429,14 +3459,14 @@ app.listen(3000, () =&gt; {
         <!-- Functional right drawer -->
         <div class="dk-drawer-backdrop" data-dk-drawer>
           <div class="dk-drawer" id="demo-drawer-right">
-            <div class="dk-drawer__header">
-              <h3 class="dk-drawer__title">Settings</h3>
-              <button class="dk-drawer__close" aria-label="Close">&times;</button>
+            <div class="dk-drawer_header">
+              <h3 class="dk-drawer_title">Settings</h3>
+              <button class="dk-drawer_close" aria-label="Close">&times;</button>
             </div>
-            <div class="dk-drawer__body">
+            <div class="dk-drawer_body">
               <p class="dk-text dk-text-sm dk-text-secondary">This is a right-side drawer with header, scrollable body, and footer actions. Press Escape or click the backdrop to close.</p>
             </div>
-            <div class="dk-drawer__footer">
+            <div class="dk-drawer_footer">
               <button class="dk-btn dk-btn-secondary" onclick="NB.drawer.close('demo-drawer-right')">Cancel</button>
               <button class="dk-btn dk-btn-primary" onclick="NB.drawer.close('demo-drawer-right')">Save Changes</button>
             </div>
@@ -3446,11 +3476,11 @@ app.listen(3000, () =&gt; {
         <!-- Functional left drawer -->
         <div class="dk-drawer-backdrop" data-dk-drawer>
           <div class="dk-drawer dk-drawer--left" id="demo-drawer-left">
-            <div class="dk-drawer__header">
-              <h3 class="dk-drawer__title">Navigation</h3>
-              <button class="dk-drawer__close" aria-label="Close">&times;</button>
+            <div class="dk-drawer_header">
+              <h3 class="dk-drawer_title">Navigation</h3>
+              <button class="dk-drawer_close" aria-label="Close">&times;</button>
             </div>
-            <div class="dk-drawer__body">
+            <div class="dk-drawer_body">
               <p class="dk-text dk-text-sm dk-text-secondary">Left-positioned drawer, commonly used for mobile navigation menus.</p>
             </div>
           </div>
