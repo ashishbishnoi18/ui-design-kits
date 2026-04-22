@@ -5,7 +5,7 @@
  *
  * Usage:
  *   <nav class="dk-menubar" data-dk-menubar>
- *     <button class="dk-menubar_item">
+ *     <div class="dk-menubar_item">
  *       File
  *       <div class="dk-menubar_submenu">
  *         <button class="dk-menubar_submenu-item">New</button>
@@ -13,8 +13,8 @@
  *         <div class="dk-menubar_divider"></div>
  *         <button class="dk-menubar_submenu-item">Save</button>
  *       </div>
- *     </button>
- *     <button class="dk-menubar_item">Edit</button>
+ *     </div>
+ *     <div class="dk-menubar_item">Edit</div>
  *   </nav>
  *
  * Events:
