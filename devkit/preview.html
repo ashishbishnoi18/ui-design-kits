@@ -3895,117 +3895,83 @@ app.listen(3000, () =&gt; {
         <p class="desc">Tiered pricing grid with monthly/annual toggle, featured card, feature lists, and CTA buttons.</p>
 
         <div class="preview-label">With Toggle</div>
-        <div class="preview-row" style="flex-direction: column; align-items: center;">
-          <div class="dk-pricing" data-dk-pricing-table style="width: 100%;">
-            <!-- Toggle -->
-            <div style="text-align: center;">
-              <div class="dk-pricing__toggle">
-                <button class="dk-pricing__toggle-option is-active" data-dk-toggle-monthly>Monthly</button>
-                <button class="dk-pricing__toggle-option" data-dk-toggle-annual>Annual</button>
-              </div>
+        <div class="preview-row" style="flex-direction: column; align-items: stretch;">
+          <div class="dk-pricing-table" data-dk-pricing-table style="width: 100%;">
+            <div class="dk-pricing-table_toggle">
+              <span class="dk-pricing-table_toggle-label is-active" data-dk-toggle-monthly>Monthly</span>
+              <button class="dk-pricing-table_toggle-switch" aria-label="Toggle annual pricing"></button>
+              <span class="dk-pricing-table_toggle-label" data-dk-toggle-annual>Annual</span>
+              <span class="dk-pricing-table_save">Save 20%</span>
             </div>
 
-            <div class="dk-pricing__grid">
+            <div class="dk-pricing-table_grid">
               <!-- Starter -->
-              <div class="dk-pricing__card">
-                <div class="dk-pricing__header">
-                  <div class="dk-pricing__name">Starter</div>
-                  <div class="dk-pricing__description">For individuals and small projects</div>
+              <div class="dk-pricing-card">
+                <div class="dk-pricing-card_header">
+                  <h4 class="dk-pricing-card_name">Starter</h4>
+                  <p class="dk-pricing-card_desc">For individuals and small projects</p>
                 </div>
-                <div class="dk-pricing__price">
-                  <span class="dk-pricing__amount" data-dk-price-monthly>$9</span>
-                  <span class="dk-pricing__amount" data-dk-price-annual style="display:none;">$7</span>
-                  <span class="dk-pricing__period">/month</span>
+                <div class="dk-pricing-card_price">
+                  <span class="dk-pricing-card_currency">$</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-monthly>9</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-annual>7</span>
+                  <span class="dk-pricing-card_period">/month</span>
                 </div>
-                <div class="dk-pricing__features">
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    5 projects
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    10 GB storage
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Basic analytics
-                  </div>
-                  <div class="dk-pricing__feature dk-pricing__feature--disabled">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    Priority support
-                  </div>
-                </div>
-                <div class="dk-pricing__cta">
-                  <button class="dk-btn dk-btn--outline">Get Started</button>
+                <ul class="dk-pricing-card_features">
+                  <li class="dk-pricing-card_feature">5 projects</li>
+                  <li class="dk-pricing-card_feature">10 GB storage</li>
+                  <li class="dk-pricing-card_feature">Basic analytics</li>
+                  <li class="dk-pricing-card_feature is-disabled">Priority support</li>
+                </ul>
+                <div class="dk-pricing-card_cta">
+                  <button class="dk-btn dk-btn--outline" style="width: 100%;">Get Started</button>
                 </div>
               </div>
 
               <!-- Pro (Featured) -->
-              <div class="dk-pricing__card dk-pricing__card--featured">
-                <span class="dk-pricing__badge">Most Popular</span>
-                <div class="dk-pricing__header">
-                  <div class="dk-pricing__name">Pro</div>
-                  <div class="dk-pricing__description">For growing teams and businesses</div>
+              <div class="dk-pricing-card dk-pricing-card-featured">
+                <span class="dk-pricing-card_badge">Most Popular</span>
+                <div class="dk-pricing-card_header">
+                  <h4 class="dk-pricing-card_name">Pro</h4>
+                  <p class="dk-pricing-card_desc">For growing teams and businesses</p>
                 </div>
-                <div class="dk-pricing__price">
-                  <span class="dk-pricing__amount" data-dk-price-monthly>$29</span>
-                  <span class="dk-pricing__amount" data-dk-price-annual style="display:none;">$24</span>
-                  <span class="dk-pricing__period">/month</span>
+                <div class="dk-pricing-card_price">
+                  <span class="dk-pricing-card_currency">$</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-monthly>29</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-annual>24</span>
+                  <span class="dk-pricing-card_period">/month</span>
                 </div>
-                <div class="dk-pricing__features">
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Unlimited projects
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    100 GB storage
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Advanced analytics
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Priority support
-                  </div>
-                </div>
-                <div class="dk-pricing__cta">
-                  <button class="dk-btn">Get Started</button>
+                <ul class="dk-pricing-card_features">
+                  <li class="dk-pricing-card_feature">Unlimited projects</li>
+                  <li class="dk-pricing-card_feature">100 GB storage</li>
+                  <li class="dk-pricing-card_feature">Advanced analytics</li>
+                  <li class="dk-pricing-card_feature">Priority support</li>
+                </ul>
+                <div class="dk-pricing-card_cta">
+                  <button class="dk-btn" style="width: 100%;">Get Started</button>
                 </div>
               </div>
 
               <!-- Enterprise -->
-              <div class="dk-pricing__card">
-                <div class="dk-pricing__header">
-                  <div class="dk-pricing__name">Enterprise</div>
-                  <div class="dk-pricing__description">For large organizations at scale</div>
+              <div class="dk-pricing-card">
+                <div class="dk-pricing-card_header">
+                  <h4 class="dk-pricing-card_name">Enterprise</h4>
+                  <p class="dk-pricing-card_desc">For large organizations at scale</p>
                 </div>
-                <div class="dk-pricing__price">
-                  <span class="dk-pricing__amount" data-dk-price-monthly>$99</span>
-                  <span class="dk-pricing__amount" data-dk-price-annual style="display:none;">$79</span>
-                  <span class="dk-pricing__period">/month</span>
+                <div class="dk-pricing-card_price">
+                  <span class="dk-pricing-card_currency">$</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-monthly>99</span>
+                  <span class="dk-pricing-card_amount" data-dk-price-annual>79</span>
+                  <span class="dk-pricing-card_period">/month</span>
                 </div>
-                <div class="dk-pricing__features">
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Unlimited everything
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    1 TB storage
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Custom integrations
-                  </div>
-                  <div class="dk-pricing__feature">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    Dedicated account manager
-                  </div>
-                </div>
-                <div class="dk-pricing__cta">
-                  <button class="dk-btn dk-btn--outline">Contact Sales</button>
+                <ul class="dk-pricing-card_features">
+                  <li class="dk-pricing-card_feature">Unlimited everything</li>
+                  <li class="dk-pricing-card_feature">1 TB storage</li>
+                  <li class="dk-pricing-card_feature">Custom integrations</li>
+                  <li class="dk-pricing-card_feature">Dedicated account manager</li>
+                </ul>
+                <div class="dk-pricing-card_cta">
+                  <button class="dk-btn dk-btn--outline" style="width: 100%;">Contact Sales</button>
                 </div>
               </div>
             </div>
@@ -4255,14 +4221,14 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Default</div>
         <div class="preview-row">
           <div class="dk-logo-cloud" style="width: 100%;">
-            <p class="dk-logo-cloud__heading">Trusted by leading companies</p>
-            <div class="dk-logo-cloud__grid">
-              <div class="dk-logo-cloud__item">Vercel</div>
-              <div class="dk-logo-cloud__item">Stripe</div>
-              <div class="dk-logo-cloud__item">Figma</div>
-              <div class="dk-logo-cloud__item">Notion</div>
-              <div class="dk-logo-cloud__item">Linear</div>
-              <div class="dk-logo-cloud__item">Supabase</div>
+            <p class="dk-logo-cloud_title">Trusted by leading companies</p>
+            <div class="dk-logo-cloud_grid">
+              <div class="dk-logo-cloud_item">Vercel</div>
+              <div class="dk-logo-cloud_item">Stripe</div>
+              <div class="dk-logo-cloud_item">Figma</div>
+              <div class="dk-logo-cloud_item">Notion</div>
+              <div class="dk-logo-cloud_item">Linear</div>
+              <div class="dk-logo-cloud_item">Supabase</div>
             </div>
           </div>
         </div>
@@ -4271,13 +4237,13 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Pills Variant</div>
         <div class="preview-row">
           <div class="dk-logo-cloud dk-logo-cloud--pills" style="width: 100%;">
-            <div class="dk-logo-cloud__grid">
-              <div class="dk-logo-cloud__item">Vercel</div>
-              <div class="dk-logo-cloud__item">Stripe</div>
-              <div class="dk-logo-cloud__item">Figma</div>
-              <div class="dk-logo-cloud__item">Notion</div>
-              <div class="dk-logo-cloud__item">Linear</div>
-              <div class="dk-logo-cloud__item">Supabase</div>
+            <div class="dk-logo-cloud_grid">
+              <div class="dk-logo-cloud_item">Vercel</div>
+              <div class="dk-logo-cloud_item">Stripe</div>
+              <div class="dk-logo-cloud_item">Figma</div>
+              <div class="dk-logo-cloud_item">Notion</div>
+              <div class="dk-logo-cloud_item">Linear</div>
+              <div class="dk-logo-cloud_item">Supabase</div>
             </div>
           </div>
         </div>
@@ -4285,14 +4251,14 @@ app.listen(3000, () =&gt; {
         <div class="preview-spacer"></div>
         <div class="preview-label">Bordered Variant</div>
         <div class="preview-row">
-          <div class="dk-logo-cloud dk-logo-cloud--bordered" style="width: 100%;">
-            <div class="dk-logo-cloud__grid">
-              <div class="dk-logo-cloud__item">Vercel</div>
-              <div class="dk-logo-cloud__item">Stripe</div>
-              <div class="dk-logo-cloud__item">Figma</div>
-              <div class="dk-logo-cloud__item">Notion</div>
-              <div class="dk-logo-cloud__item">Linear</div>
-              <div class="dk-logo-cloud__item">Supabase</div>
+          <div class="dk-logo-cloud dk-logo-cloud-bordered" style="width: 100%;">
+            <div class="dk-logo-cloud_grid">
+              <div class="dk-logo-cloud_item">Vercel</div>
+              <div class="dk-logo-cloud_item">Stripe</div>
+              <div class="dk-logo-cloud_item">Figma</div>
+              <div class="dk-logo-cloud_item">Notion</div>
+              <div class="dk-logo-cloud_item">Linear</div>
+              <div class="dk-logo-cloud_item">Supabase</div>
             </div>
           </div>
         </div>
@@ -4513,62 +4479,53 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Default</div>
         <div class="preview-row">
           <div class="dk-trust-bar" style="width: 100%;">
-            <div class="dk-trust-bar__items">
-              <div class="dk-trust-bar__item">
-                <div class="dk-trust-bar__stars">
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                </div>
-                <span class="dk-trust-bar__label">4.9/5 on G2</span>
+            <div class="dk-trust-bar_item">
+              <div class="dk-trust-bar_stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
               </div>
-              <div class="dk-trust-bar__divider"></div>
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">50k+</span>
-                <span class="dk-trust-bar__label">Downloads</span>
-              </div>
-              <div class="dk-trust-bar__divider"></div>
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">2,400+</span>
-                <span class="dk-trust-bar__label">Happy Teams</span>
-              </div>
-              <div class="dk-trust-bar__divider"></div>
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">99.9%</span>
-                <span class="dk-trust-bar__label">Uptime</span>
-              </div>
+              <span class="dk-trust-bar_label">4.9/5 on G2</span>
+            </div>
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">50k+</span>
+              <span class="dk-trust-bar_label">Downloads</span>
+            </div>
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">2,400+</span>
+              <span class="dk-trust-bar_label">Happy Teams</span>
+            </div>
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">99.9%</span>
+              <span class="dk-trust-bar_label">Uptime</span>
             </div>
           </div>
         </div>
 
         <div class="preview-spacer"></div>
-        <div class="preview-label">Bordered Variant</div>
+        <div class="preview-label">Strip Variant</div>
         <div class="preview-row">
-          <div class="dk-trust-bar dk-trust-bar--bordered" style="width: 100%;">
-            <div class="dk-trust-bar__items">
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">4.8</span>
-                <div class="dk-trust-bar__stars">
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--filled" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                  <svg class="dk-trust-bar__star dk-trust-bar__star--empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
-                </div>
-                <span class="dk-trust-bar__label">on Trustpilot</span>
+          <div class="dk-trust-bar dk-trust-bar-strip" style="width: 100%;">
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">4.8</span>
+              <div class="dk-trust-bar_stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+                <svg viewBox="0 0 24 24" style="opacity:0.3"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
               </div>
-              <div class="dk-trust-bar__divider"></div>
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">12k+</span>
-                <span class="dk-trust-bar__label">Customers</span>
-              </div>
-              <div class="dk-trust-bar__divider"></div>
-              <div class="dk-trust-bar__item">
-                <span class="dk-trust-bar__count">150+</span>
-                <span class="dk-trust-bar__label">Components</span>
-              </div>
+              <span class="dk-trust-bar_label">on Trustpilot</span>
+            </div>
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">12k+</span>
+              <span class="dk-trust-bar_label">Customers</span>
+            </div>
+            <div class="dk-trust-bar_item">
+              <span class="dk-trust-bar_value">150+</span>
+              <span class="dk-trust-bar_label">Components</span>
             </div>
           </div>
         </div>
@@ -4583,36 +4540,36 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Default</div>
         <div class="preview-row" style="flex-direction: column;">
           <footer class="dk-footer" style="width: 100%;">
-            <div class="dk-footer__grid">
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Product</h4>
-                <a class="dk-footer__link" href="#">Features</a>
-                <a class="dk-footer__link" href="#">Pricing</a>
-                <a class="dk-footer__link" href="#">Changelog</a>
-                <a class="dk-footer__link" href="#">Documentation</a>
+            <div class="dk-footer_grid">
+              <div>
+                <h4 class="dk-footer_column-title">Product</h4>
+                <a class="dk-footer_link" href="#">Features</a>
+                <a class="dk-footer_link" href="#">Pricing</a>
+                <a class="dk-footer_link" href="#">Changelog</a>
+                <a class="dk-footer_link" href="#">Documentation</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Company</h4>
-                <a class="dk-footer__link" href="#">About</a>
-                <a class="dk-footer__link" href="#">Blog</a>
-                <a class="dk-footer__link" href="#">Careers</a>
-                <a class="dk-footer__link" href="#">Press Kit</a>
+              <div>
+                <h4 class="dk-footer_column-title">Company</h4>
+                <a class="dk-footer_link" href="#">About</a>
+                <a class="dk-footer_link" href="#">Blog</a>
+                <a class="dk-footer_link" href="#">Careers</a>
+                <a class="dk-footer_link" href="#">Press Kit</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Resources</h4>
-                <a class="dk-footer__link" href="#">Community</a>
-                <a class="dk-footer__link" href="#">Tutorials</a>
-                <a class="dk-footer__link" href="#">Templates</a>
-                <a class="dk-footer__link" href="#">Support</a>
+              <div>
+                <h4 class="dk-footer_column-title">Resources</h4>
+                <a class="dk-footer_link" href="#">Community</a>
+                <a class="dk-footer_link" href="#">Tutorials</a>
+                <a class="dk-footer_link" href="#">Templates</a>
+                <a class="dk-footer_link" href="#">Support</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Legal</h4>
-                <a class="dk-footer__link" href="#">Privacy</a>
-                <a class="dk-footer__link" href="#">Terms</a>
-                <a class="dk-footer__link" href="#">License</a>
+              <div>
+                <h4 class="dk-footer_column-title">Legal</h4>
+                <a class="dk-footer_link" href="#">Privacy</a>
+                <a class="dk-footer_link" href="#">Terms</a>
+                <a class="dk-footer_link" href="#">License</a>
               </div>
             </div>
-            <div class="dk-footer__bottom">
+            <div class="dk-footer_bottom">
               <span>&copy; 2026 Acme Corp. All rights reserved.</span>
               <span>Built with NB Kit</span>
             </div>
@@ -4623,32 +4580,32 @@ app.listen(3000, () =&gt; {
         <div class="preview-label">Dark Variant</div>
         <div class="preview-row" style="flex-direction: column;">
           <footer class="dk-footer dk-footer--dark" style="width: 100%;">
-            <div class="dk-footer__grid">
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Product</h4>
-                <a class="dk-footer__link" href="#">Features</a>
-                <a class="dk-footer__link" href="#">Pricing</a>
-                <a class="dk-footer__link" href="#">Changelog</a>
+            <div class="dk-footer_grid">
+              <div>
+                <h4 class="dk-footer_column-title">Product</h4>
+                <a class="dk-footer_link" href="#">Features</a>
+                <a class="dk-footer_link" href="#">Pricing</a>
+                <a class="dk-footer_link" href="#">Changelog</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Company</h4>
-                <a class="dk-footer__link" href="#">About</a>
-                <a class="dk-footer__link" href="#">Blog</a>
-                <a class="dk-footer__link" href="#">Careers</a>
+              <div>
+                <h4 class="dk-footer_column-title">Company</h4>
+                <a class="dk-footer_link" href="#">About</a>
+                <a class="dk-footer_link" href="#">Blog</a>
+                <a class="dk-footer_link" href="#">Careers</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Resources</h4>
-                <a class="dk-footer__link" href="#">Docs</a>
-                <a class="dk-footer__link" href="#">Tutorials</a>
-                <a class="dk-footer__link" href="#">Support</a>
+              <div>
+                <h4 class="dk-footer_column-title">Resources</h4>
+                <a class="dk-footer_link" href="#">Docs</a>
+                <a class="dk-footer_link" href="#">Tutorials</a>
+                <a class="dk-footer_link" href="#">Support</a>
               </div>
-              <div class="dk-footer__section">
-                <h4 class="dk-footer__title">Legal</h4>
-                <a class="dk-footer__link" href="#">Privacy</a>
-                <a class="dk-footer__link" href="#">Terms</a>
+              <div>
+                <h4 class="dk-footer_column-title">Legal</h4>
+                <a class="dk-footer_link" href="#">Privacy</a>
+                <a class="dk-footer_link" href="#">Terms</a>
               </div>
             </div>
-            <div class="dk-footer__bottom">
+            <div class="dk-footer_bottom">
               <span>&copy; 2026 DarkMode Inc. All rights reserved.</span>
               <span>Built with NB Kit</span>
             </div>
